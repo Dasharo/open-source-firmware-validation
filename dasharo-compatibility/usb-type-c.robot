@@ -4,6 +4,8 @@
 
 
 *** Settings ***
+Metadata            ORDER_SENSITIVE    # Test includes two ME states and 3 docking stations, the ordering of them takes precedence over default ordering
+
 Resource            ../keywords.robot
 Resource            ../lib/utc.robot
 

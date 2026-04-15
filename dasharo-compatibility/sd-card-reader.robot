@@ -83,29 +83,6 @@ SDC002.202 SD Card read/write (Fedora)
     Should Be True    ${result}
     Exit From Root User
 
-SDC001.301 SD Card reader detection (Windows)
-    [Documentation]    Check whether the SD Card reader is enumerated correctly
-    ...    and can be detected from the operating system.
-    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    SDC001.301 not supported
-    Power On
-    Boot And Login To Windows
-    # Switch to root user
-    ${out}=    Execute Command In Terminal    Get-PnpDevice -Status "OK" -Class "DiskDrive"
-    Should Contain    ${out}    DiskDrive
-    # Exit from root user
-    Execute Shutdown Command
-
-SDC002.301 SD Card read/write (Windows)
-    [Documentation]    Check whether the SD Card reader is initialized correctly
-    ...    and can be used from the operating system.
-    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    SDC002.301 not supported
-    Power On
-    Boot And Login To Windows
-    SSHLibrary.Put File    drive_letters.ps1    /C:/Users/user
-    ${drive_letter}=    Identify Path To SD Card In Windows
-    Check Read Write To External Drive In Windows    ${drive_letter}
-    Execute Shutdown Command
-
 SDC001.203 SD Card reader detection (Qubes OS)
     [Documentation]    Check whether the SD Card reader is enumerated correctly
     ...    and can be detected from the operating system.
@@ -128,6 +105,29 @@ SDC002.203 SD Card read/write (Qubes OS)
     Execute Linux Command    sudo dd if=/dev/mmcblk0 of=/tmp/out.bin bs=4K count=100
     ${result}=    Check If Files Are Identical In Linux    /tmp/in.bin    /tmp/out.bin
     Should Be True    ${result}
+
+SDC001.301 SD Card reader detection (Windows)
+    [Documentation]    Check whether the SD Card reader is enumerated correctly
+    ...    and can be detected from the operating system.
+    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    SDC001.301 not supported
+    Power On
+    Boot And Login To Windows
+    # Switch to root user
+    ${out}=    Execute Command In Terminal    Get-PnpDevice -Status "OK" -Class "DiskDrive"
+    Should Contain    ${out}    DiskDrive
+    # Exit from root user
+    Execute Shutdown Command
+
+SDC002.301 SD Card read/write (Windows)
+    [Documentation]    Check whether the SD Card reader is initialized correctly
+    ...    and can be used from the operating system.
+    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    SDC002.301 not supported
+    Power On
+    Boot And Login To Windows
+    SSHLibrary.Put File    drive_letters.ps1    /C:/Users/user
+    ${drive_letter}=    Identify Path To SD Card In Windows
+    Check Read Write To External Drive In Windows    ${drive_letter}
+    Execute Shutdown Command
 
 
 *** Keywords ***

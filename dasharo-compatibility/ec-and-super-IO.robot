@@ -155,6 +155,40 @@ ECR033.001 EC power button watchdog
     Execute Manual Step
     ...    [Expected result] The DUT should power off and on all within the 10 seconds of power button being pressed down
 
+PPS001.001 PS/2 keyboard detection
+    [Documentation]    Check whether the external PS/2 keyboard is detected in OS and all keys work correctly.
+    [Tags]    semiauto
+    Execute Manual Step    [1/8] Power on the DUT.
+    Execute Manual Step    [2/8] Boot into the system.
+    Execute Manual Step    [3/8] Log into the system by using the proper login and password.
+    Execute Manual Step
+    ...    [4/8] Open a terminal window in dom0 and run the following command: sudo dmesg | grep -i PS/2
+    Execute Manual Step    [5/8] Run the following command in the terminal: libinput debug-events --show-keycodes
+    Execute Manual Step    [6/8] Test the alphanumeric keys and note the generated keycodes.
+    Execute Manual Step    [7/8] Test non-alphanumeric keys and verify that they generate the correct keycodes.
+    Execute Manual Step    [8/8] Test key combinations with the Shift, Ctrl and Alt modifier keys.
+    VAR    ${result_msg}=
+    ...    [Expected result] The external PS/2 keyboard is detected in OS.
+    ...    All standard keyboard keys generate the correct keycodes and events as per their labels.
+    ...    Key combinations are detected correctly.
+    ...    separator=${SPACE}
+    Execute Manual Step    ${result_msg}
+
+SIO002.001 PS/2 keyboard in firmware
+    [Documentation]    Check whether the PS/2 keyboard works correctly in firmware (UEFI/BIOS menus).
+    [Tags]    semiauto
+    Execute Manual Step    [1/2] Power on the DUT and press the BIOS_SETUP_KEY to enter the setup menu.
+    Execute Manual Step    [2/2] Use the arrow keys and the Enter key to navigate the menus.
+    Execute Manual Step    [Expected result] All menus can be entered using the PS/2 keyboard.
+
+SIO004.001 Serial port in firmware
+    [Documentation]    Check whether the serial port works correctly in firmware (UEFI/BIOS menus).
+    [Tags]    semiauto
+    Execute Manual Step    [1/3] Open the terminal emulator, e.g. minicom, on the RS232/USB adapter.
+    Execute Manual Step    [2/3] Power on the DUT and press the BIOS_SETUP_KEY to enter the setup menu.
+    Execute Manual Step    [3/3] Use the arrow keys and the Enter key to navigate the menus.
+    Execute Manual Step    [Expected result] All menus can be entered using the serial console.
+
 # ==============================================================================
 # 203 UBUNTU
 # ==============================================================================
@@ -627,6 +661,54 @@ ECR034.201 RGB keyboard brightness up FN key in OS (Ubuntu)
     Execute Manual Step    [4/4] Press the RGB keyboard brightness up hotkey and note the result.
     Execute Manual Step    [Expected result] Pressing the button once should increase the keyboard backlight.
 
+SIO001.201 PS/2 mouse in OS - (Ubuntu)
+    [Documentation]    Check whether the PS/2 mouse works correctly in Ubuntu.
+    [Tags]    semiauto
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SIO001.201 not supported
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    SIO001.201 not supported
+    Execute Manual Step    [1/4] Power on the DUT.
+    Execute Manual Step    [2/4] Boot into the system.
+    Execute Manual Step    [3/4] Log into the system by using the proper login and password.
+    Execute Manual Step    [4/4] Verify that the cursor can be moved with the PS/2 mouse and that clicking works.
+    Execute Manual Step    [Expected result] Moving the cursor and clicking working correctly in the operating system.
+
+SIO002.201 PS/2 keyboard in OS (Ubuntu)
+    [Documentation]    Check whether the PS/2 keyboard works correctly in Ubuntu.
+    [Tags]    semiauto
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SIO002.201 not supported
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    SIO002.201 not supported
+    Execute Manual Step    [1/5] Power on the DUT.
+    Execute Manual Step    [2/5] Boot into the system.
+    Execute Manual Step    [3/5] Log into the system by using the proper login and password.
+    Execute Manual Step    [4/5] Run "sudo libinput debug-events --show-keycodes" in the terminal.
+    Execute Manual Step    [5/5] Press keyboard keys and check the generated keycode.
+    Execute Manual Step
+    ...    [Expected result] All standard keyboard keys generate the correct keycodes and events as per their labels. Key combinations are detected correctly.
+
+SIO003.201 PS/2 keyboard wake in OS (Ubuntu)
+    [Documentation]    Check whether the PS/2 keyboard can wake the platform from sleep in Ubuntu.
+    [Tags]    semiauto
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SIO003.201 not supported
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    SIO003.201 not supported
+    Execute Manual Step    [1/5] Power on the DUT.
+    Execute Manual Step    [2/5] Boot into the system.
+    Execute Manual Step    [3/5] Log into the system by using the proper login and password.
+    Execute Manual Step    [4/5] Suspend the system to RAM.
+    Execute Manual Step    [5/5] Press a keyboard key to wake the platform.
+    Execute Manual Step    [Expected result] Platform is resuming to the OS from sleep after pressing the key.
+
+SIO004.201 Serial port in OS (Ubuntu)
+    [Documentation]    Check whether the serial port works correctly as Linux console in Ubuntu.
+    [Tags]    semiauto
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SIO004.201 not supported
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    SIO004.201 not supported
+    Execute Manual Step    [1/4] Open the terminal emulator, e.g. minicom, on the RS232/USB adapter.
+    Execute Manual Step    [2/4] Power on the DUT.
+    Execute Manual Step    [3/4] Boot into the system.
+    Execute Manual Step    [4/4] Log into the system by using the proper login and password through serial console.
+    Execute Manual Step
+    ...    [Expected result] Serial port can be used as Linux console to log in. Serial port can be used to execute commands in bash/shell.
+
 # ==============================================================================
 # 203 FEDORA
 # ==============================================================================
@@ -1055,8 +1137,7 @@ ECR029.203 FnLock Hotkey (Qubes OS)
     [Tags]    semiauto
     Depends On    ${TESTS_IN_QUBESOS_SUPPORT}    ${TEST_NAME} not supported
     Skip IF    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    ${TEST_NAME} not supported
-    Execute Manual Step    [1/4] Make sure Qubes OS is booted.
-    Execute Manual Step
+    Execute Manual Step    [1/4] Make sure Qubes OS is booted.    Execute Manual Step
     ...    [2/4] Verify that without Fn Lock, pressing FX keys sends standard F1-F12 keycodes (it should send FX, not trigger a special function).
     Execute Manual Step
     ...    [3/4] Enable Fn Lock and test a few function keys freely - they should now trigger their special functions without holding Fn.
@@ -1084,6 +1165,449 @@ ECR031.203 Not charging between 95% and 98% in OS (Qubes OS)
     Execute Manual Step    [3/5] Connect the power adapter.
     Execute Manual Step    [4/5] Observe battery charging state for several minutes.
     Execute Manual Step    [5/5] Verify battery does not start charging.
+
+# ==============================================================================
+# 203 WINDOWS
+# ==============================================================================
+
+ECR001.301 Battery monitoring - charge level in OS (Windows)
+    [Documentation]    Check whether battery charge level can be read in
+    ...    Windows OS.
+    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    ECR001.301 not supported
+    Power On
+    Boot And Login To Windows
+    ${out}=    Get Battery Power Level Windows
+    Should Be True    ${out} > 0 and ${out} < 101
+    Execute Shutdown Command
+
+ECR002.301 Battery monitoring - charging state in OS (Windows)
+    [Documentation]    Check whether the battery state can be read in Windows
+    ...    OS.
+    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    ECR002.301 not supported
+    Power On
+    Boot And Login To Windows
+    Check If Battery Is Charging Windows
+    Execute Shutdown Command
+
+ECR003.301 Touchpad in OS - (Windows)
+    [Documentation]    Check whether touchpad is visible in Windows OS.
+    ...    Touchpad steering and effect detection must be checked
+    ...    manually.
+    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    ECR003.301 not supported
+    Power On
+    Boot And Login To Windows
+    ${out}=    Get Pointing Devices Windows
+    Should Contain    ${out}    HID-compliant mouse
+    Execute Shutdown Command
+
+ECR004.301 Keyboard (standard keypad) in OS (Windows)
+    [Documentation]    Check whether the standard keypad works correctly in Windows OS.
+    [Tags]    semiauto
+    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    ECR004.301 not supported
+    Execute Manual Step    [1/6] Power on the DUT.
+    Execute Manual Step    [2/6] Boot into the system.
+    Execute Manual Step    [3/6] Log into the system by using the proper login and password.
+    VAR    ${step4_msg}=
+    ...    Open `notepad`
+    ...    Test the alphanumeric keys and note the generated characters
+    ...    Test non-alphanumeric keys and verify that they generate the signs
+    ...    Test key combinations with the `Shift`, and `Alt` modifier keys
+    ...    separator=${SPACE}
+    Execute Manual Step    [4/6] ${step4_msg}
+    VAR    ${step5_msg}=
+    ...    Open `On-Screen Keyboard` and press `Ctrl` key on the hardware keyboard.
+    ...    Check if `On-Screen Keyboard` correctly highlights it.
+    ...    separator=${SPACE}
+    Execute Manual Step    [5/6] ${step5_msg}
+    Execute Manual Step    [6/6] Open `Start menu` and press `Esc`. Check if `Start menu` is properly closed.
+    VAR    ${result_msg}=
+    ...    All standard keyboard keys generate correct characters or actions when pressed.
+    ...    Key combinations are detected correctly.
+    ...    separator=${SPACE}
+    Execute Manual Step    [Expected result] ${result_msg}
+
+ECR005.301 Keyboard (function key: play/pause) in OS (Windows)
+    [Documentation]    Check whether the play/pause function key works correctly in Windows OS.
+    [Tags]    semiauto
+    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    ECR005.301 not supported
+    Execute Manual Step    [1/5] Power on the DUT.
+    Execute Manual Step    [2/5] Boot into the system.
+    Execute Manual Step    [3/5] Log into the system by using the proper login and password.
+    Execute Manual Step    [4/5] Start `Groove Music`
+    VAR    ${step5_msg}=
+    ...    Verify that when pressing the `play/pause` button, player menu appears
+    ...    in the upper left part of the screen for a few seconds.
+    ...    separator=${SPACE}
+    Execute Manual Step    [5/5] ${step5_msg}
+    Execute Manual Step    [Expected result] Pressing the play/pause hotkey is properly detected by the OS
+
+ECR006.301 Keyboard (function key: cooling mode) in OS (Windows)
+    [Documentation]    Check whether the cooling mode function key works correctly in Windows OS.
+    [Tags]    semiauto
+    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    ECR006.301 not supported
+    Execute Manual Step    [1/5] Power on the DUT.
+    Execute Manual Step    [2/5] Boot into the system.
+    Execute Manual Step    [3/5] Log into the system by using the proper login and password.
+    Execute Manual Step    [4/5] Press the cooling mode hotkey (Fn + 1) once and note the effect.
+    Execute Manual Step    [5/5] Press the cooling mode hotkey once again and note the effect.
+    VAR    ${result_msg}=
+    ...    Pressing the hotkey once should activate the cooling mode (fans should spin up to their maximum speed).
+    ...    Pressing the hotkey again should deactivate the cooling mode (fans should return to normal).
+    ...    separator=${SPACE}
+    Execute Manual Step    [Expected result] ${result_msg}
+
+ECR007.301 Keyboard (function key: touchpad on/off) in OS (Windows)
+    [Documentation]    Check whether the touchpad on/off function key works correctly in Windows OS.
+    [Tags]    semiauto
+    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    ECR007.301 not supported
+    Execute Manual Step    [1/5] Power on the DUT.
+    Execute Manual Step    [2/5] Boot into the system.
+    Execute Manual Step    [3/5] Log into the system by using the proper login and password.
+    Execute Manual Step    [4/5] Press the touchpad on/off key and try to use the touchpad.
+    Execute Manual Step    [5/5] Press the touchpad on/off key once again and try to use the touchpad again.
+    VAR    ${result_msg}=
+    ...    Pressing the hotkey once should deactivate the touchpad (touchpad should be completely inoperable).
+    ...    Pressing the hotkey again should reactivate the touchpad.
+    ...    separator=${SPACE}
+    Execute Manual Step    [Expected result] ${result_msg}
+
+ECR008.301 Keyboard (function key: display on/off) in OS (Windows)
+    [Documentation]    Check whether the display on/off function key works correctly in Windows OS.
+    [Tags]    semiauto
+    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    ECR008.301 not supported
+    Execute Manual Step    [1/5] Power on the DUT.
+    Execute Manual Step    [2/5] Boot into the system.
+    Execute Manual Step    [3/5] Log into the system by using the proper login and password.
+    Execute Manual Step    [4/5] Press the display on/off hotkey once and note the effect.
+    Execute Manual Step    [5/5] Press any key on the keyboard and note the effect.
+    VAR    ${result_msg}=
+    ...    Pressing the hotkey once should turn the internal LCD panel off.
+    ...    Pressing any key on the keyboard should power the internal LCD panel back on.
+    ...    separator=${SPACE}
+    Execute Manual Step    [Expected result] ${result_msg}
+
+ECR009.301 Keyboard (function key: mute) in OS (Windows)
+    [Documentation]    Check whether the mute function key works correctly in Windows OS.
+    [Tags]    semiauto
+    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    ECR009.301 not supported
+    Execute Manual Step    [1/5] Power on the DUT.
+    Execute Manual Step    [2/5] Boot into the system.
+    Execute Manual Step    [3/5] Log into the system by using the proper login and password.
+    VAR    ${step4_msg}=
+    ...    Press the mute hotkey once and check the volume indicator in the bottom right
+    ...    part of the screen.
+    ...    separator=${SPACE}
+    Execute Manual Step    [4/5] ${step4_msg}
+    Execute Manual Step    [5/5] Press the mute hotkey once and check the volume indicator again.
+    VAR    ${result_msg}=
+    ...    Pressing the hotkey once should mute the device
+    ...    Pressing the hotkey again should re-enable the sound
+    ...    separator=${SPACE}
+    Execute Manual Step    [Expected result] ${result_msg}
+
+ECR010.301 Keyboard (function key: keyboard backlight) in OS (Windows)
+    [Documentation]    Check whether the keyboard backlight function key works correctly in Windows OS.
+    [Tags]    semiauto
+    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    ECR010.301 not supported
+    Execute Manual Step    [1/4] Power on the DUT.
+    Execute Manual Step    [2/4] Boot into the system.
+    Execute Manual Step    [3/4] Log into the system by using the proper login and password.
+    VAR    ${step4_msg}=
+    ...    Press the keyboard backlight hotkey 6 times and note the effect on the
+    ...    keyboard backlight after each keypress.
+    ...    separator=${SPACE}
+    Execute Manual Step    [4/4] ${step4_msg}
+    VAR    ${result_msg}=
+    ...    The keyboard has 6 backlight settings from 0% to 100% Each keypress should
+    ...    set the keyboard to the next mode, with the last mode wrapping back around to the first.
+    ...    separator=${SPACE}
+    Execute Manual Step    [Expected result] ${result_msg}
+
+ECR011.301 Keyboard (function key: volume down) in OS (Windows)
+    [Documentation]    Check whether the volume down function key works correctly in Windows OS.
+    [Tags]    semiauto
+    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    ECR011.301 not supported
+    Execute Manual Step    [1/4] Power on the DUT.
+    Execute Manual Step    [2/4] Boot into the system.
+    Execute Manual Step    [3/4] Log into the system by using the proper login and password.
+    Execute Manual Step    [4/4] Press the volume down hotkey once and note the effects.
+    VAR    ${result_msg}=
+    ...    Pressing the hotkey should decrease the volume of the currently enabled audio output.
+    ...    Each key press should cause a volume down notification to appear in the upper left part of the screen.
+    ...    separator=${SPACE}
+    Execute Manual Step    [Expected result] ${result_msg}
+
+ECR012.301 Keyboard (function key: volume up) in OS (Windows)
+    [Documentation]    Check whether the volume up function key works correctly in Windows OS.
+    [Tags]    semiauto
+    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    ECR012.301 not supported
+    Execute Manual Step    [1/4] Power on the DUT.
+    Execute Manual Step    [2/4] Boot into the system.
+    Execute Manual Step    [3/4] Log into the system by using the proper login and password.
+    Execute Manual Step    [4/4] Press the volume down hotkey once and note the effects.
+    VAR    ${result_msg}=
+    ...    Pressing the hotkey should increase the volume of the currently enabled audio output.
+    ...    Each key press should cause a volume up notification to appear in the upper left part of the screen.
+    ...    separator=${SPACE}
+    Execute Manual Step    [Expected result] ${result_msg}
+
+ECR013.301 Keyboard (function key: display switch) in OS (Windows)
+    [Documentation]    Check whether the display switch function key works correctly in Windows OS.
+    [Tags]    semiauto
+    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    ECR013.301 not supported
+    Execute Manual Step    [1/4] Power on the DUT.
+    Execute Manual Step    [2/4] Boot into the system.
+    Execute Manual Step    [3/4] Log into the system by using the proper login and password.
+    Execute Manual Step    [4/4] Press the display switch hotkey once and note the effect.
+    VAR    ${result_msg}=
+    ...    Pressing the hotkey should cause the display settings bar to appear
+    ...    on the right part of the screen.
+    ...    separator=${SPACE}
+    Execute Manual Step    [Expected result] ${result_msg}
+
+ECR014.301 Keyboard (function key: brightness down) in OS (Windows)
+    [Documentation]    Check whether the brightness down function key works correctly in Windows OS.
+    [Tags]    semiauto
+    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    ECR014.301 not supported
+    Execute Manual Step    [1/4] Power on the DUT.
+    Execute Manual Step    [2/4] Boot into the system.
+    Execute Manual Step    [3/4] Log into the system by using the proper login and password.
+    Execute Manual Step    [4/4] Press the brightness down hotkey once and note the effects.
+    VAR    ${result_msg}=
+    ...    Pressing the hotkey should decrease the brightness of the internal LCD display.
+    ...    Each key press should cause a brightness down notification to appear in the top left of the screen.
+    ...    separator=${SPACE}
+    Execute Manual Step    [Expected result] ${result_msg}
+
+ECR015.301 Keyboard (function key: brightness up) in OS (Windows)
+    [Documentation]    Check whether the brightness up function key works correctly in Windows OS.
+    [Tags]    semiauto
+    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    ECR015.301 not supported
+    Execute Manual Step    [1/4] Power on the DUT.
+    Execute Manual Step    [2/4] Boot into the system.
+    Execute Manual Step    [3/4] Log into the system by using the proper login and password.
+    Execute Manual Step    [4/4] Press the brightness up hotkey once and note the effects.
+    VAR    ${result_msg}=
+    ...    Pressing the hotkey should increase the brightness of the internal LCD display.
+    ...    Each key press should cause a brightness up notification to appear in the top left of the screen.
+    ...    separator=${SPACE}
+    Execute Manual Step    [Expected result] ${result_msg}
+
+ECR016.301 Keyboard (function key: camera on/off) in OS (Windows)
+    [Documentation]    Check whether the camera on/off function key works correctly in Windows OS.
+    [Tags]    semiauto
+    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    ECR016.301 not supported
+    Execute Manual Step    [1/5] Power on the DUT.
+    Execute Manual Step    [2/5] Boot into the system.
+    Execute Manual Step    [3/5] Log into the system by using the proper login and password.
+    Execute Manual Step    [4/5] Open the `Camera` app.
+    VAR    ${step5_msg}=
+    ...    Press the camera on/off hotkey twice and note the effect after
+    ...    a few seconds after the keypress.
+    ...    separator=${SPACE}
+    Execute Manual Step    [5/5] ${step5_msg}
+    VAR    ${result_msg}=
+    ...    Pressing the hotkey once should make the camera image disappear.
+    ...    Pressing the hotkey again should make the camera image appear again after a few seconds.
+    ...    separator=${SPACE}
+    Execute Manual Step    [Expected result] ${result_msg}
+
+ECR017.301 Keyboard (function key: flight mode) in OS (Windows)
+    [Documentation]    Check whether the flight mode function key works correctly in Windows OS.
+    [Tags]    semiauto
+    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    ECR017.301 not supported
+    Execute Manual Step    [1/4] Power on the DUT.
+    Execute Manual Step    [2/4] Boot into the system.
+    Execute Manual Step    [3/4] Log into the system by using the proper login and password.
+    Execute Manual Step    [4/4] Press the camera on/off hotkey twice and note the effect after the key press.
+    VAR    ${result_msg}=
+    ...    Pressing the hotkey once should enable airplane mode and cause
+    ...    `airplane mode on` notification to appear in the top right part of the screen.
+    ...    Pressing the hotkey again should disable airplane mode and cause
+    ...    `airplane mode off` notification to appear in the top right part of the screen.
+    ...    separator=${SPACE}
+    Execute Manual Step    [Expected result] ${result_msg}
+
+ECR018.301 Keyboard (function key: sleep) in OS (Windows)
+    [Documentation]    Check whether the sleep function key works correctly in Windows OS.
+    [Tags]    semiauto
+    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    ECR018.301 not supported
+    Execute Manual Step    [1/5] Power on the DUT.
+    Execute Manual Step    [2/5] Boot into the system.
+    Execute Manual Step    [3/5] Log into the system by using the proper login and password.
+    Execute Manual Step    [4/5] Wait 30 seconds for the system to load fully.
+    Execute Manual Step    [5/5] Press the sleep hotkey once and note the result.
+    VAR    ${result_msg}=
+    ...    The laptop should go to sleep within seconds of the hotkey being pressed.
+    ...    The power LED should be blinking green, indicating the laptop is sleeping.
+    ...    separator=${SPACE}
+    Execute Manual Step    [Expected result] ${result_msg}
+
+ECR019.301 Buttons (button: power) in OS (Windows)
+    [Documentation]    Check whether the power button works correctly in Windows OS.
+    [Tags]    semiauto
+    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    ECR019.301 not supported
+    Execute Manual Step    [1/5] Power on the DUT.
+    Execute Manual Step    [2/5] Boot into the system.
+    Execute Manual Step    [3/5] Log into the system by using the proper login and password.
+    Execute Manual Step    [4/5] Wait 30 seconds for the system to load fully.
+    Execute Manual Step    [5/5] Press the power button once and note the result.
+    VAR    ${result_msg}=
+    ...    Pressing the button once should make laptop enter sleep mode.
+    ...    The power LED should be blinking green, indicating the laptop is sleeping.
+    ...    separator=${SPACE}
+    Execute Manual Step    [Expected result] ${result_msg}
+
+ECR020.301 Buttons (button: lid switch) in OS (Windows)
+    [Documentation]    Check whether the lid switch works correctly in Windows OS.
+    [Tags]    semiauto
+    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    ECR020.301 not supported
+    Execute Manual Step    [1/5] Power on the DUT.
+    Execute Manual Step    [2/5] Boot into the system.
+    Execute Manual Step    [3/5] Log into the system by using the proper login and password.
+    Execute Manual Step    [4/5] Wait 30 seconds for the system to load fully.
+    Execute Manual Step    [5/5] Close the lid and note the effect on the power LED.
+    VAR    ${result_msg}=
+    ...    Pressing the button once should make laptop enter sleep mode.
+    ...    The power LED should be blinking green, indicating the laptop is sleeping.
+    ...    separator=${SPACE}
+    Execute Manual Step    [Expected result] ${result_msg}
+
+ECR025.301 Permanent keyboard illumination after cold boot (Windows)
+    [Documentation]    Check whether keyboard illumination persists at the same level after a cold boot in Windows.
+    [Tags]    semiauto
+    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    ECR025.301 not supported
+    Execute Manual Step    [1/9] Power on the DUT.
+    Execute Manual Step    [2/9] Boot into the `OPERATING_SYSTEM`.
+    Execute Manual Step    [3/9] Log into the `OPERATING_SYSTEM` by using the proper login and password.
+    Execute Manual Step    [4/9] Set keyboard brightness and color to arbitrary settings.
+    Execute Manual Step    [5/9] Disconnect power source, and remove battery if present.
+    Execute Manual Step    [6/9] Connect power and battery again.
+    Execute Manual Step    [7/9] Power on the DUT.
+    Execute Manual Step    [8/9] Boot into the `OPERATING_SYSTEM`.
+    Execute Manual Step    [9/9] Log into the `OPERATING_SYSTEM` by using the proper login and password.
+    Execute Manual Step    [Expected result] After cold-boot keyboard brightness and colors settings remain the same.
+
+ECR026.301 Permanent keyboard illumination after warm boot (Windows)
+    [Documentation]    Check whether keyboard illumination persists at the same level after a warm boot in Windows.
+    [Tags]    semiauto
+    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    ECR026.301 not supported
+    Execute Manual Step    [1/8] Power on the DUT.
+    Execute Manual Step    [2/8] Boot into the `OPERATING_SYSTEM`.
+    Execute Manual Step    [3/8] Log into the `OPERATING_SYSTEM` by using the proper login and password.
+    Execute Manual Step    [4/8] Set keyboard brightness and color to arbitrary settings.
+    Execute Manual Step    [5/8] Power off the DUT using power button.
+    Execute Manual Step    [6/8] Power on the DUT.
+    Execute Manual Step    [7/8] Boot into the `OPERATING_SYSTEM`.
+    Execute Manual Step    [8/8] Log into the `OPERATING_SYSTEM` by using the proper login and password.
+    Execute Manual Step    [Expected result] After warm-boot keyboard brightness and colors settings remain the same.
+
+ECR027.301 Permanent keyboard illumination after reboot (Windows)
+    [Documentation]    Check whether keyboard illumination persists at the same level after a system reboot in Windows.
+    [Tags]    semiauto
+    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    ECR027.301 not supported
+    Execute Manual Step    [1/5] Power on the DUT.
+    Execute Manual Step    [2/5] Boot into the system.
+    Execute Manual Step    [3/5] Log into the system by using the proper login and password.
+    Execute Manual Step    [4/5] Set keyboard brightness and color to arbitrary settings.
+    Execute Manual Step    [5/5] Reboot the device executing in PowerShell: `Restart-Computer`
+    Execute Manual Step    [Expected result] After reboot keyboard brightness and colors settings remain the same.
+
+ECR028.301 Permanent keyboard illumination after suspension (Windows)
+    [Documentation]    Check whether keyboard illumination persists at the same level after suspension in Windows.
+    [Tags]    semiauto
+    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    ECR028.301 not supported
+    Execute Manual Step    [1/6] Power on the DUT.
+    Execute Manual Step    [2/6] Boot into the system.
+    Execute Manual Step    [3/6] Log into the system by using the proper login and password.
+    Execute Manual Step    [4/6] Set keyboard brightness and color to arbitrary settings.
+    Execute Manual Step    [5/6] Suspend the DUT using `SUSPEND_KEY`.
+    Execute Manual Step    [6/6] Wake the device from suspend pressing any key on keyboard.
+    Execute Manual Step    [Expected result] After suspend keyboard brightness and colors settings remain the same.
+
+ECR029.301 FnLock Hotkey (Windows)
+    [Documentation]    Check whether the FnLock hotkey works correctly in Windows.
+    [Tags]    semiauto
+    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    ECR029.301 not supported
+    Execute Manual Step    [1/5] Power on the DUT.
+    Execute Manual Step    [2/5] Boot into the system.
+    Execute Manual Step    [3/5] Log into the system by using the proper login and password.
+    Execute Manual Step    [4/5] Use `FN_LOCK_KEY` to activate Fn lock functionality.
+    Execute Manual Step    [5/5] Test function keys `F1` - `F12` and note the results.
+    Execute Manual Step    [Expected result] The function keys `F1` - `F12` behave as if `Fn` key is pressed.
+
+ECR030.301 Soft Switch Microphone Key (Windows)
+    [Documentation]    Check whether the soft switch microphone key works correctly in Windows.
+    [Tags]    semiauto
+    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    ECR030.301 not supported
+    Execute Manual Step    [1/6] Power on the DUT.
+    Execute Manual Step    [2/6] Boot into the system.
+    Execute Manual Step    [3/6] Log into the system by using the proper login and password.
+    Execute Manual Step    [4/6] Go to `Settings` -> `System` -> `Sound`
+    Execute Manual Step    [5/6] Observe the bar located on the mic volume slider
+    Execute Manual Step    [6/6] Press the `Fn+4` combination at will
+    VAR    ${result_msg}=
+    ...    The Fn+4 should toggle the mic ON and OFF and it should be seen on the
+    ...    aforementioned bar which state is currently active as the noise made will
+    ...    make the bar go back and forth if ON and completely still if OFF
+    ...    separator=${SPACE}
+    Execute Manual Step    [Expected result] ${result_msg}
+
+ECR031.301 Keyboard (function key: RGB keyboard toggle) in OS (Windows)
+    [Documentation]    Check whether the RGB keyboard toggle hotkey works correctly in Windows.
+    [Tags]    semiauto
+    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    ECR031.301 not supported
+    Execute Manual Step    [1/4] Power on the DUT.
+    Execute Manual Step    [2/4] Boot into the system.
+    Execute Manual Step    [3/4] Log into the system by using the proper login and password.
+    Execute Manual Step    [4/4] Press the RGB keyboard toggle hotkey twice and note the result each time.
+
+ECR034.201 RGB keyboard brightness up FN key in OS (Windows)
+    [Documentation]    Check whether the RGB keyboard brightness up FN key works correctly in Windows.
+    [Tags]    semiauto
+    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    ECR034.301 not supported
+    Execute Manual Step    [1/4] Power on the DUT.
+    Execute Manual Step    [2/4] Boot into the system.
+    Execute Manual Step    [3/4] Log into the system by using the proper login and password.
+    Execute Manual Step    [4/4] Press the RGB keyboard brightness up hotkey and note the result.
+    Execute Manual Step    [Expected result] Pressing the button once should increase the keyboard backlight.
+
+SIO001.301 PS/2 mouse in OS - (Windows)
+    [Documentation]    Check whether the PS/2 mouse works correctly in Windows.
+    [Tags]    semiauto
+    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    SIO001.301 not supported
+    Execute Manual Step    [1/4] Power on the DUT.
+    Execute Manual Step    [2/4] Boot into the system.
+    Execute Manual Step    [3/4] Log into the system by using the proper login and password.
+    Execute Manual Step    [4/4] Verify that the cursor can be moved with the PS/2 mouse and that clicking works.
+    Execute Manual Step    [Expected result] Moving the cursor and clicking working correctly in the operating system.
+
+SIO002.301 PS/2 keyboard in OS (Windows)
+    [Documentation]    Check whether the PS/2 keyboard works correctly in Windows.
+    [Tags]    semiauto
+    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    SIO002.301 not supported
+    Execute Manual Step    [1/8] Power on the DUT.
+    Execute Manual Step    [2/8] Boot into the system.
+    Execute Manual Step    [3/8] Log into the system by using the proper login and password.
+    Execute Manual Step    [4/8] Open notepad and test the alphanumeric keys and note the generated characters.
+    Execute Manual Step    [5/8] Test non-alphanumeric keys and verify that they generate the signs.
+    Execute Manual Step    [6/8] Test key combinations with the Shift, and Alt modifier keys.
+    Execute Manual Step
+    ...    [7/8] Open On-Screen Keyboard and press Ctrl key on the hardware keyboard. Check if On-Screen Keyboard correctly highlights it.
+    Execute Manual Step    [8/8] Open Start menu and press Esc. Check if Start menu is properly closed.
+    Execute Manual Step
+    ...    [Expected result] All standard keyboard keys generate correct characters or actions when pressed. Key combinations are detected correctly.
+
+SIO003.301 PS/2 keyboard wake in OS (Windows)
+    [Documentation]    Check whether the PS/2 keyboard can wake the platform from sleep in Windows.
+    [Tags]    semiauto
+    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    SIO003.301 not supported
+    Execute Manual Step    [1/5] Power on the DUT.
+    Execute Manual Step    [2/5] Boot into the system.
+    Execute Manual Step    [3/5] Log into the system by using the proper login and password.
+    Execute Manual Step    [4/5] Suspend the system to RAM.
+    Execute Manual Step    [5/5] Press a keyboard key to wake the platform.
+    Execute Manual Step    [Expected result] Platform is resuming to the OS from sleep after pressing the key.
 
 
 *** Keywords ***

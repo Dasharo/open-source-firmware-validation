@@ -1,4 +1,6 @@
 *** Settings ***
+Metadata            ORDER_SENSITIVE
+
 Resource            ./common.resource
 
 Suite Setup         Run Keywords

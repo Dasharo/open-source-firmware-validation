@@ -22,6 +22,22 @@ Test Setup          Run Keyword
 
 
 *** Test Cases ***
+OPN002.001 OPNSense stable (VGA output) installation on Hard Disk
+    [Documentation]    Check whether OPNSense stable with VGA output can be installed on the hard disk.
+    [Tags]    semiauto
+    Execute Manual Step    [1/5] Prepare an OPNSense stable installation medium (USB)
+    Execute Manual Step    [2/5] Power on the DUT and boot from the OPNSense installation medium
+    Execute Manual Step    [3/5] Follow the OPNSense installer steps to complete the installation on the hard disk
+    Execute Manual Step    [4/5] Reboot after installation completes
+    Execute Manual Step    [5/5] Confirm OPNSense boots successfully from the hard disk via VGA output
+
+OPN002.002 Boot OPNSense stable (VGA output) from Hard Disk
+    [Documentation]    Check whether OPNSense stable with VGA output boots correctly from the hard disk.
+    [Tags]    semiauto
+    Execute Manual Step    [1/3] Power on the DUT with OPNSense installed on the hard disk
+    Execute Manual Step    [2/3] Wait for OPNSense to boot
+    Execute Manual Step    [3/3] Confirm OPNSense boots to the console/login screen via VGA output
+
 OPN001.503 Install operating system on disk (OPNSense)
     [Documentation]    Install OPNSense (serial output) from preseeded
     ...    USB stick on disk. Make sure to use linux fatlabel command
@@ -83,19 +99,3 @@ OPN005.503 Boot operating system from disk after reboot (OPNSense)
     ${end_date}=    Get Current Date
     ${delta_time}=    Subtract Date From Date    ${end_date}    ${start_date}
     Log To Console    Reboot duration in seconds: ${delta_time}
-
-OPN002.001 OPNSense stable (VGA output) installation on Hard Disk
-    [Documentation]    Check whether OPNSense stable with VGA output can be installed on the hard disk.
-    [Tags]    semiauto
-    Execute Manual Step    [1/5] Prepare an OPNSense stable installation medium (USB)
-    Execute Manual Step    [2/5] Power on the DUT and boot from the OPNSense installation medium
-    Execute Manual Step    [3/5] Follow the OPNSense installer steps to complete the installation on the hard disk
-    Execute Manual Step    [4/5] Reboot after installation completes
-    Execute Manual Step    [5/5] Confirm OPNSense boots successfully from the hard disk via VGA output
-
-OPN002.002 Boot OPNSense stable (VGA output) from Hard Disk
-    [Documentation]    Check whether OPNSense stable with VGA output boots correctly from the hard disk.
-    [Tags]    semiauto
-    Execute Manual Step    [1/3] Power on the DUT with OPNSense installed on the hard disk
-    Execute Manual Step    [2/3] Wait for OPNSense to boot
-    Execute Manual Step    [3/3] Confirm OPNSense boots to the console/login screen via VGA output

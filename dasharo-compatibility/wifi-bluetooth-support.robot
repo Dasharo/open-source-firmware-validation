@@ -80,6 +80,36 @@ WLE003.202 Bluetooth scanning (Fedora)
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    WLE003.202 not supported
     Bluetooth Scanning    ${ENV_ID_FEDORA}
 
+WLE002.203 Wi-Fi scanning (Qubes OS)
+    [Documentation]    Check whether the Wi-Fi functionality of card is
+    ...    initialized correctly and can be used from within the
+    ...    operating system..
+    [Tags]    automated    minimal-regression
+    Skip If    not ${WIRELESS_CARD_WIFI_SUPPORT}    WLE002.203 not supported
+    Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    WLE002.203 not supported
+    Wi-Fi Scanning QB    ${ENV_ID_QUBES}
+
+WLE003.203 Bluetooth scanning (Qubes OS)
+    [Documentation]    Check whether the Bluetooth functionality of card is
+    ...    initialized correctly and can be used from within the
+    ...    operating system.
+    Skip If    not ${WIRELESS_CARD_BLUETOOTH_SUPPORT}    WLE003.203 not supported
+    Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    WLE003.203 not supported
+    Bluetooth Scanning QB    ${ENV_ID_QUBES}
+
+WLE001.205 Wireless card detection (XCP-NG)
+    [Documentation]    Check whether the Wi-Fi/Bluetooth card is enumerated
+    ...    correctly and can be detected from the XCP-NG OS.
+    Skip If    not ${WIRELESS_CARD_SUPPORT}    WLE001.205 not supported
+    Skip If    not ${TESTS_IN_XCP_NG_SUPPORT}    WLE001.205 not supported
+    Skip If    '${ENV_ID_XCP_NG}' not in ${TESTED_LINUX_DISTROS}    WLE001.205 not supported
+    Power On
+    Boot And Login To OS    ${ENV_ID_XCP_NG}
+    ${out}=    Execute Command In Terminal    lspci | grep "Network controller:"
+    Should Match    ${out}    *${WIFI_CARD_UBUNTU}*
+    Log To Console    The test passed for the ${WIFI_CARD_UBUNTU} wireless card
+    Log    The test passed for the ${WIFI_CARD_UBUNTU} wireless card    WARN
+
 WLE001.301 Wireless card detection (Windows)
     [Documentation]    Check whether the Wi-Fi/Bluetooth card is enumerated
     ...    correctly and can be detected from the operating system.
@@ -117,19 +147,6 @@ WLE002.301 Wi-Fi scanning (Windows)
     Log    The test passed for the ${current_card} wireless card    WARN
     Execute Shutdown Command
 
-WLE001.205 Wireless card detection (XCP-NG)
-    [Documentation]    Check whether the Wi-Fi/Bluetooth card is enumerated
-    ...    correctly and can be detected from the XCP-NG OS.
-    Skip If    not ${WIRELESS_CARD_SUPPORT}    WLE001.205 not supported
-    Skip If    not ${TESTS_IN_XCP_NG_SUPPORT}    WLE001.205 not supported
-    Skip If    '${ENV_ID_XCP_NG}' not in ${TESTED_LINUX_DISTROS}    WLE001.205 not supported
-    Power On
-    Boot And Login To OS    ${ENV_ID_XCP_NG}
-    ${out}=    Execute Command In Terminal    lspci | grep "Network controller:"
-    Should Match    ${out}    *${WIFI_CARD_UBUNTU}*
-    Log To Console    The test passed for the ${WIFI_CARD_UBUNTU} wireless card
-    Log    The test passed for the ${WIFI_CARD_UBUNTU} wireless card    WARN
-
 # TBD - Run scanning bluetooth via powershell and list aviailable devices
 # test case below just check connected bluetooth devices
 # WLE003.002 Bluetooth scanning (Windows 11)
@@ -144,32 +161,6 @@ WLE001.205 Wireless card detection (XCP-NG)
 #    Should Contain X Times    ${out}    OK    4
 #    Execute Shutdown Command
 
-WLE002.203 Wi-Fi scanning (Qubes OS)
-    [Documentation]    Check whether the Wi-Fi functionality of card is
-    ...    initialized correctly and can be used from within the
-    ...    operating system..
-    [Tags]    automated    minimal-regression
-    Skip If    not ${WIRELESS_CARD_WIFI_SUPPORT}    WLE002.203 not supported
-    Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    WLE002.203 not supported
-    Wi-Fi Scanning QB    ${ENV_ID_QUBES}
-
-WLE003.203 Bluetooth scanning (Qubes OS)
-    [Documentation]    Check whether the Bluetooth functionality of card is
-    ...    initialized correctly and can be used from within the
-    ...    operating system.
-    Skip If    not ${WIRELESS_CARD_BLUETOOTH_SUPPORT}    WLE003.203 not supported
-    Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    WLE003.203 not supported
-    Bluetooth Scanning QB    ${ENV_ID_QUBES}
-
-WLE001.401 Wireless card detection (ESXi)
-    [Documentation]    Check whether the wireless card is detected correctly in ESXi.
-    [Tags]    semiauto
-    Skip If    not ${TESTS_IN_ESXI_SUPPORT}    WLE001.401 not supported
-    Execute Manual Step    [1/3] Power on the DUT and boot into ESXi
-    Execute Manual Step
-    ...    [2/3] Access the ESXi console and run: esxcli network nic list to check for wireless adapters
-    Execute Manual Step    [3/3] Confirm the wireless card is listed and detected correctly in ESXi
-
 WLE003.301 Bluetooth scanning (Windows)
     [Documentation]    Check whether Bluetooth scanning works correctly in Windows.
     [Tags]    semiauto
@@ -179,6 +170,15 @@ WLE003.301 Bluetooth scanning (Windows)
     Execute Manual Step    [2/4] Enable Bluetooth via the Settings or system tray
     Execute Manual Step    [3/4] Scan for nearby Bluetooth devices
     Execute Manual Step    [4/4] Confirm Bluetooth scanning works and at least one device is detected
+
+WLE001.401 Wireless card detection (ESXi)
+    [Documentation]    Check whether the wireless card is detected correctly in ESXi.
+    [Tags]    semiauto
+    Skip If    not ${TESTS_IN_ESXI_SUPPORT}    WLE001.401 not supported
+    Execute Manual Step    [1/3] Power on the DUT and boot into ESXi
+    Execute Manual Step
+    ...    [2/3] Access the ESXi console and run: esxcli network nic list to check for wireless adapters
+    Execute Manual Step    [3/3] Confirm the wireless card is listed and detected correctly in ESXi
 
 
 *** Keywords ***

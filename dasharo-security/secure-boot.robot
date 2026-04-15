@@ -1,4 +1,6 @@
 *** Settings ***
+Metadata            ORDER_SENSITIVE
+
 Library             Collections
 Library             Dialogs
 Library             OperatingSystem
@@ -40,14 +42,6 @@ Default Tags        automated
 
 
 *** Test Cases ***
-SBO001.001 Check Secure Boot default state (firmware)
-    [Documentation]    Check whether the Secure Boot default state is correct after
-    ...    flashing the platform with Dasharo firmware.
-    [Tags]    semiauto
-    Execute Manual Step    [1/3] Power on the DUT and enter the firmware setup menu
-    Execute Manual Step    [2/3] Navigate to Device Manager > Secure Boot Configuration
-    Execute Manual Step    [3/3] Confirm that the Current Secure Boot State shows the expected default state
-
 SBO001.101 Check Secure Boot default state (EDK2 UEFI)
     [Documentation]    This test aims to verify that Secure Boot state after
     ...    flashing the platform with the Dasharo firmware is
@@ -64,80 +58,6 @@ SBO001.101 Check Secure Boot default state (EDK2 UEFI)
     ...    Secure Boot Configuration
     ${sb_state}=    Get Matches    ${sb_menu}    Current Secure Boot State*
     Should Contain    ${sb_state}[0]    ${SECURE_BOOT_DEFAULT_STATE}
-
-SBO002.201 UEFI Secure Boot (Ubuntu)
-    [Documentation]    This test verifies that Secure Boot can be enabled from
-    ...    boot menu and, after the DUT reset, it is seen from
-    ...    the OS.
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO002.201 not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SBO002.201 not supported
-
-    # 1. Make sure that SB is enabled
-    Power On
-    ${sb_menu}=    Enter Secure Boot Menu And Return Construction
-    Enable Secure Boot    ${sb_menu}
-    # Save Changes And Reset
-    # Changes to Secure Boot menu takes action immediately, so we can just reset
-    Tianocore Reset System
-
-    # 2. Check SB state in OS
-    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
-    Login To Linux
-    Switch To Root User
-    ${sb_status}=    Check Secure Boot In Linux
-    Should Be True    ${sb_status}
-    Execute Reboot Command
-
-    # 3. Make sure that SB is disabled
-    ${sb_menu}=    Enter Secure Boot Menu And Return Construction
-    Disable Secure Boot    ${sb_menu}
-    # Save Changes And Reset
-    # Changes to Secure Boot menu takes action immediately, so we can just reset
-    Tianocore Reset System
-
-    # 4. Check SB state in OS
-    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
-    Login To Linux
-    Switch To Root User
-    ${sb_status}=    Check Secure Boot In Linux
-    Should Not Be True    ${sb_status}
-
-SBO002.301 UEFI Secure Boot (Windows)
-    [Documentation]    This test verifies that Secure Boot can be enabled from
-    ...    boot menu and, after the DUT reset, it is seen from
-    ...    the OS.
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO002.301 not supported
-    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    SBO002.301 not supported
-
-    # 1. Make sure that SB is enabled
-    Power On
-    ${sb_menu}=    Enter Secure Boot Menu And Return Construction
-    Enable Secure Boot    ${sb_menu}
-    # Save Changes And Reset
-    # Changes to Secure Boot menu takes action immediately, so we can just reset
-    Tianocore Reset System
-
-    # 2. Check SB state in OS
-    Boot And Login To Windows
-    ${sb_status}=    Check Secure Boot In Windows
-    Should Be True    ${sb_status}
-    Execute Reboot Command    windows
-
-    # 3. Make sure that SB is disabled
-    ${sb_menu}=    Enter Secure Boot Menu And Return Construction
-    Disable Secure Boot    ${sb_menu}
-    # Save Changes And Reset
-    # Changes to Secure Boot menu takes action immediately, so we can just reset
-    Tianocore Reset System
-
-    # 4. Check SB state in OS
-    Boot And Login To Windows
-    ${sb_status}=    Check Secure Boot In Windows
-    Should Not Be True    ${sb_status}
-
-# TODO: These must be improved (never worked reliably), and adjusted to both
-# keywords and menu layout changes.
-#
 
 SBO003.101 Attempt to boot file with the correct key from Shell (EDK2 UEFI)
     [Documentation]    This test verifies that Secure Boot allows booting a
@@ -273,7 +193,7 @@ SBO008.101 Attempt to enroll the key in the incorrect format (EDK2 UEFI)
     Select File In File Explorer    cert_fake.der
     Read From Terminal Until    ERROR: Unsupported file type!
 
-SBO009.001 Attempt to boot file signed for intermediate certificate
+SBO009.101 Attempt to boot file signed for intermediate certificate (EDK2 UEFI)
     [Documentation]    Check whether a file signed for an intermediate certificate can boot with Secure Boot enabled.
     [Tags]    semiauto
     Execute Manual Step    [1/18] Run sb-img-wrapper.sh script to generate keys and sign efi file.
@@ -301,7 +221,7 @@ SBO009.001 Attempt to boot file signed for intermediate certificate
     ...    separator=${SPACE}
     Execute Manual Step    ${result_msg}
 
-SBO010.001 Check support for rsa2k signed certificates
+SBO010.101 Check support for rsa2k signed certificates (EDK2 UEFI)
     [Documentation]    Check whether Secure Boot supports RSA 2048-bit signed certificates.
     [Tags]    semiauto
     Execute Manual Step    [1/18] Run sb-img-wrapper.sh script to generate keys and sign efi file.
@@ -326,7 +246,7 @@ SBO010.001 Check support for rsa2k signed certificates
     Execute Manual Step
     ...    [Expected result] File boots correctly and the output shows file content. Example output: "Hello, world!"
 
-SBO010.002 Check support for rsa3k signed certificates
+SBO011.101 Check support for rsa3k signed certificates (EDK2 UEFI)
     [Documentation]    Check whether Secure Boot supports RSA 3072-bit signed certificates.
     [Tags]    semiauto
     Execute Manual Step    [1/18] Run sb-img-wrapper.sh script to generate keys and sign efi file.
@@ -351,7 +271,7 @@ SBO010.002 Check support for rsa3k signed certificates
     Execute Manual Step
     ...    [Expected result] File boots correctly and the output shows file content. Example output: "Hello, world!"
 
-SBO010.003 Check support for rsa4k signed certificates
+SBO012.101 Check support for rsa4k signed certificates (EDK2 UEFI)
     [Documentation]    Check whether Secure Boot supports RSA 4096-bit signed certificates.
     [Tags]    semiauto
     Execute Manual Step    [1/18] Run sb-img-wrapper.sh script to generate keys and sign efi file.
@@ -376,7 +296,7 @@ SBO010.003 Check support for rsa4k signed certificates
     Execute Manual Step
     ...    [Expected result] File boots correctly and the output shows file content. Example output: "Hello, world!"
 
-SBO010.004 Check support for ecdsa256 signed certificates
+SBO013.101 Check support for ecdsa256 signed certificates (EDK2 UEFI)
     [Documentation]    Check whether Secure Boot supports ECDSA P-256 signed certificates.
     [Tags]    semiauto
     Execute Manual Step    [1/18] Run sb-img-wrapper.sh script to generate keys and sign efi file.
@@ -401,7 +321,7 @@ SBO010.004 Check support for ecdsa256 signed certificates
     Execute Manual Step
     ...    [Expected result] File boots correctly and the output shows file content. Example output: "Hello, world!"
 
-SBO010.005 Check support for ecdsa384 signed certificates
+SBO014.101 Check support for ecdsa384 signed certificates (EDK2 UEFI)
     [Documentation]    Check whether Secure Boot supports ECDSA P-384 signed certificates.
     [Tags]    semiauto
     Execute Manual Step    [1/18] Run sb-img-wrapper.sh script to generate keys and sign efi file.
@@ -426,7 +346,7 @@ SBO010.005 Check support for ecdsa384 signed certificates
     Execute Manual Step
     ...    [Expected result] File boots correctly and the output shows file content. Example output: "Hello, world!"
 
-SBO010.006 Check support for ecdsa521 signed certificates
+SBO015.101 Check support for ecdsa521 signed certificates (EDK2 UEFI)
     [Documentation]    Check whether Secure Boot supports ECDSA P-521 signed certificates.
     [Tags]    semiauto
     Execute Manual Step    [1/18] Run sb-img-wrapper.sh script to generate keys and sign efi file.
@@ -451,7 +371,7 @@ SBO010.006 Check support for ecdsa521 signed certificates
     Execute Manual Step
     ...    [Expected result] File boots correctly and the output shows file content. Example output: "Hello, world!"
 
-SBO011.001 Attempt to enroll expired certificate and boot signed image
+SBO016.101 Attempt to enroll expired certificate and boot signed image (EDK2 UEFI)
     [Documentation]    Check that a file signed with an expired certificate cannot boot with Secure Boot enabled.
     [Tags]    semiauto
     Execute Manual Step    [1/18] Run sb-img-wrapper.sh script to generate keys and sign efi file.
@@ -475,43 +395,7 @@ SBO011.001 Attempt to enroll expired certificate and boot signed image
     Execute Manual Step    [18/18] Boot the file: signed-hello.efi
     Execute Manual Step    [Expected result] File does not boot correctly: Command Error Status: Access Denied.
 
-SBO012.201 Boot OS Signed And Enrolled From Inside System (Ubuntu)
-    [Documentation]    Check whether an OS signed and enrolled from inside the system can boot with Secure Boot enabled.
-    [Tags]    semiauto
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SBO012.201 not supported
-    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    SBO012.201 not supported
-    Execute Manual Step    [1/26] Power on the DUT.
-    Execute Manual Step    [2/26] While the DUT is booting, hold the BIOS_SETUP_KEY to enter the UEFI setup menu.
-    Execute Manual Step    [3/26] Enter the Device Manager menu using the arrow keys and Enter.
-    Execute Manual Step    [4/26] Enter the Secure Boot Configuration submenu.
-    Execute Manual Step    [5/26] Set the Secure Boot Mode field to Custom Mode.
-    Execute Manual Step
-    ...    [6/26] Erase Secure Boot keys: Custom Secure Boot Options -> DB Options -> Enroll Signature -> Erase all Secure Boot Keys.
-    Execute Manual Step    [7/26] Press F10 to save changes.
-    Execute Manual Step    [8/26] Press ESC until the setup menu.
-    Execute Manual Step    [9/26] Select the Reset option.
-    Execute Manual Step    [10/26] The DUT will now attempt to boot OPERATING_SYSTEM.
-    Execute Manual Step    [11/26] Login to OPERATING_SYSTEM.
-    Execute Manual Step    [12/26] Remove Old Secure Boot keys: rm -rf /usr/share/secureboot
-    Execute Manual Step    [13/26] Generate new Secure Boot keys: sbctl create-keys
-    Execute Manual Step
-    ...    [14/26] Enroll generated Secure Boot keys: sbctl enroll-keys --yes-this-might-brick-my-machine
-    Execute Manual Step
-    ...    [15/26] Sign all components: sbctl verify | awk -F ' ' '{print $2}' | tail -n+2 | xargs -I "#" sbctl sign "#"
-    Execute Manual Step    [16/26] Reboot OPERATING_SYSTEM.
-    Execute Manual Step    [17/26] While the DUT is booting, hold the BIOS_SETUP_KEY to enter the UEFI setup menu.
-    Execute Manual Step    [18/26] Enter the Device Manager menu using the arrow keys and Enter.
-    Execute Manual Step    [19/26] Enter the Secure Boot Configuration submenu.
-    Execute Manual Step    [20/26] Set the Current Secure Boot State field to Enabled.
-    Execute Manual Step    [21/26] Press F10 to save changes.
-    Execute Manual Step    [22/26] Press ESC until the setup menu.
-    Execute Manual Step    [23/26] Select the Reset option.
-    Execute Manual Step    [24/26] The DUT will now attempt to boot OPERATING_SYSTEM.
-    Execute Manual Step    [25/26] Login to OPERATING_SYSTEM.
-    Execute Manual Step    [26/26] Check if Secure Boot is enabled: dmesg | grep secureboot
-    Execute Manual Step    [Expected result] In dmesg output should be a line informing that Secure Boot is enabled.
-
-SBO013.001 Check automatic certificate provisioning
+SBO018.101 Check automatic certificate provisioning (EDK2 UEFI)
     [Documentation]    Check whether Dasharo Tools Suite automatically provisions Secure Boot certificates.
     [Tags]    semiauto
     Execute Manual Step    [1/22] Power on the DUT.
@@ -540,7 +424,7 @@ SBO013.001 Check automatic certificate provisioning
     Execute Manual Step
     ...    [Expected result] Dasharo Tools Suite system signed with custom keys should boot while Ubuntu should not boot as it is signed with Microsoft keys.
 
-SBO013.002 Check automatic certificate provisioning KEK certificate
+SBO019.101 Check automatic certificate provisioning KEK certificate (EDK2 UEFI)
     [Documentation]    Check whether the KEK certificate provisioned by Dasharo Tools Suite matches the expected certificate.
     [Tags]    semiauto
     VAR    ${step23_msg}=
@@ -577,11 +461,11 @@ SBO013.002 Check automatic certificate provisioning KEK certificate
     Execute Manual Step
     ...    [Expected result] The data provided by both certificates should be equal, the form of the compared data might differ.
 
-SBO014.001 Enroll certificates using sbctl
+SBO020.101 Enroll certificates using sbctl (EDK2 UEFI)
     [Documentation]    Check whether certificates can be enrolled using sbctl and Secure Boot enabled thereafter.
     [Tags]    semiauto
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SBO014.001 not supported
-    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    SBO014.001 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SBO020.101 not supported
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    SBO020.101 not supported
     Execute Manual Step    [1/22] Power on the DUT.
     Execute Manual Step    [2/22] While the DUT is booting, hold the BIOS_SETUP_KEY to enter the UEFI setup menu.
     Execute Manual Step    [3/22] Enter the Device Manager menu using the arrow keys and Enter.
@@ -609,11 +493,85 @@ SBO014.001 Enroll certificates using sbctl
     Execute Manual Step
     ...    [Expected result] You should not be able to boot the system after enrolling the keys and enabling Secure Boot.
 
-SBO015.001 Attempt to enroll the key in the incorrect format (OS)
+SBO002.201 UEFI Secure Boot (Ubuntu)
+    [Documentation]    This test verifies that Secure Boot can be enabled from
+    ...    boot menu and, after the DUT reset, it is seen from
+    ...    the OS.
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO002.201 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SBO002.201 not supported
+
+    # 1. Make sure that SB is enabled
+    Power On
+    ${sb_menu}=    Enter Secure Boot Menu And Return Construction
+    Enable Secure Boot    ${sb_menu}
+    # Save Changes And Reset
+    # Changes to Secure Boot menu takes action immediately, so we can just reset
+    Tianocore Reset System
+
+    # 2. Check SB state in OS
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
+    Login To Linux
+    Switch To Root User
+    ${sb_status}=    Check Secure Boot In Linux
+    Should Be True    ${sb_status}
+    Execute Reboot Command
+
+    # 3. Make sure that SB is disabled
+    ${sb_menu}=    Enter Secure Boot Menu And Return Construction
+    Disable Secure Boot    ${sb_menu}
+    # Save Changes And Reset
+    # Changes to Secure Boot menu takes action immediately, so we can just reset
+    Tianocore Reset System
+
+    # 4. Check SB state in OS
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
+    Login To Linux
+    Switch To Root User
+    ${sb_status}=    Check Secure Boot In Linux
+    Should Not Be True    ${sb_status}
+
+SBO017.201 Boot OS Signed And Enrolled From Inside System (Ubuntu)
+    [Documentation]    Check whether an OS signed and enrolled from inside the system can boot with Secure Boot enabled.
+    [Tags]    semiauto
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SBO017.201 not supported
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    SBO017.201 not supported
+    Execute Manual Step    [1/26] Power on the DUT.
+    Execute Manual Step    [2/26] While the DUT is booting, hold the BIOS_SETUP_KEY to enter the UEFI setup menu.
+    Execute Manual Step    [3/26] Enter the Device Manager menu using the arrow keys and Enter.
+    Execute Manual Step    [4/26] Enter the Secure Boot Configuration submenu.
+    Execute Manual Step    [5/26] Set the Secure Boot Mode field to Custom Mode.
+    Execute Manual Step
+    ...    [6/26] Erase Secure Boot keys: Custom Secure Boot Options -> DB Options -> Enroll Signature -> Erase all Secure Boot Keys.
+    Execute Manual Step    [7/26] Press F10 to save changes.
+    Execute Manual Step    [8/26] Press ESC until the setup menu.
+    Execute Manual Step    [9/26] Select the Reset option.
+    Execute Manual Step    [10/26] The DUT will now attempt to boot OPERATING_SYSTEM.
+    Execute Manual Step    [11/26] Login to OPERATING_SYSTEM.
+    Execute Manual Step    [12/26] Remove Old Secure Boot keys: rm -rf /usr/share/secureboot
+    Execute Manual Step    [13/26] Generate new Secure Boot keys: sbctl create-keys
+    Execute Manual Step
+    ...    [14/26] Enroll generated Secure Boot keys: sbctl enroll-keys --yes-this-might-brick-my-machine
+    Execute Manual Step
+    ...    [15/26] Sign all components: sbctl verify | awk -F ' ' '{print $2}' | tail -n+2 | xargs -I "#" sbctl sign "#"
+    Execute Manual Step    [16/26] Reboot OPERATING_SYSTEM.
+    Execute Manual Step    [17/26] While the DUT is booting, hold the BIOS_SETUP_KEY to enter the UEFI setup menu.
+    Execute Manual Step    [18/26] Enter the Device Manager menu using the arrow keys and Enter.
+    Execute Manual Step    [19/26] Enter the Secure Boot Configuration submenu.
+    Execute Manual Step    [20/26] Set the Current Secure Boot State field to Enabled.
+    Execute Manual Step    [21/26] Press F10 to save changes.
+    Execute Manual Step    [22/26] Press ESC until the setup menu.
+    Execute Manual Step    [23/26] Select the Reset option.
+    Execute Manual Step    [24/26] The DUT will now attempt to boot OPERATING_SYSTEM.
+    Execute Manual Step    [25/26] Login to OPERATING_SYSTEM.
+    Execute Manual Step    [26/26] Check if Secure Boot is enabled: dmesg | grep secureboot
+    Execute Manual Step    [Expected result] In dmesg output should be a line informing that Secure Boot is enabled.
+
+SBO021.201 Attempt to enroll the key in the incorrect format (Ubuntu)
     [Documentation]    Check that sbctl fails when attempting to enroll keys in an incorrect format.
     [Tags]    semiauto
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SBO015.001 not supported
-    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    SBO015.001 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SBO021.201 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SB021.201 not supported
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    SBO021.201 not supported
     VAR    ${step14_msg}=
     ...    [14/15] Generate wrong format keys and move them to the appropriate locations:
     ...    openssl ecparam -genkey -name secp384r1 -out db.key && openssl req -new -x509 -key db.key -out db.pem -days 365 -subj "/CN=3mdeb_test"
@@ -641,6 +599,39 @@ SBO015.001 Attempt to enroll the key in the incorrect format (OS)
     Execute Manual Step
     ...    [15/15] Attempt to enroll generated Secure Boot keys: sbctl enroll-keys --yes-this-might-brick-my-machine
     Execute Manual Step    [Expected result] Utility sbctl should fail while enrolling keys.
+
+SBO002.301 UEFI Secure Boot (Windows)
+    [Documentation]    This test verifies that Secure Boot can be enabled from
+    ...    boot menu and, after the DUT reset, it is seen from
+    ...    the OS.
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO002.301 not supported
+    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    SBO002.301 not supported
+
+    # 1. Make sure that SB is enabled
+    Power On
+    ${sb_menu}=    Enter Secure Boot Menu And Return Construction
+    Enable Secure Boot    ${sb_menu}
+    # Save Changes And Reset
+    # Changes to Secure Boot menu takes action immediately, so we can just reset
+    Tianocore Reset System
+
+    # 2. Check SB state in OS
+    Boot And Login To Windows
+    ${sb_status}=    Check Secure Boot In Windows
+    Should Be True    ${sb_status}
+    Execute Reboot Command    windows
+
+    # 3. Make sure that SB is disabled
+    ${sb_menu}=    Enter Secure Boot Menu And Return Construction
+    Disable Secure Boot    ${sb_menu}
+    # Save Changes And Reset
+    # Changes to Secure Boot menu takes action immediately, so we can just reset
+    Tianocore Reset System
+
+    # 4. Check SB state in OS
+    Boot And Login To Windows
+    ${sb_status}=    Check Secure Boot In Windows
+    Should Not Be True    ${sb_status}
 
 
 *** Keywords ***

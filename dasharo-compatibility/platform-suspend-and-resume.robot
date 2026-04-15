@@ -44,7 +44,7 @@ SUSP002.201 Platform suspend and resume (Ubuntu) (press key)
     Execute Manual Step    [1/4] Boot into Ubuntu and trigger suspend (e.g. systemctl suspend)
     Execute Manual Step    [2/4] Wait for the DUT to enter suspend
     Execute Manual Step    [3/4] Press a key on the keyboard to wake the DUT
-    Execute Manual Step    [4/4] Confirm the DUT resumes correctly and the system
+    Execute Manual Step    [4/4] Confirm the DUT resumes correctly and the system is functional
 
 SUSP003.201 Platform suspend and resume (Ubuntu) (power button)
     [Documentation]    Check whether the DUT can suspend and resume correctly using the power button in Ubuntu.

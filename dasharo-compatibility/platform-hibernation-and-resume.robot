@@ -32,6 +32,16 @@ Default Tags        semiauto
 #    1. The DUT should power back on
 #    2. All previously opened windows should remain open
 
+HBN001.201 Platform hibernation and resume (Ubuntu)
+    [Documentation]    Check whether the platform hibernates and resumes correctly in Ubuntu.
+    [Tags]    semiauto
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    HBN001.201 not supported
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    HBN001.201 not supported
+    Execute Manual Step    [1/4] Boot into Ubuntu
+    Execute Manual Step    [2/4] Trigger hibernation (e.g. systemctl hibernate)
+    Execute Manual Step    [3/4] Wait for the system to power off and then power it back on
+    Execute Manual Step    [4/4] Confirm the system resumes from hibernation and all previous state is restored
+
 HIB001.201 Cyclic platform hibernation and resume (Ubuntu)
     [Documentation]    This test aims to verify that the DUT platform hibernation
     ...    and resume procedure performed cyclically works correctly
@@ -58,16 +68,6 @@ HIB001.201 Cyclic platform hibernation and resume (Ubuntu)
         Pass Execution
         ...    \nTest case HIB001.201 has been marked passed. \nThe number of detected errors is at least the same as the number of allowed fails: ${HIBERNATION_ALLOWED_FAILS}.
     END
-
-HBN001.201 Platform hibernation and resume (Ubuntu)
-    [Documentation]    Check whether the platform hibernates and resumes correctly in Ubuntu.
-    [Tags]    semiauto
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    HBN001.201 not supported
-    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    HBN001.201 not supported
-    Execute Manual Step    [1/4] Boot into Ubuntu
-    Execute Manual Step    [2/4] Trigger hibernation (e.g. systemctl hibernate)
-    Execute Manual Step    [3/4] Wait for the system to power off and then power it back on
-    Execute Manual Step    [4/4] Confirm the system resumes from hibernation and all previous state is restored
 
 HBN001.301 Platform hibernation and resume (Windows)
     [Documentation]    Check whether the platform hibernates and resumes correctly in Windows.

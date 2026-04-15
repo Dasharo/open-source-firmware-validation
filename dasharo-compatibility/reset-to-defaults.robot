@@ -122,6 +122,15 @@ RTD005.001 F9 resets Early boot DMA Protection to default
     ${early_dma_state}=    Get Option State    ${security_menu}    Early boot DMA Protection
     Should Not Be True    ${early_dma_state}
 
+RTD006.001 F9 resets Enable network boot to default
+    [Documentation]    Check whether pressing F9 in the firmware setup menu resets
+    ...    the Enable network boot option to its default value.
+    [Tags]    semiauto
+    Execute Manual Step    [1/4] Power on the DUT and enter the firmware setup menu
+    Execute Manual Step    [2/4] Navigate to Networking Options and change the Enable network boot setting from default
+    Execute Manual Step    [3/4] Press F9 to reset settings to defaults
+    Execute Manual Step    [4/4] Confirm the Enable network boot option has been reset to the default value
+
 RTD007.001 F9 resets Intel ME mode to default
     [Documentation]    Check whether pressing F9 resets Keep IOMMU enabled when
     ...    transfer control to OS option to be disabled
@@ -348,12 +357,3 @@ RTD016.002 F9 reset is globally effective
     ${bmm_menu}=    Enter Submenu From Snapshot And Return Construction    ${setup_menu}    Boot Maintenance Manager
     ${out}=    Get Option State    ${bmm_menu}    Auto Boot Time-out
     Should Not Be Equal As Integers    ${out}    123
-
-RTD006.001 F9 resets Enable network boot to default
-    [Documentation]    Check whether pressing F9 in the firmware setup menu resets
-    ...    the Enable network boot option to its default value.
-    [Tags]    semiauto
-    Execute Manual Step    [1/4] Power on the DUT and enter the firmware setup menu
-    Execute Manual Step    [2/4] Navigate to Networking Options and change the Enable network boot setting from default
-    Execute Manual Step    [3/4] Press F9 to reset settings to defaults
-    Execute Manual Step    [4/4] Confirm the Enable network boot option has been reset to the default value

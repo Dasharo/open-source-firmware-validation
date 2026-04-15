@@ -51,14 +51,6 @@ CPU001.201 CPU works (Ubuntu)
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
 
-CPU001.401 CPU works (ESXi)
-    [Documentation]    Verify that the CPU on the DUT is functional and boots the ESXi OS.
-    ...    The test passes if the ESXi login screen (DCUI) is visible after boot.
-    Skip If    not ${TESTS_IN_ESXI_SUPPORT}    CPU001.401 not supported
-    Power On
-    IF    ${HAS_E_CORES}    Set UEFI Option    ActiveECores    0
-    Boot And Login To OS    ${ENV_ID_ESXI}
-
 CPU002.201 CPU cache enabled (Ubuntu)
     [Documentation]    Check whether the all declared for the DUT cache levels
     ...    are enabled.
@@ -69,20 +61,6 @@ CPU002.201 CPU cache enabled (Ubuntu)
     Login To Linux
     CPU Cache Enabled Linux
 
-CPU002.401 CPU cache enabled (ESXi)
-    [Documentation]    Verify that all CPU cache levels are detected and reported by ESXi.
-    ...    Expected output includes L2 and L3 cache size, associativity, and CPU count.
-    Skip If    not ${TESTS_IN_ESXI_SUPPORT}    CPU002.401 not supported
-    Power On
-    IF    ${HAS_E_CORES}    Set UEFI Option    ActiveECores    0
-    Boot And Login To OS    ${ENV_ID_ESXI}
-    Sleep    5s
-    ${out}=    Execute Command In Terminal    esxcli hardware cpu list | grep Cache
-    ${count}=    Evaluate
-    ...    len(re.findall(r'''${CACHE_REGEX}''', '''${out}'''))
-    ...    re
-    IF    ${count} < 2    FAIL    There are no multiple cache levels detected.
-
 CPU003.201 Multiple CPU support (Ubuntu)
     [Documentation]    Check whether the DUT has multiple CPU support.
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CPU003.201 not supported
@@ -92,19 +70,6 @@ CPU003.201 Multiple CPU support (Ubuntu)
     Login To Linux
     Multiple CPU Support Linux
 
-CPU003.401 Multiple CPU support (ESXi)
-    [Documentation]    Verify that ESXi detects more than one CPU core, indicating multi-CPU support.
-    Skip If    not ${TESTS_IN_ESXI_SUPPORT}    CPU003.401 not supported
-    Power On
-    IF    ${HAS_E_CORES}    Set UEFI Option    ActiveECores    0
-    Boot And Login To OS    ${ENV_ID_ESXI}
-    Sleep    5s
-    ${out}=    Execute Command In Terminal    esxcli hardware cpu global get
-    ${cores_match}=    Get Regexp Matches    ${out}    CPU Cores:\\s*(\\d+)    1
-    ${core_str}=    Get From List    ${cores_match}    0
-    ${cores}=    Convert To Integer    ${core_str}
-    IF    ${cores} < 2    Fail    Quantitty of cores less than 2.
-
 CPU004.201 Multiple-core support (Ubuntu)
     [Documentation]    Check whether the DUT has multi-core support.
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CPU004.201 not supported
@@ -113,21 +78,6 @@ CPU004.201 Multiple-core support (Ubuntu)
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Multiple-Core Support Linux
-
-CPU004.401 Multiple-core support (ESXi)
-    [Documentation]    Verify that the system supports multiple CPU cores using Package ID mapping.
-    Skip If    not ${TESTS_IN_ESXI_SUPPORT}    CPU004.401 not supported
-    Power On
-    IF    ${HAS_E_CORES}    Set UEFI Option    ActiveECores    0
-    Boot And Login To OS    ${ENV_ID_ESXI}
-    Sleep    5s
-    ${out}=    Execute Command In Terminal    esxcli hardware cpu list | grep Id
-    ${lines}=    Split To Lines    ${out}
-    @{package_ids}=    Get Regexp Matches    ${out}    Package Id:
-    FOR    ${item}    IN    @{package_ids}
-        ${package_ids_count}=    Evaluate    ${PACKAGE_IDS_COUNT} + 1
-    END
-    IF    ${package_ids_count} < 2    FAIL There Are No Multiple Package Ids.
 
 CPU001.202 CPU works (Fedora)
     [Documentation]    Check whether the CPU mounted on the DUT works.
@@ -160,57 +110,6 @@ CPU004.202 Multiple-core support (Fedora)
     Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
     Login To Linux
     Multiple-Core Support Linux
-
-CPU001.301 CPU works (Windows)
-    [Documentation]    Check whether the CPU mounted on the DUT works.
-    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CPU001.301 not supported
-    Power On
-    Boot And Login To Windows
-    Execute Shutdown Command
-
-CPU002.301 CPU cache enabled (Windows)
-    [Documentation]    Check whether the all declared for the DUT cache levels
-    ...    are enabled.
-    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CPU002.301 not supported
-    Power On
-    Boot And Login To Windows
-    ${mem_info}=    Execute Command In Terminal
-    ...    Get-Wmiobject -class win32_cachememory | fl Purpose, CacheType, InstalledSize
-    Should Contain    ${mem_info}    CACHE1
-    Pass Execution If    not ${L2_CACHE_SUPPORT}    DUT supports only L1 cache
-    Should Contain    ${mem_info}    CACHE2
-    Pass Execution If    not ${L3_CACHE_SUPPORT}    DUT supports only L1 and L2 cache
-    Should Contain    ${mem_info}    CACHE3
-    Pass Execution If    not ${L4_CACHE_SUPPORT}    DUT supports only L1, L2 and L3 cache
-    Should Contain    ${mem_info}    CACHE4
-    Execute Shutdown Command
-
-CPU003.301 Multiple CPU support (Windows)
-    [Documentation]    Check whether the DUT has multiple CPU support.
-    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CPU003.301 not supported
-    Power On
-    Boot And Login To Windows
-    ${cpu_info}=    Execute Command In Terminal    (Get-CimInstance -ClassName Win32_Processor).NumberOfCores
-    ${cpu_count}=    Get Line    ${cpu_info}    -1
-    ${cpu_count}=    Convert To Number    ${cpu_count}
-    Should Be True    ${cpu_count} > 1
-    Execute Shutdown Command
-
-CPU004.301 Multiple-core support (Windows)
-    [Documentation]    Check whether the DUT has multi-core support.
-    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CPU004.301 not supported
-    Power On
-    Boot And Login To Windows
-    ${cpu_info}=    Execute Command In Terminal
-    ...    Get-CimInstance -ClassName Win32_Processor | Select-Object -Property NumberOfCores
-    ${cpu_count}=    Get Line    ${cpu_info}    -1
-    ${cpu_count}=    Convert To Number    ${cpu_count}
-    ${socket_count}=    Execute Command In Terminal
-    ...    (Get-CimInstance -ClassName Win32_ComputerSystem).NumberOfProcessors
-    ${socket_count}=    Get Line    ${socket_count}    -1
-    ${socket_count}=    Convert To Number    ${socket_count}
-    Should Be True    ${cpu_count} / ${socket_count} > 1
-    Execute Shutdown Command
 
 CPU001.203 CPU works (Qubes OS)
     [Documentation]    Check whether the CPU mounted on the DUT works.
@@ -275,6 +174,107 @@ CPU004.205 Multiple-core support (XCP-NG)
     Power On
     Boot And Login To OS    ${ENV_ID_XCP_NG}
     Multiple-Core Support Linux
+
+CPU001.301 CPU works (Windows)
+    [Documentation]    Check whether the CPU mounted on the DUT works.
+    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CPU001.301 not supported
+    Power On
+    Boot And Login To Windows
+    Execute Shutdown Command
+
+CPU002.301 CPU cache enabled (Windows)
+    [Documentation]    Check whether the all declared for the DUT cache levels
+    ...    are enabled.
+    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CPU002.301 not supported
+    Power On
+    Boot And Login To Windows
+    ${mem_info}=    Execute Command In Terminal
+    ...    Get-Wmiobject -class win32_cachememory | fl Purpose, CacheType, InstalledSize
+    Should Contain    ${mem_info}    CACHE1
+    Pass Execution If    not ${L2_CACHE_SUPPORT}    DUT supports only L1 cache
+    Should Contain    ${mem_info}    CACHE2
+    Pass Execution If    not ${L3_CACHE_SUPPORT}    DUT supports only L1 and L2 cache
+    Should Contain    ${mem_info}    CACHE3
+    Pass Execution If    not ${L4_CACHE_SUPPORT}    DUT supports only L1, L2 and L3 cache
+    Should Contain    ${mem_info}    CACHE4
+    Execute Shutdown Command
+
+CPU003.301 Multiple CPU support (Windows)
+    [Documentation]    Check whether the DUT has multiple CPU support.
+    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CPU003.301 not supported
+    Power On
+    Boot And Login To Windows
+    ${cpu_info}=    Execute Command In Terminal    (Get-CimInstance -ClassName Win32_Processor).NumberOfCores
+    ${cpu_count}=    Get Line    ${cpu_info}    -1
+    ${cpu_count}=    Convert To Number    ${cpu_count}
+    Should Be True    ${cpu_count} > 1
+    Execute Shutdown Command
+
+CPU004.301 Multiple-core support (Windows)
+    [Documentation]    Check whether the DUT has multi-core support.
+    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CPU004.301 not supported
+    Power On
+    Boot And Login To Windows
+    ${cpu_info}=    Execute Command In Terminal
+    ...    Get-CimInstance -ClassName Win32_Processor | Select-Object -Property NumberOfCores
+    ${cpu_count}=    Get Line    ${cpu_info}    -1
+    ${cpu_count}=    Convert To Number    ${cpu_count}
+    ${socket_count}=    Execute Command In Terminal
+    ...    (Get-CimInstance -ClassName Win32_ComputerSystem).NumberOfProcessors
+    ${socket_count}=    Get Line    ${socket_count}    -1
+    ${socket_count}=    Convert To Number    ${socket_count}
+    Should Be True    ${cpu_count} / ${socket_count} > 1
+    Execute Shutdown Command
+
+CPU001.401 CPU works (ESXi)
+    [Documentation]    Verify that the CPU on the DUT is functional and boots the ESXi OS.
+    ...    The test passes if the ESXi login screen (DCUI) is visible after boot.
+    Skip If    not ${TESTS_IN_ESXI_SUPPORT}    CPU001.401 not supported
+    Power On
+    IF    ${HAS_E_CORES}    Set UEFI Option    ActiveECores    0
+    Boot And Login To OS    ${ENV_ID_ESXI}
+
+CPU002.401 CPU cache enabled (ESXi)
+    [Documentation]    Verify that all CPU cache levels are detected and reported by ESXi.
+    ...    Expected output includes L2 and L3 cache size, associativity, and CPU count.
+    Skip If    not ${TESTS_IN_ESXI_SUPPORT}    CPU002.401 not supported
+    Power On
+    IF    ${HAS_E_CORES}    Set UEFI Option    ActiveECores    0
+    Boot And Login To OS    ${ENV_ID_ESXI}
+    Sleep    5s
+    ${out}=    Execute Command In Terminal    esxcli hardware cpu list | grep Cache
+    ${count}=    Evaluate
+    ...    len(re.findall(r'''${CACHE_REGEX}''', '''${out}'''))
+    ...    re
+    IF    ${count} < 2    FAIL    There are no multiple cache levels detected.
+
+CPU003.401 Multiple CPU support (ESXi)
+    [Documentation]    Verify that ESXi detects more than one CPU core, indicating multi-CPU support.
+    Skip If    not ${TESTS_IN_ESXI_SUPPORT}    CPU003.401 not supported
+    Power On
+    IF    ${HAS_E_CORES}    Set UEFI Option    ActiveECores    0
+    Boot And Login To OS    ${ENV_ID_ESXI}
+    Sleep    5s
+    ${out}=    Execute Command In Terminal    esxcli hardware cpu global get
+    ${cores_match}=    Get Regexp Matches    ${out}    CPU Cores:\\s*(\\d+)    1
+    ${core_str}=    Get From List    ${cores_match}    0
+    ${cores}=    Convert To Integer    ${core_str}
+    IF    ${cores} < 2    Fail    Quantitty of cores less than 2.
+
+CPU004.401 Multiple-core support (ESXi)
+    [Documentation]    Verify that the system supports multiple CPU cores using Package ID mapping.
+    Skip If    not ${TESTS_IN_ESXI_SUPPORT}    CPU004.401 not supported
+    Power On
+    IF    ${HAS_E_CORES}    Set UEFI Option    ActiveECores    0
+    Boot And Login To OS    ${ENV_ID_ESXI}
+    Sleep    5s
+    ${out}=    Execute Command In Terminal    esxcli hardware cpu list | grep Id
+    ${lines}=    Split To Lines    ${out}
+    @{package_ids}=    Get Regexp Matches    ${out}    Package Id:
+    FOR    ${item}    IN    @{package_ids}
+        ${package_ids_count}=    Evaluate    ${PACKAGE_IDS_COUNT} + 1
+    END
+    IF    ${package_ids_count} < 2    FAIL There Are No Multiple Package Ids.
 
 
 *** Keywords ***

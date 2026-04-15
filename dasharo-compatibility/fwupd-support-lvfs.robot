@@ -12,14 +12,14 @@ Resource            ../lib/performance/cpu.robot
 Resource            ../lib/fwupd.resource
 
 Suite Setup         Run Keywords
-...                     Prepare Test Suite    AND
-...                     Skip If    not ${CAPSULE_UPDATE_SUPPORT}
+...                     Prepare Test Suite
+...                     AND    Skip If    not ${CAPSULE_UPDATE_SUPPORT}
 ...                     AND    Set UEFI Option    MeMode    Disabled (HAP)
 ...                     AND    Check Power Supply
 Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
 
-Default Tags        automated    semiauto
+Default Tags        semiauto
 
 
 *** Test Cases ***
@@ -51,6 +51,7 @@ FWUPD003.203 Fwupd LVFS Firmware Update (Qubes OS)
     [Documentation]    Test if a firmware update can be performed using fwupd
     ...    and a signed cabinet from LVFS
     [Tags]    semiauto
+    Skip If    '${ENV_ID_QUBES}' not int ${TESTED_LINUX_DISTROS}
     Execute Manual Step    Power on and boot into Qubes OS
     Execute Manual Step    Open dom0 terminal
     Execute Manual Step
@@ -75,7 +76,11 @@ Fwupd LVFS Firmware Update Linux
     IF    "${username}" != "${EMPTY}" and "${password}" != "${EMPTY}"
         VAR    ${use_embargo}=    ${TRUE}
         Log    Using an embargoed LVFS channel    level=WARN
-        Log    WARNING: LVFS credentials WILL BE VISIBLE in test logs. Don't share them with anyone.    level=WARN
+        Log
+        ...    WARNING: LVFS credentials WILL BE VISIBLE in test logs. Don't share them with anyone. Set test results manually.
+        ...    level=WARN
+        Execute Manual Step
+        ...    WARNING: LVFS credentials WILL BE VISIBLE in test logs. Don't share them with anyone. Set test results manually.
     ELSE
         Log    Using public LVFS channel    level=WARN
         VAR    ${use_embargo}=    ${FALSE}

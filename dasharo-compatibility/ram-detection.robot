@@ -34,6 +34,13 @@ ${SIZE_OF_31_GB}=       33285996544    # 31*1024*1024*1024
 
 
 *** Test Cases ***
+MEM001.205 Expected RAM size detected in OS (XCP-NG)
+    [Documentation]    This test verifies that the installed physical memory (RAM)
+    ...    is properly detected and reported by the XCP-NG OS.
+    Skip If    not ${TESTS_IN_XCP_NG_SUPPORT}    MEM001.205 not supported
+    Skip If    '${ENV_ID_XCP_NG}' not in ${TESTED_LINUX_DISTROS}    MEM001.205 not supported
+    RAM Size Detected In OS    ${PLATFORM_RAM_SIZE}
+
 MEM001.401 Expected RAM size detected in OS (ESXi)
     [Documentation]    Verify that the installed RAM is correctly recognized by ESXi.
     ...    Total memory reported should match the expected amount within a reasonable margin.
@@ -49,13 +56,6 @@ MEM001.401 Expected RAM size detected in OS (ESXi)
     IF    ${ram_size} <= ${SIZE_OF_31_GB} or ${ram_size} >= ${SIZE_OF_33_GB}
         Fail    RAM size out of scope.\n
     END
-
-MEM001.205 Expected RAM size detected in OS (XCP-NG)
-    [Documentation]    This test verifies that the installed physical memory (RAM)
-    ...    is properly detected and reported by the XCP-NG OS.
-    Skip If    not ${TESTS_IN_XCP_NG_SUPPORT}    MEM001.205 not supported
-    Skip If    '${ENV_ID_XCP_NG}' not in ${TESTED_LINUX_DISTROS}    MEM001.205 not supported
-    RAM Size Detected In OS    ${PLATFORM_RAM_SIZE}
 
 
 *** Keywords ***

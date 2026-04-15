@@ -24,10 +24,20 @@ Suite Setup         Run Keywords
 Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
 
-Default Tags        automated
+Default Tags        semiauto
 
 
 *** Test Cases ***
+BBB003.101 Battery not connected warning (EDK2 UEFI)
+    [Documentation]    This test aims to verify whether a warning message appears when the battery is
+    ...    disconnected from the DUT.
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}
+    Execute Manual Step    Disconnect the battery from the DUT
+    Execute Manual Step    Plug the charger in without re-connecting the battery
+    Execute Manual Step    Power on the DUT
+    Execute Manual Step    After powering on the DUT, a warning should say "The laptop's battery is not detected!"
+    Execute Manual Step    After pressing enter or passing the timeout, the DUT should continue booting.
+
 BBB001.201 Boot blocking (charger disconnected) (Ubuntu)
     [Documentation]    Discharge the battery to below 5% and check if booting is
     ...    blocked.
@@ -38,6 +48,7 @@ BBB001.201 Boot blocking (charger disconnected) (Ubuntu)
     Sonoff Off
     Discharge The Battery Until Target Level In Linux    3
     Execute Command In Terminal    reboot
+    Execute Manual Step    The device should decline to boot due to low battery
 
 BBB002.201 Boot blocking (charger connected) (Ubuntu)
     [Documentation]    Discharge the battery to below 5% and check if booting is
@@ -50,14 +61,4 @@ BBB002.201 Boot blocking (charger connected) (Ubuntu)
     Discharge The Battery Until Target Level In Linux    3
     Sonoff On
     Execute Command In Terminal    reboot
-
-BBB003.101 Battery not connected warning (EDK2 UEFI)
-    [Documentation]    This test aims to verify whether a warning message appears when the battery is
-    ...    disconnected from the DUT.
-    [Tags]    semiauto
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}
-    Execute Manual Step    Disconnect the battery from the DUT
-    Execute Manual Step    Plug the charger in without re-connecting the battery
-    Execute Manual Step    Power on the DUT
-    Execute Manual Step    After powering on the DUT, a warning should say "The laptop's battery is not detected!"
-    Execute Manual Step    After pressing enter or passing the timeout, the DUT should continue booting.
+    Execute Manual Step    The device should boot normally

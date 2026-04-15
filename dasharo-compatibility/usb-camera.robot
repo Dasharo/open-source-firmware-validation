@@ -81,16 +81,6 @@ CAM002.202 Integrated IR Camera (Fedora)
     Integrated IR Camera Linux
     Exit From Root User
 
-CAM001.301 Integrated webcam (Windows)
-    [Documentation]    Check whether the integrated USB camera is initialized
-    ...    correctly and can be accessed from the Windows OS.
-    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CAM001.301 not supported
-    Power On
-    Boot And Login To Windows
-    ${out}=    Get USB Devices Windows
-    Should Contain Any    ${out}    Camera    BisonCam
-    Execute Shutdown Command
-
 CAM001.203 Integrated webcam (Qubes OS)
     [Documentation]    Check whether the integrated USB camera is initialized
     ...    correctly and can be accessed from the Linux OS. Assumption: No
@@ -101,6 +91,16 @@ CAM001.203 Integrated webcam (Qubes OS)
     Login To Linux
     ${info}=    Execute Linux Command    qvm-usb
     Should Contain Any    ${info}    Camera    BisonCam
+
+CAM001.301 Integrated webcam (Windows)
+    [Documentation]    Check whether the integrated USB camera is initialized
+    ...    correctly and can be accessed from the Windows OS.
+    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    CAM001.301 not supported
+    Power On
+    Boot And Login To Windows
+    ${out}=    Get USB Devices Windows
+    Should Contain Any    ${out}    Camera    BisonCam
+    Execute Shutdown Command
 
 
 *** Keywords ***

@@ -5055,13 +5055,6 @@
   },
   {
     "doc": {
-      "_id": "SBO001.001",
-      "name": "Check Secure Boot default state (firmware)",
-      "module": "Dasharo Security"
-    }
-  },
-  {
-    "doc": {
       "_id": "SBO001.101",
       "name": "Check Secure Boot default state (EDK2 UEFI)",
       "module": "Dasharo Security"
@@ -5125,92 +5118,92 @@
   },
   {
     "doc": {
-      "_id": "SBO009.001",
-      "name": "Attempt to boot file signed for intermediate certificate",
+      "_id": "SBO009.101",
+      "name": "Attempt to boot file signed for intermediate certificate (EDK2 UEFI)",
       "module": "Dasharo Security"
     }
   },
   {
     "doc": {
-      "_id": "SBO010.001",
-      "name": "Check support for rsa2k signed certificates",
+      "_id": "SBO010.101",
+      "name": "Check support for rsa2k signed certificates (EDK2 UEFI)",
       "module": "Dasharo Security"
     }
   },
   {
     "doc": {
-      "_id": "SBO010.002",
-      "name": "Check support for rsa3k signed certificates",
+      "_id": "SBO011.101",
+      "name": "Check support for rsa3k signed certificates (EDK2 UEFI)",
       "module": "Dasharo Security"
     }
   },
   {
     "doc": {
-      "_id": "SBO010.003",
-      "name": "Check support for rsa4k signed certificates",
+      "_id": "SBO012.101",
+      "name": "Check support for rsa4k signed certificates (EDK2 UEFI)",
       "module": "Dasharo Security"
     }
   },
   {
     "doc": {
-      "_id": "SBO010.004",
-      "name": "Check support for ecdsa256 signed certificates",
+      "_id": "SBO013.101",
+      "name": "Check support for ecdsa256 signed certificates (EDK2 UEFI)",
       "module": "Dasharo Security"
     }
   },
   {
     "doc": {
-      "_id": "SBO010.005",
-      "name": "Check support for ecdsa384 signed certificates",
+      "_id": "SBO014.101",
+      "name": "Check support for ecdsa384 signed certificates (EDK2 UEFI)",
       "module": "Dasharo Security"
     }
   },
   {
     "doc": {
-      "_id": "SBO010.006",
-      "name": "Check support for ecdsa521 signed certificates",
+      "_id": "SBO015.101",
+      "name": "Check support for ecdsa521 signed certificates (EDK2 UEFI)",
       "module": "Dasharo Security"
     }
   },
   {
     "doc": {
-      "_id": "SBO011.001",
-      "name": "Attempt to enroll expired certificate and boot signed image",
+      "_id": "SBO016.101",
+      "name": "Attempt to enroll expired certificate and boot signed image (EDK2 UEFI)",
       "module": "Dasharo Security"
     }
   },
   {
     "doc": {
-      "_id": "SBO012.201",
+      "_id": "SBO017.201",
       "name": "Boot OS Signed And Enrolled From Inside System (Ubuntu)",
       "module": "Dasharo Security"
     }
   },
   {
     "doc": {
-      "_id": "SBO013.001",
-      "name": "Check automatic certificate provisioning",
+      "_id": "SBO018.101",
+      "name": "Check automatic certificate provisioning (EDK2 UEFI)",
       "module": "Dasharo Security"
     }
   },
   {
     "doc": {
-      "_id": "SBO013.002",
-      "name": "Check automatic certificate provisioning KEK certificate",
+      "_id": "SBO019.101",
+      "name": "Check automatic certificate provisioning KEK certificate (EDK2 UEFI)",
       "module": "Dasharo Security"
     }
   },
   {
     "doc": {
-      "_id": "SBO014.001",
-      "name": "Enroll certificates using sbctl",
+      "_id": "SBO020.101",
+      "name": "Enroll certificates using sbctl (EDK2 UEFI)",
       "module": "Dasharo Security"
     }
   },
   {
     "doc": {
-      "_id": "SBO015.001",
-      "name": "Attempt to enroll the key in the incorrect format (OS)",
+      "_id": "SBO021.201",
+      "name": "Attempt to enroll the key in the incorrect format (Ubuntu)",
       "module": "Dasharo Security"
     }
   },
@@ -6140,8 +6133,8 @@
   },
   {
     "doc": {
-      "_id": "TPM001.001",
-      "name": "TPM Support (firmware)",
+      "_id": "TPM001.101",
+      "name": "TPM Support (EDK2 UEFI)",
       "module": "Dasharo Security"
     }
   },
@@ -6182,8 +6175,8 @@
   },
   {
     "doc": {
-      "_id": "TPM002.001",
-      "name": "Verify TPM version (firmware)",
+      "_id": "TPM002.101",
+      "name": "Verify TPM version (EDK2 UEFI)",
       "module": "Dasharo Security"
     }
   },
@@ -6224,15 +6217,8 @@
   },
   {
     "doc": {
-      "_id": "TPM003.001",
-      "name": "Check TPM Physical Presence Interface (firmware)",
-      "module": "Dasharo Security"
-    }
-  },
-  {
-    "doc": {
       "_id": "TPM003.101",
-      "name": "Change active PCR banks with TPM PPI (EDK2 UEFI)",
+      "name": "Check TPM Physical Presence Interface (EDK2 UEFI)",
       "module": "Dasharo Security"
     }
   },
@@ -6273,43 +6259,36 @@
   },
   {
     "doc": {
-      "_id": "TPM004.001",
-      "name": "Check TPM Clear procedure",
+      "_id": "TPM004.101",
+      "name": "Check TPM Clear procedure (EDK2 UEFI)",
       "module": "Dasharo Security"
     }
   },
   {
     "doc": {
-      "_id": "TPM004.201",
-      "name": "Check if the ChangeEPS works (Ubuntu)",
+      "_id": "TPM005.101",
+      "name": "Check TPM Hash Algorithm Support SHA1 (EDK2 UEFI)",
       "module": "Dasharo Security"
     }
   },
   {
     "doc": {
-      "_id": "TPM005.001",
-      "name": "Check TPM Hash Algorithm Support SHA1 (Firmware)",
+      "_id": "TPM006.101",
+      "name": "Check TPM Hash Algorithm Support SHA256 (EDK2 UEFI)",
       "module": "Dasharo Security"
     }
   },
   {
     "doc": {
-      "_id": "TPM006.001",
-      "name": "Check TPM Hash Algorithm Support SHA256 (Firmware)",
+      "_id": "TPM007.101",
+      "name": "Check TPM Hash Algorithm Support SHA384 (EDK2 UEFI)",
       "module": "Dasharo Security"
     }
   },
   {
     "doc": {
-      "_id": "TPM007.001",
-      "name": "Check TPM Hash Algorithm Support SHA384 (Firmware)",
-      "module": "Dasharo Security"
-    }
-  },
-  {
-    "doc": {
-      "_id": "TPM008.001",
-      "name": "Check TPM Hash Algorithm Support SHA512 (Firmware)",
+      "_id": "TPM008.101",
+      "name": "Check TPM Hash Algorithm Support SHA512 (EDK2 UEFI)",
       "module": "Dasharo Security"
     }
   },

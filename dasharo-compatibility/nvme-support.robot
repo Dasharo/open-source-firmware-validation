@@ -52,6 +52,12 @@ NVM001.201 NVMe support in OS (Ubuntu)
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    NVM001.201 not supported
     NVMe Support In OS    ${ENV_ID_UBUNTU}
 
+NVM002.201 NVMe slot change to x2 support in OS (Ubuntu)
+    Depends On    ${TESTS_IN_UBUNTU_SUPPORT}
+    Depends On    ${NVME_X2_SLOT_SUPPORT}
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    NVM002.201 not supported
+    NVMe Slot Change Support In OS    ${ENV_ID_UBUNTU}
+
 NVM001.202 NVMe support in OS (Fedora)
     [Documentation]    Check whether the Operating System can boot from NVMe
     ...    disk in M.2 slot.
@@ -89,12 +95,6 @@ NVM001.401 NVMe support in OS (ESXi)
     Sleep    5s
     ${out}=    Execute Command In Terminal    esxcli storage core nvme device list
     Should Contain All    ${out}    Vendor: NVMe    Is Boot Device: true
-
-NVM002.201 NVMe slot change to x2 support in OS (Ubuntu)
-    Depends On    ${TESTS_IN_UBUNTU_SUPPORT}
-    Depends On    ${NVME_X2_SLOT_SUPPORT}
-    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    NVM002.201 not supported
-    NVMe Slot Change Support In OS    ${ENV_ID_UBUNTU}
 
 
 *** Keywords ***

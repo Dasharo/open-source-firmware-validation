@@ -20,6 +20,24 @@ Test Setup          Run Keyword
 
 
 *** Test Cases ***
+PFS002.001 pfSense stable (VGA output) installation on Hard Disk
+    [Documentation]    Check whether pfSense stable with VGA output can be installed on the hard disk.
+    [Tags]    semiauto
+    Skip If    '${ENV_ID_PFSENSE}' not in ${TESTED_BSD_DISTROS}
+    Execute Manual Step    [1/5] Prepare a pfSense stable installation medium (USB)
+    Execute Manual Step    [2/5] Power on the DUT and boot from the pfSense installation medium
+    Execute Manual Step    [3/5] Follow the pfSense installer steps to complete the installation on the hard disk
+    Execute Manual Step    [4/5] Reboot after installation completes
+    Execute Manual Step    [5/5] Confirm pfSense boots successfully from the hard disk via VGA output
+
+PFS002.002 Boot pfSense stable (VGA output) from Hard Disk
+    [Documentation]    Check whether pfSense stable with VGA output boots correctly from the hard disk.
+    [Tags]    semiauto
+    Skip If    '${ENV_ID_PFSENSE}' not in ${TESTED_BSD_DISTROS}
+    Execute Manual Step    [1/3] Power on the DUT with pfSense installed on the hard disk
+    Execute Manual Step    [2/3] Wait for pfSense to boot
+    Execute Manual Step    [3/3] Confirm pfSense boots to the console/login screen via VGA output
+
 PFS001.502 Install operating system on disk (pfSense)
     [Documentation]    Install pfSense LTS CE (serial output) from preseeded
     ...    USB stick on disk. Refer to test case PFS006.502 for preseed.
@@ -120,21 +138,3 @@ PFS007.502 Boot operating system installer into rescue shell (pfSense)
     ${output}=    Execute Command In Terminal    ls
     Should Contain    ${output}    COPYRIGHT
     Should Contain    ${output}    .profile
-
-PFS002.001 pfSense stable (VGA output) installation on Hard Disk
-    [Documentation]    Check whether pfSense stable with VGA output can be installed on the hard disk.
-    [Tags]    semiauto
-    Skip If    '${ENV_ID_PFSENSE}' not in ${TESTED_BSD_DISTROS}
-    Execute Manual Step    [1/5] Prepare a pfSense stable installation medium (USB)
-    Execute Manual Step    [2/5] Power on the DUT and boot from the pfSense installation medium
-    Execute Manual Step    [3/5] Follow the pfSense installer steps to complete the installation on the hard disk
-    Execute Manual Step    [4/5] Reboot after installation completes
-    Execute Manual Step    [5/5] Confirm pfSense boots successfully from the hard disk via VGA output
-
-PFS002.002 Boot pfSense stable (VGA output) from Hard Disk
-    [Documentation]    Check whether pfSense stable with VGA output boots correctly from the hard disk.
-    [Tags]    semiauto
-    Skip If    '${ENV_ID_PFSENSE}' not in ${TESTED_BSD_DISTROS}
-    Execute Manual Step    [1/3] Power on the DUT with pfSense installed on the hard disk
-    Execute Manual Step    [2/3] Wait for pfSense to boot
-    Execute Manual Step    [3/3] Confirm pfSense boots to the console/login screen via VGA output

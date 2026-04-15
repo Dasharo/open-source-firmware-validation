@@ -1,4 +1,6 @@
 *** Settings ***
+Metadata            ORDER_SENSITIVE
+
 Library             Collections
 Library             Dialogs
 Library             OperatingSystem
@@ -170,43 +172,6 @@ FWUPD006.203 Fwupd Check Update Results (Qubes OS)
     Boot System Or From Connected Disk    ${ENV_ID_QUBES}
     Login To Linux
     Fwupd Check Update Results Linux
-
-FWUPD003.201 Fwupd LVFS Firmware Update (Ubuntu)
-    [Documentation]    Check whether a firmware update can be performed using fwupd
-    ...    and a signed cabinet from LVFS in Ubuntu.
-    [Tags]    semiauto
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    FWUPD003.201 not supported
-    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    FWUPD003.201 not supported
-    Execute Manual Step    [1/5] Power on and boot into Ubuntu
-    Execute Manual Step    [2/5] Open a terminal and run: fwupdmgr refresh
-    Execute Manual Step    [3/5] Run: fwupdmgr get-updates to check for available firmware updates
-    Execute Manual Step    [4/5] Run: fwupdmgr update to install the firmware update from LVFS
-    Execute Manual Step
-    ...    [5/5] Confirm the update completes successfully and the DUT reboots with the updated firmware
-
-FWUPD003.202 Fwupd LVFS Firmware Update (Fedora)
-    [Documentation]    Check whether a firmware update can be performed using fwupd
-    ...    and a signed cabinet from LVFS in Fedora.
-    [Tags]    semiauto
-    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    FWUPD003.202 not supported
-    Execute Manual Step    [1/5] Power on and boot into Fedora
-    Execute Manual Step    [2/5] Open a terminal and run: fwupdmgr refresh
-    Execute Manual Step    [3/5] Run: fwupdmgr get-updates to check for available firmware updates
-    Execute Manual Step    [4/5] Run: fwupdmgr update to install the firmware update from LVFS
-    Execute Manual Step
-    ...    [5/5] Confirm the update completes successfully and the DUT reboots with the updated firmware
-
-FWUPD003.203 Fwupd LVFS Firmware Update (Qubes OS)
-    [Documentation]    Check whether a firmware update can be performed using fwupd
-    ...    and a signed cabinet from LVFS in Qubes OS.
-    [Tags]    semiauto
-    Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    FWUPD003.203 not supported
-    Execute Manual Step    [1/5] Power on and boot into Qubes OS
-    Execute Manual Step    [2/5] Open a dom0 terminal and run: fwupdmgr refresh
-    Execute Manual Step    [3/5] Run: fwupdmgr get-updates to check for available firmware updates
-    Execute Manual Step    [4/5] Run: fwupdmgr update to install the firmware update from LVFS
-    Execute Manual Step
-    ...    [5/5] Confirm the update completes successfully and the DUT reboots with the updated firmware
 
 
 *** Keywords ***

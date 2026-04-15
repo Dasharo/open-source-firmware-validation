@@ -57,17 +57,6 @@ USB001.201 USB devices detected by OS (Ubuntu)
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}
     USB Devices Detected By OS    ${ENV_ID_UBUNTU}
 
-USB001.401 USB devices detection in OS (ESXi)
-    [Documentation]    Check whether USB devices are correctly detected
-    ...    in VMware ESXi using lsusb monitoring.
-    Skip If    not ${TESTS_IN_ESXI_SUPPORT}    USB001.401 not supported
-    Power On
-    IF    ${HAS_E_CORES}    Set UEFI Option    ActiveECores    0
-    Boot And Login To OS    ${ENV_ID_ESXI}
-    Sleep    5s
-    ${out}=    Execute Command In Terminal    lsusb
-    Should Contain    ${out}    ${USB_MODEL}
-
 USB002.201 USB keyboard in OS (Ubuntu)
     [Documentation]    Check whether the external USB keyboard is detected
     ...    correctly by the Ubuntu OS.
@@ -101,17 +90,6 @@ USB002.202 USB keyboard in OS (Fedora)
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}
     USB Keyboard In OS    ${ENV_ID_FEDORA}
 
-USB002.401 USB keyboard detection in OS (ESXi)
-    [Documentation]    Verify that an external USB keyboard is correctly detected in ESXi.
-    ...    Detection includes visibility in `lsusb` and verification of working input via basic typing test.
-    Skip If    not ${TESTS_IN_ESXI_SUPPORT}    USB002.401 not supported
-    Power On
-    IF    ${HAS_E_CORES}    Set UEFI Option    ActiveECores    0
-    Boot And Login To OS    ${ENV_ID_ESXI}
-    Sleep    5s
-    ${out}=    Execute Command In Terminal    lsusb
-    Should Contain    ${out}    ${DEVICE_USB_KEYBOARD}
-
 USB003.202 Upload 1GB file on USB storage (Fedora)
     [Documentation]    Check whether the 1GB file can be transferred from the
     ...    operating system to the USB storage.
@@ -120,6 +98,26 @@ USB003.202 Upload 1GB file on USB storage (Fedora)
     Depends On    ${TESTS_IN_UBUNTU_SUPPORT}
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}
     Upload 1GB File On USB Storage    ${ENV_ID_FEDORA}
+
+USB001.203 USB devices detected by OS (Qubes OS)
+    [Documentation]    Check whether the external USB devices are detected
+    ...    correctly
+    Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    USB001.203 not supported
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_QUBES}
+    Login To Linux
+    ${out}=    Execute Linux Command    qvm-usb
+    Should Contain    ${out}    ${USB_MODEL}
+
+USB002.203 USB keyboard detected by OS (Qubes OS)
+    [Documentation]    Check whether the external USB keyboard is detected
+    ...    correctly
+    Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    USB02.203 not supported
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_QUBES}
+    Login To Linux
+    ${out}=    Execute Linux Command    qvm-usb
+    Should Contain    ${out}    ${DEVICE_USB_KEYBOARD}
 
 USB001.205 USB devices detected by OS (XCP-NG)
     [Documentation]    Check whether the external USB devices are detected
@@ -204,24 +202,26 @@ USB003.301 Upload 1GB file on USB storage (Windows)
     ...    Remove-Item -Path ${drive_letter}:\\test_file.txt    120
     Should Be Equal    ${hash1}    ${hash2}
 
-USB001.203 USB devices detected by OS (Qubes OS)
-    [Documentation]    Check whether the external USB devices are detected
-    ...    correctly
-    Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    USB001.203 not supported
+USB001.401 USB devices detection in OS (ESXi)
+    [Documentation]    Check whether USB devices are correctly detected
+    ...    in VMware ESXi using lsusb monitoring.
+    Skip If    not ${TESTS_IN_ESXI_SUPPORT}    USB001.401 not supported
     Power On
-    Boot System Or From Connected Disk    ${ENV_ID_QUBES}
-    Login To Linux
-    ${out}=    Execute Linux Command    qvm-usb
+    IF    ${HAS_E_CORES}    Set UEFI Option    ActiveECores    0
+    Boot And Login To OS    ${ENV_ID_ESXI}
+    Sleep    5s
+    ${out}=    Execute Command In Terminal    lsusb
     Should Contain    ${out}    ${USB_MODEL}
 
-USB002.203 USB keyboard detected by OS (Qubes OS)
-    [Documentation]    Check whether the external USB keyboard is detected
-    ...    correctly
-    Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    USB02.203 not supported
+USB002.401 USB keyboard detection in OS (ESXi)
+    [Documentation]    Verify that an external USB keyboard is correctly detected in ESXi.
+    ...    Detection includes visibility in `lsusb` and verification of working input via basic typing test.
+    Skip If    not ${TESTS_IN_ESXI_SUPPORT}    USB002.401 not supported
     Power On
-    Boot System Or From Connected Disk    ${ENV_ID_QUBES}
-    Login To Linux
-    ${out}=    Execute Linux Command    qvm-usb
+    IF    ${HAS_E_CORES}    Set UEFI Option    ActiveECores    0
+    Boot And Login To OS    ${ENV_ID_ESXI}
+    Sleep    5s
+    ${out}=    Execute Command In Terminal    lsusb
     Should Contain    ${out}    ${DEVICE_USB_KEYBOARD}
 
 

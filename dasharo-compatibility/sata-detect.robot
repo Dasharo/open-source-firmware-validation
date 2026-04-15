@@ -74,18 +74,6 @@ SAT001.205 SATA support in OS (XCP-NG)
 # TODO
 # SAT001.003 SATA support in OS (Windows)
 
-SAT001.401 SATA support in OS (ESXi)
-    [Documentation]    Verify that a SATA storage device is detected by the ESXi system
-    ...    and optionally check SMART data if available.
-    Skip If    not ${TESTS_IN_ESXI_SUPPORT}    SAT001.401 not supported
-    Power On
-    IF    ${HAS_E_CORES}    Set UEFI Option    ActiveECores    0
-    Boot And Login To OS    ${ENV_ID_ESXI}
-    Sleep    5s
-    ${out}=    Execute Command In Terminal    esxcli storage core device list
-    Should Contain Any    ${out}    Vendor: ATA    Vendor: SATA
-    Should Contain    ${out}    Is Boot Device: true
-
 SAT001.301 SATA support in OS (Windows)
     [Documentation]    This test aims to verify that SATA is detected from Windows
     ...    by using powershell.
@@ -99,6 +87,18 @@ SAT001.301 SATA support in OS (Windows)
     ${output}=    Execute Command In Terminal
     ...    Get-PhysicalDisk | Select-Object DeviceID, MediaType, BusType, Model
     Should Contain    ${output}    SATA
+
+SAT001.401 SATA support in OS (ESXi)
+    [Documentation]    Verify that a SATA storage device is detected by the ESXi system
+    ...    and optionally check SMART data if available.
+    Skip If    not ${TESTS_IN_ESXI_SUPPORT}    SAT001.401 not supported
+    Power On
+    IF    ${HAS_E_CORES}    Set UEFI Option    ActiveECores    0
+    Boot And Login To OS    ${ENV_ID_ESXI}
+    Sleep    5s
+    ${out}=    Execute Command In Terminal    esxcli storage core device list
+    Should Contain Any    ${out}    Vendor: ATA    Vendor: SATA
+    Should Contain    ${out}    Is Boot Device: true
 
 
 *** Keywords ***

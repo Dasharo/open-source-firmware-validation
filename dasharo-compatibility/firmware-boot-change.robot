@@ -42,14 +42,14 @@ FBC001.201 Ubuntu stays bootable (Legacy to UEFI) (Ubuntu)
     Execute Manual Step    [4/5] Attempt to boot into Ubuntu in UEFI mode
     Execute Manual Step    [5/5] Confirm that Ubuntu boots successfully after the Legacy to UEFI switch
 
-FBC002.503 OPNSense stays bootable (Legacy to UEFI) (OPNSense)
-    [Documentation]    Check whether OPNSense remains bootable after switching from Legacy to UEFI boot mode.
-    Skip If    '${ENV_ID_OPNSENSE}' not in ${TESTED_BSD_DISTROS}
-    Execute Manual Step    [1/5] Boot into OPNSense in Legacy mode and verify it works
+FBC004.207 OpenWrt stays bootable (Legacy to UEFI) (OpenWrt)
+    [Documentation]    Check whether OpenWrt remains bootable after switching from Legacy to UEFI boot mode.
+    Skip If    '${ENV_ID_OPENWRT}' not in ${TESTED_LINUX_DISTROS}
+    Execute Manual Step    [1/5] Boot into OpenWrt in Legacy mode and verify it works
     Execute Manual Step    [2/5] Enter the firmware setup menu and switch from Legacy to UEFI mode
     Execute Manual Step    [3/5] Save the settings and reboot the DUT
-    Execute Manual Step    [4/5] Attempt to boot into OPNSense in UEFI mode
-    Execute Manual Step    [5/5] Confirm that OPNSense boots successfully after the Legacy to UEFI switch
+    Execute Manual Step    [4/5] Attempt to boot into OpenWrt in UEFI mode
+    Execute Manual Step    [5/5] Confirm that OpenWrt boots successfully after the Legacy to UEFI switch
 
 FBC003.502 pfSense stays bootable (Legacy to UEFI) (pfSense)
     [Documentation]    Check whether pfSense remains bootable after switching from Legacy to UEFI boot mode.
@@ -60,11 +60,11 @@ FBC003.502 pfSense stays bootable (Legacy to UEFI) (pfSense)
     Execute Manual Step    [4/5] Attempt to boot into pfSense in UEFI mode
     Execute Manual Step    [5/5] Confirm that pfSense boots successfully after the Legacy to UEFI switch
 
-FBC004.207 OpenWrt stays bootable (Legacy to UEFI) (OpenWrt)
-    [Documentation]    Check whether OpenWrt remains bootable after switching from Legacy to UEFI boot mode.
-    Skip If    '${ENV_ID_OPENWRT}' not in ${TESTED_LINUX_DISTROS}
-    Execute Manual Step    [1/5] Boot into OpenWrt in Legacy mode and verify it works
+FBC002.503 OPNSense stays bootable (Legacy to UEFI) (OPNSense)
+    [Documentation]    Check whether OPNSense remains bootable after switching from Legacy to UEFI boot mode.
+    Skip If    '${ENV_ID_OPNSENSE}' not in ${TESTED_BSD_DISTROS}
+    Execute Manual Step    [1/5] Boot into OPNSense in Legacy mode and verify it works
     Execute Manual Step    [2/5] Enter the firmware setup menu and switch from Legacy to UEFI mode
     Execute Manual Step    [3/5] Save the settings and reboot the DUT
-    Execute Manual Step    [4/5] Attempt to boot into OpenWrt in UEFI mode
-    Execute Manual Step    [5/5] Confirm that OpenWrt boots successfully after the Legacy to UEFI switch
+    Execute Manual Step    [4/5] Attempt to boot into OPNSense in UEFI mode
+    Execute Manual Step    [5/5] Confirm that OPNSense boots successfully after the Legacy to UEFI switch

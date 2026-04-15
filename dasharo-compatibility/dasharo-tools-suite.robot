@@ -1,4 +1,6 @@
 *** Settings ***
+Metadata            ORDER_SENSITIVE
+
 Library             Collections
 Library             Dialogs
 Library             OperatingSystem
