@@ -16,3 +16,10 @@ Depends On
     END
     ${should_skip}=    Evaluate    not bool(${condition})
     Skip If    ${should_skip}    ${line}
+
+Should Run Semiauto Tests
+    [Documentation]    Semiauto tests should only be run if the `semiauto` tag
+    ...    is explicitly given. Only fully automated tests should run by default.
+    ${semiauto_should_run}=    Evaluate
+    ...    ${INCLUDE_TAGS} is not @{EMPTY} and 'semiauto' in ${INCLUDE_TAGS}
+    RETURN    ${semiauto_should_run}

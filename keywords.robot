@@ -612,6 +612,9 @@ Prepare Test Suite
     END
     IF    '${CONFIG}' == 'rpi-3b'    Verify Number Of Connected SD Wire Devices
 
+    ${semiauto_support}=    Should Run Semiauto Tests
+    VAR    ${SHOULD_RUN_SEMIAUTO_TESTS}=    ${semiauto_support}    scope=GLOBAL
+
     Set Library Search Order    ${CONFIG}    ${OPTIONS_LIB}
     Log Variables
 
