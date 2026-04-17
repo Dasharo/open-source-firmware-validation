@@ -19,7 +19,7 @@ Suite Setup         Run Keywords
 ...                     AND    Display Preparation Instructions
 ...                     AND    Ensure Capsule Files Are Present
 ...                     AND    Ensure BtG Testing Capsule Is Present
-...                     AND    Run Keyword If    '${FLASHING_METHOD}'!='none'    DCU Variable Set UEFI Option In File    ${BASE_FW_FILE}    MeMode    Disabled (HAP)
+...                     AND    Run Keyword If    ${DASHARO_INTEL_ME_MENU_SUPPORT}    DCU Variable Set UEFI Option In File    ${BASE_FW_FILE}    MeMode    Disabled (HAP)
 ...                     AND    Prepare For ROMHOLE Persistence Test
 ...                     AND    Run Keyword If    ${CUSTOM_LOGO_SUPPORT}    Prepare For Logo Persistence Test
 ...                     AND    Flash Firmware    ${BASE_FW_FILE}
@@ -245,7 +245,9 @@ CUP250.001 Capsule Update Progress Bar - Default Logo
     Deploy Uefi Shell
     # Bump the timeout for memory training
     Set DUT Response Timeout    5m
-    Set UEFI Option    MeMode    Disabled (HAP)
+    IF    ${DASHARO_INTEL_ME_MENU_SUPPORT}
+        Set UEFI Option    MeMode    Disabled (HAP)
+    END
     Power On
     Boot System Or From Connected Disk    ${DEFAULT_BOOT_OS_ID}
     Login To Linux With Root Privileges
