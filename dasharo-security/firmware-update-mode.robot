@@ -13,7 +13,9 @@ Resource            ../keys.robot
 Suite Setup         Run Keywords
 ...                     Prepare Test Suite
 ...                     AND
-...                     Skip If    not ${FIRMWARE_UPDATE_MODE_SUPPORT}    BIOS lock not supported
+...                     Skip If    not ${FIRMWARE_UPDATE_MODE_SUPPORT}    Firmware Update Mode not supported
+...                     AND
+...                     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    not supported
 ...                     AND
 ...                     Skip If    not ${DASHARO_SECURITY_MENU_SUPPORT}    Dasharo Security menu not supported
 Suite Teardown      Run Keyword
@@ -38,6 +40,7 @@ FUM001.201 Firmware Update Mode support (Ubuntu)
     [Documentation]    FUM support, verify by entering dts and checking output
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    BLS001.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    BLS001.201 not supported
+    Set UEFI Option    LockBios    ${TRUE}
     Power On
     # Enable FUM
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
