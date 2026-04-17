@@ -36,7 +36,7 @@ ${CAPSULE_UPDATE_SHELL_BOOTENTRY_NAME}=     UEFI Shell
 
 
 *** Test Cases ***
-FUM001.201 Firmware Update Mode support (Ubuntu)
+FUM001.101 Firmware Update Mode support
     [Documentation]    FUM support, verify by entering dts and checking output
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    BLS001.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    BLS001.201 not supported
@@ -58,16 +58,11 @@ FUM001.201 Firmware Update Mode support (Ubuntu)
         Log    FUM screen did not appear    WARN
     END
     Read From Terminal Until    efi/FirmwareUpdateMode:hex = 01
-    Press Key N Times    2    ${CTRL_C}
-    Load OS Credentials    ${ENV_ID_UBUNTU}
-    # After exiting iPXE, the first boot entry is always loaded. In OSFV, this is usually the "OSFV Ubuntu" entry. If issues arise,
-    # consider adding a keyword at the beginning that explicitly sets Ubuntu as the primary OS.
-    Press Key N Times    1    ${ENTER}
-    Login To Linux
-    Switch To Root User
+    Wait For DTS To Boot    fum=${TRUE}
+    Write Into Terminal    ${DTS_FUM_MENU_OPT}
+    Enter Shell In DTS
     ${out_flashrom}=    Execute Command In Terminal    flashrom -p internal
     ${pr0}=    Get Lines Matching Regexp    ${out_flashrom}    ^PR0: Warning: 0x.{8}-0x.{8} is read-only.$
-    Exit From Root User
     Should Be Empty    ${pr0}
 
 
