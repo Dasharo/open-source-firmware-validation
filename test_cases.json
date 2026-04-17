@@ -4462,8 +4462,8 @@
   },
   {
     "doc": {
-      "_id": "FUM001.201",
-      "name": "Firmware Update Mode support (Ubuntu)",
+      "_id": "FUM001.101",
+      "name": "Firmware Update Mode support",
       "module": "Dasharo Security"
     }
   },
