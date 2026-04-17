@@ -67,6 +67,26 @@ ${UEFI_SHELL_BOOT_DIR}=                     /boot/efi
 ${CAPSULE_UPDATE_SHELL_DIR}=                ${UEFI_SHELL_BOOT_DIR}/capsule_testing
 ${CAPSULE_UPDATE_SHELL_BOOTENTRY_NAME}=     UEFI Shell
 
+# Manual UX tests messages
+@{CUP_250_MESSAGE}=
+...                                         CUP250:
+...                                         \ \ \ \ The width of the progress bar match docs regardless of whether the default
+...                                         \ \ \ \ Dasharo logo or a custom one is set. See the screenshot at
+...                                         \ \ \ \ https://docs.dasharo.com/guides/capsule-update for reference.
+
+@{CUP_251_MESSAGE}=
+...                                         CUP251:
+...                                         \ \ \ \ The Update screen should show a custom hardware vendor on supported platforms:
+...                                         \ \ \ \ - NovaCustom variant: NovaCustom logo
+...                                         \ \ \ \ - Protectli variant: Protectli logo
+...                                         \ \ \ \ - Tuxedo variant: Tuxedo logo
+...                                         \ \ \ \ - all others: default Dasharo logo
+
+@{CUP_252_MESSAGE}=
+...                                         CUP252:
+...                                         \ \ \ \ The progress bar should move smoothly. It should not look like it's frozen.
+...                                         \ \ \ \ The time between updates should not exceed 3 seconds.
+
 
 *** Test Cases ***
 CUP001.001 Capsule Update With Wrong Keys
@@ -218,9 +238,9 @@ CUP190.201 Verifying If Custom Logo Persists Across updates (Ubuntu)
     Get Ubuntu System Values    UPDATED_SERIAL    UPDATED_UUID    UPDATED_LOGO_SHA256
     Should Be Equal    ${ORIGINAL_LOGO_SHA256}    ${UPDATED_LOGO_SHA256}
 
-CUP250.001 Capsule Update Progress Bar - Default Logo
-    [Documentation]    Verify that the Capsule Update screen looks as expected
-    ...    and the progress bar is scaled properly using a default logo.
+CUP240.001 Capsule Update UX Tests - Observation
+    [Documentation]    Collect the observations about how the capsule update UX looks.
+    ...    Use them later to confirm it looks as expected.
     [Tags]    semiauto
     # Ensure we're running FW with the default logo
     IF    ${CUSTOM_LOGO_SUPPORT}
@@ -235,9 +255,40 @@ CUP250.001 Capsule Update Progress Bar - Default Logo
     Power On
     Boot System Or From Connected Disk    ${DEFAULT_BOOT_OS_ID}
     Login To Linux With Root Privileges
-    Check The Update Screen For The Correct UX    pre=${TRUE}
+
+    VAR    @{message}=
+    ...    A capsule update will be performed shortly after choosing PASS.
+    ...    Observe the screen and prepare to verify the following:\n
+    Append To List    ${message}    @{CUP_250_MESSAGE}
+    IF    ${CAPSULE_UPDATES_V2_SUPPORT}
+        Append To List    ${message}    @{CUP_251_MESSAGE}
+        Append To List    ${message}    @{CUP_252_MESSAGE}
+    END
+    VAR    ${message}=    @{message}    separator=\n
+    Run Keyword And Ignore Error    Execute Manual Step    ${message}
+
     Perform Capsule Update    valid_capsule.cap
-    Check The Update Screen For The Correct UX
+
+CUP250.001 Capsule Update Progress Bar - Default Logo
+    [Documentation]    Verify that the Capsule Update screen looks as expected
+    ...    and the progress bar is scaled properly using a default logo.
+    [Tags]    semiauto
+    VAR    ${msg}=    @{CUP_250_MESSAGE}    separator=\n
+    Execute Manual Step    ${msg}
+
+CUP251.001 Capsule Update V2 UX Custom Logo
+    [Documentation]    Verify that the Capsule Update V2 screen shows the
+    ...    expected logo for a given platform.
+    [Tags]    semiauto
+    VAR    ${msg}=    @{CUP_251_MESSAGE}    separator=\n
+    Execute Manual Step    ${msg}
+
+CUP252.001 Capsule Update V2 UX Smooth Progress Bar
+    [Documentation]    Verify that the Capsule Update V2 screen progress bar
+    ...    advances smoothly and doesn't freeze.
+    [Tags]    semiauto
+    VAR    ${msg}=    @{CUP_252_MESSAGE}    separator=\n
+    Execute Manual Step    ${msg}
 
 CUP260.001 Capsule update in Firmware Update Mode works
     [Documentation]    Check if capsule update works when in Firmware Update
@@ -333,24 +384,6 @@ Perform Capsule Update And Return Status
     ...    ${updated_bios_version}
     ${logs}=    Get Capsule Update Logs
     RETURN    ${logs}    ${version_changed}
-
-Check The Update Screen For The Correct UX
-    [Arguments]    ${pre}=${FALSE}
-    VAR    ${message}=
-    ...    Verify that the UX is the
-    ...    same as expected in the docs. Most importantly, the progress bar
-    ...    should be exactly the same width regardless of whether the default
-    ...    Dasharo logo or a custom one is set. See the screenshot at
-    ...    https://docs.dasharo.com/guides/capsule-update for reference.
-    ...    separator=\n
-    IF    ${pre}
-        VAR    ${message}=
-        ...    A capsule update will be performed after choosing PASS.
-        ...    Observe the screen and verify the following:
-        ...    ${message}
-        ...    separator=\n
-    END
-    Execute Manual Step    ${message}
 
 Check The Update Screen For BtG Error Message
     [Arguments]    ${pre}=${FALSE}
