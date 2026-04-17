@@ -65,6 +65,5 @@ ENV_ID_FRIENDLY_NAMES = {
     ENV_ID_HEADS_DEBIAN: "Heads+Debian",
     ENV_ID_PFSENSE: "pfSense",
     ENV_ID_OPNSENSE: "OPNSense",
-    ENV_ID_OPENWRT: "OpenWrt",
     ENV_ID_PROXMOX: "Proxmox",
 }
