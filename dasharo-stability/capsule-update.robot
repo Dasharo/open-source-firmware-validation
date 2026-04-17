@@ -755,10 +755,16 @@ Get Capsule Update Logs
     Login To Linux With Root Privileges
     VAR    ${logs_path}=    ${CAPSULE_UPDATE_SHELL_DIR}/logs.txt
 
+    # There are some sync issues with this file.
+    # Might be that the partition is not fully mounted immediately after logging in,
+    # or a dirty bit might have been set in FAT32.
+    Execute Command In Terminal    until mountpoint -q /boot/efi; do sleep 1; done
+
     # UEFI Shell uses UTF-16LE and SSHLibrary will panic if the file is read
-    # to the terminal in this form
-    Execute Command In Terminal    iconv -f UTF-16LE -t UTF-8 ${logs_path} -o /tmp/capsule-logs.txt
-    ${logs}=    Execute Command In Terminal    cat /tmp/capsule-logs.txt
+    # to the terminal in this form.
+    # The UTF BOM bytes (EF BB FB) can be misinterpreted by the RF telnet library.
+    # They need to be stripped from the output
+    ${logs}=    Execute Command In Terminal    iconv -f UTF-16LE -t UTF-8 ${logs_path} | sed '1s/^\\xef\\xbb\\xbf//'
     RETURN    ${logs}
 
 Set Startup Nsh Variable
