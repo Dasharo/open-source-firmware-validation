@@ -334,10 +334,6 @@ Perform Capsule Update And Return Status
     Deploy Uefi Shell    os_logged_in=${TRUE}
     Perform Capsule Update    ${capsule_file}
 
-    IF    '${OPTIONS_LIB}' == 'options-lib_uefi-setup-menu' and ${CAPSULE_UPDATE_V2_SUPPORT}
-        Log    nop
-    END
-
     Power On
     Boot System Or From Connected Disk    ${DEFAULT_BOOT_OS_ID}
     Login To Linux With Root Privileges
@@ -502,7 +498,6 @@ Handle Capsule Update Screens
         VAR    ${potential_screens_regex}=    ${potential_screens_regex}|(${V2_RESULT_SCREEN_BOTTOM})
     END
     ${out}=    Read From Terminal Until Regexp    ${potential_screens_regex}
-    VAR    ${matched_screen}=    ${NONE}
 
     IF    '${FUM_DIALOG_TOP}' in $out
         IF    not ${expect_fum}
