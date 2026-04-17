@@ -361,7 +361,7 @@ class CLI:
             if len(violations) > 0:
                 print(
                     f"\n#####################################################\n"
-                    f"If the order is intentional, add to {filepath}:\n"
+                    f"If the order is intentional, add a metadata to the affected test suites:\n"
                     f"*** Settings ***:\n"
                     f"       Metadata    ORDER_SENSITIVE    <reason>"
                 )
