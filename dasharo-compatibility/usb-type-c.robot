@@ -4698,24 +4698,6 @@ UTC327.203 USB Type-C docking station audio capture (Qubes OS) (ME: Enabled) (WL
     Skip
     ...    UTC327.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
-UTC329.203 USB Type-C docking station SD Card reader detection (Qubes OS) (ME: Enabled) (WL-UG69PD2 Rev.A1)
-    [Documentation]    Check whether the SD Card reader is enumerated correctly
-    ...    and can be detected from the operating system.
-    [Tags]    semiauto
-    Skip If    not ${DOCKING_STATION_SD_CARD_READER_SUPPORT}    UTC329.203 not supported
-    Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC329.203 not supported
-    Skip
-    ...    UTC329.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
-
-UTC331.203 USB Type-C docking station SD Card read/write (Qubes OS) (ME: Enabled) (WL-UG69PD2 Rev.A1)
-    [Documentation]    Check whether the SD Card reader is initialized correctly
-    ...    and can be used from the operating system.
-    [Tags]    semiauto
-    Skip If    not ${DOCKING_STATION_SD_CARD_READER_SUPPORT}    UTC331.203 not supported
-    Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC331.203 not supported
-    Skip
-    ...    UTC331.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
-
 UTC335.203 Docking station detection after coldboot (Qubes OS) (ME: Enabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether he DUT properly detects the docking station
     ...    after coldboot.
@@ -5604,24 +5586,6 @@ UTC328.203 USB Type-C docking station audio capture (Qubes OS) (ME: Disabled) (W
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC328.203 not supported
     Skip
     ...    UTC328.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
-
-UTC330.203 USB Type-C docking station SD Card reader detection (Qubes OS) (ME: Disabled) (WL-UG69PD2 Rev.A1)
-    [Documentation]    Check whether the SD Card reader is enumerated correctly
-    ...    and can be detected from the operating system.
-    [Tags]    semiauto
-    Skip If    not ${DOCKING_STATION_SD_CARD_READER_SUPPORT}    UTC330.203 not supported
-    Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC330.203 not supported
-    Skip
-    ...    UTC330.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
-
-UTC332.203 USB Type-C docking station SD Card read/write (Qubes OS) (ME: Disabled) (WL-UG69PD2 Rev.A1)
-    [Documentation]    Check whether the SD Card reader is initialized correctly
-    ...    and can be used from the operating system.
-    [Tags]    semiauto
-    Skip If    not ${DOCKING_STATION_SD_CARD_READER_SUPPORT}    UTC332.203 not supported
-    Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    UTC332.203 not supported
-    Skip
-    ...    UTC332.203 not implemented in OSFV. Refer to the documentation at https://docs.dasharo.com/unified-test-documentation/dasharo-compatibility/31H-usb-type-c/
 
 UTC336.203 Docking station detection after coldboot (Qubes OS) (ME: Disabled) (WL-UG69PD2 Rev.A1)
     [Documentation]    Check whether he DUT properly detects the docking station

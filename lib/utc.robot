@@ -87,14 +87,14 @@ Resource    options/options-lib_dcu.robot
 ...                                 [8/8] Verify that no failed detections occurred.
 
 @{QUBES_SUSPEND_STEPS}=
-...                                 [1/9] Boot into dom0.
-...                                 [2/9] Connect docking station to DUT.
-...                                 [3/9] Verify docking station is detected.
-...                                 [4/9] Suspend the system.
-...                                 [5/9] Resume the system.
-...                                 [6/9] Verify docking station is detected after suspend/resume.
-...                                 [7/9] Repeat suspend cycle for ${STABILITY_DETECTION_SUSPEND_ITERATIONS} iterations.
-...                                 [8/9] Verify that no failed detections occurred.
+...                                 [1/8] Boot into dom0.
+...                                 [2/8] Connect docking station to DUT.
+...                                 [3/8] Verify docking station is detected.
+...                                 [4/8] Suspend the system.
+...                                 [5/8] Resume the system.
+...                                 [6/8] Verify docking station is detected after suspend/resume.
+...                                 [7/8] Repeat suspend cycle for ${STABILITY_DETECTION_SUSPEND_ITERATIONS} iterations.
+...                                 [8/8] Verify that no failed detections occurred.
 
 
 *** Keywords ***
@@ -452,7 +452,7 @@ Docking Station Detection After Coldboot
                     Switch To Root User
                     ${out_after_reboot}=    Execute Linux Command    uptime --since
                     Detect Docking Station In Linux    ${dock_name}
-                    END
+                END
             EXCEPT
                 ${failed_detection}=    Evaluate    ${FAILED_DETECTION} + 1
             END
@@ -491,7 +491,7 @@ Docking Station Detection After Warmboot
                 ${out_before_reboot}=    Execute Linux Command    uptime --since
                 WHILE    '${out_before_reboot}' == '${out_after_reboot}'
                     IF    '${POWER_CTRL}' == 'none'
-                        Execute Manual Step    Perform a coldboot manually
+                        Execute Manual Step    Perform a warmboot manually
                     ELSE
                         Power Cycle On
                     END
