@@ -141,7 +141,6 @@ SUSP003.203 Platform suspend and resume (Qubes OS, power button)
 SUSP007.203 Cyclic platform suspend and resume (Qubes OS) (S3)
     [Documentation]    This test aims to verify that the DUT platform suspend
     ...    and resume procedure performed cyclically works correctly
-    Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    SUSP007.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    SUSP007.203 not supported
     Power On
     Boot System Or From Connected Disk    ${ENV_ID_QUBES}
