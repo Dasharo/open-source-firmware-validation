@@ -21,11 +21,9 @@ Suite Setup         Run Keywords
 ...                     AND    Display Preparation Instructions
 ...                     AND    Ensure Capsule Files Are Present
 ...                     AND    Ensure BtG Testing Capsule Is Present
-...                     AND    Run Keyword If    ${DASHARO_INTEL_ME_MENU_SUPPORT}
-...                     DCU Variable Set UEFI Option In File    ${CAPSULE_UPDATE_RC0_FW_FILE}    MeMode    Disabled (HAP)
 ...                     AND    Prepare For ROMHOLE Persistence Test
 ...                     AND    Run Keyword If    ${CUSTOM_LOGO_SUPPORT}    Prepare For Logo Persistence Test
-...                     AND    Flash Firmware    ${CAPSULE_UPDATE_RC0_FW_FILE}
+...                     AND    Flash Firmware    ${BASE_FW_FILE}
 ...                     AND    Upload Required Files
 ...                     AND    Get System Values
 Suite Teardown      Run Keywords
@@ -36,80 +34,87 @@ Default Tags        automated
 
 
 *** Variables ***
-${CAPSULE_UPDATE_RC0_FW_FILE_NO_LOGO}=      ${NONE}    # Set in Suite Setup "Prepare For Logo Persistence Test"
+${CAPSULE_UPDATE_RC0_FW_FILE_NO_LOGO}=          ${NONE}    # Set in Suite Setup "Prepare For Logo Persistence Test"
 
 # To be read from environment variables
-${CAPSULE_UPDATE_RC0_FW_FILE}=              ${NONE}
+${CAPSULE_UPDATE_RC0_FW_FILE}=                  ${NONE}
 
 # variables to be set by setup
+${CAPSULE_UPDATE_RC0_FW_FILE_ME_HAP}=           ${NONE}
+${CAPSULE_UPDATE_RC0_FW_FILE_ME_ENABLED}=       ${NONE}
+# Contains the base firmware used for most tests.
+# Will contain CAPSULE_UPDATE_RC0_FW_FILE or CAPSULE_UPDATE_RC0_FW_FILE_ME_HAP depending on ME support
+# The LOGO will be replaced in it if CUSTOM_LOGO_SUPPORT
+${BASE_FW_FILE}=                                ${NONE}
+
 # # V2 specific variables
-${V2_CAP_HAS_TEST_KEYS}=                    ${FALSE}
-${CAPSULE_UPDATE_RC0_HAS_TEST_KEYS}=        ${FALSE}
+${V2_CAP_HAS_TEST_KEYS}=                        ${FALSE}
+${CAPSULE_UPDATE_RC0_HAS_TEST_KEYS}=            ${FALSE}
 
 # # Capsules used for testing filenames
-${WRONG_KEYS_CAP}=                          ${NONE}
-${INVALID_GUID_CAP}=                        ${NONE}
+${WRONG_KEYS_CAP}=                              ${NONE}
+${INVALID_GUID_CAP}=                            ${NONE}
 
 # Serial console markers
-${FUM_DIALOG_TOP}=                          Update Mode. All firmware write protections are disabled in this mode.
-${FUM_DIALOG_BOTTOM}=                       The platform will automatically reboot and disable Firmware Update Mode
+${FUM_DIALOG_TOP}=                              Update Mode. All firmware write protections are disabled in this mode.
+${FUM_DIALOG_BOTTOM}=                           The platform will automatically reboot and disable Firmware Update Mode
 # # "P" omitted as it differs in case between the fail and succeed screens
 ${V2_RESULT_SCREEN_BOTTOM}=
-...                                         ress ENTER to reboot
+...                                             ress ENTER to reboot
 
 # Capsule Statuses for verification of update rejection
-${WRONG_KEYS_CAPSULE_STATUS}=               Capsule Status: Security Violation
-${WRONG_GUID_CAPSULE_STATUS}=               Capsule Status: Not Ready
+${WRONG_KEYS_CAPSULE_STATUS}=                   Capsule Status: Security Violation
+${WRONG_GUID_CAPSULE_STATUS}=                   Capsule Status: Not Ready
 
 # Setup related variables
 # # Paths used by SSH-only capsule updates to stage files under the EFI shell workspace
-${UEFI_SHELL_BOOT_DIR}=                     /boot/efi
-${CAPSULE_UPDATE_SHELL_DIR}=                ${UEFI_SHELL_BOOT_DIR}/capsule_testing
-${CAPSULE_UPDATE_SHELL_BOOTENTRY_NAME}=     UEFI Shell
+${UEFI_SHELL_BOOT_DIR}=                         /boot/efi
+${CAPSULE_UPDATE_SHELL_DIR}=                    ${UEFI_SHELL_BOOT_DIR}/capsule_testing
+${CAPSULE_UPDATE_SHELL_BOOTENTRY_NAME}=         UEFI Shell
 
 # Save V2 capsules result screens for verification
 # to not run the updates multiple times
-&{V2_RESULT_SCREENS}=                       &{EMPTY}
+&{V2_RESULT_SCREENS}=                           &{EMPTY}
 
 # Manual UX tests messages
-${T}=                                       ${SPACE}${SPACE}${SPACE}
+${T}=                                           ${SPACE}${SPACE}${SPACE}
 @{MANUAL_UX_PREP_MESSAGE}=
-...                                         A capsule update will be performed shortly after choosing PASS.
-...                                         Observe the screen and note the results. Directly after the update
-...                                         ends, you will be asked to verify the following tests:\n
+...                                             A capsule update will be performed shortly after choosing PASS.
+...                                             Observe the screen and note the results. Directly after the update
+...                                             ends, you will be asked to verify the following tests:\n
 @{CUP_250_MESSAGE}=
-...                                         CUP250:
-...                                         ${T}The width of the progress bar match docs regardless of whether the default
-...                                         ${T}Dasharo logo or a custom one is set. See the screenshot at
-...                                         ${T}https://docs.dasharo.com/guides/capsule-update for reference.
+...                                             CUP250:
+...                                             ${T}The width of the progress bar match docs regardless of whether the default
+...                                             ${T}Dasharo logo or a custom one is set. See the screenshot at
+...                                             ${T}https://docs.dasharo.com/guides/capsule-update for reference.
 @{CUP_251_MESSAGE}=
-...                                         CUP251:
-...                                         ${T}The Update screen should show the hardware vendor logo for supported vendors:
-...                                         ${T}NovaCustom, Protectli, Tuxedo.
-...                                         ${T}Other platforms should show the Dasharo logo.
-...                                         ${T}The logo should fill most of the screen and look sharp.
-...                                         ${T}Refer to docs.dasharo.com: https://docs.dasharo.com/guides/capsule-update/#newer-versions-v2_1
+...                                             CUP251:
+...                                             ${T}The Update screen should show the hardware vendor logo for supported vendors:
+...                                             ${T}NovaCustom, Protectli, Tuxedo.
+...                                             ${T}Other platforms should show the Dasharo logo.
+...                                             ${T}The logo should fill most of the screen and look sharp.
+...                                             ${T}Refer to docs.dasharo.com: https://docs.dasharo.com/guides/capsule-update/#newer-versions-v2_1
 @{CUP_252_MESSAGE}=
-...                                         CUP252:
-...                                         ${T}The progress bar should move smoothly. It should not look like it's frozen.
-...                                         ${T}The time between updates should not exceed 3 seconds.
+...                                             CUP252:
+...                                             ${T}The progress bar should move smoothly. It should not look like it's frozen.
+...                                             ${T}The time between updates should not exceed 3 seconds.
 @{CUP_253_MESSAGE}=
-...                                         CUP253:
-...                                         ${T}The update should result in a green "Firmware Update Succeeded" screen.
-...                                         ${T}It should correctly print the firmware versions:
-...                                         ${T}- From which the update was run (BASE version)
-...                                         ${T}- To which the firmware was updated (FW_FILE version)
+...                                             CUP253:
+...                                             ${T}The update should result in a green "Firmware Update Succeeded" screen.
+...                                             ${T}It should correctly print the firmware versions:
+...                                             ${T}- From which the update was run (BASE version)
+...                                             ${T}- To which the firmware was updated (FW_FILE version)
 # TODO more details in messages
 @{CUP_280_MESSAGE}=
-...                                         CUP280:
-...                                         ${T}The update should result in an orange "Firmware Update Failed" screen.
-...                                         ${T}The result screen should say: `Status of payload: Security Violation`
-...                                         ${T}Refer to docs.dasharo.com: https://docs.dasharo.com/guides/capsule-update/#newer-versions-v2_2
+...                                             CUP280:
+...                                             ${T}The update should result in an orange "Firmware Update Failed" screen.
+...                                             ${T}The result screen should say: `Status of payload: Security Violation`
+...                                             ${T}Refer to docs.dasharo.com: https://docs.dasharo.com/guides/capsule-update/#newer-versions-v2_2
 @{CUP_281_MESSAGE}=
-...                                         CUP280:
-...                                         ${T}The update should result in an orange "Firmware Update Failed" screen.
-...                                         ${T}The result screen should say: `Status of payload: Not Ready`
-...                                         ${T}Refer to docs.dasharo.com: https://docs.dasharo.com/guides/capsule-update/#newer-versions-v2_2
+...                                             CUP280:
+...                                             ${T}The update should result in an orange "Firmware Update Failed" screen.
+...                                             ${T}The result screen should say: `Status of payload: Not Ready`
+...                                             ${T}Refer to docs.dasharo.com: https://docs.dasharo.com/guides/capsule-update/#newer-versions-v2_2
 
 
 *** Test Cases ***
@@ -432,6 +437,19 @@ CUP260.001 Capsule update in Firmware Update Mode works
     Set DUT Response Timeout    5m
     Enter Setup Menu Tianocore
 
+CUP270.101 Automatic ME Disable Works
+    [Documentation]    By using on-disk capsules it is possible to automatically
+    ...    disable ME prior to an update making the process much more
+    ...    straightforward. The tests verifies whether a capsule update can be
+    ...    performed with ME Enabled when the capsule is loaded.
+    Skip If    not ${DASHARO_INTEL_ME_MENU_SUPPORT}    CUP270.101 not supported
+    Skip If    not ${CAPSULE_UPDATE_V2_SUPPORT}    CUP270.101 not supported
+    Flash Firmware    ${CAPSULE_UPDATE_RC0_FW_FILE_ME_ENABLED}
+    ${status}    ${version_changed}=    Perform Capsule Update And Return Status    valid_capsule.cap
+    Should Be True    ${version_changed}
+    Should Contain    ${status}    CapsuleMax
+    Should Not Contain    ${status}    CapsuleLast
+
 
 *** Keywords ***
 Check Platform Fused
@@ -698,15 +716,29 @@ Ensure Derived Capsule Files Are Present
     ...    OperatingSystem.File Should Exist    ./dl-cache/edk2/${file_name}_wrong_cert.cap
     ${f2}=    Run Keyword And Return Status
     ...    OperatingSystem.File Should Exist    ./dl-cache/edk2/${file_name}_invalid_guid.cap
+
     VAR    ${WRONG_KEYS_CAP}=    ./dl-cache/edk2/${file_name}_wrong_cert.cap    scope=SUITE
     VAR    ${INVALID_GUID_CAP}=    ./dl-cache/edk2/${file_name}_invalid_guid.cap    scope=SUITE
     IF    not ${f1} or not ${f2}
         Run    ./scripts/capsules/capsule_update_tests.sh ${capsule_for_decoding}
     END
-    VAR    ${CAPSULE_UPDATE_RC0_FW_FILE}=    ${base_rom}_dcu_mod.rom    scope=SUITE
-    ${rc}=    Run And Return Rc    cp -f ${base_rom} ${CAPSULE_UPDATE_RC0_FW_FILE}
-    Should Be Equal As Integers    ${rc}    0
-    ...    Failed to copy base ROM: `cp ${base_rom} ${CAPSULE_UPDATE_RC0_FW_FILE}`
+
+    IF    ${DASHARO_INTEL_ME_MENU_SUPPORT}
+        VAR    ${CAPSULE_UPDATE_RC0_FW_FILE_ME_HAP}=    ${base_rom}_me_hap.rom    scope=SUITE
+        ${rc}=    Run And Return Rc    cp -f ${base_rom} ${CAPSULE_UPDATE_RC0_FW_FILE_ME_HAP}
+        Should Be Equal As Integers    ${rc}    0
+        ...    Failed to copy base ROM: `cp ${base_rom} ${CAPSULE_UPDATE_RC0_FW_FILE_ME_HAP}`
+        DCU Variable Set UEFI Option In File    ${CAPSULE_UPDATE_RC0_FW_FILE_ME_HAP}    MeMode    Disabled (HAP)
+
+        VAR    ${CAPSULE_UPDATE_RC0_FW_FILE_ME_ENABLED}=    ${base_rom}_me_enabled.rom    scope=SUITE
+        ${rc}=    Run And Return Rc    cp -f ${base_rom} ${CAPSULE_UPDATE_RC0_FW_FILE_ME_ENABLED}
+        Should Be Equal As Integers    ${rc}    0
+        ...    Failed to copy base ROM: `cp ${base_rom} ${CAPSULE_UPDATE_RC0_FW_FILE_ME_ENABLED}`
+        DCU Variable Set UEFI Option In File    ${CAPSULE_UPDATE_RC0_FW_FILE_ME_ENABLED}    MeMode    Enabled
+        VAR    ${BASE_FW_FILE}=    ${CAPSULE_UPDATE_RC0_FW_FILE_ME_HAP}    scope=SUITE
+    ELSE
+        VAR    ${BASE_FW_FILE}=    ${CAPSULE_UPDATE_RC0_FW_FILE}    scope=SUITE
+    END
 
 Ensure BtG Testing Capsule Is Present
     IF    ${INTEL_CBNT_BOOTGUARD_FUSED}
@@ -754,14 +786,14 @@ Prepare For Logo Persistence Test
     # Cannot flash a custom logo binary to QEMU
     IF    '${MANUFACTURER}'=='QEMU'    RETURN
 
-    ${name}=    Evaluate    '${CAPSULE_UPDATE_RC0_FW_FILE}'.split("/")[-1]
+    ${name}=    Evaluate    '${BASE_FW_FILE}'.split("/")[-1]
 
     VAR    ${CUSTOM_LOGO_RC0_FW_FILE}=    dcu/custom_logo_${name}    scope=SUITE
-    Run    cp ${CAPSULE_UPDATE_RC0_FW_FILE} ${CUSTOM_LOGO_RC0_FW_FILE}
+    Run    cp ${BASE_FW_FILE} ${CUSTOM_LOGO_RC0_FW_FILE}
     DCU Logo Set In File    ${CUSTOM_LOGO_RC0_FW_FILE}    ${TEST_DATA_DIR}/dcu/logo.bmp
 
-    VAR    ${CAPSULE_UPDATE_RC0_FW_FILE_NO_LOGO}=    ${CAPSULE_UPDATE_RC0_FW_FILE}    scope=SUITE
-    VAR    ${CAPSULE_UPDATE_RC0_FW_FILE}=    ${CUSTOM_LOGO_RC0_FW_FILE}    scope=SUITE
+    VAR    ${BASE_FW_FILE_NO_LOGO}=    ${BASE_FW_FILE}    scope=SUITE
+    VAR    ${BASE_FW_FILE}=    ${CUSTOM_LOGO_RC0_FW_FILE}    scope=SUITE
 
 Get System Values
     IF    ${TESTS_IN_UBUNTU_SUPPORT}
