@@ -194,7 +194,9 @@ CUP260.101 Capsule update in Firmware Update Mode works
     ...    Mode
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}
     Skip If    "${OPTIONS_LIB}" == "options-lib_dcu"
-    Skip If    not ${CAPSULE_UPDATE_IN_FUM_SUPPORT}    CUP260.101 requires iPXE+DTS FUM boot, not supported on this platform
+    Skip If
+    ...    not ${CAPSULE_UPDATE_IN_FUM_SUPPORT}
+    ...    CUP260.101 requires iPXE+DTS FUM boot, not supported on this platform
     Power On
     # Enable FUM
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
