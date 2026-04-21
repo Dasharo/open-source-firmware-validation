@@ -6347,13 +6347,6 @@
   },
   {
     "doc": {
-      "_id": "SBO001.001",
-      "name": "Check Secure Boot default state (firmware)",
-      "module": "Dasharo Security"
-    }
-  },
-  {
-    "doc": {
       "_id": "SBO001.101",
       "name": "Check Secure Boot default state (firmware)",
       "module": "Dasharo Security"
