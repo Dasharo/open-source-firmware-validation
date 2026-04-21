@@ -30,6 +30,7 @@ set LOG_FILE %CAPSULE_WORKSPACE%\logs.txt
 
 %CAPSULE_WORKSPACE%\variable_capsule_file.nsh
 %CAPSULE_WORKSPACE%\variable_step.nsh
+%CAPSULE_WORKSPACE%\variable_ondisk.nsh
 
 # Variables expected to be loaded:
 # - STEP - integer flag for choosing operation mode
@@ -37,7 +38,12 @@ set LOG_FILE %CAPSULE_WORKSPACE%\logs.txt
 
 # Step 0 - launch capsule update
 if "%STEP%" == "0" then
-    %CAPSULE_FS%:CapsuleApp.efi "%CAPSULE_WORKSPACE%\%CAPSULE_FILE%" -NR
+    if "%ONDISK%" == "1" then
+        %CAPSULE_FS%:CapsuleApp.efi "%CAPSULE_WORKSPACE%\%CAPSULE_FILE%" -NR -OD
+    else
+        %CAPSULE_FS%:CapsuleApp.efi "%CAPSULE_WORKSPACE%\%CAPSULE_FILE%" -NR
+    endif
+
     stall 5000000
     reset
 endif

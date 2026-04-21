@@ -162,6 +162,10 @@ CUP281.101 Capsule Update V2 Failure Screen Wrong GUID
     Skip If    not ${SHOULD_RUN_SEMIAUTO_TESTS}    CUP281.101 not supported
 
     # Populated in CUP002.001
+    ${screen}=    Get From Dictionary    ${V2_RESULT_SCREENS}    invalid_guid.cap    default=${NONE}
+    IF    $screen is ${None}
+        Skip    CUP280.101 depends on CUP001.001. The dependency was not run.
+    END
     IF    '${OPTIONS_LIB}' == 'options-lib_uefi-setup-menu'
         Should Contain    ${V2_RESULT_SCREENS['invalid_guid.cap']}    ${WRONG_GUID_CAPSULE_STATUS}
     END
@@ -445,7 +449,7 @@ CUP270.101 Automatic ME Disable Works
     Skip If    not ${DASHARO_INTEL_ME_MENU_SUPPORT}    CUP270.101 not supported
     Skip If    not ${CAPSULE_UPDATE_V2_SUPPORT}    CUP270.101 not supported
     Flash Firmware    ${CAPSULE_UPDATE_RC0_FW_FILE_ME_ENABLED}
-    ${status}    ${version_changed}=    Perform Capsule Update And Return Status    valid_capsule.cap
+    ${status}    ${version_changed}=    Perform Capsule Update And Return Status    valid_capsule.cap    ondisk=${TRUE}
     Should Be True    ${version_changed}
     Should Contain    ${status}    CapsuleMax
     Should Not Contain    ${status}    CapsuleLast
@@ -470,13 +474,13 @@ Check Platform Fused
     Exit From Root User
 
 Perform Capsule Update And Return Status
-    [Arguments]    ${capsule_file}
+    [Arguments]    ${capsule_file}    ${ondisk}=${FALSE}
     Power On
     Boot System Or From Connected Disk    ${DEFAULT_BOOT_OS_ID}
     Login To Linux With Root Privileges
     ${original_bios_version}=    Get BIOS Version Linux    Before update
     Deploy Uefi Shell    os_logged_in=${TRUE}
-    Perform Capsule Update    ${capsule_file}
+    Perform Capsule Update    ${capsule_file}    ondisk=${ondisk}
 
     Power On
     Boot System Or From Connected Disk    ${DEFAULT_BOOT_OS_ID}
@@ -581,12 +585,17 @@ Copy Capsule Files To Shell Workspace
     END
 
 Perform Capsule Update
-    [Arguments]    ${capsule_file}
+    [Arguments]    ${capsule_file}    ${ondisk}=${FALSE}
     # Submit capsule to firmware without an automatic reset and verify that it
     # was accepted without error
     VAR    ${capsule_fs_path}=    ${capsule_file}
     Set Startup Nsh Variable    capsule_file    ${capsule_fs_path}
     Set Startup Nsh Variable    step    0
+    IF    ${ondisk}
+        Set Startup Nsh Variable    ondisk    1
+    ELSE
+        Set Startup Nsh Variable    ondisk    0
+    END
     Set Nextboot Bootentry    ${CAPSULE_UPDATE_SHELL_BOOTENTRY_NAME}
     Execute Reboot Command    assume_correct_boot=${True}
     # uefi shell runs and reboots the platform
