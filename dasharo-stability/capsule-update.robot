@@ -138,6 +138,8 @@ CUP151.001 Capsule Update Production Keys
 
     # If CAPSULE_UPDATE_V2_SUPPORT and V2_CAP_HAS_TESTING_KEYS contains the production keys base
     # TODO: Remove the flash if we implement the testing firmware to accept both testing and production keys
+    # Note: Might still be needed if we allow running both CUP150 and CUP151
+    # at the same time as CUP150 would then change the base firmware.
     Flash Firmware    ${CAPSULE_UPDATE_RC0_FW_FILE}
     ${status}    ${version_changed}=    Perform Capsule Update And Return Status    valid_capsule.cap
     Should Be True    ${version_changed}
@@ -629,13 +631,32 @@ Display Preparation Instructions
     VAR    ${t}=    ${SPACE}${SPACE}${SPACE}
     VAR    ${msg}=    To run tests you need to set a couple environment variables:
     ...    1. FW_FILE contains path to the `.rom` file of tested release
-    ...    2. CAPSULE_FW_FILE contains path to the `.cap` file with the same firmware version as FW_FILE
-    ...    3. CAPSULE_UPDATE_RC0_FW_FILE contains path to a `.rom` file with either a lower RC version, or to
-    ...    ${t}the RC0 rom in case of first RC that supports capsule updates
+    ...    2. CAPSULE_FW_FILE contains path to the `.cap` file with the same
+    ...    ${t}firmware version as FW_FILE
+    ...    3. CAPSULE_UPDATE_RC0_FW_FILE contains path to a `.rom` file with
+    ...    ${t}either a lower RC version, or to the RC0 rom in case of first RC that
+    ...    ${t}supports capsule updates
     ...    ${EMPTY}
-    ...    Be careful if the tested device needs some additional setup menu changes to the default setup menu
-    ...    options to work, e.g. enabling Serial Redirection or Power After AC Loss.
-    ...    These UEFI options need to be set in all the firmware files used for these tests prior to starting.
+    ...    To test V2 Capsules, there are two paths depending whether both production
+    ...    and testing firmware is available:
+    ...    - opt. A)
+    ...    ${t} Use FW_FILE, CAPSULE_FW_FILE and CAPSULE_UPDATE_RC0_FW_FILE as before.
+    ...    ${t} Choose either production or testing variants. Do not mix testing
+    ...    ${t} and production variants.
+    ...    ${t} Some tests require either testing or production firmware, and will
+    ...    ${t} be skipped depending whether CAPSULE_FW_FILE has testing keys or not.
+    ...    - opt. B) - providing both variants
+    ...    ${t} 1. Set FW_FILE and CAPSULE_FW_FILE and CAPSULE_UPDATE_RC0_FW_FILE
+    ...    ${t} to production variants.
+    ...    ${t} 2. Set TEST_KEYS_CAPSULE_UPDATE_RC0_FW_FILE and
+    ...    ${t} TEST_KEYS_CAPSULE_FW_FILE to testing variant.
+    ...    This way all the tests can be run at the same time.
+    ...    ${EMPTY}
+    ...    Be careful if the tested device needs some additional setup menu changes
+    ...    to the default setup menu options to work, e.g. enabling
+    ...    Serial Redirection or Power After AC Loss. These UEFI options need
+    ...    to be set in all the firmware files used for these tests prior to starting.
+    ...    ${EMPTY}
     ...    separator=\r\n
     Log To Console    ******************************************************************************
     Log To Console    ${msg}
