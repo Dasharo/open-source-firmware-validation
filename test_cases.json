@@ -12860,6 +12860,13 @@
   },
   {
     "doc": {
+      "_id": "UTC329.203",
+      "name": "USB Type-C docking station SD Card reader detection (Qubes OS) (ME: Enabled) (WL-UG69PD2 Rev.A1)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
       "_id": "UTC329.301",
       "name": "USB Type-C docking station SD Card reader detection (Windows) (ME: Enabled) (WL-UG69PD2 Rev.A1)",
       "module": "Dasharo Compatibility"
@@ -12876,6 +12883,13 @@
     "doc": {
       "_id": "UTC330.202",
       "name": "USB Type-C docking station SD Card reader detection (Fedora) (ME: Disabled) (WL-UG69PD2 Rev.A1)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "UTC330.203",
+      "name": "USB Type-C docking station SD Card reader detection (Qubes OS) (ME: Disabled) (WL-UG69PD2 Rev.A1)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -12902,6 +12916,13 @@
   },
   {
     "doc": {
+      "_id": "UTC331.203",
+      "name": "USB Type-C docking station SD Card read/write (Qubes OS) (ME: Enabled) (WL-UG69PD2 Rev.A1)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
       "_id": "UTC331.301",
       "name": "USB Type-C docking station SD Card read/write (Windows) (ME: Enabled) (WL-UG69PD2 Rev.A1)",
       "module": "Dasharo Compatibility"
@@ -12918,6 +12939,13 @@
     "doc": {
       "_id": "UTC332.202",
       "name": "USB Type-C docking station SD Card read/write (Fedora) (ME: Disabled) (WL-UG69PD2 Rev.A1)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "UTC332.203",
+      "name": "USB Type-C docking station SD Card read/write (Qubes OS) (ME: Disabled) (WL-UG69PD2 Rev.A1)",
       "module": "Dasharo Compatibility"
     }
   },
