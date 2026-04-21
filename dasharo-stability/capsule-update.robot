@@ -63,8 +63,8 @@ ${V2_RESULT_SCREEN_BOTTOM}=
 ...                                             ress ENTER to reboot
 
 # Capsule Statuses for verification of update rejection
-${WRONG_KEYS_CAPSULE_STATUS}=                   Capsule Status: Security Violation
-${WRONG_GUID_CAPSULE_STATUS}=                   Capsule Status: Not Ready
+${WRONG_KEYS_CAPSULE_STATUS}=                   Security Violation
+${WRONG_GUID_CAPSULE_STATUS}=                   Not Ready
 
 # Setup related variables
 # # Paths used by SSH-only capsule updates to stage files under the EFI shell workspace
@@ -80,6 +80,7 @@ ${CAPSULE_UPDATE_SHELL_BOOTENTRY_NAME}=         UEFI Shell
 ${T}=                                           ${SPACE}${SPACE}${SPACE}
 @{MANUAL_UX_PREP_MESSAGE}=
 ...                                             A capsule update will be performed shortly after choosing PASS.
+...                                             This might include booting an OS and UEFI Shell and can take up to a minute or two.
 ...                                             Observe the screen and note the results. Directly after the update
 ...                                             ends, you will be asked to verify the following tests:\n
 @{CUP_250_MESSAGE}=
@@ -121,10 +122,14 @@ ${T}=                                           ${SPACE}${SPACE}${SPACE}
 CUP001.001 Capsule Update With Wrong Keys
     [Documentation]    Check that DUT rejects flashing a capsule signed with invalid certificate.
     [Tags]    automated    semiauto
-
-    Manual UI Verification Prompt    ${CUP_280_MESSAGE}    prepare=${TRUE}
-
-    ${status}    ${version_changed}=    Perform Capsule Update And Return Status    wrong_cert.cap
+    ${manual_gui}=    Evaluate    ${CAPSULE_UPDATE_V2_SUPPORT} and ${SHOULD_RUN_SEMIAUTO_TESTS}
+    IF    ${manual_gui}
+        Manual UI Verification Prompt    ${CUP_280_MESSAGE}    prepare=${TRUE}
+    END
+    Set To Dictionary    ${V2_RESULT_SCREENS}    wrong_cert.cap    ${EMPTY}
+    ${status}    ${version_changed}=    Perform Capsule Update And Return Status
+    ...    wrong_cert.cap
+    ...    v2_result_gui_manual=${manual_gui}
     Should Contain    ${status}    ${WRONG_KEYS_CAPSULE_STATUS}
     Should Not Be True    ${version_changed}
 
@@ -136,8 +141,12 @@ CUP280.101 Capsule Update V2 Failure Screen Wrong Keys
     Skip If    not ${SHOULD_RUN_SEMIAUTO_TESTS}    CUP280.101 not supported
 
     # Populated in CUP001.001
+    ${screen}=    Get From Dictionary    ${V2_RESULT_SCREENS}    wrong_cert.cap    default=${NONE}
+    IF    $screen is ${None}
+        Skip    CUP280.101 depends on CUP001.001. The dependency was not run.
+    END
     IF    '${OPTIONS_LIB}' == 'options-lib_uefi-setup-menu'
-        Should Contain    ${V2_RESULT_SCREENS['wrong_cert.cap']}    ${WRONG_KEYS_CAPSULE_STATUS}
+        Should Contain    ${screen}    ${WRONG_KEYS_CAPSULE_STATUS}
     END
 
     Manual UI Verification Prompt    ${CUP_280_MESSAGE}
@@ -147,10 +156,14 @@ CUP002.001 Capsule Update With Wrong GUID
     [Tags]    automated    semiauto
     Skip If    ${CAPSULE_UPDATE_V2_SUPPORT} and not ${CAPSULE_UPDATE_RC0_HAS_TEST_KEYS}
     ...    Capsule Update V2 - the test requires base firmware with testing keys - provided production firmware
-
-    Manual UI Verification Prompt    ${CUP_281_MESSAGE}    prepare=${TRUE}
-
-    ${status}    ${version_changed}=    Perform Capsule Update And Return Status    invalid_guid.cap
+    ${manual_gui}=    Evaluate    ${CAPSULE_UPDATE_V2_SUPPORT} and ${SHOULD_RUN_SEMIAUTO_TESTS}
+    IF    ${manual_gui}
+        Manual UI Verification Prompt    ${CUP_281_MESSAGE}    prepare=${TRUE}
+    END
+    Set To Dictionary    ${V2_RESULT_SCREENS}    invalid_guid.cap    ${EMPTY}
+    ${status}    ${version_changed}=    Perform Capsule Update And Return Status
+    ...    invalid_guid.cap
+    ...    v2_result_gui_manual=${manual_gui}
     Should Contain    ${status}    ${WRONG_GUID_CAPSULE_STATUS}
     Should Not Be True    ${version_changed}
 
@@ -167,7 +180,7 @@ CUP281.101 Capsule Update V2 Failure Screen Wrong GUID
         Skip    CUP280.101 depends on CUP001.001. The dependency was not run.
     END
     IF    '${OPTIONS_LIB}' == 'options-lib_uefi-setup-menu'
-        Should Contain    ${V2_RESULT_SCREENS['invalid_guid.cap']}    ${WRONG_GUID_CAPSULE_STATUS}
+        Should Contain    ${screen}    ${WRONG_GUID_CAPSULE_STATUS}
     END
 
     Manual UI Verification Prompt    ${CUP_281_MESSAGE}
@@ -200,10 +213,13 @@ CUP150.001 Capsule Update
     ...    to keep the number of actual FW updates to minimum to prevent chip degradation.
     Skip If    ${CAPSULE_UPDATE_V2_SUPPORT} and not ${V2_CAP_HAS_TEST_KEYS}
     ...    Capsule Update V2 - production capsule provided, testing keys tests not supported
-
-    Manual UI Verification Prompt    ${CUP_250_MESSAGE}    prepare=${TRUE}
-
-    ${status}    ${version_changed}=    Perform Capsule Update And Return Status    valid_capsule.cap
+    ${manual_gui}=    Evaluate    ${CAPSULE_UPDATE_V2_SUPPORT} and ${SHOULD_RUN_SEMIAUTO_TESTS}
+    IF    ${manual_gui}
+        Manual UI Verification Prompt    ${CUP_250_MESSAGE}    prepare=${TRUE}
+    END
+    ${status}    ${version_changed}=    Perform Capsule Update And Return Status
+    ...    valid_capsule.cap
+    ...    v2_result_gui_manual=${manual_gui}
     Should Be True    ${version_changed}
     Should Contain    ${status}    CapsuleMax
     Should Not Contain    ${status}    CapsuleLast
@@ -219,15 +235,18 @@ CUP151.001 Capsule Update Production Keys
     Skip If
     ...    ${V2_CAP_HAS_TEST_KEYS}
     ...    CAPSULE_FW_FILE contains testing keys, provide production capsule to test Capsule Update with Production keys
-
-    Manual UI Verification Prompt
-    ...    ${CUP_250_MESSAGE}
-    ...    ${CUP_251_MESSAGE}
-    ...    ${CUP_252_MESSAGE}
-    ...    ${CUP_253_MESSAGE}
-    ...    prepare=${TRUE}
-
-    ${status}    ${version_changed}=    Perform Capsule Update And Return Status    valid_capsule.cap
+    ${manual_gui}=    Evaluate    ${CAPSULE_UPDATE_V2_SUPPORT} and ${SHOULD_RUN_SEMIAUTO_TESTS}
+    IF    ${manual_gui}
+        Manual UI Verification Prompt
+        ...    ${CUP_250_MESSAGE}
+        ...    ${CUP_251_MESSAGE}
+        ...    ${CUP_252_MESSAGE}
+        ...    ${CUP_253_MESSAGE}
+        ...    prepare=${TRUE}
+    END
+    ${status}    ${version_changed}=    Perform Capsule Update And Return Status
+    ...    valid_capsule.cap
+    ...    v2_result_gui_manual=${manual_gui}
     Should Be True    ${version_changed}
     Should Contain    ${status}    CapsuleMax
     Should Not Contain    ${status}    CapsuleLast
@@ -242,12 +261,14 @@ CUP251.001 Capsule Update V2 UX Custom Logo
     [Documentation]    Verify that the Capsule Update V2 screen shows the
     ...    expected logo for a given platform.
     [Tags]    semiauto
+    Skip If    not ${CAPSULE_UPDATE_V2_SUPPORT}    CUP251.001 not supported
     Manual UI Verification Prompt    ${CUP_251_MESSAGE}
 
 CUP252.001 Capsule Update V2 UX Smooth Progress Bar
     [Documentation]    Verify that the Capsule Update V2 screen progress bar
     ...    advances smoothly and doesn't freeze.
     [Tags]    semiauto
+    Skip If    not ${CAPSULE_UPDATE_V2_SUPPORT}    CUP252.001 not supported
     Manual UI Verification Prompt    ${CUP_252_MESSAGE}
 
 CUP160.001 Verifying BIOS Settings Persistence After Update - PART 2
@@ -474,13 +495,16 @@ Check Platform Fused
     Exit From Root User
 
 Perform Capsule Update And Return Status
-    [Arguments]    ${capsule_file}    ${ondisk}=${FALSE}
+    [Arguments]    ${capsule_file}    ${ondisk}=${FALSE}    ${v2_result_gui_manual}=${FALSE}
     Power On
     Boot System Or From Connected Disk    ${DEFAULT_BOOT_OS_ID}
     Login To Linux With Root Privileges
     ${original_bios_version}=    Get BIOS Version Linux    Before update
     Deploy Uefi Shell    os_logged_in=${TRUE}
-    Perform Capsule Update    ${capsule_file}    ondisk=${ondisk}
+    Perform Capsule Update
+    ...    ${capsule_file}
+    ...    ondisk=${ondisk}
+    ...    v2_result_gui_manual=${v2_result_gui_manual}
 
     Power On
     Boot System Or From Connected Disk    ${DEFAULT_BOOT_OS_ID}
@@ -585,7 +609,7 @@ Copy Capsule Files To Shell Workspace
     END
 
 Perform Capsule Update
-    [Arguments]    ${capsule_file}    ${ondisk}=${FALSE}
+    [Arguments]    ${capsule_file}    ${ondisk}=${FALSE}    ${v2_result_gui_manual}=${FALSE}
     # Submit capsule to firmware without an automatic reset and verify that it
     # was accepted without error
     VAR    ${capsule_fs_path}=    ${capsule_file}
@@ -611,20 +635,20 @@ Perform Capsule Update
         # 2. After the update finally finishes the DUT is rebooted and we are ready to continue.
         VAR    ${post_screen_counter}=    0
         FOR    ${_}    IN RANGE    5
-            ${screen}=    Handle Capsule Update Screens
-            IF    '${TIANOCORE_STRING}' in '${screen}'
+            ${screen}=    Handle Capsule Update Screens    v2_result_gui_manual=${v2_result_gui_manual}
+            IF    '${TIANOCORE_STRING}' in $screen
                 ${post_screen_counter}=    Evaluate    ${post_screen_counter} + 1
             END
-            IF    '${V2_RESULT_SCREEN_BOTTOM}' in '${screen}'
+            IF    '${V2_RESULT_SCREEN_BOTTOM}' in $screen
                 # For use in tests that verify the UI
-                VAR    ${V2_RESULT_SCREENS['${capsule_file}']}=    '${screen}'
+                Set To Dictionary    ${V2_RESULT_SCREENS}    ${capsule_file}    ${screen}
             END
             IF    ${post_screen_counter} == 2    BREAK
         END
     END
 
 Handle Capsule Update Screens
-    [Arguments]    ${expect_fum}=${FALSE}
+    [Arguments]    ${expect_fum}    ${v2_result_gui_manual}=${FALSE}
     # If there is no FUM screen and the update finishes, we land in the POST screen
     # If the update did not start yet as the FUM mode must be authorized
     VAR    ${potential_screens_regex}=
@@ -647,14 +671,15 @@ Handle Capsule Update Screens
         ${fum_screen}=    Read From Terminal Until    ${FUM_DIALOG_BOTTOM}
         ${digit}=    Get Key To Press    ${fum_screen}
         Write Bare Into Terminal    ${digit}
-        RETURN    ${FUM_DIALOG_TOP}
     ELSE IF    '${TIANOCORE_STRING}' in $out
-        RETURN    ${TIANOCORE_STRING}
+        Log    Tianocore string
     ELSE IF    '${V2_RESULT_SCREEN_BOTTOM}' in $out
-        Sleep    10s
+        IF    ${v2_result_gui_manual}
+            Execute Manual Step    message=Note the result screen
+        END
         Press Enter
-        RETURN    ${V2_RESULT_SCREEN_BOTTOM}
     END
+    RETURN    ${out}
 
 Get File Name Without Extension
     [Arguments]    ${file_path}
@@ -920,10 +945,6 @@ Set Startup Nsh Variable
 
 Manual UI Verification Prompt
     [Arguments]    @{messages}    ${prepare}=${False}
-    IF    not (${CAPSULE_UPDATE_V2_SUPPORT} and ${SHOULD_RUN_SEMIAUTO_TESTS})
-        RETURN
-    END
-
     VAR    @{msg}=    @{EMPTY}
     IF    ${prepare}    Append To List    ${msg}    @{MANUAL_UX_PREP_MESSAGE}
 
