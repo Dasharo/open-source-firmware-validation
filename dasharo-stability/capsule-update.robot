@@ -67,44 +67,105 @@ ${UEFI_SHELL_BOOT_DIR}=                     /boot/efi
 ${CAPSULE_UPDATE_SHELL_DIR}=                ${UEFI_SHELL_BOOT_DIR}/capsule_testing
 ${CAPSULE_UPDATE_SHELL_BOOTENTRY_NAME}=     UEFI Shell
 
+# Save V2 capsules result screens for verification
+# to not run the updates multiple times
+&{V2_RESULT_SCREENS}=                       &{EMPTY}
+
 # Manual UX tests messages
+${T}=                                       ${SPACE}${SPACE}${SPACE}
+@{MANUAL_UX_PREP_MESSAGE}=
+...                                         A capsule update will be performed shortly after choosing PASS.
+...                                         Observe the screen and note the results. Directly after the update
+...                                         ends, you will be asked to verify the following tests:\n
 @{CUP_250_MESSAGE}=
 ...                                         CUP250:
-...                                         \ \ \ \ The width of the progress bar match docs regardless of whether the default
-...                                         \ \ \ \ Dasharo logo or a custom one is set. See the screenshot at
-...                                         \ \ \ \ https://docs.dasharo.com/guides/capsule-update for reference.
-
+...                                         ${T}The width of the progress bar match docs regardless of whether the default
+...                                         ${T}Dasharo logo or a custom one is set. See the screenshot at
+...                                         ${T}https://docs.dasharo.com/guides/capsule-update for reference.
 @{CUP_251_MESSAGE}=
 ...                                         CUP251:
-...                                         \ \ \ \ The Update screen should show a custom hardware vendor on supported platforms:
-...                                         \ \ \ \ - NovaCustom variant: NovaCustom logo
-...                                         \ \ \ \ - Protectli variant: Protectli logo
-...                                         \ \ \ \ - Tuxedo variant: Tuxedo logo
-...                                         \ \ \ \ - all others: default Dasharo logo
-
+...                                         ${T}The Update screen should show the hardware vendor logo for supported vendors:
+...                                         ${T}NovaCustom, Protectli, Tuxedo.
+...                                         ${T}Other platforms should show the Dasharo logo.
+...                                         ${T}The logo should fill most of the screen and look sharp.
+...                                         ${T}Refer to docs.dasharo.com: https://docs.dasharo.com/guides/capsule-update/#newer-versions-v2_1
 @{CUP_252_MESSAGE}=
 ...                                         CUP252:
-...                                         \ \ \ \ The progress bar should move smoothly. It should not look like it's frozen.
-...                                         \ \ \ \ The time between updates should not exceed 3 seconds.
+...                                         ${T}The progress bar should move smoothly. It should not look like it's frozen.
+...                                         ${T}The time between updates should not exceed 3 seconds.
+@{CUP_253_MESSAGE}=
+...                                         CUP253:
+...                                         ${T}The update should result in a green "Firmware Update Succeeded" screen.
+...                                         ${T}It should correctly print the firmware versions:
+...                                         ${T}- From which the update was run (BASE version)
+...                                         ${T}- To which the firmware was updated (FW_FILE version)
+# TODO more details in messages
+@{CUP_280_MESSAGE}=
+...                                         CUP280:
+...                                         ${T}The update should result in an orange "Firmware Update Failed" screen.
+...                                         ${T}The result screen should say: `Status of payload: Security Violation`
+...                                         ${T}Refer to docs.dasharo.com: https://docs.dasharo.com/guides/capsule-update/#newer-versions-v2_2
+@{CUP_281_MESSAGE}=
+...                                         CUP280:
+...                                         ${T}The update should result in an orange "Firmware Update Failed" screen.
+...                                         ${T}The result screen should say: `Status of payload: Not Ready`
+...                                         ${T}Refer to docs.dasharo.com: https://docs.dasharo.com/guides/capsule-update/#newer-versions-v2_2
 
 
 *** Test Cases ***
 CUP001.001 Capsule Update With Wrong Keys
     [Documentation]    Check that DUT rejects flashing a capsule signed with invalid certificate.
+    [Tags]    automated    semiauto
+
+    Manual UI Verification Prompt    ${CUP_280_MESSAGE}    prepare=${TRUE}
+
     ${status}    ${version_changed}=    Perform Capsule Update And Return Status    wrong_cert.cap
     Should Contain    ${status}    ${WRONG_KEYS_CAPSULE_STATUS}
     Should Not Be True    ${version_changed}
 
+CUP280.101 Capsule Update V2 Failure Screen Wrong Keys
+    [Documentation]    Check whether Capsules V2 failure result screen appears
+    ...    and has expected contents.
+    [Tags]    semiauto
+    Skip If    not ${CAPSULE_UPDATE_V2_SUPPORT}    CUP280.101 not supported
+    Skip If    not ${SHOULD_RUN_SEMIAUTO_TESTS}    CUP280.101 not supported
+
+    # Populated in CUP001.001
+    IF    '${OPTIONS_LIB}' == 'options-lib_uefi-setup-menu'
+        Should Contain    ${V2_RESULT_SCREENS['wrong_cert.cap']}    ${WRONG_KEYS_CAPSULE_STATUS}
+    END
+
+    Manual UI Verification Prompt    ${CUP_280_MESSAGE}
+
 CUP002.001 Capsule Update With Wrong GUID
     [Documentation]    Check that DUT rejects flashing a capsule with invalid GUID.
+    [Tags]    automated    semiauto
     Skip If    ${CAPSULE_UPDATE_V2_SUPPORT} and not ${CAPSULE_UPDATE_RC0_HAS_TEST_KEYS}
     ...    Capsule Update V2 - the test requires base firmware with testing keys - provided production firmware
+
+    Manual UI Verification Prompt    ${CUP_281_MESSAGE}    prepare=${TRUE}
+
     ${status}    ${version_changed}=    Perform Capsule Update And Return Status    invalid_guid.cap
     Should Contain    ${status}    ${WRONG_GUID_CAPSULE_STATUS}
     Should Not Be True    ${version_changed}
 
+CUP281.101 Capsule Update V2 Failure Screen Wrong GUID
+    [Documentation]    Check whether Capsules V2 failure result screen appears
+    ...    and has expected contents.
+    [Tags]    semiauto
+    Skip If    not ${CAPSULE_UPDATE_V2_SUPPORT}    CUP281.101 not supported
+    Skip If    not ${SHOULD_RUN_SEMIAUTO_TESTS}    CUP281.101 not supported
+
+    # Populated in CUP002.001
+    IF    '${OPTIONS_LIB}' == 'options-lib_uefi-setup-menu'
+        Should Contain    ${V2_RESULT_SCREENS['invalid_guid.cap']}    ${WRONG_GUID_CAPSULE_STATUS}
+    END
+
+    Manual UI Verification Prompt    ${CUP_281_MESSAGE}
+
 CUP003.001 Capsule Update with wrong BtG key
     [Documentation]    Check that the DUT rejects updates signed with the wrong BtG key on a fused platform.
+    [Tags]    semiauto
     Skip If    not ${INTEL_CBNT_SUPPORT}    CUP003.001 not supported on this system
     Skip If    not ${INTEL_CBNT_BOOTGUARD_FUSED}    CUP003.001 not supported on this system
     Power On
@@ -131,6 +192,8 @@ CUP150.001 Capsule Update
     Skip If    ${CAPSULE_UPDATE_V2_SUPPORT} and not ${V2_CAP_HAS_TEST_KEYS}
     ...    Capsule Update V2 - production capsule provided, testing keys tests not supported
 
+    Manual UI Verification Prompt    ${CUP_250_MESSAGE}    prepare=${TRUE}
+
     ${status}    ${version_changed}=    Perform Capsule Update And Return Status    valid_capsule.cap
     Should Be True    ${version_changed}
     Should Contain    ${status}    CapsuleMax
@@ -148,10 +211,35 @@ CUP151.001 Capsule Update Production Keys
     ...    ${V2_CAP_HAS_TEST_KEYS}
     ...    CAPSULE_FW_FILE contains testing keys, provide production capsule to test Capsule Update with Production keys
 
+    Manual UI Verification Prompt
+    ...    ${CUP_250_MESSAGE}
+    ...    ${CUP_251_MESSAGE}
+    ...    ${CUP_252_MESSAGE}
+    ...    ${CUP_253_MESSAGE}
+    ...    prepare=${TRUE}
+
     ${status}    ${version_changed}=    Perform Capsule Update And Return Status    valid_capsule.cap
     Should Be True    ${version_changed}
     Should Contain    ${status}    CapsuleMax
     Should Not Contain    ${status}    CapsuleLast
+
+CUP250.001 Capsule Update Progress Bar - Default Logo
+    [Documentation]    Verify that the Capsule Update screen looks as expected
+    ...    and the progress bar is scaled properly using a default logo.
+    [Tags]    semiauto
+    Manual UI Verification Prompt    ${CUP_250_MESSAGE}
+
+CUP251.001 Capsule Update V2 UX Custom Logo
+    [Documentation]    Verify that the Capsule Update V2 screen shows the
+    ...    expected logo for a given platform.
+    [Tags]    semiauto
+    Manual UI Verification Prompt    ${CUP_251_MESSAGE}
+
+CUP252.001 Capsule Update V2 UX Smooth Progress Bar
+    [Documentation]    Verify that the Capsule Update V2 screen progress bar
+    ...    advances smoothly and doesn't freeze.
+    [Tags]    semiauto
+    Manual UI Verification Prompt    ${CUP_252_MESSAGE}
 
 CUP160.001 Verifying BIOS Settings Persistence After Update - PART 2
     Power On
@@ -500,6 +588,10 @@ Perform Capsule Update
             IF    '${TIANOCORE_STRING}' in '${screen}'
                 ${post_screen_counter}=    Evaluate    ${post_screen_counter} + 1
             END
+            IF    '${V2_RESULT_SCREEN_BOTTOM}' in '${screen}'
+                # For use in tests that verify the UI
+                VAR    ${V2_RESULT_SCREENS['${capsule_file}']}=    '${screen}'
+            END
             IF    ${post_screen_counter} == 2    BREAK
         END
     END
@@ -532,6 +624,7 @@ Handle Capsule Update Screens
     ELSE IF    '${TIANOCORE_STRING}' in $out
         RETURN    ${TIANOCORE_STRING}
     ELSE IF    '${V2_RESULT_SCREEN_BOTTOM}' in $out
+        Sleep    10s
         Press Enter
         RETURN    ${V2_RESULT_SCREEN_BOTTOM}
     END
@@ -627,24 +720,23 @@ Ensure BtG Testing Capsule Is Present
     END
 
 Display Preparation Instructions
-    VAR    ${t}=    ${SPACE}${SPACE}${SPACE}
     VAR    ${msg}=    To run tests you need to set a couple environment variables:
     ...    1. FW_FILE contains path to the `.rom` file of tested release
     ...    2. CAPSULE_FW_FILE contains path to the `.cap` file with the same
-    ...    ${t}firmware version as FW_FILE
+    ...    ${T}firmware version as FW_FILE
     ...    3. CAPSULE_UPDATE_RC0_FW_FILE contains path to a `.rom` file with
-    ...    ${t}either a lower RC version, or to the RC0 rom in case of first RC that
-    ...    ${t}supports capsule updates
+    ...    ${T}either a lower RC version, or to the RC0 rom in case of first RC that
+    ...    ${T}supports capsule updates
     ...    ${EMPTY}
     ...    To test V2 Capsules, there are two paths depending whether the production
     ...    firmware is available:
     ...    - opt. A) - only testing firmware
-    ...    ${t} Use FW_FILE, CAPSULE_FW_FILE and CAPSULE_UPDATE_RC0_FW_FILE as before.
-    ...    ${t} Set all to testing keys variants.
-    ...    ${t} Tests that require production firmware will be skipped.
+    ...    ${T} Use FW_FILE, CAPSULE_FW_FILE and CAPSULE_UPDATE_RC0_FW_FILE as before.
+    ...    ${T} Set all to testing keys variants.
+    ...    ${T} Tests that require production firmware will be skipped.
     ...    - opt. B) - providing both variants
-    ...    ${t} 1. Set FW_FILE and CAPSULE_FW_FILE to the production variants.
-    ...    ${t} 2. Set CAPSULE_UPDATE_RC0_FW_FILE to the testing variant.
+    ...    ${T} 1. Set FW_FILE and CAPSULE_FW_FILE to the production variants.
+    ...    ${T} 2. Set CAPSULE_UPDATE_RC0_FW_FILE to the testing variant.
     ...    This way all the tests can be run at the same time.
     ...    ${EMPTY}
     ...    Be careful if the tested device needs some additional setup menu changes
@@ -732,7 +824,7 @@ Prepare For ROMHOLE Persistence Test
     IF    ${ROMHOLE_SUPPORT} == ${TRUE}
         Run    dd if=dasharo-stability/capsule-update-files/romhole of=dcu/coreboot.rom seek=24903680 bs=1 conv=notrunc
     ELSE
-        Log To Console    \ \ \ \ ROMHOLE not supported - skipping
+        Log To Console    ${T}ROMHOLE not supported - skipping
     END
 
 Get Firmware UUID (Windows)
@@ -784,3 +876,22 @@ Set Startup Nsh Variable
     ${file_name}=    Convert To Lower Case    ${name}
     VAR    ${target}=    ${CAPSULE_UPDATE_SHELL_DIR}/variable_${file_name}.nsh
     Execute Command In Terminal    echo "set ${variable_name} ${value}" > '${target}' && sync
+
+Manual UI Verification Prompt
+    [Arguments]    @{messages}    ${prepare}=${False}
+    IF    not (${CAPSULE_UPDATE_V2_SUPPORT} and ${SHOULD_RUN_SEMIAUTO_TESTS})
+        RETURN
+    END
+
+    VAR    @{msg}=    @{EMPTY}
+    IF    ${prepare}    Append To List    ${msg}    @{MANUAL_UX_PREP_MESSAGE}
+
+    FOR    ${message}    IN    @{messages}
+        Append To List    ${msg}    @{message}
+    END
+    VAR    ${msg}=    @{msg}    separator=\n
+    IF    ${prepare}
+        Run Keyword And Ignore Error    Execute Manual Step    ${msg}
+    ELSE
+        Execute Manual Step    ${msg}
+    END
