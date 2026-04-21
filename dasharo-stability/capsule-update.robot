@@ -82,16 +82,9 @@ CUP002.001 Capsule Update With Wrong GUID
     [Documentation]    Check that DUT rejects flashing a capsule with invalid GUID.
     Skip If    ${CAPSULE_UPDATE_V2_SUPPORT} and not (${V2_CAP_HAS_TESTING_KEYS} or ${V2_CAP_TEST_FILES_PROVIDED})
     ...    Capsule Update V2 - the test requires firmware with testing keys - no testing firmware provided
-
-    # Need to flash the testing firmware if the base contains production keys
-    # Can't do that in setup as setup runs before `Skip If` in test's body and we don't want useless flash operations
-    Flash Firmware    ${BASE_FW_FILE}
-
     ${status}    ${version_changed}=    Perform Capsule Update And Return Status    invalid_guid.cap
     Should Contain    ${status}    ${WRONG_GUID_CAPSULE_STATUS}
     Should Not Be True    ${version_changed}
-    [Teardown]    Run Keyword If    '${TEST_STATUS}'!='SKIP' and ${CAPSULE_UPDATE_V2_SUPPORT} and ${V2_CAP_TEST_FILES_PROVIDED}
-    ...    Flash Firmware    ${BASE_FW_FILE}
 
 CUP003.001 Capsule Update with wrong BtG key
     [Documentation]    Check that the DUT rejects updates signed with the wrong BtG key on a fused platform.
