@@ -197,6 +197,7 @@ SMW006.202 Wi-fi connection after suspension (Fedora) (S3)
 SMW001.203 Wi-fi detection after cold boot (Qubes OS)
     [Documentation]    Check whether the Wi-Fi card is detected and working
     ...    correctly after performing a cold boot.
+    [Tags]    semiauto
     Skip If    not ${M2_WIFI_SUPPORT}    SMW001.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    SMW001.203 not supported
     Execute Manual Step    [1/4] Make sure Qubes OS is booted.
@@ -207,6 +208,7 @@ SMW001.203 Wi-fi detection after cold boot (Qubes OS)
 SMW002.203 Wi-fi detection after warm boot (Qubes OS)
     [Documentation]    Check whether the Wi-Fi card is detected and working
     ...    correctly after performing a warm boot.
+    [Tags]    semiauto
     Skip If    not ${M2_WIFI_SUPPORT}    SMW002.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    SMW002.203 not supported
     Execute Manual Step    [1/4] Make sure Qubes OS is booted.
@@ -217,6 +219,7 @@ SMW002.203 Wi-fi detection after warm boot (Qubes OS)
 SMW003.203 Wi-fi detection after reboot (Qubes OS)
     [Documentation]    Check whether the Wi-Fi card is detected and working
     ...    correctly after performing a reboot.
+    [Tags]    semiauto
     Skip If    not ${M2_WIFI_SUPPORT}    SMW003.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    SMW003.203 not supported
     Execute Manual Step    [1/4] Make sure Qubes OS is booted.
@@ -227,6 +230,7 @@ SMW003.203 Wi-fi detection after reboot (Qubes OS)
 SMW004.203 Wi-fi detection after suspension (Qubes OS)
     [Documentation]    Check whether the Wi-Fi card is detected and working
     ...    correctly after resuming from suspension.
+    [Tags]    semiauto
     Skip If    not ${M2_WIFI_SUPPORT}    SMW004.203 not supported
     Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    SMW004.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    SMW004.203 not supported
