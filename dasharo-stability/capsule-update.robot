@@ -287,6 +287,7 @@ CUP260.101 Capsule update in Firmware Update Mode works
     ${dmesg}=    Execute Command In Terminal    dmesg | tail
     Should Contain    ${dmesg}    efi: Successfully uploaded capsule
     Write Into Terminal    reboot
+    Restore Initial DUT Connection Method
     Set DUT Response Timeout    5m
     Enter Setup Menu Tianocore
 
@@ -553,7 +554,7 @@ Ensure V2 Capsule Key Variables Are Set
         VAR    ${msg}=    Assuming CAPSULE_UPDATE_RC0_FW_FILE uses test keys.
         ...    The tests won't work properly if that's not the case.
         ...    Set the CAPSULE_UPDATE_RC0_HAS_TEST_KEYS env variable to silence this warning.
-        ...    SEPARATOR=\n
+        ...    separator=\n
         Log    ${msg}
         ...    WARN
     END
