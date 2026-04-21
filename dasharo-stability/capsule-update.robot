@@ -19,10 +19,11 @@ Suite Setup         Run Keywords
 ...                     AND    Display Preparation Instructions
 ...                     AND    Ensure Capsule Files Are Present
 ...                     AND    Ensure BtG Testing Capsule Is Present
-...                     AND    Run Keyword If    ${DASHARO_INTEL_ME_MENU_SUPPORT}    DCU Variable Set UEFI Option In File    ${BASE_FW_FILE}    MeMode    Disabled (HAP)
+...                     AND    Run Keyword If    ${DASHARO_INTEL_ME_MENU_SUPPORT}
+...                     DCU Variable Set UEFI Option In File    ${CAPSULE_UPDATE_RC0_FW_FILE}    MeMode    Disabled (HAP)
 ...                     AND    Prepare For ROMHOLE Persistence Test
 ...                     AND    Run Keyword If    ${CUSTOM_LOGO_SUPPORT}    Prepare For Logo Persistence Test
-...                     AND    Flash Firmware    ${BASE_FW_FILE}
+...                     AND    Flash Firmware    ${CAPSULE_UPDATE_RC0_FW_FILE}
 ...                     AND    Upload Required Files
 ...                     AND    Get System Values
 Suite Teardown      Run Keywords
@@ -33,21 +34,15 @@ Default Tags        automated
 
 
 *** Variables ***
-${BASE_FW_FILE}=                            ${NONE}    # Set in Suite Setup "Ensure Capsule Files Are Present"
-${BASE_FW_FILE_NO_LOGO}=                    ${NONE}    # Set in Suite Setup "Prepare For Logo Persistence Test"
+${CAPSULE_UPDATE_RC0_FW_FILE_NO_LOGO}=      ${NONE}    # Set in Suite Setup "Prepare For Logo Persistence Test"
 
 # To be read from environment variables
-# # required for the tests to run
 ${CAPSULE_UPDATE_RC0_FW_FILE}=              ${NONE}
-
-# # required for some capsule V2 tests
-${TEST_KEYS_CAPSULE_UPDATE_RC0_FW_FILE}=    ${NONE}
-${TEST_KEYS_CAPSULE_FW_FILE}=               ${NONE}
 
 # variables to be set by setup
 # # V2 specific variables
-${V2_CAP_HAS_TESTING_KEYS}=                 ${FALSE}
-${V2_CAP_TEST_FILES_PROVIDED}=              ${FALSE}
+${V2_CAP_HAS_TEST_KEYS}=                    ${FALSE}
+${CAPSULE_UPDATE_RC0_HAS_TEST_KEYS}=        ${FALSE}
 
 # # Capsules used for testing filenames
 ${WRONG_KEYS_CAP}=                          ${NONE}
@@ -80,8 +75,8 @@ CUP001.001 Capsule Update With Wrong Keys
 
 CUP002.001 Capsule Update With Wrong GUID
     [Documentation]    Check that DUT rejects flashing a capsule with invalid GUID.
-    Skip If    ${CAPSULE_UPDATE_V2_SUPPORT} and not (${V2_CAP_HAS_TESTING_KEYS} or ${V2_CAP_TEST_FILES_PROVIDED})
-    ...    Capsule Update V2 - the test requires firmware with testing keys - no testing firmware provided
+    Skip If    ${CAPSULE_UPDATE_V2_SUPPORT} and not ${CAPSULE_UPDATE_RC0_HAS_TEST_KEYS}
+    ...    Capsule Update V2 - the test requires base firmware with testing keys - provided production firmware
     ${status}    ${version_changed}=    Perform Capsule Update And Return Status    invalid_guid.cap
     Should Contain    ${status}    ${WRONG_GUID_CAPSULE_STATUS}
     Should Not Be True    ${version_changed}
@@ -111,13 +106,8 @@ CUP150.001 Capsule Update
     ...    Please note that the test number is high on purpose. This test will flash FW! In future
     ...    if additional test cases will be created - when running the whole suite - It will be good
     ...    to keep the number of actual FW updates to minimum to prevent chip degradation.
-    Skip If    ${CAPSULE_UPDATE_V2_SUPPORT} and not ${V2_CAP_HAS_TESTING_KEYS}
-    ...    Capsule Update V2 - production capsule provided, no need to test on testing keys
-    IF    ${CAPSULE_UPDATE_V2_SUPPORT} and ${V2_CAP_HAS_TESTING_KEYS}
-        Log
-        ...    CAPSULE_FW_FILE contains testing keys. Assuming CAPSULE_UPDATE_RC0_FW_FILE is a testing firmware that accepts them
-        ...    level=WARN
-    END
+    Skip If    ${CAPSULE_UPDATE_V2_SUPPORT} and not ${V2_CAP_HAS_TEST_KEYS}
+    ...    Capsule Update V2 - production capsule provided, testing keys tests not supported
 
     ${status}    ${version_changed}=    Perform Capsule Update And Return Status    valid_capsule.cap
     Should Be True    ${version_changed}
@@ -133,14 +123,9 @@ CUP151.001 Capsule Update Production Keys
     ...    not ${CAPSULE_UPDATE_V2_SUPPORT}
     ...    CAPSULE_UPDATE_V2_SUPPORT==False, Production Capsule Update keys only supported in V2 capsules
     Skip If
-    ...    ${V2_CAP_HAS_TESTING_KEYS}
+    ...    ${V2_CAP_HAS_TEST_KEYS}
     ...    CAPSULE_FW_FILE contains testing keys, provide production capsule to test Capsule Update with Production keys
 
-    # If CAPSULE_UPDATE_V2_SUPPORT and V2_CAP_HAS_TESTING_KEYS contains the production keys base
-    # TODO: Remove the flash if we implement the testing firmware to accept both testing and production keys
-    # Note: Might still be needed if we allow running both CUP150 and CUP151
-    # at the same time as CUP150 would then change the base firmware.
-    Flash Firmware    ${CAPSULE_UPDATE_RC0_FW_FILE}
     ${status}    ${version_changed}=    Perform Capsule Update And Return Status    valid_capsule.cap
     Should Be True    ${version_changed}
     Should Contain    ${status}    CapsuleMax
@@ -236,7 +221,9 @@ CUP250.001 Capsule Update Progress Bar - Default Logo
     ...    and the progress bar is scaled properly using a default logo.
     [Tags]    semiauto
     # Ensure we're running FW with the default logo
-    IF    ${CUSTOM_LOGO_SUPPORT}    Flash Firmware    ${BASE_FW_FILE_NO_LOGO}
+    IF    ${CUSTOM_LOGO_SUPPORT}
+        Flash Firmware    ${CAPSULE_UPDATE_RC0_FW_FILE_NO_LOGO}
+    END
     Deploy Uefi Shell
     # Bump the timeout for memory training
     Set DUT Response Timeout    5m
@@ -541,14 +528,7 @@ Ensure Capsule Files Are Present
         Ensure V2 Capsule Key Variables Are Set
     END
 
-    IF    ${V2_CAP_TEST_FILES_PROVIDED}
-        VAR    ${capsule_for_decoding}=    ${TEST_KEYS_CAPSULE_FW_FILE}
-        VAR    ${base_rom}=    ${TEST_KEYS_CAPSULE_UPDATE_RC0_FW_FILE}
-    ELSE
-        VAR    ${capsule_for_decoding}=    ${CAPSULE_FW_FILE}
-        VAR    ${base_rom}=    ${CAPSULE_UPDATE_RC0_FW_FILE}
-    END
-    Ensure Derived Capsule Files Are Present    ${capsule_for_decoding}    ${base_rom}
+    Ensure Derived Capsule Files Are Present    ${CAPSULE_FW_FILE}    ${CAPSULE_UPDATE_RC0_FW_FILE}
 
 Ensure V2 Capsule Key Variables Are Set
     [Documentation]    Detects whether the provided capsule uses testing or production keys and sets
@@ -556,46 +536,29 @@ Ensure V2 Capsule Key Variables Are Set
     ...    capsule uses production keys, so the GUID test can still run.
     ...
     ...    For V2 capsules, several cases are handled to keep tests backwards-compatible:
-    ...    - Setup: CAPSULE_FW_FILE is used regardless of key type. Invalid GUID capsule requires testing RC0.
-    ...    If TEST_KEYS_CAPSULE_FW_FILE is provided, it is always preferred to simplify key handling.
-    ...    - Wrong keys test: Works with any firmware type, no key type check needed.
-    ...    - GUID test: Requires keys accepted by firmware to recompose capsule with invalid GUID.
-    ...    Implemented by receiving a testing binary and building the capsule (option A).
-    ...    - Update test: If CAPSULE_FW_FILE has prod keys, assume RC0 is also prod and run prod update.
-    ...    If CAPSULE_FW_FILE has testing keys, assume RC0 is also testing.
-    ...    If CAPSULE_FW_FILE is prod but test binaries are provided, use them only for GUID test.
+    ...    The `CAPSULE_UPDATE_RC0_FW_FILE` is always assumed to be a test variant.
+    ...    The `FW_FILE` and `CAPSULE_FW_FILE` can be test or production variants.
+    ...    - Setup: CAPSULE_FW_FILE is used regardless of key type. It will be repacked with test keys for CUP002.
+    ...    - Update test: Run CUP150 or CUP151 depending on whether `CAPSULE_FW_FILE` uses test or prod keys.
+    ...    The base `CAPSULE_UPDATE_RC0_FW_FILE` is always a testing variant to simplify usage.
     ${rc}=    Run And Return Rc    ./scripts/capsules/verify_testing_keys.sh ${CAPSULE_FW_FILE}
     IF    ${rc} == 0
         Log
-        ...    Detected testing keys in the $CAPSULE_FW_FILE (${CAPSULE_FW_FILE}). Assuming the FW_FILE accepts testing keys.
+        ...    Detected testing keys in the $CAPSULE_FW_FILE (${CAPSULE_FW_FILE}).
         ...    level=WARN
-        VAR    ${V2_CAP_HAS_TESTING_KEYS}=    ${TRUE}    scope=SUITE
-        RETURN
+        VAR    ${V2_CAP_HAS_TEST_KEYS}=    ${TRUE}    scope=SUITE
     END
-
-    ${test_cap}=    Get Environment Variable    name=TEST_KEYS_CAPSULE_FW_FILE    default=${NONE}
-    ${test_rc0}=    Get Environment Variable    name=TEST_KEYS_CAPSULE_UPDATE_RC0_FW_FILE    default=${NONE}
-    IF    $test_cap is ${NONE} and $test_rc0 is ${NONE}    RETURN
-
-    IF    $test_cap is ${NONE}
-        Log    Missing optional environment variable, TEST_KEYS_CAPSULE_FW_FILE="${TEST_KEYS_CAPSULE_FW_FILE}"    WARN
-    END
-    IF    $test_rc0 is ${NONE}
-        Log
-        ...    Missing optional environment variable, TEST_KEYS_CAPSULE_UPDATE_RC0_FW_FILE="${TEST_KEYS_CAPSULE_UPDATE_RC0_FW_FILE}"
+    ${test_rc0}=    Get Environment Variable    name=CAPSULE_UPDATE_RC0_HAS_TEST_KEYS    default=${EMPTY}
+    IF    $test_rc0 == '${EMPTY}'
+        VAR    ${msg}=    Assuming CAPSULE_UPDATE_RC0_FW_FILE uses test keys.
+        ...    The tests won't work properly if that's not the case.
+        ...    Set the CAPSULE_UPDATE_RC0_HAS_TEST_KEYS env variable to silence this warning.
+        ...    SEPARATOR=\n
+        Log    ${msg}
         ...    WARN
     END
-    IF    $test_cap is ${NONE} or $test_rc0 is ${NONE}    RETURN
-
-    VAR    ${V2_CAP_TEST_FILES_PROVIDED}=    ${TRUE}    scope=SUITE
-    VAR    ${TEST_KEYS_CAPSULE_FW_FILE}=    ${test_cap}    scope=SUITE
-    VAR    ${TEST_KEYS_CAPSULE_UPDATE_RC0_FW_FILE}=    ${test_rc0}    scope=SUITE
-    OperatingSystem.File Should Exist
-    ...    ${TEST_KEYS_CAPSULE_FW_FILE}
-    ...    TEST_KEYS_CAPSULE_FW_FILE env variable does not point to a file! TEST_KEYS_CAPSULE_FW_FILE="${TEST_KEYS_CAPSULE_FW_FILE}"
-    OperatingSystem.File Should Exist
-    ...    ${TEST_KEYS_CAPSULE_UPDATE_RC0_FW_FILE}
-    ...    TEST_KEYS_CAPSULE_UPDATE_RC0_FW_FILE env variable does not point to a file! TEST_KEYS_CAPSULE_UPDATE_RC0_FW_FILE="${TEST_KEYS_CAPSULE_UPDATE_RC0_FW_FILE}"
+    # TODO verify what keys does the firmware trust when that's possible.
+    VAR    ${CAPSULE_UPDATE_RC0_HAS_TEST_KEYS}=    ${TRUE}    scope=SUITE
 
 Ensure Derived Capsule Files Are Present
     [Documentation]    Ensures wrong_cert and invalid_guid capsule variants exist for the given capsule,
@@ -611,10 +574,10 @@ Ensure Derived Capsule Files Are Present
     IF    not ${f1} or not ${f2}
         Run    ./scripts/capsules/capsule_update_tests.sh ${capsule_for_decoding}
     END
-    VAR    ${BASE_FW_FILE}=    ${base_rom}_dcu_mod.rom    scope=SUITE
-    ${rc}=    Run And Return Rc    cp -f ${base_rom} ${BASE_FW_FILE}
+    VAR    ${CAPSULE_UPDATE_RC0_FW_FILE}=    ${base_rom}_dcu_mod.rom    scope=SUITE
+    ${rc}=    Run And Return Rc    cp -f ${base_rom} ${CAPSULE_UPDATE_RC0_FW_FILE}
     Should Be Equal As Integers    ${rc}    0
-    ...    Failed to copy base ROM: `cp ${base_rom} ${BASE_FW_FILE}`
+    ...    Failed to copy base ROM: `cp ${base_rom} ${CAPSULE_UPDATE_RC0_FW_FILE}`
 
 Ensure BtG Testing Capsule Is Present
     IF    ${INTEL_CBNT_BOOTGUARD_FUSED}
@@ -637,19 +600,15 @@ Display Preparation Instructions
     ...    ${t}either a lower RC version, or to the RC0 rom in case of first RC that
     ...    ${t}supports capsule updates
     ...    ${EMPTY}
-    ...    To test V2 Capsules, there are two paths depending whether both production
-    ...    and testing firmware is available:
-    ...    - opt. A)
+    ...    To test V2 Capsules, there are two paths depending whether the production
+    ...    firmware is available:
+    ...    - opt. A) - only testing firmware
     ...    ${t} Use FW_FILE, CAPSULE_FW_FILE and CAPSULE_UPDATE_RC0_FW_FILE as before.
-    ...    ${t} Choose either production or testing variants. Do not mix testing
-    ...    ${t} and production variants.
-    ...    ${t} Some tests require either testing or production firmware, and will
-    ...    ${t} be skipped depending whether CAPSULE_FW_FILE has testing keys or not.
+    ...    ${t} Set all to testing keys variants.
+    ...    ${t} Tests that require production firmware will be skipped.
     ...    - opt. B) - providing both variants
-    ...    ${t} 1. Set FW_FILE and CAPSULE_FW_FILE and CAPSULE_UPDATE_RC0_FW_FILE
-    ...    ${t} to production variants.
-    ...    ${t} 2. Set TEST_KEYS_CAPSULE_UPDATE_RC0_FW_FILE and
-    ...    ${t} TEST_KEYS_CAPSULE_FW_FILE to testing variant.
+    ...    ${t} 1. Set FW_FILE and CAPSULE_FW_FILE to the production variants.
+    ...    ${t} 2. Set CAPSULE_UPDATE_RC0_FW_FILE to the testing variant.
     ...    This way all the tests can be run at the same time.
     ...    ${EMPTY}
     ...    Be careful if the tested device needs some additional setup menu changes
@@ -670,11 +629,11 @@ Prepare For Logo Persistence Test
     ${name}=    Evaluate    '${CAPSULE_UPDATE_RC0_FW_FILE}'.split("/")[-1]
 
     VAR    ${CUSTOM_LOGO_RC0_FW_FILE}=    dcu/custom_logo_${name}    scope=SUITE
-    Run    cp ${BASE_FW_FILE} ${CUSTOM_LOGO_RC0_FW_FILE}
+    Run    cp ${CAPSULE_UPDATE_RC0_FW_FILE} ${CUSTOM_LOGO_RC0_FW_FILE}
     DCU Logo Set In File    ${CUSTOM_LOGO_RC0_FW_FILE}    ${TEST_DATA_DIR}/dcu/logo.bmp
 
-    VAR    ${BASE_FW_FILE_NO_LOGO}=    ${BASE_FW_FILE}    scope=SUITE
-    VAR    ${BASE_FW_FILE}=    ${CUSTOM_LOGO_RC0_FW_FILE}    scope=SUITE
+    VAR    ${CAPSULE_UPDATE_RC0_FW_FILE_NO_LOGO}=    ${CAPSULE_UPDATE_RC0_FW_FILE}    scope=SUITE
+    VAR    ${CAPSULE_UPDATE_RC0_FW_FILE}=    ${CUSTOM_LOGO_RC0_FW_FILE}    scope=SUITE
 
 Get System Values
     IF    ${TESTS_IN_UBUNTU_SUPPORT}
