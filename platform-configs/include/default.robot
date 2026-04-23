@@ -62,6 +62,7 @@ ${DEVICE_OS_ROOT_PROMPT}=                           ${TBD}
 ${3_MDEB_WIFI_NETWORK}=                             3mdeb_Laboratorium
 
 ${FW_VERSION}=                                      ${TBD}
+${EXPECTED_FW_SHA256}=                              ${EMPTY}
 ${DMIDECODE_SERIAL_NUMBER}=                         ${TBD}
 ${DMIDECODE_FIRMWARE_VERSION}=                      ${TBD}
 ${DMIDECODE_PRODUCT_NAME}=                          ${TBD}

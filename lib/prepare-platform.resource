@@ -35,6 +35,13 @@ Prepare Platform
         Variable Should Exist    ${BOOTBLOCK_FILE}
         Variable Should Exist    ${Z_IMAGE_FILE}
         Prepare Test Suite
+        ${fw_sha256}=    Run    sha256sum ${FW_FILE} | awk '{print $1}'
+        Set Suite Metadata    FW_FILE sha256sum    ${fw_sha256}
+        IF    '${EXPECTED_FW_SHA256}' != '${EMPTY}' and '${fw_sha256}' != '${EXPECTED_FW_SHA256}'
+            Log
+            ...    Non-release firmware detected: sha256 mismatch (got ${fw_sha256}, expected ${EXPECTED_FW_SHA256})
+            ...    console=True
+        END
         Flash Heads From OpenBMC    ${BOOTBLOCK_FILE}    ${FW_FILE}    ${Z_IMAGE_FILE}
         ${fw_ver_file}=    Get Firmware Version From Coreboot File    ${FW_FILE}
         Power On
@@ -45,6 +52,13 @@ Prepare Platform
     ELSE
         Variable Should Exist    ${FW_FILE}
         Prepare Test Suite
+        ${fw_sha256}=    Run    sha256sum ${FW_FILE} | awk '{print $1}'
+        Set Suite Metadata    FW_FILE sha256sum    ${fw_sha256}
+        IF    '${EXPECTED_FW_SHA256}' != '${EMPTY}' and '${fw_sha256}' != '${EXPECTED_FW_SHA256}'
+            Log
+            ...    Non-release firmware detected: sha256 mismatch (got ${fw_sha256}, expected ${EXPECTED_FW_SHA256})
+            ...    console=True
+        END
         Flash Firmware    ${FW_FILE}
         Power On
         ${version}=    Get Firmware Version
