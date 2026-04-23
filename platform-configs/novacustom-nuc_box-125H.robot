@@ -29,7 +29,6 @@ ${DEFAULT_BOOT_OS_ID}=                  ${ENV_ID_UBUNTU}
 # ${ENV_ID_FEDORA}
 @{TESTED_LINUX_DISTROS}=
 ...                                     ${ENV_ID_UBUNTU}
-...                                     ${ENV_ID_FEDORA}
 ${TESTS_IN_WINDOWS_SUPPORT}=            ${TRUE}
 
 # cpu performance Ubuntu

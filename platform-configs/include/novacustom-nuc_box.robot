@@ -5,13 +5,13 @@ ${POWER_CTRL}=                          none
 ${TESTS_IN_FIRMWARE_SUPPORT}=           ${FALSE}
 ${OPTIONS_LIB}=                         options-lib_dcu
 
-${DMIDECODE_FIRMWARE_VERSION}=          Dasharo (coreboot+UEFI) v0.9.0-rc2
+${DMIDECODE_FIRMWARE_VERSION}=          Dasharo (coreboot+UEFI) v0.9.0
 ${DMIDECODE_PRODUCT_NAME}=              NUC_BOX
 ${DMIDECODE_MANUFACTURER}=              NovaCustom
 ${DMIDECODE_TYPE}=                      Desktop
 ${FLASH_LENGTH}=                        ${TBD}
-${FW_VERSION}=                          v0.9.0-rc2
-${DMIDECODE_RELEASE_DATE}=              07/14/2025
+${FW_VERSION}=                          v0.9.0
+${DMIDECODE_RELEASE_DATE}=              08/27/2025
 ${FLASHROM_FLAGS}=                      ${EMPTY}
 
 ${WIFI_CARD}=                           Intel Corporation Meteor Lake PCH CNVi WiFi
