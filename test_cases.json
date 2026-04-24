@@ -3088,7 +3088,7 @@
   },
   {
     "doc": {
-      "_id": "ECR033.001",
+      "_id": "ECR035.001",
       "name": "EC power button watchdog",
       "module": "Dasharo Compatibility"
     }

@@ -146,7 +146,7 @@ ECR024.001 EC sync doesn't update with power adapter disconnected
     Check EC Firmware Version
     ...    EXPECTED_VERSION=${EC_NO_SYNC_VERSION}    TOOL=dasharo_ectool
 
-ECR033.001 EC power button watchdog
+ECR035.001 EC power button watchdog
     [Documentation]    Check whether the EC power button watchdog functionality works correctly.
     [Tags]    semiauto
     Execute Manual Step    [1/3] Power on the DUT.
@@ -1137,7 +1137,9 @@ ECR029.203 FnLock Hotkey (Qubes OS)
     [Tags]    semiauto
     Depends On    ${TESTS_IN_QUBESOS_SUPPORT}    ${TEST_NAME} not supported
     Skip IF    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    ${TEST_NAME} not supported
-    Execute Manual Step    [1/4] Make sure Qubes OS is booted.    Execute Manual Step
+    Execute Manual Step
+    ...    [1/4] Make sure Qubes OS is booted.
+    ...    Execute Manual Step
     ...    [2/4] Verify that without Fn Lock, pressing FX keys sends standard F1-F12 keycodes (it should send FX, not trigger a special function).
     Execute Manual Step
     ...    [3/4] Enable Fn Lock and test a few function keys freely - they should now trigger their special functions without holding Fn.
@@ -1561,6 +1563,28 @@ ECR031.301 Keyboard (function key: RGB keyboard toggle) in OS (Windows)
     Execute Manual Step    [2/4] Boot into the system.
     Execute Manual Step    [3/4] Log into the system by using the proper login and password.
     Execute Manual Step    [4/4] Press the RGB keyboard toggle hotkey twice and note the result each time.
+
+ECR032.301 RGB keyboard next color FN key in OS (Windows)
+    [Documentation]    Check whether the RGB keyboard next color FN key works correctly in Windows.
+    [Tags]    semiauto
+    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    ECR032.301 not supported
+    Execute Manual Step    [1/4] Power on the DUT.
+    Execute Manual Step    [2/4] Boot into the system.
+    Execute Manual Step    [3/4] Log into the system by using the proper login and password.
+    Execute Manual Step
+    ...    [4/4] Press the RGB keyboard color hotkey repeatedly until the keyboard cycles through all color modes.
+    Execute Manual Step
+    ...    [Expected result] Pressing the button once should switch the keyboard color. All color modes according to product documentation should be accessible.
+
+ECR033.301 RGB keyboard brightness down FN key in OS (Windows)
+    [Documentation]    Check whether the RGB keyboard brightness down FN key works correctly in Windows.
+    [Tags]    semiauto
+    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    ECR033.301 not supported
+    Execute Manual Step    [1/4] Power on the DUT.
+    Execute Manual Step    [2/4] Boot into the system.
+    Execute Manual Step    [3/4] Log into the system by using the proper login and password.
+    Execute Manual Step    [4/4] Press the RGB keyboard brightness down hotkey and note the result.
+    Execute Manual Step    [Expected result] Pressing the button once should lower the keyboard backlight.
 
 ECR034.201 RGB keyboard brightness up FN key in OS (Windows)
     [Documentation]    Check whether the RGB keyboard brightness up FN key works correctly in Windows.
