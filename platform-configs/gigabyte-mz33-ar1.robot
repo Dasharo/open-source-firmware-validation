@@ -31,6 +31,7 @@ ${FLASH_VERIFY_METHOD}=                     iPXE-boot
 ${TESTS_IN_UBUNTU_SUPPORT}=                 ${TRUE}
 ${TESTS_IN_FIRMWARE_SUPPORT}=               ${TRUE}
 ${DEVICE_NVME_DISK}=                        KINGSTON SKC3000S512G
+${BOOT_MENU_KEY}=                           ${F10}
 
 ${DEFAULT_BOOT_OS_ID}=                      ${ENV_ID_UBUNTU}
 @{TESTED_LINUX_DISTROS}=
