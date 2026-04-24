@@ -78,9 +78,6 @@ ${OS_UBUNTU}=               ubuntu
 &{RTE23}=                   ip=192.168.10.163
 ...                         platform=apu3
 ...                         platform_vendor=PC Engines
-&{RTE24}=                   ip=192.168.10.71
-...                         platform=apu4
-...                         platform_vendor=PC Engines
 &{RTE25}=                   ip=192.168.4.50
 ...                         platform=optiplex-9010
 ...                         platform_vendor=DELL    sonoff_ip=192.168.4.134
@@ -282,6 +279,11 @@ ${OS_UBUNTU}=               ubuntu
 # Odroid-H4 Ultra
 &{RTE75}=                   ip=192.168.10.88    platform=odroid-h4-ultra
 ...                         platform_vendor=Hardkernel
+
+# Gigabyte MZ33-AR1
+&{RTE24}=                   ip=192.168.10.71
+...                         platform=gigabyte-mz33-ar1
+...                         platform_vendor=Giga Computing
 
 @{RTE_LIST}=                &{RTE05}    &{RTE06}    &{RTE07}    &{RTE08}    &{RTE09}
 ...                         &{RTE10}    &{RTE11}    &{RTE12}    &{RTE13}    &{RTE14}
