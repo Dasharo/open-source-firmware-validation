@@ -43,3 +43,6 @@ ${EXTERNAL_HEADSET_SUPPORT}=        ${TRUE}
 ${POWERSHELL_STR_HEADSET_OUT}=      Headphones (2- High Definition Audio Device)
 ${POWERSHELL_STR_HEADSET_IN}=       Microphone (2- High Definition Audio Device)
 ${POWERSHELL_STR_HDMI_OUT}=         Display Audio
+
+${EMMC_SUPPORT}=                    ${FALSE}
+${E_MMC_NAME}=                      ${NONE}
