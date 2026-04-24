@@ -30,6 +30,7 @@ ${CHECK_POWER_LED_SUPPORT}=                 ${TRUE}    # polarity inverted
 ${FLASH_VERIFY_METHOD}=                     iPXE-boot
 ${TESTS_IN_UBUNTU_SUPPORT}=                 ${TRUE}
 ${TESTS_IN_FIRMWARE_SUPPORT}=               ${TRUE}
+${TESTS_IN_WINDOWS_SUPPORT}=                ${TRUE}
 ${DEVICE_NVME_DISK}=                        KINGSTON SKC3000S512G
 ${BOOT_MENU_KEY}=                           ${F10}
 
