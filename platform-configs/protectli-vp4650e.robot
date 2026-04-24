@@ -1,0 +1,35 @@
+*** Settings ***
+Resource    include/protectli-vp46xx.robot
+
+
+*** Variables ***
+${INITIAL_CPU_FREQUENCY}=       2200
+${DEF_CORES_PER_SOCKET}=        4
+${DEF_THREADS_PER_CORE}=        2
+${DEF_THREADS_TOTAL}=           8
+${DEF_ONLINE_CPU}=              0-7
+${DEF_SOCKETS}=                 1
+
+${POWER_CTRL}=                  sonoff
+${WIFI_CARD_UBUNTU}=            Qualcomm Atheros QCA6174
+${LTE_CARD}=                    ${TBD}
+${DEVICE_NVME_DISK}=            Non-Volatile memory controller
+${USB_MODEL}=                   SanDisk
+
+${DMIDECODE_PRODUCT_NAME}=      VP4650
+
+${CPU_MAX_FREQUENCY}=           4300
+${CPU_MIN_FREQUENCY}=           300
+
+@{ETH_PORTS}=                   64-62-66-21-42-91
+...                             64-62-66-21-42-90
+...                             64-62-66-21-42-8f
+...                             64-62-66-21-42-8e
+...                             64-62-66-21-42-8d
+...                             64-62-66-21-42-8c
+
+${TPM_SUPPORTED_VERSION}=       2
+${TPM_EXPECTED_CHIP}=           SLB9665
+
+${EMMC_SUPPORT}=                ${FALSE}
+${E_MMC_NAME}=                  ${NONE}
