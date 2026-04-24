@@ -168,6 +168,7 @@ SUD006.202 USB devices detection after suspension (Fedora) (S3)
 SUD001.203 USB devices detection after coldboot (Qubes OS)
     [Documentation]    Verify that an external USB device is detected correctly in Qubes OS.
     [Tags]    semiauto
+    Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    SUD001.203 not supported
     Execute Manual Step    [1/6] Make sure Qubes OS is booted.
     Execute Manual Step    [2/6] Connect an external USB device to the DUT.
     Execute Manual Step    [3/6] Perform a coldboot (power cycle the device).
@@ -179,6 +180,7 @@ SUD002.203 USB devices detection after warmboot (Qubes OS)
     [Documentation]    Verify that an external USB device is detected correctly
     ...    after a warmboot in Qubes OS.
     [Tags]    semiauto
+    Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    SUD002.203 not supported
     Execute Manual Step    [1/6] Make sure Qubes OS is booted.
     Execute Manual Step    [2/6] Connect an external USB device to the DUT.
     Execute Manual Step    [3/6] Perform a warmboot (poweroff/shutdown initiated from the OS).
@@ -190,6 +192,7 @@ SUD003.203 USB devices detection after reboot (Qubes OS)
     [Documentation]    Verify that an external USB device is detected correctly
     ...    after a full system reboot in Qubes OS.
     [Tags]    semiauto
+    Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    SUD003.203 not supported
     Execute Manual Step    [1/6] Make sure Qubes OS is booted.
     Execute Manual Step    [2/6] Connect an external USB device to the DUT.
     Execute Manual Step    [3/6] Perform a full system reboot.
@@ -201,6 +204,7 @@ SUD006.203 USB devices detection after suspend (Qubes OS) (S3)
     [Documentation]    Verify that an external USB device is detected correctly
     ...    after suspend and resume in Qubes OS.
     [Tags]    semiauto
+    Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    SUD006.203 not supported
     Execute Manual Step    [1/6] Make sure Qubes OS is booted.
     Execute Manual Step    [2/6] Connect an external USB device to the DUT.
     Execute Manual Step    [3/6] Suspend the system (S3).

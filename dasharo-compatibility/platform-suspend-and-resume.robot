@@ -26,6 +26,26 @@ Default Tags        automated
 
 
 *** Test Cases ***
+SMS001.201 Suspend to Idle (S0ix) check (Ubuntu)
+    [Documentation]    Check whether Suspend to Idle (S0ix) works correctly in Ubuntu.
+    [Tags]    semiauto
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SMS001.201 not supported
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    SMS001.201 not supported
+    Execute Manual Step    [1/4] Boot into Ubuntu
+    Execute Manual Step    [2/4] Trigger S0ix suspend (e.g. echo freeze | sudo tee /sys/power/state)
+    Execute Manual Step    [3/4] Resume the DUT and check dmesg for S0ix-related messages
+    Execute Manual Step    [4/4] Confirm the DUT suspends to S0ix and resumes successfully
+
+SMS002.201 Suspend to RAM (S3) check (Ubuntu)
+    [Documentation]    Check whether Suspend to RAM (S3) works correctly in Ubuntu.
+    [Tags]    semiauto
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SMS002.201 not supported
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    SMS002.201 not supported
+    Execute Manual Step    [1/4] Boot into Ubuntu
+    Execute Manual Step    [2/4] Trigger S3 suspend (e.g. echo mem | sudo tee /sys/power/state or systemctl suspend)
+    Execute Manual Step    [3/4] Resume the DUT and check dmesg for S3-related messages
+    Execute Manual Step    [4/4] Confirm the DUT suspends to S3 and resumes successfully
+
 SUSP001.201 Platform suspend and resume (Ubuntu) (wakeup flag)
     [Documentation]    Check whether the DUT can suspend and resume correctly using the wakeup flag in Ubuntu.
     [Tags]    semiauto
@@ -113,26 +133,6 @@ SUSP007.201 Cyclic platform suspend and resume (Ubuntu) (S3)
     Cyclic Platform Suspend And Resume    S3
     Exit From Root User
 
-SMS001.201 Suspend to Idle (S0ix) check (Ubuntu)
-    [Documentation]    Check whether Suspend to Idle (S0ix) works correctly in Ubuntu.
-    [Tags]    semiauto
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SMS001.201 not supported
-    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    SMS001.201 not supported
-    Execute Manual Step    [1/4] Boot into Ubuntu
-    Execute Manual Step    [2/4] Trigger S0ix suspend (e.g. echo freeze | sudo tee /sys/power/state)
-    Execute Manual Step    [3/4] Resume the DUT and check dmesg for S0ix-related messages
-    Execute Manual Step    [4/4] Confirm the DUT suspends to S0ix and resumes successfully
-
-SMS002.201 Suspend to RAM (S3) check (Ubuntu)
-    [Documentation]    Check whether Suspend to RAM (S3) works correctly in Ubuntu.
-    [Tags]    semiauto
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SMS002.201 not supported
-    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    SMS002.201 not supported
-    Execute Manual Step    [1/4] Boot into Ubuntu
-    Execute Manual Step    [2/4] Trigger S3 suspend (e.g. echo mem | sudo tee /sys/power/state or systemctl suspend)
-    Execute Manual Step    [3/4] Resume the DUT and check dmesg for S3-related messages
-    Execute Manual Step    [4/4] Confirm the DUT suspends to S3 and resumes successfully
-
 SUSP005.202 Cyclic platform suspend and resume (Fedora)
     [Documentation]    This test aims to verify that the DUT platform suspend
     ...    and resume procedure performed cyclically works correctly
@@ -175,6 +175,7 @@ SUSP001.203 Platform suspend and resume (Qubes OS) (wakeup flag)
     [Documentation]    Verify that platform suspend and resume works correctly on Qubes OS
     ...    using a wakeup flag set via rtcwake.
     [Tags]    semiauto
+    Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    SUSP001.203 not supported
     Execute Manual Step    [1/7] Make sure Qubes OS is booted and open a dom0 terminal.
     Execute Manual Step    [2/7] Set the wakeup flag by running: rtcwake --mode no --seconds 60
     Execute Manual Step    [3/7] Enter suspend by running: pm-suspend
@@ -186,7 +187,8 @@ SUSP001.203 Platform suspend and resume (Qubes OS) (wakeup flag)
 SUSP002.203 Platform suspend and resume (Qubes OS) (press key)
     [Documentation]    Verify stability of cyclic suspend and resume on Qubes OS.
     [Tags]    semiauto
-    Execute Manual Step    [1/4] Make sure Qubes OS is booted.
+    Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    SUSP002.203 not supported
+    Execute Manual Step    [1/5] Make sure Qubes OS is booted.
     Execute Manual Step    [2/5] Start at least one AppVM and perform basic activity inside it.
     Execute Manual Step    [3/5] Initiate system suspend.
     Execute Manual Step    [4/5] Resume the system, via keyboard key press
@@ -195,6 +197,7 @@ SUSP002.203 Platform suspend and resume (Qubes OS) (press key)
 SUSP003.203 Platform suspend and resume (Qubes OS) (power button)
     [Documentation]    Verify suspend and resume behavior with running AppVMs on Qubes OS.
     [Tags]    semiauto
+    Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    SUSP003.203 not supported
     Execute Manual Step    [1/5] Make sure Qubes OS is booted.
     Execute Manual Step    [2/5] Start at least one AppVM and perform basic activity inside it.
     Execute Manual Step    [3/5] Initiate system suspend.

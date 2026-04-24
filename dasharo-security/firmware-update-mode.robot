@@ -36,10 +36,10 @@ ${CAPSULE_UPDATE_SHELL_BOOTENTRY_NAME}=     UEFI Shell
 
 
 *** Test Cases ***
-FUM001.101 Firmware Update Mode support
+FUM001.101 Firmware Update Mode support (EDK2 UEFI)
     [Documentation]    FUM support, verify by entering dts and checking output
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    BLS001.201 not supported
-    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    BLS001.201 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    FUM001.101 not supported
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    FUM001.101 not supported
     Set UEFI Option    LockBios    ${TRUE}
     Power On
     # Enable FUM

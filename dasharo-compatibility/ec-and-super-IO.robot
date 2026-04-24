@@ -904,7 +904,7 @@ ECR003.203 Touchpad in OS (Qubes OS)
 ECR004.203 Keyboard (standard keypad) in OS (Qubes OS)
     [Documentation]    Check whether keyboard is sending correct symbols in OS.
     [Tags]    semiauto
-    Skip IF    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    ${TEST_NAME} not supported
+    Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    ${TEST_NAME} not supported
     Execute Manual Step    [1/3] Make sure Qubes OS is booted.
     Execute Manual Step    [2/3] Open Dom0 Xfce Terminal (or any text editor).
     Execute Manual Step
@@ -913,7 +913,7 @@ ECR004.203 Keyboard (standard keypad) in OS (Qubes OS)
 ECR005.203 Keyboard (function key: play/pause) in OS (Qubes OS)
     [Documentation]    Check whether function key works.
     [Tags]    semiauto
-    Skip IF    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    ${TEST_NAME} not supported
+    Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    ${TEST_NAME} not supported
     Execute Manual Step    [1/3] Make sure Qubes OS is booted.
     Execute Manual Step    [2/4] Open Dom0 Xfce Terminal.
     Execute Manual Step    [3/4] Type `libinput debug-events` to track pressed keys.
@@ -923,7 +923,7 @@ ECR005.203 Keyboard (function key: play/pause) in OS (Qubes OS)
 ECR006.203 Keyboard (function key: cooling mode) in OS (Qubes OS)
     [Documentation]    Check whether function key works.
     [Tags]    semiauto
-    Skip IF    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    ${TEST_NAME} not supported
+    Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    ${TEST_NAME} not supported
     Execute Manual Step    [1/4] Make sure Qubes OS is booted.
     Execute Manual Step    [2/4] Open Dom0 Xfce Terminal.
     Execute Manual Step    [3/4] Type `libinput debug-events` to track pressed keys
@@ -933,7 +933,7 @@ ECR006.203 Keyboard (function key: cooling mode) in OS (Qubes OS)
 ECR007.203 Keyboard (function key: touchpad on/off) in OS (Qubes OS)
     [Documentation]    Check whether function key works.
     [Tags]    semiauto
-    Skip IF    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    ${TEST_NAME} not supported
+    Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    ${TEST_NAME} not supported
     Execute Manual Step    [1/4] Make sure Qubes OS is booted.
     Execute Manual Step    [2/4] Open Dom0 Xfce Terminal
     Execute Manual Step    [3/4] Type `libinput debug-events` to track pressed keys
@@ -943,7 +943,7 @@ ECR007.203 Keyboard (function key: touchpad on/off) in OS (Qubes OS)
 ECR008.203 Keyboard (function key: display on/off) in OS (Qubes OS)
     [Documentation]    Check whether the display on/off function key works correctly in Qubes OS.
     [Tags]    semiauto
-    Skip IF    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    ${TEST_NAME} not supported
+    Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    ${TEST_NAME} not supported
     Execute Manual Step    [1/4] Make sure Qubes OS is booted.
     Execute Manual Step    [2/4] Press the combination on DUT's keyboard (Fn+F2) and observe the screen turn on/off
     Execute Manual Step    [3/4] Observe the internal display
@@ -952,7 +952,7 @@ ECR008.203 Keyboard (function key: display on/off) in OS (Qubes OS)
 ECR009.203 Keyboard (function key: mute) in OS (Qubes OS)
     [Documentation]    Check whether function key works.
     [Tags]    semiauto
-    Skip IF    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    ${TEST_NAME} not supported
+    Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    ${TEST_NAME} not supported
     Execute Manual Step    [1/4] Make sure Qubes OS is booted.
     Execute Manual Step    [2/4] Open Dom0 Xfce Terminal.
     Execute Manual Step    [3/4] Type `libinput debug-events` to track pressed keys
@@ -962,7 +962,7 @@ ECR009.203 Keyboard (function key: mute) in OS (Qubes OS)
 ECR010.203 Keyboard (function key: keyboard backlight) in OS (Qubes OS)
     [Documentation]    Check whether function key works.
     [Tags]    semiauto
-    Skip IF    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    ${TEST_NAME} not supported
+    Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    ${TEST_NAME} not supported
     Execute Manual Step    [1/4] Make sure Qubes OS is booted.
     Execute Manual Step    [2/4] Press the keyboard backlight function key (Fn+F key)
     Execute Manual Step    [3/4] Observe the keyboard backlight
@@ -971,7 +971,7 @@ ECR010.203 Keyboard (function key: keyboard backlight) in OS (Qubes OS)
 ECR011.203 Keyboard (function key: volume down) in OS (Qubes OS)
     [Documentation]    Check whether function key works.
     [Tags]    semiauto
-    Skip IF    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    ${TEST_NAME} not supported
+    Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    ${TEST_NAME} not supported
     Execute Manual Step    [1/4] Make sure Qubes OS is booted.
     Execute Manual Step    [2/4] Open Dom0 Xfce Terminal.
     Execute Manual Step    [3/4] Type `libinput debug-events` to track pressed keys
@@ -981,7 +981,7 @@ ECR011.203 Keyboard (function key: volume down) in OS (Qubes OS)
 ECR012.203 Keyboard (function key: volume up) in OS (Qubes OS)
     [Documentation]    Check whether function key works.
     [Tags]    semiauto
-    Skip IF    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    ${TEST_NAME} not supported
+    Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    ${TEST_NAME} not supported
     Execute Manual Step    [1/4] Make sure Qubes OS is booted.
     Execute Manual Step    [2/4] Open Dom0 Xfce Terminal.
     Execute Manual Step    [3/4] Type `libinput debug-events` to track pressed keys
@@ -991,7 +991,7 @@ ECR012.203 Keyboard (function key: volume up) in OS (Qubes OS)
 ECR013.203 Keyboard (function key: display switch) in OS (Qubes OS)
     [Documentation]    Check whether function key works.
     [Tags]    semiauto
-    Skip IF    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    ${TEST_NAME} not supported
+    Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    ${TEST_NAME} not supported
     Execute Manual Step    [1/4] Make sure Qubes OS is booted.
     Execute Manual Step    [2/4] Open Dom0 Xfce Terminal.
     Execute Manual Step    [3/4] Type `libinput debug-events` to track pressed keys
@@ -1001,7 +1001,7 @@ ECR013.203 Keyboard (function key: display switch) in OS (Qubes OS)
 ECR014.203 Keyboard (function key: brightness down) in OS (Qubes OS)
     [Documentation]    Check whether function key works.
     [Tags]    semiauto
-    Skip IF    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    ${TEST_NAME} not supported
+    Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    ${TEST_NAME} not supported
     Execute Manual Step    [1/4] Make sure Qubes OS is booted.
     Execute Manual Step    [2/4] Open Dom0 Xfce Terminal.
     Execute Manual Step    [3/4] Type `libinput debug-events` to track pressed keys
@@ -1011,7 +1011,7 @@ ECR014.203 Keyboard (function key: brightness down) in OS (Qubes OS)
 ECR015.203 Keyboard (function key: brightness up) in OS (Qubes OS)
     [Documentation]    Check whether function key works.
     [Tags]    semiauto
-    Skip IF    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    ${TEST_NAME} not supported
+    Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    ${TEST_NAME} not supported
     Execute Manual Step    [1/4] Make sure Qubes OS is booted.
     Execute Manual Step    [2/4] Open Dom0 Xfce Terminal.
     Execute Manual Step    [3/4] Type `libinput debug-events` to track pressed keys
@@ -1021,7 +1021,7 @@ ECR015.203 Keyboard (function key: brightness up) in OS (Qubes OS)
 ECR016.203 Keyboard (function key: camera on/off) in OS (Qubes OS)
     [Documentation]    Check whether function key works.
     [Tags]    semiauto
-    Skip IF    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    ${TEST_NAME} not supported
+    Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    ${TEST_NAME} not supported
     Execute Manual Step    [1/4] Make sure Qubes OS is booted.
     Execute Manual Step    [2/4] Open Dom0 Xfce Terminal.
     Execute Manual Step    [3/4] Type `libinput debug-events` to track pressed keys
@@ -1031,7 +1031,7 @@ ECR016.203 Keyboard (function key: camera on/off) in OS (Qubes OS)
 ECR017.203 Keyboard (function key: flight mode on/off) in OS (Qubes OS)
     [Documentation]    Check whether function key works.
     [Tags]    semiauto
-    Skip IF    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    ${TEST_NAME} not supported
+    Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    ${TEST_NAME} not supported
     Execute Manual Step    [1/4] Make sure Qubes OS is booted.
     Execute Manual Step    [2/4] Open Dom0 Xfce Terminal.
     Execute Manual Step    [3/4] Type `libinput debug-events` to track pressed keys.
@@ -1041,7 +1041,7 @@ ECR017.203 Keyboard (function key: flight mode on/off) in OS (Qubes OS)
 ECR018.203 Keyboard (function key: sleep) in OS (Qubes OS)
     [Documentation]    Check whether function key works.
     [Tags]    semiauto
-    Skip IF    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    ${TEST_NAME} not supported
+    Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    ${TEST_NAME} not supported
     Execute Manual Step    [1/4] Make sure Qubes OS is booted.
     Execute Manual Step    [2/4] Open Dom0 Xfce Terminal .
     Execute Manual Step    [3/4] Type `libinput debug-events` to track pressed keys.
@@ -1051,7 +1051,7 @@ ECR018.203 Keyboard (function key: sleep) in OS (Qubes OS)
 ECR019.203 Buttons (button: power) in OS (Qubes OS)
     [Documentation]    Check whether power button works.
     [Tags]    semiauto
-    Skip IF    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    ${TEST_NAME} not supported
+    Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    ${TEST_NAME} not supported
     Execute Manual Step    [1/4] Make sure Qubes OS is booted.
     Execute Manual Step    [2/4] Press the power button (do not hold).
     Execute Manual Step    [3/4] "Log out qubesos" window should appear in the middle of the screen.
@@ -1061,7 +1061,7 @@ ECR019.203 Buttons (button: power) in OS (Qubes OS)
 ECR020.203 Buttons (button: lid switch) in OS (Qubes OS)
     [Documentation]    Check whether lid switch works.
     [Tags]    semiauto
-    Skip IF    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    ${TEST_NAME} not supported
+    Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    ${TEST_NAME} not supported
     Execute Manual Step    [1/4] Make sure Qubes OS is booted.
     Execute Manual Step    [2/4] Close the laptop lid and wait 5s.
     Execute Manual Step    [3/4] Open the laptop lid, the DUT should be in sleep.
@@ -1089,7 +1089,7 @@ ECR022.203 Not charging between 95% and 98% in OS (Qubes OS)
 ECR025.203 Permanent keyboard illumination after cold boot (Qubes OS)
     [Documentation]    Check whether keyboard illumination persists at the same level after a cold boot.
     [Tags]    semiauto
-    Skip IF    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    ${TEST_NAME} not supported
+    Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    ${TEST_NAME} not supported
     Execute Manual Step    [1/4] Make sure Qubes OS is booted.
     Execute Manual Step    [2/4] Choose any keyboard brightness (Fn+F4) as a means to test this feature
     ...    (for example, the last level before black for easier tracking).
@@ -1101,7 +1101,7 @@ ECR026.203 Permanent keyboard illumination after warm boot (Qubes OS)
     [Documentation]    Check whether keyboard backlight level persists after warm boot.
     [Tags]    semiauto
     Depends On    ${TESTS_IN_QUBESOS_SUPPORT}    ${TEST_NAME} not supported
-    Skip IF    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    ${TEST_NAME} not supported
+    Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    ${TEST_NAME} not supported
     Execute Manual Step    [1/5] Make sure Qubes OS is booted.
     Execute Manual Step    [2/5] Set keyboard backlight to a visible, non-default level (Fn+F4).
     Execute Manual Step    [3/5] Perform a warm boot (reboot from OS).
@@ -1112,7 +1112,7 @@ ECR027.203 Permanent keyboard illumination after reboot (Qubes OS)
     [Documentation]    Check whether keyboard backlight level persists after cold reboot.
     [Tags]    semiauto
     Depends On    ${TESTS_IN_QUBESOS_SUPPORT}    ${TEST_NAME} not supported
-    Skip IF    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    ${TEST_NAME} not supported
+    Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    ${TEST_NAME} not supported
     Execute Manual Step    [1/5] Make sure Qubes OS is booted.
     Execute Manual Step    [2/5] Set keyboard backlight to a visible, non-default level (Fn+F4).
     Execute Manual Step    [3/5] Shut down the DUT completely.
@@ -1123,7 +1123,7 @@ ECR028.203 Permanent keyboard illumination after suspension (Qubes OS)
     [Documentation]    Check whether keyboard backlight level persists after suspend/resume.
     [Tags]    semiauto
     Depends On    ${TESTS_IN_QUBESOS_SUPPORT}    ${TEST_NAME} not supported
-    Skip IF    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    ${TEST_NAME} not supported
+    Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    ${TEST_NAME} not supported
     Execute Manual Step    [1/5] Make sure Qubes OS is booted.
     Execute Manual Step    [2/5] Set keyboard backlight to a visible, non-default level (Fn+F4).
     Execute Manual Step    [3/5] Suspend the system (close lid or use suspend option).
@@ -1136,7 +1136,7 @@ ECR029.203 FnLock Hotkey (Qubes OS)
     ...    With Fn Lock active: FX keys act as if Fn is held, triggering special functions.
     [Tags]    semiauto
     Depends On    ${TESTS_IN_QUBESOS_SUPPORT}    ${TEST_NAME} not supported
-    Skip IF    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    ${TEST_NAME} not supported
+    Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    ${TEST_NAME} not supported
     Execute Manual Step
     ...    [1/4] Make sure Qubes OS is booted.
     ...    Execute Manual Step
@@ -1150,7 +1150,7 @@ ECR030.203 Charging until 98% level in OS (Qubes OS)
     [Documentation]    Check whether the DUT stops charging the battery when 98% level is reached.
     [Tags]    semiauto
     Depends On    ${TESTS_IN_QUBESOS_SUPPORT}    ${TEST_NAME} not supported
-    Skip IF    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    ${TEST_NAME} not supported
+    Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    ${TEST_NAME} not supported
     Execute Manual Step    [1/5] Make sure Qubes OS is booted.
     Execute Manual Step    [2/5] Connect the power adapter.
     Execute Manual Step    [3/5] Monitor battery level until it reaches 98%.
@@ -1161,7 +1161,7 @@ ECR031.203 Not charging between 95% and 98% in OS (Qubes OS)
     [Documentation]    Check whether the DUT does not charge battery between 95% and 98%.
     [Tags]    semiauto
     Depends On    ${TESTS_IN_QUBESOS_SUPPORT}    ${TEST_NAME} not supported
-    Skip IF    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    ${TEST_NAME} not supported
+    Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    ${TEST_NAME} not supported
     Execute Manual Step    [1/5] Make sure Qubes OS is booted.
     Execute Manual Step    [2/5] Ensure battery level is between 95% and 98%.
     Execute Manual Step    [3/5] Connect the power adapter.
@@ -1586,7 +1586,7 @@ ECR033.301 RGB keyboard brightness down FN key in OS (Windows)
     Execute Manual Step    [4/4] Press the RGB keyboard brightness down hotkey and note the result.
     Execute Manual Step    [Expected result] Pressing the button once should lower the keyboard backlight.
 
-ECR034.201 RGB keyboard brightness up FN key in OS (Windows)
+ECR034.301 RGB keyboard brightness up FN key in OS (Windows)
     [Documentation]    Check whether the RGB keyboard brightness up FN key works correctly in Windows.
     [Tags]    semiauto
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    ECR034.301 not supported

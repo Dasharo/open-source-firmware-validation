@@ -175,6 +175,7 @@ NET006.202 NET controller after suspend (Fedora) (S3)
 NET001.203 NET controller after coldboot (Qubes OS)
     [Documentation]    Verify basic network connectivity in Qubes OS.
     [Tags]    semiauto
+    Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    NET001.203 not supported
     Execute Manual Step    [1/5] Make sure Qubes OS is booted.
     Execute Manual Step    [2/5] Perform a coldboot (power cycle the device).
     Execute Manual Step    [3/5] Wait for Qubes OS to boot completely.
@@ -185,6 +186,7 @@ NET002.203 Network controller after warmboot (Qubes OS)
     [Documentation]    Verify that the network controller functions correctly
     ...    after a warmboot in Qubes OS.
     [Tags]    semiauto
+    Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    NET002.203 not supported
     Execute Manual Step    [1/5] Make sure Qubes OS is booted.
     Execute Manual Step    [2/5] Perform a warmboot (poweroff/shutdown initiated from the OS).
     Execute Manual Step    [3/5] Wait for Qubes OS to boot completely.
@@ -195,6 +197,7 @@ NET003.203 Network controller after reboot (Qubes OS)
     [Documentation]    Verify that the network controller functions correctly
     ...    after a full system reboot in Qubes OS.
     [Tags]    semiauto
+    Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    NET003.203 not supported
     Execute Manual Step    [1/5] Make sure Qubes OS is booted.
     Execute Manual Step    [2/5] Perform a full system reboot.
     Execute Manual Step    [3/5] Wait for Qubes OS to boot completely.
@@ -205,6 +208,7 @@ NET006.203 Network controller after suspend (Qubes OS) (S3)
     [Documentation]    Verify that the network controller functions correctly
     ...    after system suspend and resume in Qubes OS.
     [Tags]    semiauto
+    Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    NET006.203 not supported
     Execute Manual Step    [1/5] Make sure Qubes OS is booted.
     Execute Manual Step    [2/5] Suspend the system (S3).
     Execute Manual Step    [3/5] Resume the system from suspend.
