@@ -17,6 +17,8 @@ Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
 Test Setup          DTS Gen Test Setup
 
+Test Tags           semiauto
+
 
 *** Test Cases ***
 DTG001.001 Generate Profile for DTS UEFI Update Workflow
