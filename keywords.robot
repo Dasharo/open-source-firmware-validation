@@ -811,18 +811,10 @@ Power Cycle On
     IF    '${CHECK_POWER_LED_SUPPORT}' == '${TRUE}'
         FOR    ${i}    IN RANGE    10
             ${out}=    Rte Check Power Led
-            IF    ${POWER_LED_POLARITY_INVERTED}
-                IF    '${out}' == 'low'    RETURN
-            ELSE
-                IF    '${out}' == 'high'    RETURN
-            END
+            IF    '${out}' == 'high'    RETURN
             Sleep    0.5s
         END
-        IF    ${POWER_LED_POLARITY_INVERTED}
-            Should Be Equal As Strings    ${out}    low
-        ELSE
-            Should Be Equal As Strings    ${out}    high
-        END
+        Should Be Equal As Strings    ${out}    high
     END
 
 OBMC Power Cycle On
@@ -918,11 +910,7 @@ Execute Shutdown Command
         ${loop_iterations}=    Evaluate    ${WINDOWS_SHUTDOWN_AWAITING_SECONDS} * 2
         FOR    ${i}    IN RANGE    ${loop_iterations}
             ${out}=    Rte Check Power Led
-            IF    ${POWER_LED_POLARITY_INVERTED}
-                IF    '${out}' == 'high'    RETURN
-            ELSE
-                IF    '${out}' == 'low'    RETURN
-            END
+            IF    '${out}' == 'low'    RETURN
             Sleep    0.5s
         END
     ELSE
