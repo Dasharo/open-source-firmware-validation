@@ -202,6 +202,7 @@ ${POWERSHELL_STR_HDMI_OUT}=                         Audio Driver for Display Aud
 ${COREBOOT_REDUNDANT_BOOT_SUPPORT}=                 ${FALSE}
 ${COREBOOT_REDUNDANT_BOOT_BOOTBLOCK_OFFSET}=        ${NONE}
 ${COREBOOT_REDUNDANT_BOOT_COREBOOT_OFFSET}=         ${NONE}
+@{FORBIDDEN_ETH_NAMES}=                             @{EMPTY}
 
 # Test module: dasharo-security
 ${TPM_SUPPORTED_VERSION}=                           ${NONE}

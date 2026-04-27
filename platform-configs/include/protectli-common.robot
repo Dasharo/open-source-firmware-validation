@@ -84,6 +84,7 @@ ${HDMI_AUDIO_SUPPORT}=                          ${TRUE}
 ${SUSPEND_AND_RESUME_SUPPORT}=                  ${TRUE}
 ${HAS_SUPERIO_SERIAL}=                          ${TRUE}
 ${SATA_SUPPORT}=                                ${TRUE}
+@{FORBIDDEN_ETH_NAMES}=                         eno1    eno2    eno3    eno4    eno5    eno6
 
 # Test module: dasharo-security
 ${TPM_SUPPORTED_VERSION}=                       2
