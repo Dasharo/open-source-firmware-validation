@@ -11,8 +11,9 @@ Resource            ../keywords.robot
 
 Suite Setup         Run Keywords
 ...                     Prepare Test Suite    AND
-...                     Skip If    not ${CAPSULE_UPDATE_SUPPORT}
-...                     AND    Set UEFI Option    MeMode    Disabled (HAP)
+...                     Skip If    not ${CAPSULE_UPDATE_SUPPORT}    AND
+...                     Run Keyword If    "${DASHARO_INTEL_ME_MENU_SUPPORT}" == "${TRUE}"
+...                     Set UEFI Option    MeMode    Disabled (HAP)
 Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
 
