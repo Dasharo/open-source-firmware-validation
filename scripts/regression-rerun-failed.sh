@@ -62,7 +62,7 @@ rerun_suite () {
         rebot --output $_logs_dir/${_suite}_out_merged.xml \
             --log $_logs_dir/${_suite}_log_merged.html \
             --report $_logs_dir/${_suite}_report_merged.html \
-            --merge $REGRESSION_LOG_DIR/${_suite}_out.xml $_logs_dir/${_suite}/merged_out.xml
+            --merge $REGRESSION_LOG_DIR/${_suite}/merged_out.xml $_logs_dir/${_suite}/merged_out.xml
         mv $_logs_dir/${_suite}_out_merged.xml $_logs_dir/${_suite}/merged_out.xml
         mv $_logs_dir/${_suite}_log_merged.html $_logs_dir/${_suite}/merged_log.html
         mv $_logs_dir/${_suite}_report_merged.html $_logs_dir/${_suite}/merged_report.html
