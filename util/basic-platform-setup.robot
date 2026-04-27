@@ -238,8 +238,8 @@ Power Off Ex
             IF    '${out}' == 'low'    RETURN
             Sleep    0.5s
         END
-        IF    '${out}' != 'high'
-            FAIL    Power LED didn't light up! Setup needs manual verification,
+        IF    '${out}' != 'low'
+            FAIL    Power LED didn't turn off! Setup needs manual verification,
             ...    or Power State After Power Failure is set incorrectly.
         END
     END
