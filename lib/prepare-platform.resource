@@ -35,13 +35,7 @@ Prepare Platform
         Variable Should Exist    ${BOOTBLOCK_FILE}
         Variable Should Exist    ${Z_IMAGE_FILE}
         Prepare Test Suite
-        ${fw_sha256}=    Run    sha256sum ${FW_FILE} | awk '{print $1}'
-        Set Suite Metadata    FW_FILE sha256sum    ${fw_sha256}
-        IF    '${EXPECTED_FW_SHA256}' != '${EMPTY}' and '${fw_sha256}' != '${EXPECTED_FW_SHA256}'
-            Log
-            ...    Non-release firmware detected: sha256 mismatch (got ${fw_sha256}, expected ${EXPECTED_FW_SHA256})
-            ...    console=True
-        END
+        Log FW File SHA256
         Flash Heads From OpenBMC    ${BOOTBLOCK_FILE}    ${FW_FILE}    ${Z_IMAGE_FILE}
         ${fw_ver_file}=    Get Firmware Version From Coreboot File    ${FW_FILE}
         Power On
@@ -52,17 +46,22 @@ Prepare Platform
     ELSE
         Variable Should Exist    ${FW_FILE}
         Prepare Test Suite
-        ${fw_sha256}=    Run    sha256sum ${FW_FILE} | awk '{print $1}'
-        Set Suite Metadata    FW_FILE sha256sum    ${fw_sha256}
-        IF    '${EXPECTED_FW_SHA256}' != '${EMPTY}' and '${fw_sha256}' != '${EXPECTED_FW_SHA256}'
-            Log
-            ...    Non-release firmware detected: sha256 mismatch (got ${fw_sha256}, expected ${EXPECTED_FW_SHA256})
-            ...    console=True
-        END
+        Log FW File SHA256
         Flash Firmware    ${FW_FILE}
         Power On
         ${version}=    Get Firmware Version
         ${coreboot_version}=    Get Firmware Version From Binary    ${FW_FILE}
         Log Out And Close Connection
         Should Contain    ${coreboot_version}    ${version}
+    END
+
+Log FW File SHA256
+    [Documentation]    Computes sha256sum of FW_FILE and stores it as suite metadata.
+    ...    If EXPECTED_FW_SHA256 is set in platform config, logs a warning when
+    ...    the hashes don't match (does not fail).
+    ${fw_sha256}=    Run    sha256sum ${FW_FILE} | awk '{print $1}'
+    Set Suite Metadata    FW_FILE sha256sum    ${fw_sha256}
+    IF    '${EXPECTED_FW_SHA256}' != '${EMPTY}' and '${fw_sha256}' != '${EXPECTED_FW_SHA256}'
+        Log    Non-release firmware detected: sha256 mismatch (got ${fw_sha256}, expected ${EXPECTED_FW_SHA256})
+        ...    console=True
     END
