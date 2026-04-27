@@ -51,4 +51,4 @@ ${DTS_TEST_SYSTEM_VENDOR}=              NovaCustom
 
 # End of DTS E2E test variables
 
-${CAPSULE_UPDATE_SUPPORT}=              ${FALSE}
+${CAPSULE_UPDATE_SUPPORT}=              ${TRUE}
