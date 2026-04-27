@@ -88,6 +88,7 @@ ${ESP_SCANNING_SUPPORT}=                    ${TRUE}
 ${SATA_SUPPORT}=                            ${TRUE}
 ${CPU_THROTTLING_SUPPORT}=                  ${FALSE}
 ${RESET_TO_DEFAULTS_SUPPORT}=               ${TRUE}
+${AUDIO_SUBSYSTEM_SUPPORT}=                 ${FALSE}
 ${AUTO_BOOT_TIME_OUT_DEFAULT_VALUE}=        3
 
 # Test module: dasharo-security
