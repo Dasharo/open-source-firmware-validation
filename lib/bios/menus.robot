@@ -690,12 +690,14 @@ Press Enter
     ...    - Pressing the ``Enter`` key might cause multiple side effects
     ...    \ depending on the context
 
-    Sleep    1s
     Read From Terminal
     IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
         Single Key PiKVM    Enter
     ELSE
-        Press Key N Times    1    ${ENTER}
+        # Send enter directly to avoid 2s sleep. Using Press Key N Times to send
+        # ENTER will cause the iPXE menu to count down the autoboot to 0 and
+        # miss the menu.
+        Write Bare Into Terminal    ${ENTER}
     END
 
 Press Key N Times
