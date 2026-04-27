@@ -58,14 +58,14 @@ rerun_suite () {
         echo "Error: Output XML from last $_suite regression does not exist"
     else
         execute_robot "$_suite" -- \
-            --rerunfailed $REGRESSION_LOG_DIR/${_suite}_out.xml "${@}"
+            --rerunfailed $REGRESSION_LOG_DIR/${_suite}/merged_out.xml "${@}"
         rebot --output $_logs_dir/${_suite}_out_merged.xml \
             --log $_logs_dir/${_suite}_log_merged.html \
             --report $_logs_dir/${_suite}_report_merged.html \
-            --merge $REGRESSION_LOG_DIR/${_suite}_out.xml $_logs_dir/${_suite}_out.xml
-        mv $_logs_dir/${_suite}_out_merged.xml $_logs_dir/${_suite}_out.xml
-        mv $_logs_dir/${_suite}_log_merged.html $_logs_dir/${_suite}_log.html
-        mv $_logs_dir/${_suite}_report_merged.html $_logs_dir/${_suite}_report.html
+            --merge $REGRESSION_LOG_DIR/${_suite}_out.xml $_logs_dir/${_suite}/merged_out.xml
+        mv $_logs_dir/${_suite}_out_merged.xml $_logs_dir/${_suite}/merged_out.xml
+        mv $_logs_dir/${_suite}_log_merged.html $_logs_dir/${_suite}/merged_log.html
+        mv $_logs_dir/${_suite}_report_merged.html $_logs_dir/${_suite}/merged_report.html
     fi
 }
 
