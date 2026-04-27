@@ -30,6 +30,9 @@ ${FAN_SPEED_MEASURE_SUPPORT}=           ${TRUE}
 # DTS E2E test variables
 @{DTS_TEST_WORKFLOWS}=                  Initial Deployment    UEFI Update
 ${DTS_TEST_SYSTEM_VENDOR}=              NovaCustom
+&{DTS_TEST_VERSIONS}=
+...                                     &{DTS_TEST_VERSIONS_BASE}
+...                                     UEFI Update=Dasharo (coreboot+UEFI) 0.9.0
 &{DTS_TEST_EXPORTS}=
 ...                                     &{DTS_TEST_BASE_EXPORTS}
 ...                                     TEST_SOUND_CARD_PRESENT=false
@@ -40,6 +43,7 @@ ${DTS_TEST_SYSTEM_VENDOR}=              NovaCustom
 &{DTS_TEST_EXPORTS_PER_WORKFLOW}=
 ...                                     &{DTS_TEST_EXPORTS_PER_WORKFLOW_BASE}
 ...                                     Initial Deployment=&{{ {"TEST_SYSTEM_MODEL": "NUC BOX-125H", "TEST_SYSTEM_VENDOR": "ASRock Industrial", "TEST_BIOS_VENDOR": "proprietary", "TEST_USING_OPENSOURCE_EC_FIRM": "false"} }}
+...                                     UEFI Update=&{{ {"TEST_ME_HAP_DISABLED": "true", "TEST_ME_OP_MODE": "2", "TEST_HCI_PRESENT": "false"} }}
 # robocop: off=LEN08
 @{DTS_TEST_WORKFLOW_PROFILES}=
 ...                                     ${{ ("Initial Deployment", "DCR") }}
