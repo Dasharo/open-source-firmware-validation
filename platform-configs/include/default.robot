@@ -33,6 +33,7 @@ ${FLASHING_METHOD}=                                 external
 ${SNIPEIT}=                                         yes
 ${SEABIOS_BOOT_DEVICE}=                             ${EMPTY}
 ${CHECK_POWER_LED_SUPPORT}=                         ${TRUE}
+${POWER_LED_POLARITY_INVERTED}=                     ${FALSE}
 ${DUT_HAS_RESET_BUTTON}=                            ${TRUE}
 ${DUT_HAS_POWER_BUTTON}=                            ${TRUE}
 ${DUT_HAS_CMOS_RESET}=                              ${TRUE}
