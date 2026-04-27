@@ -12,26 +12,28 @@ Resource    include/default.robot
 ${INITIAL_DUT_CONNECTION_METHOD}=           Telnet
 ${DUT_CONNECTION_METHOD}=                   Telnet
 ${POWER_CTRL}=                              sonoff
+${DUT_HAS_CMOS_RESET}=                      ${FALSE}
 ${FLASH_SIZE}=                              ${32*1024*1024}
-
 ${INITIAL_CPU_FREQUENCY}=                   3600
 ${FLASHING_METHOD}=                         external
 
 # dmidecode.robot
 ${MANUFACTURER}=                            Giga Computing
 ${DMIDECODE_VENDOR}=                        3mdeb
-${DMIDECODE_SERIAL_NUMBER}=                 123456789
+${DMIDECODE_SERIAL_NUMBER}=                 01234567890123456789AB
 ${DMIDECODE_FIRMWARE_VERSION}=              Dasharo (coreboot+UEFI) v0.9.0-rc1
 ${DMIDECODE_PRODUCT_NAME}=                  MZ33-AR1-000
-${DMIDECODE_RELEASE_DATE}=                  04/24/2026
+${DMIDECODE_RELEASE_DATE}=                  04/23/2026
 ${DMIDECODE_FAMILY}=                        Server
 ${DMIDECODE_TYPE}=                          Main Server Chassis
-${CHECK_POWER_LED_SUPPORT}=                 ${TRUE}    # polarity inverted
+${DMIDECODE_MANUFACTURER}=                  Giga Computing
+${CHECK_POWER_LED_SUPPORT}=                 ${TRUE}
+${POWER_LED_POLARITY_INVERTED}=             ${TRUE}
 ${FLASH_VERIFY_METHOD}=                     none
 ${TESTS_IN_UBUNTU_SUPPORT}=                 ${TRUE}
 ${TESTS_IN_FIRMWARE_SUPPORT}=               ${TRUE}
 ${TESTS_IN_WINDOWS_SUPPORT}=                ${TRUE}
-${DEVICE_NVME_DISK}=                        KINGSTON SKC3000S512G
+${DEVICE_NVME_DISK}=                        Kingston Technology Company, Inc. KC3000/FURY Renegade NVMe SSD E18
 ${BOOT_MENU_KEY}=                           ${F10}
 
 ${DEFAULT_BOOT_OS_ID}=                      ${ENV_ID_UBUNTU}
@@ -85,6 +87,7 @@ ${L2_CACHE_SUPPORT}=                        ${TRUE}
 ${L3_CACHE_SUPPORT}=                        ${TRUE}
 ${ESP_SCANNING_SUPPORT}=                    ${TRUE}
 ${SATA_SUPPORT}=                            ${TRUE}
+${CPU_THROTTLING_SUPPORT}=                  ${FALSE}
 ${RESET_TO_DEFAULTS_SUPPORT}=               ${TRUE}
 ${AUTO_BOOT_TIME_OUT_DEFAULT_VALUE}=        3
 
@@ -93,7 +96,7 @@ ${TPM_SUPPORTED_VERSION}=                   2
 ${MEASURED_BOOT_SUPPORT}=                   ${TRUE}
 ${SECURE_BOOT_SUPPORT}=                     ${TRUE}
 ${USB_MASS_STORAGE_SUPPORT}=                ${TRUE}
-${TCG_OPAL_DISK_PASSWORD_SUPPORT}=          ${TRUE}
+${TCG_OPAL_DISK_PASSWORD_SUPPORT}=          ${FALSE}
 ${UEFI_PASSWORD_SUPPORT}=                   ${TRUE}
 
 # Test module: dasharo-performance
