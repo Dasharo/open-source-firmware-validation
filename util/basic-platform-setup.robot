@@ -234,23 +234,12 @@ Power Off Ex
     IF    '${CHECK_POWER_LED_SUPPORT}' == '${TRUE}'
         FOR    ${i}    IN RANGE    20
             ${out}=    Rte Check Power Led
-            IF    ${POWER_LED_POLARITY_INVERTED}
-                IF    '${out}' == 'high'    RETURN
-            ELSE
-                IF    '${out}' == 'low'    RETURN
-            END
+            IF    '${out}' == 'low'    RETURN
             Sleep    0.5s
         END
-        IF    ${POWER_LED_POLARITY_INVERTED}
-            IF    '${out}' != 'high'
-                FAIL    Power LED didn't turn off! Setup needs manual verification,
-                ...    or Power State After Power Failure is set incorrectly.
-            END
-        ELSE
-            IF    '${out}' != 'low'
-                FAIL    Power LED didn't turn off! Setup needs manual verification,
-                ...    or Power State After Power Failure is set incorrectly.
-            END
+        IF    '${out}' != 'high'
+            FAIL    Power LED didn't light up! Setup needs manual verification,
+            ...    or Power State After Power Failure is set incorrectly.
         END
     END
 
@@ -259,23 +248,12 @@ Power On Ex
     IF    '${CHECK_POWER_LED_SUPPORT}' == '${TRUE}'
         FOR    ${i}    IN RANGE    10
             ${out}=    Rte Check Power Led
-            IF    ${POWER_LED_POLARITY_INVERTED}
-                IF    '${out}' == 'low'    RETURN
-            ELSE
-                IF    '${out}' == 'high'    RETURN
-            END
+            IF    '${out}' == 'high'    RETURN
             Sleep    0.5s
         END
-        IF    ${POWER_LED_POLARITY_INVERTED}
-            IF    '${out}' != 'low'
-                FAIL    Power LED didn't light up! Setup needs manual verification,
-                ...    or Power State After Power Failure is set incorrectly.
-            END
-        ELSE
-            IF    '${out}' != 'high'
-                FAIL    Power LED didn't light up! Setup needs manual verification,
-                ...    or Power State After Power Failure is set incorrectly.
-            END
+        IF    '${out}' != 'high'
+            FAIL    Power LED didn't light up! Setup needs manual verification,
+            ...    or Power State After Power Failure is set incorrectly.
         END
     END
 
