@@ -205,6 +205,7 @@ ${COREBOOT_REDUNDANT_BOOT_SUPPORT}=                 ${FALSE}
 ${COREBOOT_REDUNDANT_BOOT_BOOTBLOCK_OFFSET}=        ${NONE}
 ${COREBOOT_REDUNDANT_BOOT_COREBOOT_OFFSET}=         ${NONE}
 @{FORBIDDEN_ETH_NAMES}=                             @{EMPTY}
+${NETWORK_BOOT_NEEDS_OPTION_ROMS}=                  ${FALSE}
 
 # Test module: dasharo-security
 ${TPM_SUPPORTED_VERSION}=                           ${NONE}

@@ -1430,6 +1430,12 @@ Make Sure That Network Boot Is Enabled
 
     IF    not ${DASHARO_NETWORKING_MENU_SUPPORT}    RETURN
     Set UEFI Option    NetworkBoot    ${TRUE}
+    IF    ${NETWORK_BOOT_NEEDS_OPTION_ROMS}
+        IF    not ${DASHARO_PCI_PCIE_MENU_SUPPORT}
+            FAIL    Network boot needs Option ROMs, but PCIe menu not enabled.
+        END
+        Set UEFI Option    OptionROMExecutionPolicy    Enable all OptionROMs loading
+    END
 
 Get Firmware Version From Tianocore Setup Menu    # TODO unused
     [Documentation]    Reads the firmware version from Tianocore
