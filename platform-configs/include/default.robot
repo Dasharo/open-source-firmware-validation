@@ -164,6 +164,7 @@ ${DOCKING_STATION_SD_CARD_READER_SUPPORT}=          ${FALSE}
 ${CPU_TESTS_SUPPORT}=                               ${FALSE}
 ${HYPER_THREADING_SUPPORT}=                         ${FALSE}
 ${INTEL_HYBRID_ARCH_SUPPORT}=                       ${FALSE}
+${CPU_THROTTLING_SUPPORT}=                          ${TRUE}
 ${RESET_TO_DEFAULTS_SUPPORT}=                       ${FALSE}
 ${L2_CACHE_SUPPORT}=                                ${TRUE}
 ${L3_CACHE_SUPPORT}=                                ${FALSE}
