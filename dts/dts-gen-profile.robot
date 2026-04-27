@@ -171,6 +171,14 @@ Prepare DTS For Profile Generation
     Execute Command In Terminal    echo '#!/bin/bash' >/tmp/bin/reboot
     Execute Command In Terminal    chmod +x /tmp/bin/reboot
     Execute Command In Terminal    export DTS_CONFIG_REF="${DTS_CONFIG_REF}"
+    VAR    ${dasharo_ectool}=
+    ...    \#!/bin/bash
+    ...    if [ "\$1" != "flash" ]; then
+    ...    /usr/bin/dasharo_ectool "\$@"
+    ...    fi
+    ...    separator=${\n}
+    Execute Command In Terminal    echo '${dasharo_ectool}' >/tmp/bin/dasharo_ectool
+    Execute Command In Terminal    chmod +x /tmp/bin/dasharo_ectool
     Write Into Terminal    PATH="/tmp/bin:$PATH" dts-boot
 
 Get Profile After Workflow
