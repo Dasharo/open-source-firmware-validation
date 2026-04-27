@@ -28,7 +28,7 @@ ${USB_KEYBOARD_DETECTION_SUPPORT}=      ${TRUE}
 ${FAN_SPEED_MEASURE_SUPPORT}=           ${TRUE}
 
 # DTS E2E test variables
-@{DTS_TEST_WORKFLOWS}=                  Initial Deployment
+@{DTS_TEST_WORKFLOWS}=                  Initial Deployment    UEFI Update
 ${DTS_TEST_SYSTEM_VENDOR}=              NovaCustom
 &{DTS_TEST_EXPORTS}=
 ...                                     &{DTS_TEST_BASE_EXPORTS}
@@ -43,5 +43,8 @@ ${DTS_TEST_SYSTEM_VENDOR}=              NovaCustom
 # robocop: off=LEN08
 @{DTS_TEST_WORKFLOW_PROFILES}=
 ...                                     ${{ ("Initial Deployment", "DCR") }}
+...                                     ${{ ("UEFI Update", "DCR") }}
+
+# End of DTS E2E test variables
 
 ${CAPSULE_UPDATE_SUPPORT}=              ${FALSE}
