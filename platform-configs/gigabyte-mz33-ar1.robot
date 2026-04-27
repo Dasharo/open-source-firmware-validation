@@ -32,7 +32,7 @@ ${FLASH_VERIFY_METHOD}=                     none
 ${TESTS_IN_UBUNTU_SUPPORT}=                 ${TRUE}
 ${TESTS_IN_FIRMWARE_SUPPORT}=               ${TRUE}
 ${TESTS_IN_WINDOWS_SUPPORT}=                ${TRUE}
-${DEVICE_NVME_DISK}=                        Kingston Technology Company, Inc. KC3000/FURY Renegade NVMe SSD E18
+${DEVICE_NVME_DISK}=                        Non-Volatile memory controller
 ${BOOT_MENU_KEY}=                           ${F10}
 
 ${DEFAULT_BOOT_OS_ID}=                      ${ENV_ID_UBUNTU}
