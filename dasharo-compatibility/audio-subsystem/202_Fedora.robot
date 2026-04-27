@@ -3,6 +3,7 @@ Resource            common.resource
 
 Suite Setup         Run Keywords
 ...                     Prepare Test Suite
+...                     AND    Skip If    not ${AUDIO_SUBSYSTEM_SUPPORT}
 ...                     AND    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    Fedora not supported
 ...                     AND    Init AUD Fedora
 Suite Teardown      Log Out And Close Connection

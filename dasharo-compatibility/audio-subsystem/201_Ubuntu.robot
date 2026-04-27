@@ -3,6 +3,7 @@ Resource            common.resource
 
 Suite Setup         Run Keywords
 ...                     Prepare Test Suite
+...                     AND    Skip If    not ${AUDIO_SUBSYSTEM_SUPPORT}
 ...                     AND    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    Ubuntu not supported
 ...                     AND    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    Ubuntu not supported
 ...                     AND    Init AUD Ubuntu

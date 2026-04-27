@@ -12,7 +12,9 @@ Resource            ../variables.robot
 Resource            ../keywords.robot
 Resource            ../keys.robot
 
-Suite Setup         Prepare Test Suite
+Suite Setup         Run Keywords
+...                     Prepare Test Suite    AND
+...                     Skip If    not ${AUDIO_SUBSYSTEM_SUPPORT}
 Suite Teardown      Log Out And Close Connection
 
 Default Tags        automated
