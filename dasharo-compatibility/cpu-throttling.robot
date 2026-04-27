@@ -12,8 +12,9 @@ Resource            ../variables.robot
 Resource            ../keywords.robot
 Resource            ../keys.robot
 
-Suite Setup         Run Keyword
-...                     Prepare Test Suite
+Suite Setup         Run Keywords
+...                     Prepare Test Suite    AND
+...                     Skip If    not ${CPU_THROTTLING_SUPPORT}
 Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
 
