@@ -28,7 +28,6 @@ ${DMIDECODE_FAMILY}=                        Server
 ${DMIDECODE_TYPE}=                          Main Server Chassis
 ${DMIDECODE_MANUFACTURER}=                  Giga Computing
 ${CHECK_POWER_LED_SUPPORT}=                 ${TRUE}
-${POWER_LED_POLARITY_INVERTED}=             ${TRUE}
 ${FLASH_VERIFY_METHOD}=                     none
 ${TESTS_IN_UBUNTU_SUPPORT}=                 ${TRUE}
 ${TESTS_IN_FIRMWARE_SUPPORT}=               ${TRUE}
