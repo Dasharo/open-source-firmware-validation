@@ -451,6 +451,11 @@ Prepare Test Exports
     Set To Dictionary    ${exports}
     ...    TEST_BIOS_VERSION=${dts_test_variables}[DTS_TEST_VERSIONS][${workflow}]
     ...    DTS_CONFIG_REF=${dts_config_ref_value}
+    ${custom_fw_store}=    Run Keyword And Return Status
+    ...    Variable Should Exist    $FW_STORE_URL_DEV
+    IF    ${custom_fw_store}
+        Set To Dictionary    ${exports}    FW_STORE_URL_DEV=${FW_STORE_URL_DEV}
+    END
     FOR    ${export_variable}    ${export_value}    IN    &{exports_dict}
         Set To Dictionary    ${exports}    ${export_variable}=${export_value}
     END

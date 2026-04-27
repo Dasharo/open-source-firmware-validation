@@ -18,8 +18,8 @@ every user workflow (e.g. installation, update, etc.) for every platform.
 
 Location in OSFV: `dts/dts-e2e.robot`.
 
-These tests include modifications for DTS platform emulation so the tests
-could be launched on Qemu. Then every test case choose the workflow by
+These tests include modifications for DTS platform emulation, so the tests
+could be launched on QEMU. Then every test case choose the workflow by
 choosing DTS menu option, and provides credentials (if necessary). So, the
 start conditions are: platform configuration and workflow selection.
 
@@ -30,7 +30,7 @@ fails.
 Control variables:
 
 * `dts_ipxe_link`: useful if you are testing DTS which is not released yet. Just
-  put here a link to your script which will load your DTS. By default DTS is
+  put here a link to your script which will load your DTS. By default, DTS is
   being booted from `dl.3mdeb.com`;
 * `dpp_email`, `dpp_password`: for DPP credentials, if tests need them.
 * `dts_config_ref`: can be set to custom dts-configs revision (default is
@@ -38,6 +38,8 @@ Control variables:
     - branch name: `ref/heads/<branch_name>`
     - tag: `refs/tags/<tag_name>`
     - commit: `<commit_hash>`
+* `fw_store_url_dev`: can be set to custom server (e.g. local PC) from which to
+    serve download artifacts.
 
 Launching example:
 
@@ -46,7 +48,7 @@ robot -b command_log.txt -v snipeit:no -L TRACE -v config:qemu \
     -v rte_ip:127.0.0.1 -v boot_dts_from_ipxe_shell:True \
     -v dts_ipxe_link:http://192.168.0.102:8080/ipxe -v dpp_email:'EMAIL' \
     -v dpp_password:'PASSWORD' -v dts_config_ref:'refs/heads/develop' \
-    -t "E2E006.002*" dts/dts-e2e.robot
+    -v fw_store_url_dev:"192.168.4.48:1234" -t "E2E006.002*" dts/dts-e2e.robot
 ```
 
 > Note: replace `EMAIL` and `PASSWORD` with appropriate credentials if required.

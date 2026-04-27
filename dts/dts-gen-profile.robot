@@ -179,6 +179,11 @@ Prepare DTS For Profile Generation
     ...    separator=${\n}
     Execute Command In Terminal    echo '${dasharo_ectool}' >/tmp/bin/dasharo_ectool
     Execute Command In Terminal    chmod +x /tmp/bin/dasharo_ectool
+    ${custom_fw_store}=    Run Keyword And Return Status
+    ...    Variable Should Exist    $FW_STORE_URL_DEV
+    IF    ${custom_fw_store}
+        Execute Command In Terminal    export FW_STORE_URL_DEV="${FW_STORE_URL_DEV}"
+    END
     Write Into Terminal    PATH="/tmp/bin:$PATH" dts-boot
 
 Get Profile After Workflow
