@@ -88,6 +88,11 @@ Set Selected OS As First In Boot Order Via EDK2
         # Issue reset in the menu
         Press Key N Times    2    ${ARROW_DOWN}
         Press Enter
+    ELSE
+        # We have to reset anyways, because the keyword
+        # "Verify Selected OS As First In Boot Order Via EDK2" followed
+        # by this keyword is expecting the boot prompt
+        Tianocore Reset System
     END
 
 Set Selected OS As First In Boot Order Via Efibootmgr
