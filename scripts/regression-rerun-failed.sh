@@ -54,7 +54,7 @@ rerun_suite () {
 
     shift
 
-    if [ ! -f $REGRESSION_LOG_DIR/${_suite}_out.xml ]; then
+    if [ ! -f $REGRESSION_LOG_DIR/${_suite}/merged_out.xml ]; then
         echo "Error: Output XML from last $_suite regression does not exist"
     else
         execute_robot "$_suite" -- \
