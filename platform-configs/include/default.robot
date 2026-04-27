@@ -104,6 +104,7 @@ ${DASHARO_MEMORY_MENU_SUPPORT}=                     ${FALSE}
 ${DASHARO_SERIAL_PORT_MENU_SUPPORT}=                ${TRUE}
 # Test module: dasharo-compatibility
 ${ACPI_DRIVER_SUPPORT}=                             ${FALSE}
+${AUDIO_SUBSYSTEM_SUPPORT}=                         ${TRUE}
 ${BASE_PORT_ALLOCATOR_V4_SUPPORT}=                  ${FALSE}
 ${CUSTOM_BOOT_MENU_KEY_SUPPORT}=                    ${FALSE}
 ${CUSTOM_SETUP_MENU_KEY_SUPPORT}=                   ${FALSE}
