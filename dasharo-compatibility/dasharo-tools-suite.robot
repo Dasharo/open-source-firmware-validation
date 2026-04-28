@@ -28,18 +28,18 @@ Default Tags        automated
 
 
 *** Test Cases ***
-DTS001.001 Booting DTS from USB works correctly
+DTS001.211 Booting DTS from USB works correctly (DTS)
     [Documentation]    This test aims to verify that DTS is properly booting
     ...    from USB.
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    DTS001.001 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    DTS001.211 not supported
     Mount USB Disk Image    ${TEST_DATA_DIR}/dts/dts-base-image-v2.1.3.wic
     Power On
     Boot Dasharo Tools Suite    USB
 
-DTS002.001 DTS option Creating Dasharo HCL report works correctly
+DTS002.211 DTS option Creating Dasharo HCL report works correctly (DTS)
     [Documentation]    This test aims to verify that the option Dasharo HCL
     ...    report in the DTS menu properly creates the report.
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    DTS002.001 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    DTS002.211 not supported
     Make Sure That Network Boot Is Enabled
     Boot Dasharo Tools Suite    iPXE
     Write Bare Into Terminal    1
@@ -48,10 +48,10 @@ DTS002.001 DTS option Creating Dasharo HCL report works correctly
     Set DUT Response Timeout    5m
     Read From Terminal Until    Done! Logs saved to:
 
-DTS003.001 DTS option reboot DUT works correctly
+DTS003.211 DTS option reboot DUT works correctly (DTS)
     [Documentation]    This test aims to verify that the option Reboot system
     ...    in the DTS menu reboots the DUT.
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    DTS003.001 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    DTS003.211 not supported
     Make Sure That Network Boot Is Enabled
     Boot Dasharo Tools Suite    iPXE
     Write Bare Into Terminal    R
@@ -59,21 +59,21 @@ DTS003.001 DTS option reboot DUT works correctly
     Restore Initial DUT Connection Method
     Enter Setup Menu Tianocore
 
-DTS004.001 DTS accessing shell works correctly
+DTS004.211 DTS accessing shell works correctly (DTS)
     [Documentation]    This test aims to verify that shell can be accessed in
     ...    DTS.
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    DTS004.001 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    DTS004.211 not supported
     Make Sure That Network Boot Is Enabled
     Boot Dasharo Tools Suite    iPXE
     Write Bare Into Terminal    S
     Read From Terminal Until Regexp    bash-\\d\\.\\d#
 
-DTS005.001 Flash device from DTS shell by using flashrom works correctly
+DTS005.211 Flash device from DTS shell by using flashrom works correctly (DTS)
     [Documentation]    This test aims to verify whether is the possibility to
     ...    flash the DUT firmware by using flashrom in DTS Shell.
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    DTS005.001 not supported
-    Skip If    not ${DTS_FIRMWARE_FLASHING_SUPPORT}    DTS005.001 not supported
-    Skip If    '${FW_NO_EC_SYNC_DOWNLOAD_LINK}' == '${TBD}'    DTS005.001 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    DTS005.211 not supported
+    Skip If    not ${DTS_FIRMWARE_FLASHING_SUPPORT}    DTS005.211 not supported
+    Skip If    '${FW_NO_EC_SYNC_DOWNLOAD_LINK}' == '${TBD}'    DTS005.211 not supported
     Make Sure That Network Boot Is Enabled
     Boot Dasharo Tools Suite    iPXE
     Enter Shell In DTS
@@ -85,12 +85,12 @@ DTS005.001 Flash device from DTS shell by using flashrom works correctly
     Enter Shell In DTS
     Check Firmware Version
 
-DTS006.001 Flash device EC firmware by using DTS built-in script works correctly
+DTS006.211 Flash device EC firmware by using DTS built-in script works correctly (DTS)
     [Documentation]    This test aims to verify whether there is the
     ...    possibility to flash the DUT EC firmware by using the built-in
     ...    script in DTS.
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    DTS006.001 not supported
-    Skip If    not ${DTS_EC_FLASHING_SUPPORT}    DTS006.001 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    DTS006.211 not supported
+    Skip If    not ${DTS_EC_FLASHING_SUPPORT}    DTS006.211 not supported
     Make Sure That Network Boot Is Enabled
     Boot Dasharo Tools Suite    iPXE
     Run EC Transition
@@ -100,12 +100,12 @@ DTS006.001 Flash device EC firmware by using DTS built-in script works correctly
     Enter Shell In DTS
     Check EC Firmware Version
 
-DTS007.001 Update device EC firmware by using DTS works correctly
+DTS007.211 Update device EC firmware by using DTS works correctly (DTS)
     [Documentation]    This test aims to verify whether there is the
     ...    possibility to update the DUT EC firmware by using dasharo_ectool
     ...    in DTS.
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    DTS007.001 not supported
-    Skip If    not ${DTS_EC_FLASHING_SUPPORT}    DTS007.001 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    DTS007.211 not supported
+    Skip If    not ${DTS_EC_FLASHING_SUPPORT}    DTS007.211 not supported
     Make Sure That Network Boot Is Enabled
     Boot Dasharo Tools Suite    iPXE
     Enter Shell In DTS
@@ -116,10 +116,10 @@ DTS007.001 Update device EC firmware by using DTS works correctly
     Enter Shell In DTS
     Check EC Firmware Version
 
-DTS008.001 DTS option power-off DUT works correctly
+DTS008.211 DTS option power-off DUT works correctly (DTS)
     [Documentation]    This test aims to verify that the option Power off
     ...    system in the DTS menu turns off the DUT.
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    DTS008.001 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    DTS008.211 not supported
     Make Sure That Network Boot Is Enabled
     Boot Dasharo Tools Suite    iPXE
     Write Bare Into Terminal    P
@@ -127,7 +127,7 @@ DTS008.001 DTS option power-off DUT works correctly
     ${status}=    Run Keyword And Return Status    Enter Setup Menu Tianocore
     Should Not Be True    ${status}
 
-DTS009.001 Update Dasharo firmware by using DTS via USB works correctly
+DTS009.211 Update Dasharo firmware by using DTS via USB works correctly (DTS)
     [Documentation]    This test aims to verify that updating Dasharo by using
     ...    DTS built-in script works correctly when booting DTS via USB.
     ...    Test expects FW_FILE_PREV variable to contain path to Dasharo
@@ -153,7 +153,7 @@ DTS009.001 Update Dasharo firmware by using DTS via USB works correctly
     Set DUT Response Timeout    5m
     Enter Setup Menu Tianocore
 
-DTS009.002 Update Dasharo firmware by using DTS via iPXE works correctly
+DTS010.211 Update Dasharo firmware by using DTS via iPXE works correctly (DTS)
     [Documentation]    This test aims to verify that updating Dasharo by using
     ...    DTS built-in script works correctly when booting DTS via iPXE.
     ...    Test expects FW_FILE_PREV variable to contain path to Dasharo
@@ -180,7 +180,7 @@ DTS009.002 Update Dasharo firmware by using DTS via iPXE works correctly
     Set DUT Response Timeout    5m
     Enter Setup Menu Tianocore
 
-DTS010.001 Deploy Dasharo firmware by using DTS works correctly
+DTS011.211 Deploy Dasharo firmware by using DTS works correctly (DTS)
     [Documentation]    This test aims to verify that deploying Dasharo by using
     ...    DTS built-in script works correctly.
     ...    Test expects FW_FILE_NON_DASHARO variable to contain path to
@@ -200,7 +200,7 @@ DTS010.001 Deploy Dasharo firmware by using DTS works correctly
     Execute Manual Step While Freeing Serial Connection
     ...    "Confirm that deployment succeeded"
 
-DTS010.002 Deploy Dasharo SeaBios firmware by using DTS works correctly
+DTS012.211 Deploy Dasharo SeaBios firmware by using DTS works correctly (DTS)
     [Documentation]    This test aims to verify that deploying Dasharo by using
     ...    DTS built-in script works correctly.
     ...    Test expects FW_FILE_NON_DASHARO variable to contain path to
@@ -220,7 +220,7 @@ DTS010.002 Deploy Dasharo SeaBios firmware by using DTS works correctly
     Execute Manual Step While Freeing Serial Connection
     ...    "Confirm that deployment succeeded"
 
-DTS011.001 Heads Transition by using DTS via iPXE works correctly
+DTS013.211 Heads Transition by using DTS via iPXE works correctly (DTS)
     [Documentation]    This test aims to verify that Heads Transition by using
     ...    DTS built-in script works correctly.
     ...    Test expects FW_FILE variable to contain path to Dasharo fw with

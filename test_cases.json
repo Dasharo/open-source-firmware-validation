@@ -2339,92 +2339,92 @@
   },
   {
     "doc": {
-      "_id": "DTS001.001",
-      "name": "Booting DTS from USB works correctly",
+      "_id": "DTS001.211",
+      "name": "Booting DTS from USB works correctly (DTS)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "DTS002.001",
-      "name": "DTS option Creating Dasharo HCL report works correctly",
+      "_id": "DTS002.211",
+      "name": "DTS option Creating Dasharo HCL report works correctly (DTS)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "DTS003.001",
-      "name": "DTS option reboot DUT works correctly",
+      "_id": "DTS003.211",
+      "name": "DTS option reboot DUT works correctly (DTS)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "DTS004.001",
-      "name": "DTS accessing shell works correctly",
+      "_id": "DTS004.211",
+      "name": "DTS accessing shell works correctly (DTS)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "DTS005.001",
-      "name": "Flash device from DTS shell by using flashrom works correctly",
+      "_id": "DTS005.211",
+      "name": "Flash device from DTS shell by using flashrom works correctly (DTS)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "DTS006.001",
-      "name": "Flash device EC firmware by using DTS built-in script works correctly",
+      "_id": "DTS006.211",
+      "name": "Flash device EC firmware by using DTS built-in script works correctly (DTS)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "DTS007.001",
-      "name": "Update device EC firmware by using DTS works correctly",
+      "_id": "DTS007.211",
+      "name": "Update device EC firmware by using DTS works correctly (DTS)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "DTS008.001",
-      "name": "DTS option power-off DUT works correctly",
+      "_id": "DTS008.211",
+      "name": "DTS option power-off DUT works correctly (DTS)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "DTS009.001",
-      "name": "Update Dasharo firmware by using DTS via USB works correctly",
+      "_id": "DTS009.211",
+      "name": "Update Dasharo firmware by using DTS via USB works correctly (DTS)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "DTS009.002",
-      "name": "Update Dasharo firmware by using DTS via iPXE works correctly",
+      "_id": "DTS010.211",
+      "name": "Update Dasharo firmware by using DTS via iPXE works correctly (DTS)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "DTS010.001",
-      "name": "Deploy Dasharo firmware by using DTS works correctly",
+      "_id": "DTS011.211",
+      "name": "Deploy Dasharo firmware by using DTS works correctly (DTS)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "DTS010.002",
-      "name": "Deploy Dasharo SeaBios firmware by using DTS works correctly",
+      "_id": "DTS012.211",
+      "name": "Deploy Dasharo SeaBios firmware by using DTS works correctly (DTS)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "DTS011.001",
-      "name": "Heads Transition by using DTS via iPXE works correctly",
+      "_id": "DTS013.211",
+      "name": "Heads Transition by using DTS via iPXE works correctly (DTS)",
       "module": "Dasharo Compatibility"
     }
   },
