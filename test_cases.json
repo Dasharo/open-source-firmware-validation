@@ -22,50 +22,50 @@
   },
   {
     "doc": {
-      "_id": "APU001.001",
-      "name": "Check if apu2 watchdog option is available",
+      "_id": "APU001.101",
+      "name": "Check if apu2 watchdog option is available (EDK2 UEFI)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "APU002.001",
-      "name": "Enable apu2 watchdog",
+      "_id": "APU002.101",
+      "name": "Enable apu2 watchdog (EDK2 UEFI)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "APU003.001",
-      "name": "Disable apu2 watchdog",
+      "_id": "APU003.101",
+      "name": "Disable apu2 watchdog (EDK2 UEFI)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "APU004.001",
-      "name": "Change apu2 watchdog timeout",
+      "_id": "APU004.101",
+      "name": "Change apu2 watchdog timeout (EDK2 UEFI)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "APU005.001",
-      "name": "Check if disabling CPB decreases performance",
+      "_id": "APU005.201",
+      "name": "Check if disabling CPB decreases performance (Ubuntu)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "APU006.001",
-      "name": "Disabling Enable PCIe power management features disables ASPM",
+      "_id": "APU006.201",
+      "name": "Disabling Enable PCIe power management features disables ASPM (Ubuntu)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "APU006.002",
-      "name": "Enabling Enable PCIe power management features enables ASPM",
+      "_id": "APU007.201",
+      "name": "Enabling Enable PCIe power management features enables ASPM (Ubuntu)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -386,36 +386,36 @@
   },
   {
     "doc": {
-      "_id": "BMA001.001",
-      "name": "Boot menu enable",
+      "_id": "BMA001.101",
+      "name": "Boot menu enable (EDK2 UEFI)",
       "module": "Dasharo Security"
     }
   },
   {
     "doc": {
-      "_id": "BMA002.001",
-      "name": "Boot menu disable",
+      "_id": "BMA002.101",
+      "name": "Boot menu disable (EDK2 UEFI)",
       "module": "Dasharo Security"
     }
   },
   {
     "doc": {
-      "_id": "BMM001.001",
-      "name": "Change Auto Boot Time-out and check after reboot",
+      "_id": "BMM001.101",
+      "name": "Change Auto Boot Time-out and check after reboot (EDK2 UEFI)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "BMM002.001",
-      "name": "F9 resets Auto Boot Time-out to default value",
+      "_id": "BMM002.101",
+      "name": "F9 resets Auto Boot Time-out to default value (EDK2 UEFI)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "BMM003.001",
-      "name": "Check Auto Boot Time-out option not accept non-numeric values",
+      "_id": "BMM003.101",
+      "name": "Check Auto Boot Time-out option not accept non-numeric values (EDK2 UEFI)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -652,15 +652,15 @@
   },
   {
     "doc": {
-      "_id": "CBK001.001",
-      "name": "Custom boot menu key",
+      "_id": "CBK001.101",
+      "name": "Custom boot menu key (EDK2 UEFI)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "CBK002.001",
-      "name": "Custom BIOS Menu Key",
+      "_id": "CBK002.101",
+      "name": "Custom BIOS Menu Key (EDK2 UEFI)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -764,43 +764,43 @@
   },
   {
     "doc": {
-      "_id": "CBP001.001",
-      "name": "Boot into coreboot stage bootblock",
+      "_id": "CBP001.101",
+      "name": "Boot into coreboot stage bootblock (EDK2 UEFI)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "CBP002.001",
-      "name": "Boot into coreboot stage romstage",
+      "_id": "CBP002.101",
+      "name": "Boot into coreboot stage romstage (EDK2 UEFI)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "CBP003.001",
-      "name": "Boot into coreboot stage postcar",
+      "_id": "CBP003.101",
+      "name": "Boot into coreboot stage postcar (EDK2 UEFI)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "CBP004.001",
-      "name": "Boot into coreboot stage ramstage",
+      "_id": "CBP004.101",
+      "name": "Boot into coreboot stage ramstage (EDK2 UEFI)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "CBP005.001",
-      "name": "Resource allocator v4 - gathering requirements",
+      "_id": "CBP005.101",
+      "name": "Resource allocator v4 - gathering requirements (EDK2 UEFI)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "CBP006.001",
-      "name": "Resource allocator v4 - allocating resources",
+      "_id": "CBP006.101",
+      "name": "Resource allocator v4 - allocating resources (EDK2 UEFI)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -1821,8 +1821,8 @@
   },
   {
     "doc": {
-      "_id": "CUP260.101",
-      "name": "Capsule update in Firmware Update Mode works (EDK2 UEFI)",
+      "_id": "CUP260.001",
+      "name": "Capsule update in Firmware Update Mode works",
       "module": "Dasharo Stability"
     }
   },
@@ -1884,64 +1884,64 @@
   },
   {
     "doc": {
-      "_id": "DDET001.001",
-      "name": "USB Stack disable",
+      "_id": "DDET001.201",
+      "name": "USB Stack disable (Ubuntu)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "DDET002.001",
-      "name": "USB Stack enable",
+      "_id": "DDET002.201",
+      "name": "USB Stack enable (Ubuntu)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "DDET003.001",
-      "name": "Usb Devices Detected In Firmware Warmboot",
+      "_id": "DDET003.201",
+      "name": "Usb Devices Detected In Firmware Warmboot (Ubuntu)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "DDET004.001",
-      "name": "NET Controller Detected After Reboot",
+      "_id": "DDET004.201",
+      "name": "NET Controller Detected After Reboot (Ubuntu)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "DES001.001",
-      "name": "Initial deployment with DES creds (iPXE boot)",
+      "_id": "DES001.101",
+      "name": "Initial deployment with DES creds (EDK2 UEFI)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "DES001.002",
-      "name": "Initial deployment with DES creds (USB boot)",
+      "_id": "DES001.103",
+      "name": "Initial deployment with DES creds (iPXE)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "DGPU001.001",
-      "name": "Hybrid Graphics modes: NVIDIA Optimus",
+      "_id": "DGPU001.201",
+      "name": "Hybrid Graphics modes: NVIDIA Optimus (Ubuntu)",
       "module": "Dasharo Performance"
     }
   },
   {
     "doc": {
-      "_id": "DGPU002.001",
-      "name": "Hybrid Graphics modes: dGPU Only",
+      "_id": "DGPU002.201",
+      "name": "Hybrid Graphics modes: dGPU Only (Ubuntu)",
       "module": "Dasharo Performance"
     }
   },
   {
     "doc": {
-      "_id": "DGPU003.001",
-      "name": "Hybrid Graphics modes: iGPU Only",
+      "_id": "DGPU003.201",
+      "name": "Hybrid Graphics modes: iGPU Only (Ubuntu)",
       "module": "Dasharo Performance"
     }
   },
@@ -2171,15 +2171,15 @@
   },
   {
     "doc": {
-      "_id": "DMP001.001",
-      "name": "TCG OPAL disk password set and check",
+      "_id": "DMP001.101",
+      "name": "TCG OPAL disk password set and check (EDK2 UEFI)",
       "module": "Dasharo Security"
     }
   },
   {
     "doc": {
-      "_id": "DPC001.001",
-      "name": "Reset button (QubesOS)",
+      "_id": "DPC001.203",
+      "name": "Reset button (Qubes OS)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -2220,7 +2220,7 @@
   },
   {
     "doc": {
-      "_id": "DSP002.003",
+      "_id": "DSP002.001",
       "name": "External HDMI display in firmware",
       "module": "Dasharo Compatibility"
     }
@@ -2269,7 +2269,7 @@
   },
   {
     "doc": {
-      "_id": "DSP003.003",
+      "_id": "DSP003.001",
       "name": "External DP display in firmware",
       "module": "Dasharo Compatibility"
     }
@@ -2311,7 +2311,7 @@
   },
   {
     "doc": {
-      "_id": "DSP004.003",
+      "_id": "DSP004.001",
       "name": "External VGA display in firmware",
       "module": "Dasharo Compatibility"
     }
@@ -2430,15 +2430,15 @@
   },
   {
     "doc": {
-      "_id": "DVT001.001",
-      "name": "Node with coreboot exists",
+      "_id": "DVT001.104",
+      "name": "Node with coreboot exists (Heads)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "DVT002.001",
-      "name": "Memory for coreboot is reserved",
+      "_id": "DVT002.104",
+      "name": "Memory for coreboot is reserved (Heads)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -3011,15 +3011,15 @@
   },
   {
     "doc": {
-      "_id": "ECR023.001",
-      "name": "EC sync update with power adapter connected works correctly",
+      "_id": "ECR023.211",
+      "name": "EC sync update with power adapter connected works correctly (DTS)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "ECR024.001",
-      "name": "EC sync doesn't update with power adapter disconnected",
+      "_id": "ECR024.211",
+      "name": "EC sync doesn't update with power adapter disconnected (DTS)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -3221,15 +3221,15 @@
   },
   {
     "doc": {
-      "_id": "EDP001.001",
-      "name": "Enable early boot DMA protection support",
+      "_id": "EDP001.101",
+      "name": "Enable early boot DMA protection support (EDK2 UEFI)",
       "module": "Dasharo Security"
     }
   },
   {
     "doc": {
-      "_id": "EDP002.001",
-      "name": "Disable early boot DMA protection support",
+      "_id": "EDP002.101",
+      "name": "Disable early boot DMA protection support (EDK2 UEFI)",
       "module": "Dasharo Security"
     }
   },
@@ -3270,43 +3270,43 @@
   },
   {
     "doc": {
-      "_id": "ESP001.001",
-      "name": "ESP Scan with OS-specific .efi files added",
+      "_id": "ESP001.101",
+      "name": "ESP Scan with OS-specific .efi files added (EDK2 UEFI)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "ESP002.001",
-      "name": "ESP Scan after deleting additional .efi files",
+      "_id": "ESP002.101",
+      "name": "ESP Scan after deleting additional .efi files (EDK2 UEFI)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "ESP003.001",
-      "name": "ESP Scan ignores OSes on removable media",
+      "_id": "ESP003.101",
+      "name": "ESP Scan ignores OSes on removable media (EDK2 UEFI)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "ESP004.001",
-      "name": "ESP Scan does not create duplicate entries",
+      "_id": "ESP004.101",
+      "name": "ESP Scan does not create duplicate entries (EDK2 UEFI)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "ESP005.001",
-      "name": "ESP Scan detects Dasharo Tools Suite",
+      "_id": "ESP005.101",
+      "name": "ESP Scan detects Dasharo Tools Suite (EDK2 UEFI)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "ESP006.001",
-      "name": "ESP Scan does not find non-block boot devices",
+      "_id": "ESP006.101",
+      "name": "ESP Scan does not find non-block boot devices (EDK2 UEFI)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -3662,155 +3662,155 @@
   },
   {
     "doc": {
-      "_id": "HDS001.001",
-      "name": "Install Heads",
+      "_id": "HDS001.104",
+      "name": "Install Heads (Heads)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "HDS002.001",
-      "name": "Boot into Heads",
+      "_id": "HDS002.104",
+      "name": "Boot into Heads (Heads)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "HDS003.001",
-      "name": "Boot from USB option is available and works correctly",
+      "_id": "HDS003.104",
+      "name": "Boot from USB option is available and works correctly (Heads)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "HDS004.001",
-      "name": "Continue to the main menu option is available and works correctly",
+      "_id": "HDS004.104",
+      "name": "Continue to the main menu option is available and works correctly (Heads)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "HDS005.001",
-      "name": "Exit to recovery shell option is available and works correctly",
+      "_id": "HDS005.104",
+      "name": "Exit to recovery shell option is available and works correctly (Heads)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "HDS006.001",
-      "name": "Default boot option is available and works correctly",
+      "_id": "HDS006.104",
+      "name": "Default boot option is available and works correctly (Heads)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "HDS007.001",
-      "name": "Options submenu is available and works correctly",
+      "_id": "HDS007.104",
+      "name": "Options submenu is available and works correctly (Heads)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "HDS008.001",
-      "name": "System info option is available and works correctly",
+      "_id": "HDS008.104",
+      "name": "System info option is available and works correctly (Heads)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "HDS009.001",
-      "name": "Power off option is available and works correctly",
+      "_id": "HDS009.104",
+      "name": "Power off option is available and works correctly (Heads)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "HDS010.001",
-      "name": "OEM Factory Reset option is available and works correctly",
+      "_id": "HDS010.104",
+      "name": "OEM Factory Reset option is available and works correctly (Heads)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "HDS011.001",
-      "name": "Add GPG key to running BIOS and reflash",
+      "_id": "HDS011.104",
+      "name": "Add GPG key to running BIOS and reflash (Heads)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "HDS012.001",
-      "name": "Add GPG key to standalone BIOS image and flash",
+      "_id": "HDS012.104",
+      "name": "Add GPG key to standalone BIOS image and flash (Heads)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "HDS013.001",
-      "name": "Replace GPG key(s) in the current ROM and reflash",
+      "_id": "HDS013.104",
+      "name": "Replace GPG key(s) in the current ROM and reflash (Heads)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "HDS014.001",
-      "name": "List GPG keys in your keyring",
+      "_id": "HDS014.104",
+      "name": "List GPG keys in your keyring (Heads)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "HDS015.001",
-      "name": "Export public GPG key to USB drive",
+      "_id": "HDS015.104",
+      "name": "Export public GPG key to USB drive (Heads)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "HDS016.001",
-      "name": "Generate GPG keys manually on a USB security token",
+      "_id": "HDS016.104",
+      "name": "Generate GPG keys manually on a USB security token (Heads)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "HDS017.001",
-      "name": "Clear GPG key(s) and reset all user settings",
+      "_id": "HDS017.104",
+      "name": "Clear GPG key(s) and reset all user settings (Heads)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "HDS018.001",
-      "name": "Reset TPM option is available and works correctly",
+      "_id": "HDS018.104",
+      "name": "Reset TPM option is available and works correctly (Heads)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "HDS019.001",
-      "name": "Generate new TOTP/HOTP secret",
+      "_id": "HDS019.104",
+      "name": "Generate new TOTP/HOTP secret (Heads)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "HDS020.001",
-      "name": "Boot DTS from USB",
+      "_id": "HDS020.104",
+      "name": "Boot DTS from USB (Heads)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "HDS021.001",
-      "name": "Update firmware via DTS (DES)",
+      "_id": "HDS021.104",
+      "name": "Update firmware via DTS (DES) (Heads)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "HDS022.001",
-      "name": "Install Heads via DTS (DES)",
+      "_id": "HDS022.104",
+      "name": "Install Heads via DTS (DES) (Heads)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -3823,8 +3823,8 @@
   },
   {
     "doc": {
-      "_id": "HDS024.001",
-      "name": "Revert back to UEFI from Heads",
+      "_id": "HDS024.104",
+      "name": "Revert back to UEFI from Heads (Heads)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -3837,8 +3837,8 @@
   },
   {
     "doc": {
-      "_id": "HDS026.001",
-      "name": "USB dongle reset",
+      "_id": "HDS026.104",
+      "name": "USB dongle reset (Heads)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -3851,15 +3851,15 @@
   },
   {
     "doc": {
-      "_id": "HDS028.001",
-      "name": "Rebuild Heads with custom bootsplash",
+      "_id": "HDS028.104",
+      "name": "Rebuild Heads with custom bootsplash (Heads)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "HDS029.001",
-      "name": "Reboot in Heads",
+      "_id": "HDS029.104",
+      "name": "Reboot in Heads (Heads)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -4012,57 +4012,57 @@
   },
   {
     "doc": {
-      "_id": "MBO003.001",
-      "name": "Changing Secure Boot certificate changes only PCR-7",
+      "_id": "MBO003.101",
+      "name": "Changing Secure Boot certificate changes only PCR-7 (EDK2 UEFI)",
       "module": "Dasharo Security"
     }
   },
   {
     "doc": {
-      "_id": "MBO004.001",
-      "name": "Changing Dasharo network boot settings changes only PCR-1",
+      "_id": "MBO004.101",
+      "name": "Changing Dasharo network boot settings changes only PCR-1 (EDK2 UEFI)",
       "module": "Dasharo Security"
     }
   },
   {
     "doc": {
-      "_id": "MBO004.002",
-      "name": "Changing Dasharo security settings changes only PCR-1",
+      "_id": "MBO005.101",
+      "name": "Changing Dasharo security settings changes only PCR-1 (EDK2 UEFI)",
       "module": "Dasharo Security"
     }
   },
   {
     "doc": {
-      "_id": "MBO004.003",
-      "name": "Changing Dasharo APU settings changes only PCR-1",
+      "_id": "MBO006.101",
+      "name": "Changing Dasharo APU settings changes only PCR-1 (EDK2 UEFI)",
       "module": "Dasharo Security"
     }
   },
   {
     "doc": {
-      "_id": "MBO005.001",
-      "name": "Flashing firmware and reset to defaults results in same measurement",
+      "_id": "MBO007.101",
+      "name": "Flashing firmware and reset to defaults results in same measurement (EDK2 UEFI)",
       "module": "Dasharo Security"
     }
   },
   {
     "doc": {
-      "_id": "MBO005.002",
-      "name": "Multiple reset to defaults results in identical measurements",
+      "_id": "MBO008.101",
+      "name": "Multiple reset to defaults results in identical measurements (EDK2 UEFI)",
       "module": "Dasharo Security"
     }
   },
   {
     "doc": {
-      "_id": "MBO006.001",
-      "name": "Identical configuration results in identical measurements",
+      "_id": "MBO009.101",
+      "name": "Identical configuration results in identical measurements (EDK2 UEFI)",
       "module": "Dasharo Security"
     }
   },
   {
     "doc": {
-      "_id": "MBO006.002",
-      "name": "Identical configuration after reset results in identical measurements",
+      "_id": "MBO010.101",
+      "name": "Identical configuration after reset results in identical measurements (EDK2 UEFI)",
       "module": "Dasharo Security"
     }
   },
@@ -4138,8 +4138,8 @@
   },
   {
     "doc": {
-      "_id": "MNE001.001",
-      "name": "ME disable option is available and has the correct default state",
+      "_id": "MNE001.101",
+      "name": "ME disable option is available and has the correct default state (EDK2 UEFI)",
       "module": "Dasharo Security"
     }
   },
@@ -4215,22 +4215,22 @@
   },
   {
     "doc": {
-      "_id": "MPS001.001",
-      "name": "Switching to XMP profile",
+      "_id": "MPS001.101",
+      "name": "Switching to XMP profile (EDK2 UEFI)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "MPS002.001",
-      "name": "Switching back to JEDEC profile",
+      "_id": "MPS002.101",
+      "name": "Switching back to JEDEC profile (EDK2 UEFI)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "MPS003.001",
-      "name": "Booting at XMP profile 1",
+      "_id": "MPS003.101",
+      "name": "Booting at XMP profile 1 (EDK2 UEFI)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -4320,71 +4320,71 @@
   },
   {
     "doc": {
-      "_id": "NBA001.001",
-      "name": "Enable Network Boot (firmware)",
+      "_id": "NBA001.101",
+      "name": "Enable Network Boot (EDK2 UEFI)",
       "module": "Dasharo Security"
     }
   },
   {
     "doc": {
-      "_id": "NBA002.001",
-      "name": "Disable Network Boot (firmware)",
+      "_id": "NBA002.101",
+      "name": "Disable Network Boot (EDK2 UEFI)",
       "module": "Dasharo Security"
     }
   },
   {
     "doc": {
-      "_id": "NBT001.001",
-      "name": "Netboot is available",
+      "_id": "NBT001.101",
+      "name": "Netboot is available (EDK2 UEFI)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "NBT002.001",
-      "name": "OS Selection & Utilities is available",
+      "_id": "NBT002.101",
+      "name": "OS Selection & Utilities is available (EDK2 UEFI)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "NBT003.001",
-      "name": "iPXE boot is available",
+      "_id": "NBT003.101",
+      "name": "iPXE boot is available (EDK2 UEFI)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "NBT004.001",
-      "name": "iPXE shell is available",
+      "_id": "NBT004.101",
+      "name": "iPXE shell is available (EDK2 UEFI)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "NBT005.001",
-      "name": "iPXE shell works correctly",
+      "_id": "NBT005.101",
+      "name": "iPXE shell works correctly (EDK2 UEFI)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "NBT006.001",
-      "name": "Advanced option is available",
+      "_id": "NBT006.101",
+      "name": "Advanced option is available (EDK2 UEFI)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "NBT007.001",
-      "name": "Change netboot URL works correctly",
+      "_id": "NBT007.101",
+      "name": "Change netboot URL works correctly (EDK2 UEFI)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "NBT008.001",
-      "name": "iPXE Autoboot is disabled",
+      "_id": "NBT008.101",
+      "name": "iPXE Autoboot is disabled (EDK2 UEFI)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -4537,8 +4537,8 @@
   },
   {
     "doc": {
-      "_id": "NVM001.001",
-      "name": "NVMe support in firmware",
+      "_id": "NVM001.101",
+      "name": "NVMe support in firmware (EDK2 UEFI)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -4586,15 +4586,15 @@
   },
   {
     "doc": {
-      "_id": "OPN001.503",
-      "name": "Install operating system on disk (OPNSense)",
+      "_id": "OPN001.001",
+      "name": "OPNSense stable (VGA output) installation on Hard Disk",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "OPN002.001",
-      "name": "OPNSense stable (VGA output) installation on Hard Disk",
+      "_id": "OPN001.503",
+      "name": "Install operating system on disk (OPNSense)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -4684,29 +4684,29 @@
   },
   {
     "doc": {
-      "_id": "PBT001.001",
-      "name": "Petitboot installation",
+      "_id": "PBT001.105",
+      "name": "Petitboot installation (Petitboot)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "PBT002.001",
-      "name": "Boot into Petitboot",
+      "_id": "PBT002.105",
+      "name": "Boot into Petitboot (Petitboot)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "PBT003.001",
-      "name": "Read System Information from Petitboot",
+      "_id": "PBT003.105",
+      "name": "Read System Information from Petitboot (Petitboot)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "PBT004.001",
-      "name": "Rescan Devices by Petitboot",
+      "_id": "PBT004.105",
+      "name": "Rescan Devices by Petitboot (Petitboot)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -4796,92 +4796,92 @@
   },
   {
     "doc": {
-      "_id": "PSF001.001",
-      "name": "Check Power State After Power Failure default state (firmware)",
+      "_id": "PSF001.101",
+      "name": "Check Power State After Power Failure default state (EDK2 UEFI)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "PSF002.001",
-      "name": "Powered Off State Restoration Test",
+      "_id": "PSF002.101",
+      "name": "Powered Off State Restoration Test (EDK2 UEFI)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "PSF003.001",
-      "name": "Powered On State Restoration Test",
+      "_id": "PSF003.101",
+      "name": "Powered On State Restoration Test (EDK2 UEFI)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "PSF004.001",
-      "name": "Previous Power State Restoration Test - Powered Off",
+      "_id": "PSF004.101",
+      "name": "Previous Power State Restoration Test - Powered Off (EDK2 UEFI)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "PSF004.002",
-      "name": "Previous Power State Restoration Test - Powered On",
+      "_id": "PSF005.101",
+      "name": "Previous Power State Restoration Test - Powered On (EDK2 UEFI)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "PSW001.001",
-      "name": "Check Password Setup option availability and default state",
+      "_id": "PSW001.101",
+      "name": "Check Password Setup option availability and default state (EDK2 UEFI)",
       "module": "Dasharo Security"
     }
   },
   {
     "doc": {
-      "_id": "PSW002.001",
-      "name": "Password setting mechanism correctness checking",
+      "_id": "PSW002.101",
+      "name": "Password setting mechanism correctness checking (EDK2 UEFI)",
       "module": "Dasharo Security"
     }
   },
   {
     "doc": {
-      "_id": "PSW003.001",
-      "name": "Attempt to log in with a correct password",
+      "_id": "PSW003.101",
+      "name": "Attempt to log in with a correct password (EDK2 UEFI)",
       "module": "Dasharo Security"
     }
   },
   {
     "doc": {
-      "_id": "PSW004.001",
-      "name": "Attempt to log in with an incorrect password",
+      "_id": "PSW004.101",
+      "name": "Attempt to log in with an incorrect password (EDK2 UEFI)",
       "module": "Dasharo Security"
     }
   },
   {
     "doc": {
-      "_id": "PSW005.001",
-      "name": "Attempt to log in with an incorrect password 3 times",
+      "_id": "PSW005.101",
+      "name": "Attempt to log in with an incorrect password 3 times (EDK2 UEFI)",
       "module": "Dasharo Security"
     }
   },
   {
     "doc": {
-      "_id": "PSW006.001",
-      "name": "Attempt to turn off setup password functionality",
+      "_id": "PSW006.101",
+      "name": "Attempt to turn off setup password functionality (EDK2 UEFI)",
       "module": "Dasharo Security"
     }
   },
   {
     "doc": {
-      "_id": "PSW007.001",
-      "name": "Attempt to set non-compliant password",
+      "_id": "PSW007.101",
+      "name": "Attempt to set non-compliant password (EDK2 UEFI)",
       "module": "Dasharo Security"
     }
   },
   {
     "doc": {
-      "_id": "PSW008.001",
-      "name": "Attempt to set old password",
+      "_id": "PSW008.101",
+      "name": "Attempt to set old password (EDK2 UEFI)",
       "module": "Dasharo Security"
     }
   },
@@ -4901,57 +4901,57 @@
   },
   {
     "doc": {
-      "_id": "PXE001.001",
-      "name": "Dasharo Network Boot is available",
+      "_id": "PXE001.101",
+      "name": "Dasharo Network Boot is available (EDK2 UEFI)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "PXE002.001",
-      "name": "Dasharo network boot menu boot options order is correct",
+      "_id": "PXE002.101",
+      "name": "Dasharo network boot menu boot options order is correct (EDK2 UEFI)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "PXE003.001",
-      "name": "Autoboot option is available and works correctly",
+      "_id": "PXE003.101",
+      "name": "Autoboot option is available and works correctly (EDK2 UEFI)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "PXE004.001",
-      "name": "DTS option is available and works correctly",
+      "_id": "PXE004.101",
+      "name": "DTS option is available and works correctly (EDK2 UEFI)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "PXE005.001",
-      "name": "OS installation option is available and works correctly",
+      "_id": "PXE005.101",
+      "name": "OS installation option is available and works correctly (EDK2 UEFI)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "PXE006.001",
-      "name": "iPXE shell option is available and works correctly",
+      "_id": "PXE006.101",
+      "name": "iPXE shell option is available and works correctly (EDK2 UEFI)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "PXE007.001",
-      "name": "Dasharo Network Boot over https not http",
+      "_id": "PXE007.101",
+      "name": "Dasharo Network Boot over https not http (EDK2 UEFI)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "PXE008.001",
-      "name": "Firmware Update Mode",
+      "_id": "PXE008.101",
+      "name": "Firmware Update Mode (EDK2 UEFI)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -4999,134 +4999,134 @@
   },
   {
     "doc": {
-      "_id": "RBE001.001",
-      "name": "Check if Resizeable BARs option is present",
+      "_id": "RBE001.101",
+      "name": "Check if Resizeable BARs option is present (EDK2 UEFI)",
       "module": "Dasharo Security"
     }
   },
   {
     "doc": {
-      "_id": "RTD001.001",
-      "name": "F9 resets Enable USB stack option to default",
+      "_id": "RTD001.101",
+      "name": "F9 resets Enable USB stack option to default (EDK2 UEFI)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "RTD002.001",
-      "name": "F9 resets Enable USB Mass Storage driver option to default",
+      "_id": "RTD002.101",
+      "name": "F9 resets Enable USB Mass Storage driver option to default (EDK2 UEFI)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "RTD003.001",
-      "name": "F9 resets Lock the BIOS boot medium option to default",
+      "_id": "RTD003.101",
+      "name": "F9 resets Lock the BIOS boot medium option to default (EDK2 UEFI)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "RTD004.001",
-      "name": "F9 resets Enable SMM BIOS write protection to default",
+      "_id": "RTD004.101",
+      "name": "F9 resets Enable SMM BIOS write protection to default (EDK2 UEFI)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "RTD005.001",
-      "name": "F9 resets Early boot DMA Protection to default",
+      "_id": "RTD005.101",
+      "name": "F9 resets Early boot DMA Protection to default (EDK2 UEFI)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "RTD006.001",
-      "name": "F9 resets Enable network boot to default",
+      "_id": "RTD006.101",
+      "name": "F9 resets Enable network boot to default (EDK2 UEFI)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "RTD007.001",
-      "name": "F9 resets Intel ME mode to default",
+      "_id": "RTD007.101",
+      "name": "F9 resets Intel ME mode to default (EDK2 UEFI)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "RTD008.001",
-      "name": "F9 resets Enable PS2 Controller to default",
+      "_id": "RTD008.101",
+      "name": "F9 resets Enable PS2 Controller to default (EDK2 UEFI)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "RTD009.001",
-      "name": "F9 resets Enable watchdog to default",
+      "_id": "RTD009.101",
+      "name": "F9 resets Enable watchdog to default (EDK2 UEFI)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "RTD010.001",
-      "name": "F9 resets Enable watchdog to default",
+      "_id": "RTD010.101",
+      "name": "F9 resets Enable watchdog to default (EDK2 UEFI)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "RTD011.001",
-      "name": "F9 resets Watchdog timeout value to default",
+      "_id": "RTD011.101",
+      "name": "F9 resets Watchdog timeout value to default (EDK2 UEFI)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "RTD012.001",
-      "name": "F9 resets Fan profile to Silent",
+      "_id": "RTD012.101",
+      "name": "F9 resets Fan profile to Silent (EDK2 UEFI)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "RTD013.001",
-      "name": "F9 resets Platform sleep type to Suspend to Idle",
+      "_id": "RTD013.101",
+      "name": "F9 resets Platform sleep type to Suspend to Idle (EDK2 UEFI)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "RTD014.001",
-      "name": "F9 resets Memory SPD Profile to JEDEC",
+      "_id": "RTD014.101",
+      "name": "F9 resets Memory SPD Profile to JEDEC (EDK2 UEFI)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "RTD015.001",
-      "name": "F9 reset is effective across DSF",
+      "_id": "RTD015.101",
+      "name": "F9 reset is effective across DSF (EDK2 UEFI)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "RTD016.001",
-      "name": "F9 reset is globally effective",
+      "_id": "RTD016.101",
+      "name": "F9 reset is globally effective (EDK2 UEFI)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "RTD016.002",
-      "name": "F9 reset is globally effective",
+      "_id": "RTD017.101",
+      "name": "F9 reset is globally effective (EDK2 UEFI)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "SAT001.001",
-      "name": "SATA support in firmware",
+      "_id": "SAT001.101",
+      "name": "SATA support in firmware (EDK2 UEFI)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -5370,43 +5370,43 @@
   },
   {
     "doc": {
-      "_id": "SET001.001",
-      "name": "CPU clock speed displayed in setup menu",
+      "_id": "SET001.101",
+      "name": "CPU clock speed displayed in setup menu (EDK2 UEFI)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "SET002.001",
-      "name": "RAM speed displayed in setup menu",
+      "_id": "SET002.101",
+      "name": "RAM speed displayed in setup menu (EDK2 UEFI)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "SET003.001",
-      "name": "RAM size displayed in setup menu",
+      "_id": "SET003.101",
+      "name": "RAM size displayed in setup menu (EDK2 UEFI)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "SET004.001",
-      "name": "Expected CPU clock speed displayed in setup menu",
+      "_id": "SET004.101",
+      "name": "Expected CPU clock speed displayed in setup menu (EDK2 UEFI)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "SET005.001",
-      "name": "Expected RAM speed displayed in setup menu",
+      "_id": "SET005.101",
+      "name": "Expected RAM speed displayed in setup menu (EDK2 UEFI)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "SET006.001",
-      "name": "Expected RAM size displayed in setup menu",
+      "_id": "SET006.101",
+      "name": "Expected RAM size displayed in setup menu (EDK2 UEFI)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -5762,8 +5762,8 @@
   },
   {
     "doc": {
-      "_id": "SOR001.001",
-      "name": "Check that all options in OptionROMs are available",
+      "_id": "SOR001.101",
+      "name": "Check that all options in OptionROMs are available (EDK2 UEFI)",
       "module": "Dasharo Security"
     }
   },
@@ -5888,8 +5888,8 @@
   },
   {
     "doc": {
-      "_id": "SPS001.001",
-      "name": "Check Ethernet Ports Order",
+      "_id": "SPS001.201",
+      "name": "Check Ethernet Ports Order (Ubuntu)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -6189,22 +6189,22 @@
   },
   {
     "doc": {
-      "_id": "TPD001.004",
-      "name": "Detect TPM after coldboot (heads)",
+      "_id": "TPD001.104",
+      "name": "Detect TPM after coldboot (Heads)",
       "module": "Dasharo Stability"
     }
   },
   {
     "doc": {
-      "_id": "TPD002.004",
-      "name": "Detect TPM after warmboot (heads)",
+      "_id": "TPD002.104",
+      "name": "Detect TPM after warmboot (Heads)",
       "module": "Dasharo Stability"
     }
   },
   {
     "doc": {
-      "_id": "TPD003.004",
-      "name": "Detect TPM after platform reboot (heads)",
+      "_id": "TPD003.104",
+      "name": "Detect TPM after platform reboot (Heads)",
       "module": "Dasharo Stability"
     }
   },
@@ -6567,22 +6567,22 @@
   },
   {
     "doc": {
-      "_id": "UBT001.001",
-      "name": "USB detect and boot after coldboot",
+      "_id": "UBT001.211",
+      "name": "USB detect and boot after coldboot (DTS)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "UBT002.001",
-      "name": "USB detect and boot after warmboot",
+      "_id": "UBT002.211",
+      "name": "USB detect and boot after warmboot (DTS)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "UBT003.001",
-      "name": "USB detect and boot after system reboot",
+      "_id": "UBT003.211",
+      "name": "USB detect and boot after system reboot (DTS)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -6595,22 +6595,22 @@
   },
   {
     "doc": {
-      "_id": "UDT001.001",
-      "name": "USB detection after coldboot",
+      "_id": "UDT001.101",
+      "name": "USB detection after coldboot (EDK2 UEFI)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "UDT001.002",
-      "name": "USB detection after warmboot",
+      "_id": "UDT002.101",
+      "name": "USB detection after warmboot (EDK2 UEFI)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "UDT001.003",
-      "name": "USB detection after system reboot",
+      "_id": "UDT003.101",
+      "name": "USB detection after system reboot (EDK2 UEFI)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -6630,8 +6630,8 @@
   },
   {
     "doc": {
-      "_id": "USB001.001",
-      "name": "USB devices detected in FW",
+      "_id": "USB001.101",
+      "name": "USB devices detected in FW (EDK2 UEFI)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -6679,8 +6679,8 @@
   },
   {
     "doc": {
-      "_id": "USB002.001",
-      "name": "USB keyboard detected in FW",
+      "_id": "USB002.106",
+      "name": "USB keyboard detected in FW (UEFI Shell)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -6756,93 +6756,93 @@
   },
   {
     "doc": {
-      "_id": "USC001.001",
-      "name": "USB power and charging option is present",
+      "_id": "USC001.101",
+      "name": "USB power and charging option is present (EDK2 UEFI)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "USC002.001",
-      "name": "Power IS delivered through always-on USB A ports",
+      "_id": "USC002.101",
+      "name": "Power IS delivered through always-on USB A ports (EDK2 UEFI)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "USC003.001",
-      "name": "Power IS delivered through always-on USB C ports",
+      "_id": "USC003.101",
+      "name": "Power IS delivered through always-on USB C ports (EDK2 UEFI)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "USC004.001",
-      "name": "Power IS NOT delivered through always-on USB A ports",
+      "_id": "USC004.101",
+      "name": "Power IS NOT delivered through always-on USB A ports (EDK2 UEFI)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "USC005.001",
-      "name": "Power IS NOT delivered through always-on USB C ports",
+      "_id": "USC005.101",
+      "name": "Power IS NOT delivered through always-on USB C ports (EDK2 UEFI)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "USC006.001",
-      "name": "Power IS NOT delivered through regular USB A ports",
+      "_id": "USC006.101",
+      "name": "Power IS NOT delivered through regular USB A ports (EDK2 UEFI)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "USC007.001",
-      "name": "Power IS NOT delivered through regular USB C ports",
+      "_id": "USC007.101",
+      "name": "Power IS NOT delivered through regular USB C ports (EDK2 UEFI)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "USH001.001",
-      "name": "UEFI Shell",
+      "_id": "USH001.106",
+      "name": "UEFI Shell Support (UEFI Shell)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "USS001.001",
-      "name": "Enable USB stack (firmware)",
+      "_id": "USS001.101",
+      "name": "Enable USB stack (EDK2 UEFI)",
       "module": "Dasharo Security"
     }
   },
   {
     "doc": {
-      "_id": "USS001.002",
-      "name": "Boot Ubuntu Server stable from Hard Disk",
+      "_id": "USS002.101",
+      "name": "Disable USB stack (EDK2 UEFI)",
+      "module": "Dasharo Security"
+    }
+  },
+  {
+    "doc": {
+      "_id": "USS003.101",
+      "name": "Enable USB Mass Storage (EDK2 UEFI)",
+      "module": "Dasharo Security"
+    }
+  },
+  {
+    "doc": {
+      "_id": "USS004.101",
+      "name": "Disable USB Mass Storage (EDK2 UEFI)",
+      "module": "Dasharo Security"
+    }
+  },
+  {
+    "doc": {
+      "_id": "USSP001.201",
+      "name": "Boot Ubuntu Server stable from Hard Disk (Ubuntu)",
       "module": "Dasharo Compatibility"
-    }
-  },
-  {
-    "doc": {
-      "_id": "USS002.001",
-      "name": "Disable USB stack (firmware)",
-      "module": "Dasharo Security"
-    }
-  },
-  {
-    "doc": {
-      "_id": "USS003.001",
-      "name": "Enable USB Mass Storage (firmware)",
-      "module": "Dasharo Security"
-    }
-  },
-  {
-    "doc": {
-      "_id": "USS004.001",
-      "name": "Disable USB Mass Storage (firmware)",
-      "module": "Dasharo Security"
     }
   },
   {
@@ -11369,29 +11369,29 @@
   },
   {
     "doc": {
-      "_id": "WDT001.001",
-      "name": "Check if watchdog option is available",
+      "_id": "WDT001.101",
+      "name": "Check if watchdog option is available (EDK2 UEFI)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "WDT002.001",
-      "name": "Enable watchdog",
+      "_id": "WDT002.101",
+      "name": "Enable watchdog (EDK2 UEFI)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "WDT003.001",
-      "name": "Disable watchdog",
+      "_id": "WDT003.101",
+      "name": "Disable watchdog (EDK2 UEFI)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "WDT004.001",
-      "name": "Change watchdog timeout",
+      "_id": "WDT004.101",
+      "name": "Change watchdog timeout (EDK2 UEFI)",
       "module": "Dasharo Compatibility"
     }
   },

@@ -20,9 +20,10 @@ Default Tags    semiauto
 
 
 *** Test Cases ***
-USC001.001 USB power and charging option is present
+USC001.101 USB power and charging option is present (EDK2 UEFI)
     [Documentation]    This test aims to verify that "USB ports power and charging"
     ...    option is present in setup menu.
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    USC001.101 not supported
     Execute Manual Step    Power on DUT
     Execute Manual Step
     ...    Wait for "${TIANOCORE_STRING}" string on the screen and press SETUP_MENU_KEY to enter setup menu
@@ -36,10 +37,11 @@ USC001.001 USB power and charging option is present
     Lists Should Be Equal    ${USB_PORTS_POWER_AND_CHARGING_OPTS}    ${user_values}
     Execute Manual Step    Power off DUT
 
-USC002.001 Power IS delivered through always-on USB A ports
+USC002.101 Power IS delivered through always-on USB A ports (EDK2 UEFI)
     [Documentation]    This test verifies, if setting "USB ports power and
     ...    charging" menu option to "Always On" keeps electrical power supply on
     ...    selected USB A ports, after DUT is power off
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    USC002.101 not supported
     Execute Manual Step    Power on DUT
     Execute Manual Step
     ...    Wait for "${TIANOCORE_STRING}" string on the screen and press SETUP_MENU_KEY to enter setup menu
@@ -58,10 +60,11 @@ USC002.001 Power IS delivered through always-on USB A ports
     ...    separator=${SPACE}
     Execute Manual Step    ${power_meter_message}
 
-USC003.001 Power IS delivered through always-on USB C ports
+USC003.101 Power IS delivered through always-on USB C ports (EDK2 UEFI)
     [Documentation]    This test verifies, if setting "USB ports power and
     ...    charging" menu option to "Always On" keeps electrical power supply on
     ...    selected USB C ports, after DUT is power off
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    USC003.101 not supported
     Execute Manual Step    Power on DUT
     Execute Manual Step
     ...    Wait for "${TIANOCORE_STRING}" string on the screen and press SETUP_MENU_KEY to enter setup menu
@@ -80,10 +83,11 @@ USC003.001 Power IS delivered through always-on USB C ports
     ...    separator=${SPACE}
     Execute Manual Step    ${power_meter_message}
 
-USC004.001 Power IS NOT delivered through always-on USB A ports
+USC004.101 Power IS NOT delivered through always-on USB A ports (EDK2 UEFI)
     [Documentation]    This test verifies, if setting "USB ports power and
     ...    charging" menu option to "While System is On" is disabling electrical
     ...    power supply on selected USB A ports, after DUT is power off.
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    USC004.101 not supported
     Execute Manual Step    Power on DUT
     Execute Manual Step
     ...    Wait for "${TIANOCORE_STRING}" string on the screen and press SETUP_MENU_KEY to enter setup menu
@@ -102,10 +106,11 @@ USC004.001 Power IS NOT delivered through always-on USB A ports
     ...    separator=${SPACE}
     Execute Manual Step    ${power_meter_message}
 
-USC005.001 Power IS NOT delivered through always-on USB C ports
+USC005.101 Power IS NOT delivered through always-on USB C ports (EDK2 UEFI)
     [Documentation]    This test verifies, if setting "USB ports power and
     ...    charging" menu option to "While System is On" is disabling electrical
     ...    power supply on selected USB C ports, after DUT is power off.
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    USC005.101 not supported
     Execute Manual Step    Power on DUT
     Execute Manual Step
     ...    Wait for "${TIANOCORE_STRING}" string on the screen and press SETUP_MENU_KEY to enter setup menu
@@ -124,11 +129,12 @@ USC005.001 Power IS NOT delivered through always-on USB C ports
     ...    separator=${SPACE}
     Execute Manual Step    ${power_meter_message}
 
-USC006.001 Power IS NOT delivered through regular USB A ports
+USC006.101 Power IS NOT delivered through regular USB A ports (EDK2 UEFI)
     [Documentation]    This test verifies, if setting "USB ports power and
     ...    charging" menu option to "Always On" is NOT enabling electrical power
     ...    supply to USB A ports that are NOT marked as "Always On USB", after
     ...    DUT is power off.
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    USC006.101 not supported
     Execute Manual Step    Power on DUT
     Execute Manual Step
     ...    Wait for "${TIANOCORE_STRING}" string on the screen and press SETUP_MENU_KEY to enter setup menu
@@ -147,11 +153,12 @@ USC006.001 Power IS NOT delivered through regular USB A ports
     ...    separator=${SPACE}
     Execute Manual Step    ${power_meter_message}
 
-USC007.001 Power IS NOT delivered through regular USB C ports
+USC007.101 Power IS NOT delivered through regular USB C ports (EDK2 UEFI)
     [Documentation]    This test verifies, if setting "USB ports power and
     ...    charging" menu option to "Always On" is NOT enabling electrical power
     ...    supply to USB C ports that are NOT marked as "Always On USB", after
     ...    DUT is power off.
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    USC007.101 not supported
     Execute Manual Step    Power on DUT
     Execute Manual Step
     ...    Wait for "${TIANOCORE_STRING}" string on the screen and press SETUP_MENU_KEY to enter setup menu

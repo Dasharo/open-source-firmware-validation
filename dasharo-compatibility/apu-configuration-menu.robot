@@ -26,19 +26,19 @@ Default Tags        automated
 
 
 *** Test Cases ***
-APU001.001 Check if apu2 watchdog option is available
+APU001.101 Check if apu2 watchdog option is available (EDK2 UEFI)
     [Documentation]    Check if the watchdog timer can be enabled in the apu2
     ...    configuration submenu.
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    APU001.001 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    APU001.101 not supported
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${apu_menu}=    Enter Dasharo APU Configuration    ${setup_menu}
     Should Contain Match    ${apu_menu}    Enable watchdog*
 
-APU002.001 Enable apu2 watchdog
+APU002.101 Enable apu2 watchdog (EDK2 UEFI)
     [Documentation]    Enable apu2 watchdog with the default timeout and verify
     ...    that it resets the platform.
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    APU002.001 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    APU002.101 not supported
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${apu_menu}=    Enter Dasharo APU Configuration    ${setup_menu}
@@ -50,10 +50,10 @@ APU002.001 Enable apu2 watchdog
     Set DUT Response Timeout    70s
     Read From Terminal Until    ${TIANOCORE_STRING}
 
-APU003.001 Disable apu2 watchdog
+APU003.101 Disable apu2 watchdog (EDK2 UEFI)
     [Documentation]    Disable the watchdog after enabling it to verify it does
     ...    not reset the platform anymore.
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    APU003.001 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    APU003.101 not supported
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${apu_menu}=    Enter Dasharo APU Configuration    ${setup_menu}
@@ -71,10 +71,10 @@ APU003.001 Disable apu2 watchdog
     END
     Should Be Equal    ${platform_has_reset}    ${FALSE}
 
-APU004.001 Change apu2 watchdog timeout
+APU004.101 Change apu2 watchdog timeout (EDK2 UEFI)
     [Documentation]    Enable apu2 watchdog with a higher timeout than default
     ...    and verify that it resets the platform.
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    APU004.001 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    APU004.101 not supported
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${apu_menu}=    Enter Dasharo APU Configuration    ${setup_menu}
@@ -99,11 +99,11 @@ APU004.001 Change apu2 watchdog timeout
     Read From Terminal Until    ${TIANOCORE_STRING}
     [Teardown]    Flash Firmware    ${FW_FILE}
 
-APU005.001 Check if disabling CPB decreases performance
+APU005.201 Check if disabling CPB decreases performance (Ubuntu)
     [Documentation]    This Test Checks Whether Performance Changes With Core Performance Boost Disabled
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    APU005.001 not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    APU005.001 not supported
-    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    APU005.001 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    APU005.201 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    APU005.201 not supported
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    APU005.201 not supported
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${apu_menu}=    Enter Dasharo Submenu    ${setup_menu}    Dasharo APU Configuration
@@ -131,11 +131,11 @@ APU005.001 Check if disabling CPB decreases performance
     ${status}=    Evaluate    ${first_check} > ${second_check}
     Should Be True    ${status}
 
-APU006.001 Disabling Enable PCIe power management features disables ASPM
+APU006.201 Disabling Enable PCIe power management features disables ASPM (Ubuntu)
     [Documentation]    Checks whether disabling PCIe power management features disables ASPM
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    APU006.001 not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    APU006.001 not supported
-    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    APU006.001 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    APU006.201 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    APU006.201 not supported
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    APU006.201 not supported
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${apu_menu}=    Enter Dasharo Submenu    ${setup_menu}    Dasharo APU Configuration
@@ -149,11 +149,11 @@ APU006.001 Disabling Enable PCIe power management features disables ASPM
     ...    echo -n `lspci -s 00:02 -vv | grep "ASPM Disabled" | wc -l`
     Should Be True    3 <= ${aspm_check} <= 5
 
-APU006.002 Enabling Enable PCIe power management features enables ASPM
+APU007.201 Enabling Enable PCIe power management features enables ASPM (Ubuntu)
     [Documentation]    Checks whether "enabling PCIe power management features" enables ASPM
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    APU006.002 not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    APU006.002 not supported
-    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    APU006.002 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    APU007.201 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    APU007.201 not supported
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    APU007.201 not supported
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${apu_menu}=    Enter Dasharo Submenu    ${setup_menu}    Dasharo APU Configuration

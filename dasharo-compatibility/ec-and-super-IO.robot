@@ -40,112 +40,6 @@ ECR004.001 Keyboard (standard keypad) in firmware
     Execute Manual Step    [2/2] Use the arrow keys and the Enter key to navigate the menus.
     Execute Manual Step    [Expected result] All menus can be entered using the internal keyboard.
 
-ECR023.001 EC sync update with power adapter connected works correctly
-    [Documentation]    This test aims to verify whether coreboot update
-    ...    will also update EC firmware when power adapter is connected.
-    [Tags]    semiauto
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    ECR023.001 not supported
-    Skip If    not ${DTS_FIRMWARE_FLASHING_SUPPORT}    ECR023.001 not supported
-    Skip If    not ${DTS_EC_FLASHING_SUPPORT}    ECR023.001 not supported
-    # Flash old fw version without ec sync
-    Make Sure That Flash Locks Are Disabled
-    Make Sure That Network Boot Is Enabled
-    Power On
-    Boot Dasharo Tools Suite    iPXE
-    Enter Shell In DTS
-    Set DUT Response Timeout    320s
-    Execute Command In Terminal    wget -O /tmp/coreboot.rom ${FW_NO_EC_SYNC_DOWNLOAD_LINK}
-    Flash Via Internal Programmer    /tmp/coreboot.rom
-    Flash EC Firmware
-    ...    ${EC_NO_SYNC_DOWNLOAD_LINK}    TOOL=dasharo_ectool
-    Sleep    15s
-    Power On
-    Execute Manual Step    Enable console redirection
-
-    # Make sure both coreboot and EC was flashed
-    Make Sure That Flash Locks Are Disabled
-    Make Sure That Network Boot Is Enabled
-    Power On
-    Boot Dasharo Tools Suite    iPXE
-    Enter Shell In DTS
-    Check Firmware Version    ${FW_NO_EC_SYNC_VERSION}
-    Check EC Firmware Version
-    ...    EXPECTED_VERSION=${EC_NO_SYNC_VERSION}    TOOL=dasharo_ectool
-    # Flash new fw with ec sync
-    Put File    ${FW_FILE}    /tmp/coreboot_with_ec.rom    scp=ALL
-    ${flash_result}=    Execute Command In Terminal
-    ...    flashrom -p internal --ifd -i bios -w /tmp/coreboot_with_ec.rom
-    Should Contain    ${flash_result}    VERIFIED
-    Write Into Terminal    reboot
-    Sleep    20s
-    Power On
-    Execute Manual Step    Enable console redirection
-    Make Sure That Network Boot Is Enabled
-    Power On
-    Boot Dasharo Tools Suite    iPXE
-    Enter Shell In DTS
-    Run Keyword And Expect Error    *    Check Firmware Version
-    ...    ${FW_NO_EC_SYNC_VERSION}
-    Run Keyword And Expect Error    *    Check EC Firmware Version
-    ...    EXPECTED_VERSION=${EC_NO_SYNC_VERSION}    TOOL=dasharo_ectool
-
-    # Make sure EC isn't flashed second time after restart
-    Write Into Terminal    reboot
-    ${out}=    Read From Terminal Until    ${TIANOCORE_STRING}
-
-ECR024.001 EC sync doesn't update with power adapter disconnected
-    [Documentation]    This test aims to verify whether coreboot update
-    ...    will display information to connect power adapter when it's
-    ...    disconnected
-    [Tags]    semiauto
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    ECR024.001 not supported
-    Skip If    not ${DTS_FIRMWARE_FLASHING_SUPPORT}    ECR024.001 not supported
-    Skip If    not ${DTS_EC_FLASHING_SUPPORT}    ECR024.001 not supported
-
-    # Flash old fw version without ec sync
-    # Connect Laptop to power adapter
-    Make Sure That Flash Locks Are Disabled
-    Make Sure That Network Boot Is Enabled
-    Power On
-    Boot Dasharo Tools Suite    iPXE
-    Enter Shell In DTS
-    Set DUT Response Timeout    320spre
-    Execute Command In Terminal    wget -O /tmp/coreboot.rom ${FW_NO_EC_SYNC_DOWNLOAD_LINK}
-    Flash Via Internal Programmer    /tmp/coreboot.rom
-    Flash EC Firmware
-    ...    ${EC_NO_SYNC_DOWNLOAD_LINK}    TOOL=dasharo_ectool
-    Sleep    15s
-    Power On
-    Execute Manual Step    Enable console redirection
-    Make Sure That Flash Locks Are Disabled
-    Make Sure That Network Boot Is Enabled
-    Power On
-    Boot Dasharo Tools Suite    iPXE
-    Enter Shell In DTS
-    Check Firmware Version    ${FW_NO_EC_SYNC_VERSION}
-    Check EC Firmware Version
-    ...    EXPECTED_VERSION=${EC_NO_SYNC_VERSION}    TOOL=dasharo_ectool
-
-    # Flash new fw with ec sync
-    Put File    ${FW_FILE}    /tmp/coreboot_with_ec.rom    scp=ALL
-    ${flash_result}=    Execute Command In Terminal
-    ...    flashrom -p internal --ifd -i bios -w /tmp/coreboot_with_ec.rom
-    Should Contain    ${flash_result}    VERIFIED
-    # Disconnect power adapter
-    Sonoff Off
-    Write Into Terminal    reboot
-    Sleep    20
-    Power On
-    Execute Manual Step    Enable console redirection
-    Make Sure That Network Boot Is Enabled
-    Power On
-    Boot Dasharo Tools Suite    iPXE
-    Enter Shell In DTS
-    Run Keyword And Expect Error    *    Check Firmware Version
-    ...    ${FW_NO_EC_SYNC_VERSION}
-    Check EC Firmware Version
-    ...    EXPECTED_VERSION=${EC_NO_SYNC_VERSION}    TOOL=dasharo_ectool
-
 ECR035.001 EC power button watchdog
     [Documentation]    Check whether the EC power button watchdog functionality works correctly.
     [Tags]    semiauto
@@ -1139,7 +1033,7 @@ ECR029.203 FnLock Hotkey (Qubes OS)
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    ${TEST_NAME} not supported
     Execute Manual Step
     ...    [1/4] Make sure Qubes OS is booted.
-    ...    Execute Manual Step
+    Execute Manual Step
     ...    [2/4] Verify that without Fn Lock, pressing FX keys sends standard F1-F12 keycodes (it should send FX, not trigger a special function).
     Execute Manual Step
     ...    [3/4] Enable Fn Lock and test a few function keys freely - they should now trigger their special functions without holding Fn.
@@ -1169,7 +1063,117 @@ ECR031.203 Not charging between 95% and 98% in OS (Qubes OS)
     Execute Manual Step    [5/5] Verify battery does not start charging.
 
 # ==============================================================================
-# 203 WINDOWS
+# 211 DTS
+# ==============================================================================
+
+ECR023.211 EC sync update with power adapter connected works correctly (DTS)
+    [Documentation]    This test aims to verify whether coreboot update
+    ...    will also update EC firmware when power adapter is connected.
+    [Tags]    semiauto
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    ECR023.211 not supported
+    Skip If    not ${DTS_FIRMWARE_FLASHING_SUPPORT}    ECR023.211 not supported
+    Skip If    not ${DTS_EC_FLASHING_SUPPORT}    ECR023.211 not supported
+    # Flash old fw version without ec sync
+    Make Sure That Flash Locks Are Disabled
+    Make Sure That Network Boot Is Enabled
+    Power On
+    Boot Dasharo Tools Suite    iPXE
+    Enter Shell In DTS
+    Set DUT Response Timeout    320s
+    Execute Command In Terminal    wget -O /tmp/coreboot.rom ${FW_NO_EC_SYNC_DOWNLOAD_LINK}
+    Flash Via Internal Programmer    /tmp/coreboot.rom
+    Flash EC Firmware
+    ...    ${EC_NO_SYNC_DOWNLOAD_LINK}    TOOL=dasharo_ectool
+    Sleep    15s
+    Power On
+    Execute Manual Step    Enable console redirection
+
+    # Make sure both coreboot and EC was flashed
+    Make Sure That Flash Locks Are Disabled
+    Make Sure That Network Boot Is Enabled
+    Power On
+    Boot Dasharo Tools Suite    iPXE
+    Enter Shell In DTS
+    Check Firmware Version    ${FW_NO_EC_SYNC_VERSION}
+    Check EC Firmware Version
+    ...    EXPECTED_VERSION=${EC_NO_SYNC_VERSION}    TOOL=dasharo_ectool
+    # Flash new fw with ec sync
+    Put File    ${FW_FILE}    /tmp/coreboot_with_ec.rom    scp=ALL
+    ${flash_result}=    Execute Command In Terminal
+    ...    flashrom -p internal --ifd -i bios -w /tmp/coreboot_with_ec.rom
+    Should Contain    ${flash_result}    VERIFIED
+    Write Into Terminal    reboot
+    Sleep    20s
+    Power On
+    Execute Manual Step    Enable console redirection
+    Make Sure That Network Boot Is Enabled
+    Power On
+    Boot Dasharo Tools Suite    iPXE
+    Enter Shell In DTS
+    Run Keyword And Expect Error    *    Check Firmware Version
+    ...    ${FW_NO_EC_SYNC_VERSION}
+    Run Keyword And Expect Error    *    Check EC Firmware Version
+    ...    EXPECTED_VERSION=${EC_NO_SYNC_VERSION}    TOOL=dasharo_ectool
+
+    # Make sure EC isn't flashed second time after restart
+    Write Into Terminal    reboot
+    ${out}=    Read From Terminal Until    ${TIANOCORE_STRING}
+
+ECR024.211 EC sync doesn't update with power adapter disconnected (DTS)
+    [Documentation]    This test aims to verify whether coreboot update
+    ...    will display information to connect power adapter when it's
+    ...    disconnected
+    [Tags]    semiauto
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    ECR024.211 not supported
+    Skip If    not ${DTS_FIRMWARE_FLASHING_SUPPORT}    ECR024.211 not supported
+    Skip If    not ${DTS_EC_FLASHING_SUPPORT}    ECR024.211 not supported
+
+    # Flash old fw version without ec sync
+    # Connect Laptop to power adapter
+    Make Sure That Flash Locks Are Disabled
+    Make Sure That Network Boot Is Enabled
+    Power On
+    Boot Dasharo Tools Suite    iPXE
+    Enter Shell In DTS
+    Set DUT Response Timeout    320spre
+    Execute Command In Terminal    wget -O /tmp/coreboot.rom ${FW_NO_EC_SYNC_DOWNLOAD_LINK}
+    Flash Via Internal Programmer    /tmp/coreboot.rom
+    Flash EC Firmware
+    ...    ${EC_NO_SYNC_DOWNLOAD_LINK}    TOOL=dasharo_ectool
+    Sleep    15s
+    Power On
+    Execute Manual Step    Enable console redirection
+    Make Sure That Flash Locks Are Disabled
+    Make Sure That Network Boot Is Enabled
+    Power On
+    Boot Dasharo Tools Suite    iPXE
+    Enter Shell In DTS
+    Check Firmware Version    ${FW_NO_EC_SYNC_VERSION}
+    Check EC Firmware Version
+    ...    EXPECTED_VERSION=${EC_NO_SYNC_VERSION}    TOOL=dasharo_ectool
+
+    # Flash new fw with ec sync
+    Put File    ${FW_FILE}    /tmp/coreboot_with_ec.rom    scp=ALL
+    ${flash_result}=    Execute Command In Terminal
+    ...    flashrom -p internal --ifd -i bios -w /tmp/coreboot_with_ec.rom
+    Should Contain    ${flash_result}    VERIFIED
+    # Disconnect power adapter
+    Sonoff Off
+    Write Into Terminal    reboot
+    Sleep    20
+    Power On
+    Execute Manual Step    Enable console redirection
+    Make Sure That Network Boot Is Enabled
+    Power On
+    Boot Dasharo Tools Suite    iPXE
+    Enter Shell In DTS
+    Run Keyword And Expect Error    *    Check Firmware Version
+    ...    ${FW_NO_EC_SYNC_VERSION}
+    Check EC Firmware Version
+    ...    EXPECTED_VERSION=${EC_NO_SYNC_VERSION}    TOOL=dasharo_ectool
+
+# ==============================================================================
+# 301 WINDOWS
 # ==============================================================================
 
 ECR001.301 Battery monitoring - charge level in OS (Windows)

@@ -31,17 +31,17 @@ Default Tags        automated
 
 
 *** Test Cases ***
-PSF001.001 Check Power State After Power Failure default state (firmware)
+PSF001.101 Check Power State After Power Failure default state (EDK2 UEFI)
     [Documentation]    This test ensures that the option is present, and the
     ...    default state of this option after flashing is correct.
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    PSF001.001 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    PSF001.101 not supported
     ${state}=    Get UEFI Option    PowerStateAfterPowerAcLoss
     Should Be Equal    ${state}    ${DEFAULT_POWER_STATE_AFTER_FAIL}
 
-PSF002.001 Powered Off State Restoration Test
+PSF002.101 Powered Off State Restoration Test (EDK2 UEFI)
     [Documentation]    This test ensures that the feature is able to
     ...    keep the DUT powered off after power failure.
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    PSF002.001 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    PSF002.101 not supported
     Set UEFI Option    PowerStateAfterPowerAcLoss    Powered Off
     Enter Setup Menu Tianocore
     Simulate Power Failure
@@ -49,20 +49,20 @@ PSF002.001 Powered Off State Restoration Test
     ...    Enter Setup Menu Tianocore And Return Construction
     Should Not Be True    ${output}
 
-PSF003.001 Powered On State Restoration Test
+PSF003.101 Powered On State Restoration Test (EDK2 UEFI)
     [Documentation]    This test ensures that the feature is able to correctly
     ...    power the DUT back on after failure.
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    PSF003.001 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    PSF003.101 not supported
     Set UEFI Option    PowerStateAfterPowerAcLoss    Powered On
     Enter Setup Menu Tianocore
     Simulate Power Failure
     Enter Setup Menu Tianocore
 
-PSF004.001 Previous Power State Restoration Test - Powered Off
+PSF004.101 Previous Power State Restoration Test - Powered Off (EDK2 UEFI)
     [Documentation]    This test ensures that the feature is able to correctly
     ...    restore the power state from the moment of failure, in this case to
     ...    keep the DUT powered off.
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    PSF004.001 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    PSF004.101 not supported
     Set UEFI Option    PowerStateAfterPowerAcLoss    The state at the moment of power failure
     Enter Setup Menu Tianocore
     # Power button press to power off the machine
@@ -73,11 +73,11 @@ PSF004.001 Previous Power State Restoration Test - Powered Off
     ...    Enter Setup Menu Tianocore
     Should Not Be True    ${output}
 
-PSF004.002 Previous Power State Restoration Test - Powered On
+PSF005.101 Previous Power State Restoration Test - Powered On (EDK2 UEFI)
     [Documentation]    This test ensures that the feature is able to correctly
     ...    restore the power state from the moment of failure, in this case to
     ...    power the DUT back on after power failure
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    PSF004.002 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    PSF005.101 not supported
     Set UEFI Option    PowerStateAfterPowerAcLoss    The state at the moment of power failure
     Enter Setup Menu Tianocore
     VAR    ${POWER_STATE_AFTER_FAIL}=    Powered On    scope=GLOBAL

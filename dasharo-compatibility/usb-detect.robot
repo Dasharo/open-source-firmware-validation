@@ -29,7 +29,7 @@ Default Tags        automated
 
 
 *** Test Cases ***
-UDT001.001 USB detection after coldboot
+UDT001.101 USB detection after coldboot (EDK2 UEFI)
     [Documentation]    Check whether the DUT detects properly USB device after
     ...    the coldboot (reboot realized by power supply cutting off
     ...    then cutting on).
@@ -50,7 +50,7 @@ UDT001.001 USB detection after coldboot
         END
     END
 
-UDT001.002 USB detection after warmboot
+UDT002.101 USB detection after warmboot (EDK2 UEFI)
     [Documentation]    Check whether the DUT detects properly USB device after
     ...    the warmboot (reboot realized by device turning off then
     ...    turning on).
@@ -71,11 +71,11 @@ UDT001.002 USB detection after warmboot
         END
     END
 
-UDT001.003 USB detection after system reboot
+UDT003.101 USB detection after system reboot (EDK2 UEFI)
     [Documentation]    Check whether the DUT detects properly USB device after
     ...    the system reboot (reboot performing by relevant command).
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UDT001.003 not supported
-    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UDT001.003 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    UDT003.101 not supported
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    UDT003.101 not supported
     VAR    ${failed_detection}=    0
 
     Power On

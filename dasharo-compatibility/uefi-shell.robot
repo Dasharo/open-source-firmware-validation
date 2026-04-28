@@ -28,10 +28,10 @@ Default Tags        automated
 
 
 *** Test Cases ***
-USH001.001 UEFI Shell
+USH001.106 UEFI Shell Support (UEFI Shell)
     [Documentation]    Check whether the UEFI Shell is available, and whether
     ...    UEFI Shell was sourced from coreboot image, or from OS drive.
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    USH001.001 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    USH001.106 not supported
     Power On
     Enter UEFI Shell
     ${shell_dump_handle}=    Execute UEFI Shell Command    dh

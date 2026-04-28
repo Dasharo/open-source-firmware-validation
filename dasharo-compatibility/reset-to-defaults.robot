@@ -27,11 +27,11 @@ Default Tags        automated
 
 
 *** Test Cases ***
-RTD001.001 F9 resets Enable USB stack option to default
+RTD001.101 F9 resets Enable USB stack option to default (EDK2 UEFI)
     [Documentation]    Check whether pressing F9 resets Enable USB stack
     ...    option to be enabled.
-    Skip If    not ${DASHARO_USB_MENU_SUPPORT}    RTD001.001 not supported
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    RTD001.001 not supported
+    Skip If    not ${DASHARO_USB_MENU_SUPPORT}    RTD001.101 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    RTD001.101 not supported
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
@@ -46,11 +46,11 @@ RTD001.001 F9 resets Enable USB stack option to default
     ${usb_stack_state}=    Get Option State    ${usb_menu}    Enable USB stack
     Should Be True    ${usb_stack_state}
 
-RTD002.001 F9 resets Enable USB Mass Storage driver option to default
+RTD002.101 F9 resets Enable USB Mass Storage driver option to default (EDK2 UEFI)
     [Documentation]    Check whether pressing F9 resets Enable Mass Storage
     ...    driver option to be enabled
-    Skip If    not ${DASHARO_USB_MENU_SUPPORT}    RTD002.001 not supported
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    RTD002.001 not supported
+    Skip If    not ${DASHARO_USB_MENU_SUPPORT}    RTD002.101 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    RTD002.101 not supported
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
@@ -65,11 +65,11 @@ RTD002.001 F9 resets Enable USB Mass Storage driver option to default
     ${usb_storage_state}=    Get Option State    ${usb_menu}    Enable USB Mass Storage
     Should Be True    ${usb_storage_state}
 
-RTD003.001 F9 resets Lock the BIOS boot medium option to default
+RTD003.101 F9 resets Lock the BIOS boot medium option to default (EDK2 UEFI)
     [Documentation]    Check whether pressing F9 resets Lock the BIOS boot
     ...    medium driver option to be enabled
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    RTD003.001 not supported
-    Skip If    not ${BIOS_LOCK_SUPPORT}    RTD003.001 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    RTD003.101 not supported
+    Skip If    not ${BIOS_LOCK_SUPPORT}    RTD003.101 not supported
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
@@ -84,11 +84,11 @@ RTD003.001 F9 resets Lock the BIOS boot medium option to default
     ${bios_lock_state}=    Get Option State    ${security_menu}    Lock the BIOS boot medium
     Should Be True    ${bios_lock_state}
 
-RTD004.001 F9 resets Enable SMM BIOS write protection to default
+RTD004.101 F9 resets Enable SMM BIOS write protection to default (EDK2 UEFI)
     [Documentation]    Check whether pressing F9 resets Enable SMM BIOS write
     ...    protection option to be disabled
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    RTD004.001 not supported
-    Skip If    not ${SMM_WRITE_PROTECTION_SUPPORT}    RTD004.001 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    RTD004.101 not supported
+    Skip If    not ${SMM_WRITE_PROTECTION_SUPPORT}    RTD004.101 not supported
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
@@ -103,11 +103,11 @@ RTD004.001 F9 resets Enable SMM BIOS write protection to default
     ${smm_state}=    Get Option State    ${security_menu}    Enable SMM BIOS write
     Should Not Be True    ${smm_state}
 
-RTD005.001 F9 resets Early boot DMA Protection to default
+RTD005.101 F9 resets Early boot DMA Protection to default (EDK2 UEFI)
     [Documentation]    Check whether pressing F9 resets Early boot DMA
     ...    Protection option to be enabled
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    RTD005.001 not supported
-    Skip If    not ${EARLY_BOOT_DMA_SUPPORT}    RTD005.001 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    RTD005.101 not supported
+    Skip If    not ${EARLY_BOOT_DMA_SUPPORT}    RTD005.101 not supported
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
@@ -122,20 +122,21 @@ RTD005.001 F9 resets Early boot DMA Protection to default
     ${early_dma_state}=    Get Option State    ${security_menu}    Early boot DMA Protection
     Should Not Be True    ${early_dma_state}
 
-RTD006.001 F9 resets Enable network boot to default
+RTD006.101 F9 resets Enable network boot to default (EDK2 UEFI)
     [Documentation]    Check whether pressing F9 in the firmware setup menu resets
     ...    the Enable network boot option to its default value.
     [Tags]    semiauto
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    RTD006.101 not supported
     Execute Manual Step    [1/4] Power on the DUT and enter the firmware setup menu
     Execute Manual Step    [2/4] Navigate to Networking Options and change the Enable network boot setting from default
     Execute Manual Step    [3/4] Press F9 to reset settings to defaults
     Execute Manual Step    [4/4] Confirm the Enable network boot option has been reset to the default value
 
-RTD007.001 F9 resets Intel ME mode to default
+RTD007.101 F9 resets Intel ME mode to default (EDK2 UEFI)
     [Documentation]    Check whether pressing F9 resets Keep IOMMU enabled when
     ...    transfer control to OS option to be disabled
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    RTD007.001 not supported
-    Skip If    not ${DASHARO_NETWORKING_MENU_SUPPORT}    RTD007.001 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    RTD007.101 not supported
+    Skip If    not ${DASHARO_NETWORKING_MENU_SUPPORT}    RTD007.101 not supported
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
@@ -150,11 +151,11 @@ RTD007.001 F9 resets Intel ME mode to default
     ${network_boot_state}=    Get Option State    ${network_menu}    Enable network boot
     Should Not Be True    ${network_boot_state}
 
-RTD008.001 F9 resets Enable PS2 Controller to default
+RTD008.101 F9 resets Enable PS2 Controller to default (EDK2 UEFI)
     [Documentation]    Check whether pressing F9 resets Intel ME mode option
     ...    to be enabled
-    Skip If    not ${DASHARO_INTEL_ME_MENU_SUPPORT}    RTD008.001 not supported
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    RTD008.001 not supported
+    Skip If    not ${DASHARO_INTEL_ME_MENU_SUPPORT}    RTD008.101 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    RTD008.101 not supported
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
@@ -169,11 +170,11 @@ RTD008.001 F9 resets Enable PS2 Controller to default
     ${me_mode_state}=    Get Option State    ${me_menu}    Intel ME mode
     Should Be Equal    ${me_mode_state}    Enabled
 
-RTD009.001 F9 resets Enable watchdog to default
+RTD009.101 F9 resets Enable watchdog to default (EDK2 UEFI)
     [Documentation]    Check whether pressing F9 resets Enable PS2 Controller
     ...    to be enabled
-    Skip If    not ${DASHARO_CHIPSET_MENU_SUPPORT}    RTD009.001 not supported
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    RTD009.001 not supported
+    Skip If    not ${DASHARO_CHIPSET_MENU_SUPPORT}    RTD009.101 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    RTD009.101 not supported
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
@@ -188,11 +189,11 @@ RTD009.001 F9 resets Enable watchdog to default
     ${ps2_state}=    Get Option State    ${chipset_menu}    Enable PS2 Controller
     Should Be True    ${ps2_state}
 
-RTD010.001 F9 resets Enable watchdog to default
+RTD010.101 F9 resets Enable watchdog to default (EDK2 UEFI)
     [Documentation]    Check whether pressing F9 resets Enable watchdog
     ...    to be enabled
-    Skip If    not ${DASHARO_CHIPSET_MENU_SUPPORT}    RTD010.001 not supported
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    RTD010.001 not supported
+    Skip If    not ${DASHARO_CHIPSET_MENU_SUPPORT}    RTD010.101 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    RTD010.101 not supported
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
@@ -207,11 +208,11 @@ RTD010.001 F9 resets Enable watchdog to default
     ${watchdog_state}=    Get Option State    ${chipset_menu}    Enable watchdog
     Should Be True    ${watchdog_state}
 
-RTD011.001 F9 resets Watchdog timeout value to default
+RTD011.101 F9 resets Watchdog timeout value to default (EDK2 UEFI)
     [Documentation]    Check whether pressing F9 resets Watchdog timeout value
     ...    to 500
-    Skip If    not ${DASHARO_CHIPSET_MENU_SUPPORT}    RTD011.001 not supported
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    RTD011.001 not supported
+    Skip If    not ${DASHARO_CHIPSET_MENU_SUPPORT}    RTD011.101 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    RTD011.101 not supported
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
@@ -226,12 +227,12 @@ RTD011.001 F9 resets Watchdog timeout value to default
     ${watchdog_timeout}=    Get Option State    ${chipset_menu}    Watchdog timeout value
     Should Be Equal As Integers    ${watchdog_timeout}    500
 
-RTD012.001 F9 resets Fan profile to Silent
+RTD012.101 F9 resets Fan profile to Silent (EDK2 UEFI)
     [Documentation]    Check whether pressing F9 resets Fan profile to Silent
-    Skip If    not ${DASHARO_POWER_MGMT_MENU_SUPPORT}    RTD012.001 not supported
-    Skip If    not ${CUSTOM_FAN_CURVE_SILENT_MODE_SUPPORT}    RTD012.001 not supported
-    Skip If    not ${CUSTOM_FAN_CURVE_PERFORMANCE_MODE_SUPPORT}    RTD012.001 not supported
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    RTD012.001 not supported
+    Skip If    not ${DASHARO_POWER_MGMT_MENU_SUPPORT}    RTD012.101 not supported
+    Skip If    not ${CUSTOM_FAN_CURVE_SILENT_MODE_SUPPORT}    RTD012.101 not supported
+    Skip If    not ${CUSTOM_FAN_CURVE_PERFORMANCE_MODE_SUPPORT}    RTD012.101 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    RTD012.101 not supported
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
@@ -246,13 +247,13 @@ RTD012.001 F9 resets Fan profile to Silent
     ${fan_profile}=    Get Option State    ${power_menu}    Fan profile
     Should Be Equal    ${fan_profile}    Silent
 
-RTD013.001 F9 resets Platform sleep type to Suspend to Idle
+RTD013.101 F9 resets Platform sleep type to Suspend to Idle (EDK2 UEFI)
     [Documentation]    Check whether pressing F9 resets Platform sleep type to
     ...    Suspend to Idle
-    Skip If    not ${DASHARO_POWER_MGMT_MENU_SUPPORT}    RTD013.001 not supported
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    RTD013.001 not supported
+    Skip If    not ${DASHARO_POWER_MGMT_MENU_SUPPORT}    RTD013.101 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    RTD013.101 not supported
     Check If Platform Sleep Type Can Be Selected
-    Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    RTD013.001 not supported
+    Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    RTD013.101 not supported
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
@@ -267,12 +268,12 @@ RTD013.001 F9 resets Platform sleep type to Suspend to Idle
     ${sleep_type}=    Get Option State    ${power_menu}    Platform sleep type
     Should Be Equal    ${sleep_type}    Suspend to Idle (S0ix)
 
-RTD014.001 F9 resets Memory SPD Profile to JEDEC
+RTD014.101 F9 resets Memory SPD Profile to JEDEC (EDK2 UEFI)
     [Documentation]    Check whether pressing F9 resets Memory SPD Profile to
     ...    JEDEC
     Skip If    not ${DASHARO_MEMORY_MENU_SUPPORT}
     Skip If    not ${MEMORY_PROFILE_SUPPORT}
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    RTD014.001 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    RTD014.101 not supported
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
@@ -287,11 +288,11 @@ RTD014.001 F9 resets Memory SPD Profile to JEDEC
     ${memory_profile}=    Get Option State    ${memory_menu}    Memory SPD Profile
     Should Be Equal    ${memory_profile}    JEDEC (safe
 
-RTD015.001 F9 reset is effective across DSF
+RTD015.101 F9 reset is effective across DSF (EDK2 UEFI)
     [Documentation]    Check whether pressing F9 in one menu resets changes
     ...    made in another menu within Dasharo System Features
     Skip If    not ${MEMORY_PROFILE_SUPPORT}
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    RTD015.001 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    RTD015.101 not supported
     Skip If    not ${DASHARO_NETWORKING_MENU_SUPPORT}
     Skip If    not ${DASHARO_POWER_MGMT_MENU_SUPPORT}
     Power On
@@ -310,11 +311,11 @@ RTD015.001 F9 reset is effective across DSF
     ${network_boot_state}=    Get Option State    ${network_menu}    Enable network boot
     Should Not Be True    ${network_boot_state}
 
-RTD016.001 F9 reset is globally effective
+RTD016.101 F9 reset is globally effective (EDK2 UEFI)
     [Documentation]    Check whether pressing F9 in a standard menu resets
     ...    changes made in a DSF menu.
     Skip If    not ${MEMORY_PROFILE_SUPPORT}
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    RTD016.001 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    RTD016.101 not supported
     Skip If    not ${DASHARO_NETWORKING_MENU_SUPPORT}
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
@@ -332,11 +333,11 @@ RTD016.001 F9 reset is globally effective
     ${network_boot_state}=    Get Option State    ${network_menu}    Enable network boot
     Should Not Be True    ${network_boot_state}
 
-RTD016.002 F9 reset is globally effective
+RTD017.101 F9 reset is globally effective (EDK2 UEFI)
     [Documentation]    Check whether pressing F9 in a DSF menu resets
     ...    changes made in a standard menu.
     Skip If    not ${MEMORY_PROFILE_SUPPORT}
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    RTD016.002 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    RTD017.101 not supported
     Skip If    not ${DASHARO_NETWORKING_MENU_SUPPORT}
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction

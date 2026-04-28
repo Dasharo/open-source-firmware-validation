@@ -27,7 +27,7 @@ Default Tags        automated
 
 
 *** Test Cases ***
-NVM001.001 NVMe support in firmware
+NVM001.101 NVMe support in firmware (EDK2 UEFI)
     [Documentation]    Check whether the firmware is able to correctly detect
     ...    NVMe disk in M.2 slot.
     Depends On    ${NVME_DISK_SUPPORT}

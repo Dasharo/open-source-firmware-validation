@@ -26,7 +26,7 @@ Default Tags        automated
 
 
 *** Test Cases ***
-USB001.001 USB devices detected in FW
+USB001.101 USB devices detected in FW (EDK2 UEFI)
     [Documentation]    Check whether USB devices are detected in Tianocore
     ...    (edk2).
     Depends On    ${TESTS_IN_FIRMWARE_SUPPORT}
@@ -36,7 +36,7 @@ USB001.001 USB devices detected in FW
     ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
     Check USB Stick Detection In Edk2    ${boot_menu}
 
-USB002.001 USB keyboard detected in FW
+USB002.106 USB keyboard detected in FW (UEFI Shell)
     [Documentation]    Check whether the external USB keyboard is detected
     ...    correctly by the firmware and all basic keys work
     ...    according to their labels.

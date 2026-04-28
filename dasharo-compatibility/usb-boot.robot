@@ -29,7 +29,7 @@ Default Tags        automated
 
 
 *** Test Cases ***
-UBT001.001 USB detect and boot after coldboot
+UBT001.211 USB detect and boot after coldboot (DTS)
     [Documentation]    Check whether the DUT properly detects USB device and
     ...    boots into the operating system after coldboot (reboot
     ...    realized by power supply cutting off then cutting on).
@@ -49,7 +49,7 @@ UBT001.001 USB detect and boot after coldboot
         END
     END
 
-UBT002.001 USB detect and boot after warmboot
+UBT002.211 USB detect and boot after warmboot (DTS)
     [Documentation]    Check whether the DUT properly detects USB device and
     ...    boots into the operating system after warmboot (reboot
     ...    realized by device turning off then turning on).
@@ -69,7 +69,7 @@ UBT002.001 USB detect and boot after warmboot
         END
     END
 
-UBT003.001 USB detect and boot after system reboot
+UBT003.211 USB detect and boot after system reboot (DTS)
     [Documentation]    Check whether the DUT properly detects USB device and
     ...    boots into the operating system after system reboot
     ...    (reboot performing by relevant command).

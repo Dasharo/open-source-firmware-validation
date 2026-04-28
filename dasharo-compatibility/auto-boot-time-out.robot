@@ -25,11 +25,11 @@ Default Tags        automated
 
 
 *** Test Cases ***
-BMM001.001 Change Auto Boot Time-out and check after reboot
+BMM001.101 Change Auto Boot Time-out and check after reboot (EDK2 UEFI)
     [Documentation]    Check whether setting Auto Boot Time-out to 7 the value
     ...    is remembered after restart
-    Skip If    not ${RESET_TO_DEFAULTS_SUPPORT}    BMM001.001 not supported
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    BMM001.001 not supported
+    Skip If    not ${RESET_TO_DEFAULTS_SUPPORT}    BMM001.101 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    BMM001.101 not supported
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${boot_mgr_menu}=    Enter Submenu From Snapshot And Return Construction
@@ -47,12 +47,12 @@ BMM001.001 Change Auto Boot Time-out and check after reboot
     ${timeout_value}=    Get Option State    ${boot_mgr_menu}    Auto Boot Time-out
     Should Be Equal As Integers    ${timeout_value}    ${boot_timeout}
 
-BMM002.001 F9 resets Auto Boot Time-out to default value
+BMM002.101 F9 resets Auto Boot Time-out to default value (EDK2 UEFI)
     [Documentation]    Check whether pressing F9 resets Auto Boot Time-out to
     ...    default value
     [Tags]    automated    minimal-regression
-    Skip If    not ${RESET_TO_DEFAULTS_SUPPORT}    BMM002.001 not supported
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    BMM002.001 not supported
+    Skip If    not ${RESET_TO_DEFAULTS_SUPPORT}    BMM002.101 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    BMM002.101 not supported
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${boot_mgr_menu}=    Enter Submenu From Snapshot And Return Construction
@@ -79,11 +79,11 @@ BMM002.001 F9 resets Auto Boot Time-out to default value
     ${timeout_value}=    Get Option State    ${boot_mgr_menu}    Auto Boot Time-out
     Should Be Equal As Integers    ${timeout_value}    ${AUTO_BOOT_TIME_OUT_DEFAULT_VALUE}
 
-BMM003.001 Check Auto Boot Time-out option not accept non-numeric values
+BMM003.101 Check Auto Boot Time-out option not accept non-numeric values (EDK2 UEFI)
     [Documentation]    Check whether Auto Boot Time-out accepts only numeric
     ...    values.
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    BMM003.001 not supported
-    Skip If    "${DUT_CONNECTION_METHOD}" == "pikvm"    BMM003.001 not supported with PiKVM input
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    BMM003.101 not supported
+    Skip If    "${DUT_CONNECTION_METHOD}" == "pikvm"    BMM003.101 not supported with PiKVM input
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${boot_mgr_menu}=    Enter Submenu From Snapshot And Return Construction

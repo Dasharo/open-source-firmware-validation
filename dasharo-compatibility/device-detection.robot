@@ -35,8 +35,9 @@ Default Tags        automated
 
 
 *** Test Cases ***
-DDET001.001 USB Stack disable
+DDET001.201 USB Stack disable (Ubuntu)
     [Documentation]    Test disabling the USB stack
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    DDET001.201 not supported
     Login To Linux With Root Privileges
     Set UEFI Option    UsbDriverStack    Disabled
 
@@ -51,8 +52,9 @@ DDET001.001 USB Stack disable
     Should Not Contain    ${out}    usb bus started
     ...    ignore_case=True
 
-DDET002.001 USB Stack enable
+DDET002.201 USB Stack enable (Ubuntu)
     [Documentation]    Test enabling the USB stack
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    DDET002.201 not supported
     Login To Linux With Root Privileges
     Set UEFI Option    UsbDriverStack    Enabled
     Execute Reboot Command
@@ -66,9 +68,10 @@ DDET002.001 USB Stack enable
     Should Contain    ${out}    usb bus started
     ...    ignore_case=True
 
-DDET003.001 Usb Devices Detected In Firmware Warmboot
+DDET003.201 Usb Devices Detected In Firmware Warmboot (Ubuntu)
     [Documentation]    Test if USB devices are detected after a warmboot
     [Tags]    automated    semiauto
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    DDET003.201 not supported
     Skip If
     ...    not ${RTC_BOOT_SUPPORT} and ${INCLUDE_TAGS} is not ${None} and 'semiauto' not in ${INCLUDE_TAGS}
     Login To Linux With Root Privileges
@@ -81,8 +84,9 @@ DDET003.001 Usb Devices Detected In Firmware Warmboot
     Should Contain    ${out}    new device connected
     ...    ignore_case=True
 
-DDET004.001 NET Controller Detected After Reboot
+DDET004.201 NET Controller Detected After Reboot (Ubuntu)
     [Documentation]    Test if a network controller is detected on an PCI lane
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    DDET004.201 not supported
     Login To Linux With Root Privileges
     Execute Reboot Command
     Login To Linux With Root Privileges

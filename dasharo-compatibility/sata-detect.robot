@@ -19,7 +19,7 @@ Default Tags        automated
 
 
 *** Test Cases ***
-SAT001.001 SATA support in firmware
+SAT001.101 SATA support in firmware (EDK2 UEFI)
     [Documentation]    This test aims to verify that SATA is detected from FW
     Depends On    ${TESTS_IN_FIRMWARE_SUPPORT}
     Depends On    ${SATA_SUPPORT}

@@ -63,7 +63,7 @@ MBO002.202 Check if event log PCRs match actual values (Fedora)
     Boot Linux And Login To Root    ${ENV_ID_FEDORA}
     Validate PCRs Against Event Log    /sys/kernel/security/tpm0/binary_bios_measurements
 
-MBO003.001 Changing Secure Boot certificate changes only PCR-7
+MBO003.101 Changing Secure Boot certificate changes only PCR-7 (EDK2 UEFI)
     [Documentation]    Check if changes to Secure Boot certificates influence
     ...    PCR-7 value and only PCR-7
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    Tests in firmware are not supported
@@ -98,7 +98,7 @@ MBO003.001 Changing Secure Boot certificate changes only PCR-7
         END
     END
 
-MBO004.001 Changing Dasharo network boot settings changes only PCR-1
+MBO004.101 Changing Dasharo network boot settings changes only PCR-1 (EDK2 UEFI)
     [Documentation]    Check if changes to Dasharo security settings influence PCR-1
     ...    value and only PCR-1
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    Tests in firmware are not supported
@@ -127,7 +127,7 @@ MBO004.001 Changing Dasharo network boot settings changes only PCR-1
         END
     END
 
-MBO004.002 Changing Dasharo security settings changes only PCR-1
+MBO005.101 Changing Dasharo security settings changes only PCR-1 (EDK2 UEFI)
     [Documentation]    Check if changes to Dasharo Security settings influence PCR-1
     ...    value and only PCR-1
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    Tests in firmware are not supported
@@ -156,7 +156,7 @@ MBO004.002 Changing Dasharo security settings changes only PCR-1
         END
     END
 
-MBO004.003 Changing Dasharo APU settings changes only PCR-1
+MBO006.101 Changing Dasharo APU settings changes only PCR-1 (EDK2 UEFI)
     [Documentation]    Check if changes to Dasharo APU settings influence PCR-1
     ...    value and only PCR-1
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    Tests in firmware are not supported
@@ -184,7 +184,7 @@ MBO004.003 Changing Dasharo APU settings changes only PCR-1
         END
     END
 
-MBO005.001 Flashing firmware and reset to defaults results in same measurement
+MBO007.101 Flashing firmware and reset to defaults results in same measurement (EDK2 UEFI)
     [Documentation]    Reset to defaults results in the same measurements as the
     ...    one done after flashing
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    Tests in firmware are not supported
@@ -203,7 +203,7 @@ MBO005.001 Flashing firmware and reset to defaults results in same measurement
     ${reset_pcr_state}=    Get PCRs State From Linux    ${PCRS_TO_CHECK}
     Lists Should Be Equal    ${default_pcr_state}    ${reset_pcr_state}
 
-MBO005.002 Multiple reset to defaults results in identical measurements
+MBO008.101 Multiple reset to defaults results in identical measurements (EDK2 UEFI)
     [Documentation]    Resetting Dasharo configuration twice will give the same
     ...    PCRs measurements
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    Tests in firmware are not supported
@@ -219,7 +219,7 @@ MBO005.002 Multiple reset to defaults results in identical measurements
         Should Be Equal    ${hash}    ${new_hash}
     END
 
-MBO006.001 Identical configuration results in identical measurements
+MBO009.101 Identical configuration results in identical measurements (EDK2 UEFI)
     [Documentation]    Check if same configuration state results in same PCR
     ...    values regardless how this state was achieved
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    Tests in firmware are not supported
@@ -254,7 +254,7 @@ MBO006.001 Identical configuration results in identical measurements
         Should Be Equal    ${hash}    ${new_hash}
     END
 
-MBO006.002 Identical configuration after reset results in identical measurements
+MBO010.101 Identical configuration after reset results in identical measurements (EDK2 UEFI)
     [Documentation]    Check if same configuration state achieved by resetting
     ...    state to default results in same PCR values
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    Tests in firmware are not supported

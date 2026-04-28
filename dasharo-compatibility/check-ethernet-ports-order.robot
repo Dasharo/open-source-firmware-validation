@@ -20,11 +20,11 @@ Default Tags        automated
 
 
 *** Test Cases ***
-SPS001.001 Check Ethernet Ports Order
+SPS001.201 Check Ethernet Ports Order (Ubuntu)
     [Documentation]    This test automates the verification of port order based
     ...    on PCIe bus numbers and checks PCIe switching.
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SPS001.001 not supported
-    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    SPS001.001 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SPS001.201 not supported
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    SPS001.201 not supported
     Depends On    ${ETH_PORTS} != @{EMPTY}    not supported
     Power On
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}

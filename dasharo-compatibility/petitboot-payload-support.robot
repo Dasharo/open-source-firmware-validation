@@ -21,27 +21,27 @@ Default Tags        automated
 
 
 *** Test Cases ***
-PBT001.001 Petitboot installation
+PBT001.105 Petitboot installation (Petitboot)
     [Documentation]    Check whether the DUT during booting procedure reaches
     ...    Petitboot menu
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    PBT001.001 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    PBT001.105 not supported
     Variable Should Exist    ${FW_FILE}
     Variable Should Exist    ${BOOTBLOCK_FILE}
     Variable Should Exist    ${PNOR_FILE}
     Flash Petitboot From OpenBMC    ${BOOTBLOCK_FILE}    ${FW_FILE}    ${PNOR_FILE}
 
-PBT002.001 Boot into Petitboot
+PBT002.105 Boot into Petitboot (Petitboot)
     [Documentation]    This test verifies that the DUT during booting procedure
     ...    reaches Petitboot menu.
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    PBT002.001 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    PBT002.105 not supported
     Power On
     Set DUT Response Timeout    200s
     Read From Terminal Until    Petitboot
 
-PBT003.001 Read System Information from Petitboot
+PBT003.105 Read System Information from Petitboot (Petitboot)
     [Documentation]    This test verifies that Petitboot System Information
     ...    option is available and works correctly.
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    PBT003.001 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    PBT003.105 not supported
     Power On
     Set DUT Response Timeout    200s
     Read From Terminal Until    Petitboot
@@ -49,10 +49,10 @@ PBT003.001 Read System Information from Petitboot
     Sleep    10s
     Read System Information In Petitboot
 
-PBT004.001 Rescan Devices by Petitboot
+PBT004.105 Rescan Devices by Petitboot (Petitboot)
     [Documentation]    This test verifies that Petitboot Rescan Device option
     ...    is available and works correctly.
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    PBT004.001 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    PBT004.105 not supported
     Power On
     Set DUT Response Timeout    200s
     Read From Terminal Until    Petitboot

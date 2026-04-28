@@ -25,10 +25,10 @@ Default Tags        automated
 
 
 *** Test Cases ***
-DMP001.001 TCG OPAL disk password set and check
+DMP001.101 TCG OPAL disk password set and check (EDK2 UEFI)
     [Documentation]    This test doesn't have documentation
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    DMP001.001 not supported
-    Skip If    not ${TCG_OPAL_DISK_PASSWORD_SUPPORT}    DMP001.001 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    DMP001.101 not supported
+    Skip If    not ${TCG_OPAL_DISK_PASSWORD_SUPPORT}    DMP001.101 not supported
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${device_mgr_menu}=    Enter Submenu From Snapshot And Return Construction

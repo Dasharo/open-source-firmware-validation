@@ -22,15 +22,15 @@ Default Tags        automated
 
 
 *** Test Cases ***
-TPD001.004 Detect TPM after coldboot (heads)
+TPD001.104 Detect TPM after coldboot (Heads)
     [Documentation]    This test aims to verify that the TPM is initialized
     ...    correctly after the platform's coldboot. Currently test is compatible
     ...    only with the platforms with Heads bootloader.
     [Tags]    automated    semiauto
     Skip If
     ...    not ${RTC_BOOT_SUPPORT} and ${INCLUDE_TAGS} is not ${None} and 'semiauto' not in ${INCLUDE_TAGS}
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    TPD001.004 not supported
-    Skip If    not ${TESTS_IN_HEADS_SUPPORT}    TPD001.004 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    TPD001.104 not supported
+    Skip If    not ${TESTS_IN_HEADS_SUPPORT}    TPD001.104 not supported
     VAR    ${FAILED_DETECTS}=    0    scope=GLOBAL
     VAR    @{pcrs_subsequent_boots}=    @{EMPTY}
     Power On
@@ -51,15 +51,15 @@ TPD001.004 Detect TPM after coldboot (heads)
     END
     Check TPM PCRs Correctness Between Subsequent Boots    ${pcrs_subsequent_boots}
 
-TPD002.004 Detect TPM after warmboot (heads)
+TPD002.104 Detect TPM after warmboot (Heads)
     [Documentation]    This test aims to verify that the TPM is initialized
     ...    correctly after the platform's warmboot. Currently test is compatible
     ...    only with the platforms with Heads bootloader.
     [Tags]    automated    semiauto
     Skip If
     ...    not ${RTC_BOOT_SUPPORT} and ${INCLUDE_TAGS} is not ${None} and 'semiauto' not in ${INCLUDE_TAGS}
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    TPD002.004 not supported
-    Skip If    not ${TESTS_IN_HEADS_SUPPORT}    TPD002.004 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    TPD002.104 not supported
+    Skip If    not ${TESTS_IN_HEADS_SUPPORT}    TPD002.104 not supported
     VAR    ${FAILED_DETECTS}=    0    scope=GLOBAL
     VAR    @{pcrs_subsequent_boots}=    @{EMPTY}
     Power On
@@ -80,12 +80,12 @@ TPD002.004 Detect TPM after warmboot (heads)
     END
     Check TPM PCRs Correctness Between Subsequent Boots    ${pcrs_subsequent_boots}
 
-TPD003.004 Detect TPM after platform reboot (heads)
+TPD003.104 Detect TPM after platform reboot (Heads)
     [Documentation]    This test aims to verify that the TPM is initialized
     ...    correctly after the platform's reboot. Currently test is compatible
     ...    only with the platforms with Heads bootloader.
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    TPD003.004 not supported
-    Skip If    not ${TESTS_IN_HEADS_SUPPORT}    TPD003.004 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    TPD003.104 not supported
+    Skip If    not ${TESTS_IN_HEADS_SUPPORT}    TPD003.104 not supported
     VAR    ${FAILED_DETECTS}=    0    scope=GLOBAL
     VAR    @{pcrs_subsequent_boots}=    @{EMPTY}
     Power On

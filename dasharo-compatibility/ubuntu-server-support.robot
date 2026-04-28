@@ -11,8 +11,9 @@ Default Tags        semiauto
 
 
 *** Test Cases ***
-USS001.002 Boot Ubuntu Server stable from Hard Disk
+USSP001.201 Boot Ubuntu Server stable from Hard Disk (Ubuntu)
     [Documentation]    Check whether Ubuntu Server stable can be booted from the hard disk on the DUT.
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    USSP001.201 not supported
     Execute Manual Step    [1/4] Power on the DUT.
     Execute Manual Step    [2/4] Press BOOT_MENU_KEY to enter the boot menu.
     Execute Manual Step    [3/4] In the Boot Menu, select the device on which the system was previously installed.

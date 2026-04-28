@@ -69,6 +69,7 @@ OS_SKIP_VARS = [
     "TESTS_IN_FIRMWARE_SUPPORT",
     "TESTED_LINUX_DISTROS",
     "TESTED_BSD_DISTROS",
+    "HEADS_PAYLOAD_SUPPORT",
 ]
 
 # Keywords whose presence in a test body requires the 'semiauto' tag
@@ -153,6 +154,7 @@ BOOT_ARG_SKIP_SPECS = {
     "${ENV_ID_DEBIAN}": [
         ("TESTED_LINUX_DISTROS", "'${ENV_ID_DEBIAN}' not in ${TESTED_LINUX_DISTROS}"),
     ],
+    "${ENV_ID_HEADS}": [("HEADS_PAYLOAD_SUPPORT", "not ${HEADS_PAYLOAD_SUPPORT}")],
     "${ENV_ID_HEADS_DEBIAN}": [
         (
             "TESTED_LINUX_DISTROS",

@@ -32,10 +32,10 @@ Default Tags        automated
 
 
 *** Test Cases ***
-NBT001.001 Netboot is available
+NBT001.101 Netboot is available (EDK2 UEFI)
     [Documentation]    Check whether netboot option exist, and if after
     ...    selection proper menu apperas.
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    NBT001.001 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    NBT001.101 not supported
     Power On
     Set DUT Response Timeout    60s
     ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
@@ -44,10 +44,10 @@ NBT001.001 Netboot is available
     Read From Terminal Until    Network Boot and Utilities
     Read From Terminal Until    Please Select an Option
 
-NBT002.001 OS Selection & Utilities is available
+NBT002.101 OS Selection & Utilities is available (EDK2 UEFI)
     [Documentation]    Check whether whether selection & utilities is available,
     ...    and if after selection proper menu apperas.
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    NBT002.001 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    NBT002.101 not supported
     Power On
     Set DUT Response Timeout    120s
     ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
@@ -56,10 +56,10 @@ NBT002.001 OS Selection & Utilities is available
     Enter Submenu From Snapshot    ${ipxe_menu}    OS Selection & Utilities
     Read From Terminal Until    netboot.protectli.com
 
-NBT003.001 iPXE boot is available
+NBT003.101 iPXE boot is available (EDK2 UEFI)
     [Documentation]    Check whether iPXE boot is available, and if after
     ...    selection iPXE menu appears.
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    NBT003.001 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    NBT003.101 not supported
     Power On
     ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
     Enter Submenu From Snapshot    ${boot_menu}    Network Boot and Utilities
@@ -68,10 +68,10 @@ NBT003.001 iPXE boot is available
     Set DUT Response Timeout    180s
     Read From Terminal Until    Nothing to boot: No such file or directory
 
-NBT004.001 iPXE shell is available
+NBT004.101 iPXE shell is available (EDK2 UEFI)
     [Documentation]    Check whether iPXE shell is available, and if after
     ...    selection iPXE shell appears.
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    NBT004.001 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    NBT004.101 not supported
     Power On
     Set DUT Response Timeout    60s
     ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
@@ -81,10 +81,10 @@ NBT004.001 iPXE shell is available
     Set DUT Response Timeout    20s
     Read From Terminal Until    You are now in iPXE shell.
 
-NBT005.001 iPXE shell works correctly
+NBT005.101 iPXE shell works correctly (EDK2 UEFI)
     [Documentation]    Check whether iPXE shell works correctly by configuring
     ...    network interface and booting to selected address.
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    NBT005.001 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    NBT005.101 not supported
     Power On
     Set DUT Response Timeout    60s
     ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
@@ -101,10 +101,10 @@ NBT005.001 iPXE shell works correctly
     Read From Terminal Until    http://boot.dasharo.com/dts/dts.ipxe...
     Read From Terminal Until    ok
 
-NBT006.001 Advanced option is available
+NBT006.101 Advanced option is available (EDK2 UEFI)
     [Documentation]    Check whether advanced option is available, and if after
     ...    selection proper menu apperas.
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    NBT006.001 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    NBT006.101 not supported
     Power On
     Set DUT Response Timeout    60s
     ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
@@ -114,10 +114,10 @@ NBT006.001 Advanced option is available
     Set DUT Response Timeout    20s
     Read From Terminal Until    Change Netboot iPXE Payload URL
 
-NBT007.001 Change netboot URL works correctly
+NBT007.101 Change netboot URL works correctly (EDK2 UEFI)
     [Documentation]    Check whether it's possible to change netboot url, and
     ...    boot to it.
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    NBT007.001 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    NBT007.101 not supported
     Power On
     Set DUT Response Timeout    60s
     ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
@@ -144,10 +144,10 @@ NBT007.001 Change netboot URL works correctly
     ${out}=    Read From Terminal Until    Reset to Default
     Should Contain    ${out}    http://boot.dasharo.com/dts/dts.ipxe
 
-NBT008.001 iPXE Autoboot is disabled
+NBT008.101 iPXE Autoboot is disabled (EDK2 UEFI)
     [Documentation]    Check whether platform can reenter the IPXE menu
     ...    without booting automatically
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    NBT008.001 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    NBT008.101 not supported
     Power On
     ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
     Enter Submenu From Snapshot    ${boot_menu}    Network Boot and Utilities

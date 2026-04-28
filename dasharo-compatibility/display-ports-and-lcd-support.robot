@@ -34,31 +34,32 @@ DSP001.001 Internal LCD in firmware
     Execute Manual Step    [2/3] Observe the internal display during POST and UEFI setup
     Execute Manual Step    [3/3] Confirm that the internal LCD is active and shows firmware output correctly
 
-DSP002.003 External HDMI display in firmware
+DSP002.001 External HDMI display in firmware
     [Documentation]    Check whether an external HDMI display is detected and
     ...    visible during firmware execution (POST/UEFI).
     [Tags]    semiauto
-    Skip If    not ${EXTERNAL_HDMI_DISPLAY_SUPPORT}    DSP002.003 not supported
+    Skip If    not ${EXTERNAL_HDMI_DISPLAY_SUPPORT}    DSP002.001 not supported
     Execute Manual Step    [1/4] Connect an external display to the DUT via HDMI
     Execute Manual Step    [2/4] Power on the DUT
     Execute Manual Step    [3/4] Observe the HDMI-connected display during POST and UEFI setup
     Execute Manual Step    [4/4] Confirm that the external HDMI display shows firmware output correctly
 
-DSP003.003 External DP display in firmware
+DSP003.001 External DP display in firmware
     [Documentation]    Check whether an external DisplayPort display is detected and
     ...    visible during firmware execution (POST/UEFI).
     [Tags]    semiauto
-    Skip If    not ${EXTERNAL_DP_DISPLAY_SUPPORT}    DSP003.003 not supported
+    Skip If    not ${EXTERNAL_DP_DISPLAY_SUPPORT}    DSP003.001 not supported
     Execute Manual Step    [1/4] Connect an external display to the DUT via DisplayPort
     Execute Manual Step    [2/4] Power on the DUT
     Execute Manual Step    [3/4] Observe the DP-connected display during POST and UEFI setup
     Execute Manual Step    [4/4] Confirm that the external DP display shows firmware output correctly
 
-DSP004.003 External VGA display in firmware
+DSP004.001 External VGA display in firmware
     [Documentation]    Check whether an external VGA display is detected and
     ...    visible during firmware execution (POST/UEFI).
     [Tags]    semiauto
-    Skip If    not ${EXTERNAL_VGA_DISPLAY_SUPPORT}    DSP004.003 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    DSP004.001 not supported
+    Skip If    not ${EXTERNAL_VGA_DISPLAY_SUPPORT}    DSP004.001 not supported
     Execute Manual Step    [1/4] Connect an external display to the DUT via VGA
     Execute Manual Step    [2/4] Power on the DUT
     Execute Manual Step    [3/4] Observe the VGA-connected display during POST and UEFI setup

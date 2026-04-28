@@ -27,24 +27,24 @@ Default Tags        automated
 
 
 *** Test Cases ***
-NBA001.001 Enable Network Boot (firmware)
+NBA001.101 Enable Network Boot (EDK2 UEFI)
     [Documentation]    This test aims to verify that the Network Boot option
     ...    might be enabled. If this option is activated, an additional option
     ...    in the Boot menu which allows to boot the system from iPXE servers
     ...    will appear.
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    NBA001.001 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    NBA001.101 not supported
     IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'    Remap Keys Variables To PiKVM
     Set UEFI Option    NetworkBoot    ${TRUE}
 
     ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
     Should Contain    ${boot_menu}    ${IPXE_BOOT_ENTRY}
 
-NBA002.001 Disable Network Boot (firmware)
+NBA002.101 Disable Network Boot (EDK2 UEFI)
     [Documentation]    This test aims to verify that the Network Boot option
     ...    might be disabled. If this option is deactivated, an additional option
     ...    in the Boot menu which allows to boot the system from iPXE servers
     ...    will be hidden.
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    NBA002.001 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    NBA002.101 not supported
     IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'    Remap Keys Variables To PiKVM
     Set UEFI Option    NetworkBoot    ${FALSE}
 

@@ -29,10 +29,10 @@ Default Tags        automated
 
 
 *** Test Cases ***
-MNE001.001 ME disable option is available and has the correct default state
+MNE001.101 ME disable option is available and has the correct default state (EDK2 UEFI)
     [Documentation]    Check whether the Intel ME mode state after flashing the
     ...    platform with the Dasharo firmware is correct.
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    MNE001.001 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    MNE001.101 not supported
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}

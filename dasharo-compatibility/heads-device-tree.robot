@@ -28,19 +28,19 @@ Default Tags        automated
 
 
 *** Test Cases ***
-DVT001.001 Node with coreboot exists
+DVT001.104 Node with coreboot exists (Heads)
     [Documentation]    Check whether the node with the coreboot exists in
     ...    Device Tree.
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    DVT001.001 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    DVT001.104 not supported
     Power On
     Detect Heads Main Menu
     Enter Heads Recovery Shell
     ${coreboot_node}=    Execute Linux Command    xxd /sys/firmware/devicetree/base/firmware/coreboot/compatible
     Should Not Contain    ${coreboot_node}    No such file or directory
 
-DVT002.001 Memory for coreboot is reserved
+DVT002.104 Memory for coreboot is reserved (Heads)
     [Documentation]    Check whether the memory for coreboot is reserved.
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    DVT002.001 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    DVT002.104 not supported
     Power On
     Detect Heads Main Menu
     Enter Heads Recovery Shell

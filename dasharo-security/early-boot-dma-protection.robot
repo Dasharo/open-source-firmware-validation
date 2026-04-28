@@ -29,12 +29,12 @@ Default Tags        automated
 
 
 *** Test Cases ***
-EDP001.001 Enable early boot DMA protection support
+EDP001.101 Enable early boot DMA protection support (EDK2 UEFI)
     [Documentation]    This test aims to verify that the early boot DMA
     ...    protection might be activated and if the change is properly
     ...    recognized by the OS
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    EDP001.001 not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    EDP001.001 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    EDP001.101 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    EDP001.101 not supported
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
@@ -47,12 +47,12 @@ EDP001.001 Enable early boot DMA protection support
     ${cbmem_output}=    Execute Command In Terminal    cbmem -1 | grep --color=never DMA
     Should Contain    ${cbmem_output}    Successfully enabled VT-d PMR DMA protection
 
-EDP002.001 Disable early boot DMA protection support
+EDP002.101 Disable early boot DMA protection support (EDK2 UEFI)
     [Documentation]    This test aims to verify that the early boot DMA
     ...    protection might be deactivated and if the change is properly
     ...    recognized by the OS
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    EDP002.001 not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    EDP002.001 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    EDP002.101 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    EDP002.101 not supported
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}

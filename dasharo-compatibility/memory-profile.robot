@@ -32,12 +32,12 @@ Default Tags        automated
 
 
 *** Test Cases ***
-MPS001.001 Switching to XMP profile
+MPS001.101 Switching to XMP profile (EDK2 UEFI)
     [Documentation]    XMP DRAM profiles have higher memory frequencies and/or
     ...    timings and are often necessary to get sticks to perform as
     ...    advertised by its manufacturer. Enabling such profile should keep
     ...    the system operational and change memory speed to a higher one.
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    MPS001.001 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    MPS001.101 not supported
     # Training 32 GiB of DDR5 takes longer than 3 minutes
     Telnet.Set Timeout    5 min
     # Boot and remember current memory speed
@@ -62,10 +62,10 @@ MPS001.001 Switching to XMP profile
     Should Not Be Empty    ${new_speed}
     Should Not Be Equal    ${old_speed}    ${new_speed}
 
-MPS002.001 Switching back to JEDEC profile
+MPS002.101 Switching back to JEDEC profile (EDK2 UEFI)
     [Documentation]    JEDEC profile is a safe default for memory configuration.
     ...    We should be able to select it again.
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    MPS002.001 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    MPS002.101 not supported
     # Boot and remember current memory speed
     Power On
     Enter Setup Menu Tianocore
@@ -88,9 +88,10 @@ MPS002.001 Switching back to JEDEC profile
     Should Not Be Empty    ${new_speed}
     Should Not Be Equal    ${old_speed}    ${new_speed}
 
-MPS003.001 Booting at XMP profile 1
+MPS003.101 Booting at XMP profile 1 (EDK2 UEFI)
     [Documentation]    Check whether the DUT can boot successfully with XMP profile 1 enabled.
     [Tags]    semiauto
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    MPS003.101 not supported
     Execute Manual Step    [1/4] Power on the DUT and enter the firmware setup menu
     Execute Manual Step    [2/4] Navigate to Memory Configuration and enable XMP profile 1
     Execute Manual Step    [3/4] Save settings and reboot the DUT

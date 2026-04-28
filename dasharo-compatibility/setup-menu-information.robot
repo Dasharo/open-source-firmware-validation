@@ -29,7 +29,7 @@ Default Tags        automated
 
 
 *** Test Cases ***
-SET001.001 CPU clock speed displayed in setup menu
+SET001.101 CPU clock speed displayed in setup menu (EDK2 UEFI)
     [Documentation]    This test case verifies that CPU clock speed is
     ...    correctly indicated in setup menu.
     Power On
@@ -41,7 +41,7 @@ SET001.001 CPU clock speed displayed in setup menu
     ${matches}=    Get Regexp Matches    ${cpu_line}    (\\d+\\.\\d+)\\s+GHz    1
     Should Not Be Equal As Numbers    ${matches}[0]    0
 
-SET002.001 RAM speed displayed in setup menu
+SET002.101 RAM speed displayed in setup menu (EDK2 UEFI)
     [Documentation]    This test case verifies that RAM speed is correctly
     ...    indicated in setup menu.
     Power On
@@ -53,7 +53,7 @@ SET002.001 RAM speed displayed in setup menu
     ${matches}=    Get Regexp Matches    ${ram_line}    (\\d+)\\s*MHz    1
     Should Not Be Equal As Numbers    ${matches}[0]    0
 
-SET003.001 RAM size displayed in setup menu
+SET003.101 RAM size displayed in setup menu (EDK2 UEFI)
     [Documentation]    This test case verifies that RAM size is correctly
     ...    indicated in setup menu.
     Power On
@@ -65,7 +65,7 @@ SET003.001 RAM size displayed in setup menu
     ${matches}=    Get Regexp Matches    ${ram_line}    (\\d+)\\s*MB\\s*RAM    1
     Should Not Be Equal As Numbers    ${matches}[0]    0
 
-SET004.001 Expected CPU clock speed displayed in setup menu
+SET004.101 Expected CPU clock speed displayed in setup menu (EDK2 UEFI)
     [Documentation]    This test case verifies that CPU clock speed is
     ...    correctly indicated in setup menu.
     Depends On Variable    \${PLATFORM_CPU_SPEED}
@@ -78,7 +78,7 @@ SET004.001 Expected CPU clock speed displayed in setup menu
     ${matches}=    Get Regexp Matches    ${cpu_line}    (\\d+\\.\\d+) GHz    1
     Should Be Equal As Numbers    ${matches}[0]    ${PLATFORM_CPU_SPEED}
 
-SET005.001 Expected RAM speed displayed in setup menu
+SET005.101 Expected RAM speed displayed in setup menu (EDK2 UEFI)
     [Documentation]    This test case verifies that RAM speed is correctly
     ...    indicated in setup menu.
     Depends On Variable    \${PLATFORM_RAM_SPEED}
@@ -91,7 +91,7 @@ SET005.001 Expected RAM speed displayed in setup menu
     ${matches}=    Get Regexp Matches    ${ram_line}    (\\d+)\\s*MHz    1
     Should Be Equal As Numbers    ${matches}[0]    ${PLATFORM_RAM_SPEED}
 
-SET006.001 Expected RAM size displayed in setup menu
+SET006.101 Expected RAM size displayed in setup menu (EDK2 UEFI)
     [Documentation]    This test case verifies that RAM size is correctly
     ...    indicated in setup menu.
     Depends On Variable    \${PLATFORM_RAM_SIZE}

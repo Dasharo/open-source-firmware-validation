@@ -27,35 +27,35 @@ Default Tags        automated
 
 
 *** Test Cases ***
-USS001.001 Enable USB stack (firmware)
+USS001.101 Enable USB stack (EDK2 UEFI)
     [Documentation]    Check whether If the stack is activated, there will be an
     ...    option to use USB bootable drives and USB keyboards on
     ...    the firmware level.
-    Skip If    not ${USB_STACK_SUPPORT}    USS001.001 not supported
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    USS001.001 not supported
+    Skip If    not ${USB_STACK_SUPPORT}    USS001.101 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    USS001.101 not supported
     Skip If    "${OPTIONS_LIB}" == "options-lib_dcu"
     Set UEFI Option    UsbDriverStack    ${TRUE}
     Set UEFI Option    UsbMassStorage    ${TRUE}
     ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
     Check USB Stick Detection In Edk2    ${boot_menu}
 
-USS002.001 Disable USB stack (firmware)
+USS002.101 Disable USB stack (EDK2 UEFI)
     [Documentation]    Check whether If the stack is deactivated, there will be
     ...    no option to use USB bootable drives and USB keyboards on
     ...    the firmware level.
-    Skip If    not ${USB_STACK_SUPPORT}    USS002.001 not supported
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    USS002.001 not supported
+    Skip If    not ${USB_STACK_SUPPORT}    USS002.101 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    USS002.101 not supported
     Skip If    "${OPTIONS_LIB}" == "options-lib_dcu"
     Set UEFI Option    UsbMassStorage    ${FALSE}
     Set UEFI Option    UsbDriverStack    ${FALSE}
     ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
 
-USS003.001 Enable USB Mass Storage (firmware)
+USS003.101 Enable USB Mass Storage (EDK2 UEFI)
     [Documentation]    Check whether If the storage support is activated, there
     ...    will be an option to use USB bootable drives on the
     ...    firmware level.
-    Skip If    not ${USB_MASS_STORAGE_SUPPORT}    USS003.001 not supported
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    USS003.001 not supported
+    Skip If    not ${USB_MASS_STORAGE_SUPPORT}    USS003.101 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    USS003.101 not supported
     Skip If    "${OPTIONS_LIB}" == "options-lib_dcu"
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
@@ -74,12 +74,12 @@ USS003.001 Enable USB Mass Storage (firmware)
     ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
     Check USB Stick Detection In Edk2    ${boot_menu}
 
-USS004.001 Disable USB Mass Storage (firmware)
+USS004.101 Disable USB Mass Storage (EDK2 UEFI)
     [Documentation]    Check whether If the storage support is deactivated,
     ...    there will be no option to use USB bootable drives on the
     ...    firmware level.
-    Skip If    not ${USB_MASS_STORAGE_SUPPORT}    USS004.001 not supported
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    USS004.001 not supported
+    Skip If    not ${USB_MASS_STORAGE_SUPPORT}    USS004.101 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    USS004.101 not supported
     Skip If    "${OPTIONS_LIB}" == "options-lib_dcu"
     Power On
     # Enable USB stack first to get mass storage option

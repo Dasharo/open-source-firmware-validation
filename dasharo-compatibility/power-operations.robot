@@ -11,8 +11,9 @@ Default Tags        semiauto
 
 
 *** Test Cases ***
-DPC001.001 Reset button (QubesOS)
+DPC001.203 Reset button (Qubes OS)
     [Documentation]    Check whether the reset button works correctly in QubesOS.
+    Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    DPC001.203 not supported
     Execute Manual Step    [1/5] Power on the DUT.
     Execute Manual Step    [2/5] Boot into the system.
     Execute Manual Step    [3/5] Log into the system by using the proper login and password.

@@ -22,7 +22,7 @@ Test Setup          Run Keyword
 
 
 *** Test Cases ***
-OPN002.001 OPNSense stable (VGA output) installation on Hard Disk
+OPN001.001 OPNSense stable (VGA output) installation on Hard Disk
     [Documentation]    Check whether OPNSense stable with VGA output can be installed on the hard disk.
     [Tags]    semiauto
     Execute Manual Step    [1/5] Prepare an OPNSense stable installation medium (USB)

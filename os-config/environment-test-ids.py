@@ -10,6 +10,8 @@ ENV_ID_EDK2 = "101"
 ENV_ID_SEABIOS = "102"
 ENV_ID_IPXE = "103"
 ENV_ID_HEADS = "104"
+ENV_ID_PETITBOOT = "105"
+ENV_ID_UEFI_SHELL = "106"
 
 # 2xx - Linux
 ENV_ID_UBUNTU = "201"
@@ -22,6 +24,8 @@ ENV_ID_OPENWRT = "207"
 ENV_ID_DEBIAN = "208"
 ENV_ID_HEADS_DEBIAN = "209"
 ENV_ID_PROXMOX = "210"
+ENV_ID_DTS = "211"
+
 # 3xx - Windows
 ENV_ID_WINDOWS = "301"
 
@@ -45,6 +49,7 @@ ENV_ID_OS_BOOTMENU_NAMES = {
     ENV_ID_OPENWRT: "OpenWrt",
     ENV_ID_QUBES: "Qubes OS",
     ENV_ID_DEBIAN: "Debian",
+    ENV_ID_UEFI_SHELL: "UEFI Shell",
 }
 
 ENV_ID_FRIENDLY_NAMES = {
@@ -52,6 +57,9 @@ ENV_ID_FRIENDLY_NAMES = {
     ENV_ID_SEABIOS: "SeaBIOS",
     ENV_ID_IPXE: "iPXE",
     ENV_ID_HEADS: "Heads",
+    ENV_ID_PETITBOOT: "Petitboot",
+    ENV_ID_UEFI_SHELL: "UEFI Shell",
+    ENV_ID_DTS: "DTS",
     ENV_ID_UBUNTU: "Ubuntu",
     ENV_ID_FEDORA: "Fedora",
     ENV_ID_WINDOWS: "Windows",
@@ -66,4 +74,5 @@ ENV_ID_FRIENDLY_NAMES = {
     ENV_ID_PFSENSE: "pfSense",
     ENV_ID_OPNSENSE: "OPNSense",
     ENV_ID_PROXMOX: "Proxmox",
+    ENV_ID_UEFI_SHELL: "UEFI Shell",
 }

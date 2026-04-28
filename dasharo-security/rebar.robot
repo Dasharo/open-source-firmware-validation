@@ -16,10 +16,10 @@ Force Tags          automated
 
 
 *** Test Cases ***
-RBE001.001 Check if Resizeable BARs option is present
+RBE001.101 Check if Resizeable BARs option is present (EDK2 UEFI)
     [Documentation]    This test checks that Resizable BAR option is available
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    RBE001.001 not supported
-    Skip If    not ${DASHARO_PCI_PCIE_MENU_SUPPORT}    RBE001.001 not supported
-    Skip If    not ${DASHARO_PCIE_REBAR_SUPPORT}    RBE001.001 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    RBE001.101 not supported
+    Skip If    not ${DASHARO_PCI_PCIE_MENU_SUPPORT}    RBE001.101 not supported
+    Skip If    not ${DASHARO_PCIE_REBAR_SUPPORT}    RBE001.101 not supported
     ${out}=    Get UEFI Option    PCIeResizeableBarsEnabled
     IF    '${out}' not in ['True', 'False']    Fail    Option not found

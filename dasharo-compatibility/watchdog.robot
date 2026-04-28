@@ -26,10 +26,10 @@ Default Tags        automated
 
 
 *** Test Cases ***
-WDT001.001 Check if watchdog option is available
+WDT001.101 Check if watchdog option is available (EDK2 UEFI)
     [Documentation]    Check if the watchdog timer can be enabled in the chipset
     ...    configuration submenu.
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    WDT001.001 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    WDT001.101 not supported
     Skip If    not ${WATCHDOG_SUPPORT}    Watchdog tests not supported.
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
@@ -37,10 +37,10 @@ WDT001.001 Check if watchdog option is available
     ${chipset_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Chipset Configuration
     Should Contain Match    ${chipset_menu}    Enable watchdog*
 
-WDT002.001 Enable watchdog
+WDT002.101 Enable watchdog (EDK2 UEFI)
     [Documentation]    Enable watchdog with the default timeout and verify that
     ...    it resets the platform.
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    WDT002.001 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    WDT002.101 not supported
     Skip If    not ${WATCHDOG_SUPPORT}    Watchdog tests not supported.
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
@@ -54,10 +54,10 @@ WDT002.001 Enable watchdog
     Set DUT Response Timeout    320s
     Read From Terminal Until    ${TIANOCORE_STRING}
 
-WDT003.001 Disable watchdog
+WDT003.101 Disable watchdog (EDK2 UEFI)
     [Documentation]    Disable the watchdog after enabling it to verify it does
     ...    not reset the platform anymore.
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    WDT003.001 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    WDT003.101 not supported
     Skip If    not ${WATCHDOG_SUPPORT}    Watchdog tests not supported.
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
@@ -77,10 +77,10 @@ WDT003.001 Disable watchdog
     END
     Should Be Equal    ${platform_has_reset}    ${FALSE}
 
-WDT004.001 Change watchdog timeout
+WDT004.101 Change watchdog timeout (EDK2 UEFI)
     [Documentation]    Enable watchdog timer with a higher timeout than default
     ...    and verify that it resets the platform.
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    WDT004.001 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    WDT004.101 not supported
     Skip If    not ${WATCHDOG_SUPPORT}    Watchdog tests not supported.
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction

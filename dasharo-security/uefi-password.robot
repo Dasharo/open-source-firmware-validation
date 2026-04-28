@@ -36,12 +36,12 @@ Default Tags        automated
 
 
 *** Test Cases ***
-PSW001.001 Check Password Setup option availability and default state
+PSW001.101 Check Password Setup option availability and default state (EDK2 UEFI)
     [Documentation]    This test aims to verify whether User Password Management
     ...    submenu is available and, whether all options in the submenu have
     ...    correct default state.
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    PSW001.001 not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    PSW001.001 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    PSW001.101 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    PSW001.101 not supported
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${pass_mgr_menu}=    Enter Submenu From Snapshot And Return Construction
@@ -51,13 +51,13 @@ PSW001.001 Check Password Setup option availability and default state
     ...    Check User Password Management Menu Default State    ${pass_mgr_menu}
     Should Be True    ${menu_correct_status}
 
-PSW002.001 Password setting mechanism correctness checking
+PSW002.101 Password setting mechanism correctness checking (EDK2 UEFI)
     [Documentation]    This test aims to verify whether Change Admin Password
     ...    option works correctly - after restarting the device and trying
     ...    to enter the Setup Menu, a window to enter the password will be
     ...    displayed
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    PSW002.001 not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    PSW002.001 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    PSW002.101 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    PSW002.101 not supported
     Power On
     Set Password 5 Times
     Power On
@@ -65,11 +65,11 @@ PSW002.001 Password setting mechanism correctness checking
     ${output}=    Read From Terminal Until    password
     Should Contain    ${output}    Please input admin password
 
-PSW003.001 Attempt to log in with a correct password
+PSW003.101 Attempt to log in with a correct password (EDK2 UEFI)
     [Documentation]    This test aims to verify whether, after entering the
     ...    correct Setup password, the Setup menu will be displayed.
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    PSW003.001 not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    PSW003.001 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    PSW003.101 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    PSW003.101 not supported
     Power On
     Enter Setup Menu Tianocore
     Read From Terminal Until    password
@@ -79,12 +79,12 @@ PSW003.001 Attempt to log in with a correct password
     ${output}=    Read From Terminal Until    ontinue
     Should Not Contain    ${output}    Incorrect password
 
-PSW004.001 Attempt to log in with an incorrect password
+PSW004.101 Attempt to log in with an incorrect password (EDK2 UEFI)
     [Documentation]    This test aims to verify whether, after entering
     ...    the incorrect Setup password, the message about the demand for
     ...    re-entering the password will be displayed.
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    PSW004.001 not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    PSW004.001 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    PSW004.101 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    PSW004.101 not supported
     Power On
     Enter Setup Menu Tianocore
     Read From Terminal Until    password
@@ -94,12 +94,12 @@ PSW004.001 Attempt to log in with an incorrect password
     ${output}=    Read From Terminal Until    ontinue
     Should Contain    ${output}    Incorrect password
 
-PSW005.001 Attempt to log in with an incorrect password 3 times
+PSW005.101 Attempt to log in with an incorrect password 3 times (EDK2 UEFI)
     [Documentation]    This test aims to verify whether, after entering
     ...    the incorrect Setup password, the message about the demand for
     ...    re-entering the password will be displayed.
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    PSW005.001 not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    PSW005.001 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    PSW005.101 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    PSW005.101 not supported
     Power On
     Enter Setup Menu Tianocore
     Read From Terminal Until    password
@@ -113,12 +113,12 @@ PSW005.001 Attempt to log in with an incorrect password 3 times
     ${output}=    Read From Terminal
     Should Contain    ${output}    reset system
 
-PSW006.001 Attempt to turn off setup password functionality
+PSW006.101 Attempt to turn off setup password functionality (EDK2 UEFI)
     [Documentation]    This test aims to verify whether there is a
     ...    possibility to turn off the Setup Password functionality by entering
     ...    empty password.
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    PSW006.001 not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    PSW006.001 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    PSW006.101 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    PSW006.101 not supported
     Power On
     Enter Setup Menu Tianocore
     Read From Terminal Until    password
@@ -144,11 +144,11 @@ PSW006.001 Attempt to turn off setup password functionality
     ${output}=    Read From Terminal
     Should Not Contain    ${output}    Please input admin password
 
-PSW007.001 Attempt to set non-compliant password
+PSW007.101 Attempt to set non-compliant password (EDK2 UEFI)
     [Documentation]    This test aims to verify whether the attempt to set
     ...    a non-compliant password will be rejected.
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    PSW007.001 not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    PSW007.001 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    PSW007.101 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    PSW007.101 not supported
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${pass_mgr_menu}=    Enter Submenu From Snapshot And Return Construction
@@ -164,13 +164,13 @@ PSW007.001 Attempt to set non-compliant password
     ${result}=    Read From Terminal Until    ENTER to continue
     Should Not Contain    ${result}    New password is updated successfully
 
-PSW008.001 Attempt to set old password
+PSW008.101 Attempt to set old password (EDK2 UEFI)
     [Documentation]    UEFI Setup password feature has been equipped with an
     ...    additional functionality that prevents re-setting one of the last 5
     ...    access passwords. This test aims to verify whether the attempt to
     ...    set old password again will be rejected.
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    PSW008.001 not supported
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    PSW008.001 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    PSW008.101 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    PSW008.101 not supported
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${pass_mgr_menu}=    Enter Submenu From Snapshot And Return Construction

@@ -25,6 +25,7 @@ Default Tags        semiauto
 CLG001.001 Custom boot logo
     [Documentation]    Verify that a custom boot logo can be set and is displayed
     ...    during the boot process.
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    CLG001.001 not supported
     Execute Manual Step    [1/2] Power on the DUT.
     Execute Manual Step    [2/2] Wait for the boot logo to appear.
     VAR    ${result_msg}=
