@@ -27,7 +27,7 @@ Suite Setup         Run Keywords
 ...                     AND    Deploy Uefi Shell
 ...                     AND    Upload Required Files
 ...                     AND    Get System Values
-...                     AND    Run Keyword If    '${MANUFACTURER}' != 'QEMU'    Set UEFI Option    MeMode    Disabled (HAP)
+...                     AND    Run Keyword If    '${MANUFACTURER}' != 'QEMU' and ${DASHARO_INTEL_ME_MENU_SUPPORT}    Set UEFI Option    MeMode    Disabled (HAP)
 ...                     AND    Set DUT Response Timeout    90s    # a boot can last longer than default 30s
 Suite Teardown      Run Keywords
 ...                     Run Keyword If    '${SUITE_STATUS}' != 'SKIP'    Flash Firmware    ${FW_FILE}
