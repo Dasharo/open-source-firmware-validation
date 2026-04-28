@@ -2481,6 +2481,13 @@
   },
   {
     "doc": {
+      "_id": "CUP151.001",
+      "name": "Capsule Update Production Keys",
+      "module": "Dasharo Stability"
+    }
+  },
+  {
+    "doc": {
       "_id": "CUP160.001",
       "name": "Verifying BIOS Settings Persistence After Update - PART 2",
       "module": "Dasharo Stability"
