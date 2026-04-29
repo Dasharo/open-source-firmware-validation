@@ -655,7 +655,7 @@ Perform Capsule Update
     END
 
 Handle Capsule Update Screens
-    [Arguments]    ${expect_fum}    ${v2_result_gui_manual}=${FALSE}
+    [Arguments]    ${expect_fum}=${FALSE}    ${v2_result_gui_manual}=${FALSE}
     # If there is no FUM screen and the update finishes, we land in the POST screen
     # If the update did not start yet as the FUM mode must be authorized
     VAR    ${potential_screens_regex}=
