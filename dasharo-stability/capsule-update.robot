@@ -129,7 +129,7 @@ CUP001.001 Capsule Update With Wrong Keys
     Set To Dictionary    ${V2_RESULT_SCREENS}    wrong_cert.cap    ${EMPTY}
     ${status}    ${version_changed}=    Perform Capsule Update And Return Status
     ...    wrong_cert.cap
-    ...    v2_result_gui_manual=${manual_gui}
+    ...    manual_v2_results_screen=${manual_gui}
     Should Contain    ${status}    ${WRONG_KEYS_CAPSULE_STATUS}
     Should Not Be True    ${version_changed}
 
@@ -163,7 +163,7 @@ CUP002.001 Capsule Update With Wrong GUID
     Set To Dictionary    ${V2_RESULT_SCREENS}    invalid_guid.cap    ${EMPTY}
     ${status}    ${version_changed}=    Perform Capsule Update And Return Status
     ...    invalid_guid.cap
-    ...    v2_result_gui_manual=${manual_gui}
+    ...    manual_v2_results_screen=${manual_gui}
     Should Contain    ${status}    ${WRONG_GUID_CAPSULE_STATUS}
     Should Not Be True    ${version_changed}
 
@@ -213,13 +213,20 @@ CUP150.001 Capsule Update
     ...    to keep the number of actual FW updates to minimum to prevent chip degradation.
     Skip If    ${CAPSULE_UPDATE_V2_SUPPORT} and not ${V2_CAP_HAS_TEST_KEYS}
     ...    Capsule Update V2 - production capsule provided, testing keys tests not supported
-    ${manual_gui}=    Evaluate    ${CAPSULE_UPDATE_V2_SUPPORT} and ${SHOULD_RUN_SEMIAUTO_TESTS}
-    IF    ${manual_gui}
-        Manual UI Verification Prompt    ${CUP_250_MESSAGE}    prepare=${TRUE}
+    IF    ${SHOULD_RUN_SEMIAUTO_TESTS}
+        VAR    @{manual_gui_messages}=    ${CUP_250_MESSAGE}
+        IF    ${CAPSULE_UPDATE_V2_SUPPORT}
+            Append To List    ${manual_gui_messages}
+            ...    ${CUP_251_MESSAGE}
+            ...    ${CUP_252_MESSAGE}
+            ...    ${CUP_253_MESSAGE}
+        END
+        Manual UI Verification Prompt    @{manual_gui_messages}    prepare=${TRUE}
     END
+    ${verify_results_screen}=    Evaluate    ${CAPSULE_UPDATE_V2_SUPPORT} and ${SHOULD_RUN_SEMIAUTO_TESTS}
     ${status}    ${version_changed}=    Perform Capsule Update And Return Status
     ...    valid_capsule.cap
-    ...    v2_result_gui_manual=${manual_gui}
+    ...    manual_v2_results_screen=${verify_results_screen}
     Should Be True    ${version_changed}
     Should Contain    ${status}    CapsuleMax
     Should Not Contain    ${status}    CapsuleLast
@@ -235,18 +242,20 @@ CUP151.101 Capsule Update Production Keys (EDK2 UEFI)
     Skip If
     ...    ${V2_CAP_HAS_TEST_KEYS}
     ...    CAPSULE_FW_FILE contains testing keys, provide production capsule to test Capsule Update with Production keys
-    ${manual_gui}=    Evaluate    ${CAPSULE_UPDATE_V2_SUPPORT} and ${SHOULD_RUN_SEMIAUTO_TESTS}
-    IF    ${manual_gui}
-        Manual UI Verification Prompt
-        ...    ${CUP_250_MESSAGE}
-        ...    ${CUP_251_MESSAGE}
-        ...    ${CUP_252_MESSAGE}
-        ...    ${CUP_253_MESSAGE}
-        ...    prepare=${TRUE}
+    IF    ${SHOULD_RUN_SEMIAUTO_TESTS}
+        VAR    @{manual_gui_messages}=    ${CUP_250_MESSAGE}
+        IF    ${CAPSULE_UPDATE_V2_SUPPORT}
+            Append To List    ${manual_gui_messages}
+            ...    ${CUP_251_MESSAGE}
+            ...    ${CUP_252_MESSAGE}
+            ...    ${CUP_253_MESSAGE}
+        END
+        Manual UI Verification Prompt    @{manual_gui_messages}    prepare=${TRUE}
     END
+    ${verify_results_screen}=    Evaluate    ${CAPSULE_UPDATE_V2_SUPPORT} and ${SHOULD_RUN_SEMIAUTO_TESTS}
     ${status}    ${version_changed}=    Perform Capsule Update And Return Status
     ...    valid_capsule.cap
-    ...    v2_result_gui_manual=${manual_gui}
+    ...    manual_v2_results_screen=${MANUAL_GUI}
     Should Be True    ${version_changed}
     Should Contain    ${status}    CapsuleMax
     Should Not Contain    ${status}    CapsuleLast
@@ -502,7 +511,7 @@ Check Platform Fused
     Exit From Root User
 
 Perform Capsule Update And Return Status
-    [Arguments]    ${capsule_file}    ${ondisk}=${FALSE}    ${v2_result_gui_manual}=${FALSE}
+    [Arguments]    ${capsule_file}    ${ondisk}=${FALSE}    ${manual_v2_results_screen}=${FALSE}
     Power On
     Boot System Or From Connected Disk    ${DEFAULT_BOOT_OS_ID}
     Login To Linux With Root Privileges
@@ -511,7 +520,7 @@ Perform Capsule Update And Return Status
     Perform Capsule Update
     ...    ${capsule_file}
     ...    ondisk=${ondisk}
-    ...    v2_result_gui_manual=${v2_result_gui_manual}
+    ...    manual_v2_results_screen=${manual_v2_results_screen}
 
     Power On
     Boot System Or From Connected Disk    ${DEFAULT_BOOT_OS_ID}
@@ -616,7 +625,7 @@ Copy Capsule Files To Shell Workspace
     END
 
 Perform Capsule Update
-    [Arguments]    ${capsule_file}    ${ondisk}=${FALSE}    ${v2_result_gui_manual}=${FALSE}
+    [Arguments]    ${capsule_file}    ${ondisk}=${FALSE}    ${manual_v2_results_screen}=${FALSE}
     # Submit capsule to firmware without an automatic reset and verify that it
     # was accepted without error
     VAR    ${capsule_fs_path}=    ${capsule_file}
@@ -642,7 +651,7 @@ Perform Capsule Update
         # 2. After the update finally finishes the DUT is rebooted and we are ready to continue.
         VAR    ${post_screen_counter}=    0
         FOR    ${_}    IN RANGE    5
-            ${screen}=    Handle Capsule Update Screens    v2_result_gui_manual=${v2_result_gui_manual}
+            ${screen}=    Handle Capsule Update Screens    manual_v2_results_screen=${manual_v2_results_screen}
             IF    '${TIANOCORE_STRING}' in $screen
                 ${post_screen_counter}=    Evaluate    ${post_screen_counter} + 1
             END
@@ -655,7 +664,7 @@ Perform Capsule Update
     END
 
 Handle Capsule Update Screens
-    [Arguments]    ${expect_fum}=${FALSE}    ${v2_result_gui_manual}=${FALSE}
+    [Arguments]    ${expect_fum}=${FALSE}    ${manual_v2_results_screen}=${FALSE}
     # If there is no FUM screen and the update finishes, we land in the POST screen
     # If the update did not start yet as the FUM mode must be authorized
     VAR    ${potential_screens_regex}=
@@ -681,7 +690,7 @@ Handle Capsule Update Screens
     ELSE IF    '${TIANOCORE_STRING}' in $out
         Log    Tianocore string
     ELSE IF    '${V2_RESULT_SCREEN_BOTTOM}' in $out
-        IF    ${v2_result_gui_manual}
+        IF    ${manual_v2_results_screen}
             Execute Manual Step    message=Note the result screen
         END
         Press Enter
