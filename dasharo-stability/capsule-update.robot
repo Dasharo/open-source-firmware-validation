@@ -133,7 +133,7 @@ CUP001.001 Capsule Update With Wrong Keys
     Should Contain    ${status}    ${WRONG_KEYS_CAPSULE_STATUS}
     Should Not Be True    ${version_changed}
 
-CUP280.101 Capsule Update V2 Failure Screen Wrong Keys
+CUP280.101 Capsule Update V2 Failure Screen Wrong Keys (EDK2 UEFI)
     [Documentation]    Check whether Capsules V2 failure result screen appears
     ...    and has expected contents.
     [Tags]    semiauto
@@ -143,7 +143,7 @@ CUP280.101 Capsule Update V2 Failure Screen Wrong Keys
     # Populated in CUP001.001
     ${screen}=    Get From Dictionary    ${V2_RESULT_SCREENS}    wrong_cert.cap    default=${NONE}
     IF    $screen is ${None}
-        Skip    CUP280.101 depends on CUP001.001. The dependency was not run.
+        Skip    CUP280 depends on CUP001. The dependency was not run.
     END
     IF    '${OPTIONS_LIB}' == 'options-lib_uefi-setup-menu'
         Should Contain    ${screen}    ${WRONG_KEYS_CAPSULE_STATUS}
@@ -167,7 +167,7 @@ CUP002.001 Capsule Update With Wrong GUID
     Should Contain    ${status}    ${WRONG_GUID_CAPSULE_STATUS}
     Should Not Be True    ${version_changed}
 
-CUP281.101 Capsule Update V2 Failure Screen Wrong GUID
+CUP281.101 Capsule Update V2 Failure Screen Wrong GUID (EDK2 UEFI)
     [Documentation]    Check whether Capsules V2 failure result screen appears
     ...    and has expected contents.
     [Tags]    semiauto
@@ -224,7 +224,7 @@ CUP150.001 Capsule Update
     Should Contain    ${status}    CapsuleMax
     Should Not Contain    ${status}    CapsuleLast
 
-CUP151.001 Capsule Update Production Keys
+CUP151.101 Capsule Update Production Keys (EDK2 UEFI)
     [Documentation]    Check for a successful Capsule Update using the production keys.
     ...    Please note that the test number is high on purpose. This test will flash FW! In future
     ...    if additional test cases will be created - when running the whole suite - It will be good
@@ -257,25 +257,25 @@ CUP250.001 Capsule Update Progress Bar - Default Logo
     [Tags]    semiauto
     Manual UI Verification Prompt    ${CUP_250_MESSAGE}
 
-CUP251.001 Capsule Update V2 UX Custom Logo
+CUP251.101 Capsule Update V2 UX Custom Logo (EDK2 UEFI)
     [Documentation]    Verify that the Capsule Update V2 screen shows the
     ...    expected logo for a given platform.
     [Tags]    semiauto
-    Skip If    not ${CAPSULE_UPDATE_V2_SUPPORT}    CUP251.001 not supported
+    Skip If    not ${CAPSULE_UPDATE_V2_SUPPORT}    CUP251.101 not supported
     Manual UI Verification Prompt    ${CUP_251_MESSAGE}
 
-CUP252.001 Capsule Update V2 UX Smooth Progress Bar
+CUP252.101 Capsule Update V2 UX Smooth Progress Bar (EDK2 UEFI)
     [Documentation]    Verify that the Capsule Update V2 screen progress bar
     ...    advances smoothly and doesn't freeze.
     [Tags]    semiauto
-    Skip If    not ${CAPSULE_UPDATE_V2_SUPPORT}    CUP252.001 not supported
+    Skip If    not ${CAPSULE_UPDATE_V2_SUPPORT}    CUP252.101 not supported
     Manual UI Verification Prompt    ${CUP_252_MESSAGE}
 
-CUP253.001 Capsule Update V2 UX Success Screen
+CUP253.101 Capsule Update V2 UX Success Screen (EDK2 UEFI)
     [Documentation]    Verify that the Capsule Update V2 success result screen appears
     ...    and has expected contents.
     [Tags]    semiauto
-    Skip If    not ${CAPSULE_UPDATE_V2_SUPPORT}    CUP253.001 not supported
+    Skip If    not ${CAPSULE_UPDATE_V2_SUPPORT}    CUP253.101 not supported
     Manual UI Verification Prompt    ${CUP_253_MESSAGE}
 
 CUP160.001 Verifying BIOS Settings Persistence After Update - PART 2
@@ -469,7 +469,7 @@ CUP260.001 Capsule update in Firmware Update Mode works
     Set DUT Response Timeout    5m
     Enter Setup Menu Tianocore
 
-CUP270.101 Automatic ME Disable Works
+CUP270.101 Automatic ME Disable Works (EDK2 UEFI)
     [Documentation]    By using on-disk capsules it is possible to automatically
     ...    disable ME prior to an update making the process much more
     ...    straightforward. The tests verifies whether a capsule update can be

@@ -1765,8 +1765,8 @@
   },
   {
     "doc": {
-      "_id": "CUP151.001",
-      "name": "Capsule Update Production Keys",
+      "_id": "CUP151.101",
+      "name": "Capsule Update Production Keys (EDK2 UEFI)",
       "module": "Dasharo Stability"
     }
   },
@@ -1821,9 +1821,59 @@
   },
   {
     "doc": {
+      "_id": "CUP251.101",
+      "name": "Capsule Update V2 UX Custom Logo (EDK2 UEFI)",
+      "module": "Dasharo Stability"
+    }
+  },
+  {
+    "doc": {
+      "_id": "CUP252.101",
+      "name": "Capsule Update V2 UX Smooth Progress Bar (EDK2 UEFI)",
+      "module": "Dasharo Stability"
+    }
+  },
+  {
+    "doc": {
+      "_id": "CUP253.101",
+      "name": "Capsule Update V2 UX Success Screen (EDK2 UEFI)",
+      "module": "Dasharo Stability"
+    }
+  },
+  {
+    "doc": {
       "_id": "CUP260.001",
       "name": "Capsule update in Firmware Update Mode works",
       "module": "Dasharo Stability"
+    }
+  },
+  {
+    "doc": {
+      "_id": "CUP270.101",
+      "name": " Automatic ME Disable Works (EDK2 UEFI)",
+      "module": "Dasharo Stability"
+    }
+  },
+  {
+    "doc": {
+      "_id": "CUP280.101",
+      "name": "Capsule Update V2 Failure Screen Wrong Keys (EDK2 UEFI)",
+      "module": "Dasharo Stability"
+    }
+  },
+  {
+    "doc": {
+      "_id": "CUP281.101",
+      "name": "Capsule Update V2 Failure Screen Wrong GUID (EDK2 UEFI)",
+      "module": "Dasharo Stability"
+    }
+  },
+  {
+    "doc": {
+      "_id": "DCU001.001",
+      "name": "Change the UUID",
+      "module": "Dasharo Compatibility",
+      "changed_to": "DCU001.201"
     }
   },
   {
