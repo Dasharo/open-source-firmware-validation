@@ -271,6 +271,13 @@ CUP252.001 Capsule Update V2 UX Smooth Progress Bar
     Skip If    not ${CAPSULE_UPDATE_V2_SUPPORT}    CUP252.001 not supported
     Manual UI Verification Prompt    ${CUP_252_MESSAGE}
 
+CUP253.001 Capsule Update V2 UX Success Screen
+    [Documentation]    Verify that the Capsule Update V2 success result screen appears
+    ...    and has expected contents.
+    [Tags]    semiauto
+    Skip If    not ${CAPSULE_UPDATE_V2_SUPPORT}    CUP253.001 not supported
+    Manual UI Verification Prompt    ${CUP_253_MESSAGE}
+
 CUP160.001 Verifying BIOS Settings Persistence After Update - PART 2
     Power On
     Boot System Or From Connected Disk    ${DEFAULT_BOOT_OS_ID}
