@@ -85,7 +85,7 @@ ${T}=                                           ${SPACE}${SPACE}${SPACE}
 ...                                             ends, you will be asked to verify the following tests:\n
 @{CUP_250_MESSAGE}=
 ...                                             CUP250:
-...                                             ${T}The width of the progress bar match docs regardless of whether the default
+...                                             ${T}The width of the progress bar matches docs regardless of whether the default
 ...                                             ${T}Dasharo logo or a custom one is set. See the screenshot at
 ...                                             ${T}https://docs.dasharo.com/guides/capsule-update for reference.
 @{CUP_251_MESSAGE}=
@@ -105,14 +105,14 @@ ${T}=                                           ${SPACE}${SPACE}${SPACE}
 ...                                             ${T}It should correctly print the firmware versions:
 ...                                             ${T}- From which the update was run (BASE version)
 ...                                             ${T}- To which the firmware was updated (FW_FILE version)
-# TODO more details in messages
+
 @{CUP_280_MESSAGE}=
 ...                                             CUP280:
 ...                                             ${T}The update should result in an orange "Firmware Update Failed" screen.
 ...                                             ${T}The result screen should say: `Status of payload: Security Violation`
 ...                                             ${T}Refer to docs.dasharo.com: https://docs.dasharo.com/guides/capsule-update/#newer-versions-v2_2
 @{CUP_281_MESSAGE}=
-...                                             CUP280:
+...                                             CUP281:
 ...                                             ${T}The update should result in an orange "Firmware Update Failed" screen.
 ...                                             ${T}The result screen should say: `Status of payload: Not Ready`
 ...                                             ${T}Refer to docs.dasharo.com: https://docs.dasharo.com/guides/capsule-update/#newer-versions-v2_2
@@ -177,7 +177,7 @@ CUP281.101 Capsule Update V2 Failure Screen Wrong GUID
     # Populated in CUP002.001
     ${screen}=    Get From Dictionary    ${V2_RESULT_SCREENS}    invalid_guid.cap    default=${NONE}
     IF    $screen is ${None}
-        Skip    CUP280.101 depends on CUP001.001. The dependency was not run.
+        Skip    CUP281 depends on CUP001. The dependency was not run.
     END
     IF    '${OPTIONS_LIB}' == 'options-lib_uefi-setup-menu'
         Should Contain    ${screen}    ${WRONG_GUID_CAPSULE_STATUS}
