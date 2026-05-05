@@ -1079,8 +1079,10 @@ Reenter Menu
     IF    ${forward} == True
         Press Enter
         Exit From Current Menu
+        Sleep    1s
     ELSE
         Exit From Current Menu
+        Sleep    1s
         Press Enter
     END
 
@@ -1103,6 +1105,7 @@ Reenter Menu And Return Construction
     [Arguments]    ${forward}=${FALSE}
 
     Reenter Menu    ${forward}
+    Sleep    1s
     ${menu}=    Get Submenu Construction
     RETURN    ${menu}
 
