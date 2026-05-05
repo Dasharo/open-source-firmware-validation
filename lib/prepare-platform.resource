@@ -35,7 +35,7 @@ Prepare Platform
         Variable Should Exist    ${BOOTBLOCK_FILE}
         Variable Should Exist    ${Z_IMAGE_FILE}
         Prepare Test Suite
-        Log FW File SHA256
+        Check FW File SHA256
         Flash Heads From OpenBMC    ${BOOTBLOCK_FILE}    ${FW_FILE}    ${Z_IMAGE_FILE}
         ${fw_ver_file}=    Get Firmware Version From Coreboot File    ${FW_FILE}
         Power On
@@ -46,7 +46,7 @@ Prepare Platform
     ELSE
         Variable Should Exist    ${FW_FILE}
         Prepare Test Suite
-        Log FW File SHA256
+        Check FW File SHA256
         Flash Firmware    ${FW_FILE}
         Power On
         ${version}=    Get Firmware Version
@@ -55,7 +55,7 @@ Prepare Platform
         Should Contain    ${coreboot_version}    ${version}
     END
 
-Log FW File SHA256
+Check FW File SHA256
     [Documentation]    Computes sha256sum of FW_FILE and stores it as suite metadata.
     ...    If EXPECTED_FW_SHA256 is set in platform config, logs a warning when
     ...    the hashes don't match (does not fail).
