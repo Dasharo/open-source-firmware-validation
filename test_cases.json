@@ -1730,50 +1730,50 @@
   },
   {
     "doc": {
-      "_id": "CUP001.001",
-      "name": "Capsule Update With Wrong Keys",
+      "_id": "CUP001.101",
+      "name": "Capsule Update With Wrong Keys (EDK2 UEFI)",
       "module": "Dasharo Stability"
     }
   },
   {
     "doc": {
-      "_id": "CUP002.001",
-      "name": "Capsule Update With Wrong GUID",
+      "_id": "CUP002.101",
+      "name": "Capsule Update With Wrong GUID (EDK2 UEFI)",
       "module": "Dasharo Stability"
     }
   },
   {
     "doc": {
-      "_id": "CUP003.001",
-      "name": "Capsule Update with wrong BtG key",
+      "_id": "CUP003.101",
+      "name": "Capsule Update with wrong BtG key (EDK2 UEFI)",
       "module": "Dasharo Stability"
     }
   },
   {
     "doc": {
-      "_id": "CUP130.001",
-      "name": "Verifying BIOS Settings Persistence After Update - PART 1",
+      "_id": "CUP130.101",
+      "name": "Verifying BIOS Settings Persistence After Update - PART 1 (EDK2 UEFI)",
       "module": "Dasharo Stability"
     }
   },
   {
     "doc": {
-      "_id": "CUP150.001",
-      "name": "Capsule Update",
+      "_id": "CUP150.101",
+      "name": "Capsule Update (EDK2 UEFI)",
       "module": "Dasharo Stability"
     }
   },
   {
     "doc": {
-      "_id": "CUP151.001",
-      "name": "Capsule Update Production Keys",
+      "_id": "CUP151.101",
+      "name": "Capsule Update Production Keys (EDK2 UEFI)",
       "module": "Dasharo Stability"
     }
   },
   {
     "doc": {
-      "_id": "CUP160.001",
-      "name": "Verifying BIOS Settings Persistence After Update - PART 2",
+      "_id": "CUP160.101",
+      "name": "Verifying BIOS Settings Persistence After Update - PART 2 (EDK2 UEFI)",
       "module": "Dasharo Stability"
     }
   },
@@ -1814,64 +1814,64 @@
   },
   {
     "doc": {
-      "_id": "CUP240.001",
-      "name": "Capsule Update UX Tests - Observation",
+      "_id": "CUP240.101",
+      "name": "Capsule Update UX Tests - Observation (EDK2 UEFI)",
       "module": "Dasharo Stability"
     }
   },
   {
     "doc": {
-      "_id": "CUP250.001",
-      "name": "Capsule Update Progress Bar - Default Logo",
+      "_id": "CUP250.101",
+      "name": "Capsule Update Progress Bar - Default Logo (EDK2 UEFI)",
       "module": "Dasharo Stability"
     }
   },
   {
     "doc": {
-      "_id": "CUP251.001",
-      "name": "Capsule Update V2 UX Custom Logo",
+      "_id": "CUP251.101",
+      "name": "Capsule Update V2 UX Custom Logo (EDK2 UEFI)",
       "module": "Dasharo Stability"
     }
   },
   {
     "doc": {
-      "_id": "CUP252.001",
-      "name": "Capsule Update V2 UX Smooth Progress Bar",
+      "_id": "CUP252.101",
+      "name": "Capsule Update V2 UX Smooth Progress Bar (EDK2 UEFI)",
       "module": "Dasharo Stability"
     }
   },
   {
     "doc": {
-      "_id": "CUP253.001",
-      "name": "Capsule Update V2 UX Success Screen",
+      "_id": "CUP253.101",
+      "name": "Capsule Update V2 UX Success Screen (EDK2 UEFI)",
       "module": "Dasharo Stability"
     }
   },
   {
     "doc": {
-      "_id": "CUP260.001",
-      "name": "Capsule update in Firmware Update Mode works",
+      "_id": "CUP260.101",
+      "name": "Capsule update in Firmware Update Mode works (EDK2 UEFI)",
       "module": "Dasharo Stability"
     }
   },
   {
     "doc": {
-      "_id": "CUP270.001",
-      "name": "Automatic ME Disable Works",
+      "_id": "CUP270.101",
+      "name": "Automatic ME Disable Works (EDK2 UEFI)",
       "module": "Dasharo Stability"
     }
   },
   {
     "doc": {
-      "_id": "CUP280.001",
-      "name": "Capsule Update V2 Failure Screen Wrong Keys",
+      "_id": "CUP280.101",
+      "name": "Capsule Update V2 Failure Screen Wrong Keys (EDK2 UEFI)",
       "module": "Dasharo Stability"
     }
   },
   {
     "doc": {
-      "_id": "CUP281.001",
-      "name": "Capsule Update V2 Failure Screen Wrong GUID",
+      "_id": "CUP281.101",
+      "name": "Capsule Update V2 Failure Screen Wrong GUID (EDK2 UEFI)",
       "module": "Dasharo Stability"
     }
   },

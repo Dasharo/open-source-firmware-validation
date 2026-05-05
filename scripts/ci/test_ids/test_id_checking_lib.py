@@ -283,7 +283,7 @@ def os_skip_valid(test):
     env_id = get_env_id(test)
     if env_id is None:
         return True
-    has_os_env = not env_id.startswith("0")
+    has_os_env = not (env_id.startswith("0") or env_id.startswith("1"))
     return (not has_os_env) or has_os_skip(test)
 
 
