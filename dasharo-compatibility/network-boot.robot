@@ -51,8 +51,9 @@ PXE002.001 Dasharo network boot menu boot options order is correct
     ${ipxe_menu}=    Get IPXE Boot Menu Construction
     Should Contain    ${ipxe_menu}[0]    Autoboot (DHCP)
     Should Contain    ${ipxe_menu}[1]    Dasharo Tools Suite
-    Should Contain    ${ipxe_menu}[2]    OS installation (netboot.xyz official server)
-    Should Contain    ${ipxe_menu}[3]    iPXE Shell
+    Should Contain    ${ipxe_menu}[2]    Dasharo Tools Suite (Nightly)
+    Should Contain    ${ipxe_menu}[3]    OS installation (netboot.xyz official server)
+    Should Contain    ${ipxe_menu}[4]    iPXE Shell
 
 PXE003.001 Autoboot option is available and works correctly
     [Documentation]    This test aims to verify that the Autoboot option in
@@ -76,6 +77,26 @@ PXE004.001 DTS option is available and works correctly
     Enter Submenu From Snapshot    ${boot_menu}    ${IPXE_BOOT_ENTRY}
     ${ipxe_menu}=    Get IPXE Boot Menu Construction
     Enter Submenu From Snapshot    ${ipxe_menu}    Dasharo Tools Suite
+    Set DUT Response Timeout    5m
+    ${out}=    Read From Terminal Until    Enter an option
+    Should Contain    ${out}    Dasharo HCL report
+    Should Contain    ${out}    Load your DPP keys
+    Should Contain    ${out}    launch SSH server
+    Should Contain    ${out}    enter shell
+    Should Contain    ${out}    poweroff
+    Should Contain    ${out}    reboot
+
+PXE004.002 DTS nightly option is available and works correctly
+    [Documentation]    This test aims to verify that the Dasharo Tools Suite
+    ...    (Nightly) option in Dasharo Network Boot Menu allows booting into
+    ...    DTS.
+    [Tags]    automated    minimal-regression
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    PXE004.002 not supported
+    Power On
+    ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
+    Enter Submenu From Snapshot    ${boot_menu}    ${IPXE_BOOT_ENTRY}
+    ${ipxe_menu}=    Get IPXE Boot Menu Construction
+    Enter Submenu From Snapshot    ${ipxe_menu}    Dasharo Tools Suite (Nightly)
     Set DUT Response Timeout    5m
     ${out}=    Read From Terminal Until    Enter an option
     Should Contain    ${out}    Dasharo HCL report
