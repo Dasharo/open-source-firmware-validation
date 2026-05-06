@@ -51,7 +51,17 @@ SMM001.001 SMM BIOS write protection enabling (Ubuntu)
     Switch To Root User
 
     ${out_flashrom}=    Execute Command In Terminal    flashrom -p internal
-    Should Contain    ${out_flashrom}    SMM protection is enabled
+    ${cpuinfo}=    Execute Command In Terminal    cat /proc/cpuinfo
+    IF    "AuthenticAMD" in """${cpuinfo}"""
+        Should Contain    ${out_flashrom}    Found chipset
+        Should Contain    ${out_flashrom}    No EEPROM/flash device found
+        ${rom_armor_file}=    Execute Command In Terminal    find /sys -name rom_armor_enforced
+        Should Not Be Empty    ${rom_armor_file}
+        ${rom_armor_state}=    Execute Command In Terminal    cat ${rom_armor_file}
+        Should Be Equal As Integers    ${rom_armor_state}    1
+    ELSE
+        Should Contain    ${out_flashrom}    SMM protection is enabled
+    END
 
 SMM002.001 SMM BIOS write protection disabling (Ubuntu)
     [Documentation]    SMM BIOS write protection is the method to prevent a
@@ -74,5 +84,15 @@ SMM002.001 SMM BIOS write protection disabling (Ubuntu)
     Login To Linux
     Switch To Root User
     ${out_flashrom}=    Execute Command In Terminal    flashrom -p internal
-    Should Not Contain    ${out_flashrom}    SMM protection is enabled
     Should Not Be Empty    ${out_flashrom}
+    ${cpuinfo}=    Execute Command In Terminal    cat /proc/cpuinfo
+    IF    "AuthenticAMD" in """${cpuinfo}"""
+        Should Contain    ${out_flashrom}    Found chipset
+        Should Not Contain    ${out_flashrom}    No EEPROM/flash device found
+        ${rom_armor_file}=    Execute Command In Terminal    find /sys -name rom_armor_enforced
+        Should Not Be Empty    ${rom_armor_file}
+        ${rom_armor_state}=    Execute Command In Terminal    cat ${rom_armor_file}
+        Should Be Equal As Integers    ${rom_armor_state}    0
+    ELSE
+        Should Not Contain    ${out_flashrom}    SMM protection is enabled
+    END
