@@ -92,6 +92,7 @@ ${RESET_TO_DEFAULTS_SUPPORT}=               ${TRUE}
 ${AUDIO_SUBSYSTEM_SUPPORT}=                 ${FALSE}
 ${AUTO_BOOT_TIME_OUT_DEFAULT_VALUE}=        3
 ${NETWORK_BOOT_NEEDS_OPTION_ROMS}=          ${TRUE}
+${SMM_WRITE_PROTECTION_SUPPORT}=            ${TRUE}
 
 # Test module: dasharo-security
 ${TPM_SUPPORTED_VERSION}=                   2
