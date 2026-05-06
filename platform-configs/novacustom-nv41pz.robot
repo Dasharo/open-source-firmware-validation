@@ -152,6 +152,6 @@ ${DISK_IO_REFERENCE_DISK_NAME}=             Samsung SSD 980
 ...                                         ${{ ("UEFI Update", "DCR") }}
 ...                                         ${{ ("UEFI->Heads Transition", "DPP") }}
 &{DTS_TEST_EXPORTS_PER_FULL_WORKFLOW}=
-...                                         ${{ ("UEFI->Heads Transition", "DPP") }}=${{ {"TEST_ME_HAP_DISABLED": "false", "TEST_ME_DISABLED": "true"} }}
+...                                         ${{ ("UEFI->Heads Transition", "DPP") }}=${{ {"TEST_ME_HAP_DISABLED": "true", "TEST_ME_DISABLED": "true"} }}
 ...                                         ${{ ("UEFI Update", "DCR") }}=${{ { "TEST_ME_DISABLED": "true", "TEST_ME_OP_MODE": "3", "TEST_DIFFERENT_FMAP": "true" } }}
 ...                                         ${{ ("Fuse Platform", "DCR") }}=${{ { "TEST_ME_HAP_DISABLED": "true", "TEST_ME_OP_MODE": "2", "TEST_IS_COREBOOT": "true" } }}
