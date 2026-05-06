@@ -243,6 +243,9 @@ Check Unexpected Boot Errors
     Append To List
     ...    ${dmesg_err_allowlist}
     ...    iwlwifi 0000:00:14.3: Not valid error log pointer 0x0027B0C0 for RT uCode
+    Append To List
+    ...    ${dmesg_err_allowlist}
+    ...    iwlwifi 0000:00:14.3: Not valid error log pointer 0x0024B5C0 for RT uCode
     # GSC firmware loading via MEI fails when ME is disabled - not our bug
     Append To List
     ...    ${dmesg_err_allowlist}
