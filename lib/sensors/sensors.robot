@@ -58,11 +58,15 @@ Get CPU Temperature
             ${temperature}=    Execute Command In Terminal
             ...    sensors 2>/dev/null | grep -E 'Sensor'| head -n1 | awk -F'+' '{print $2}' | awk '{print $1}' | grep -oE "[0-9]+\.[0-9]+"
         ELSE
-            ${temperature}=    Execute Command In Terminal
-            ...    sensors 2>/dev/null | awk -F '[+°]' '/Package id 0:/ {printf $2}'
-            RETURN    ${temperature}
+            ${cpuinfo}=    Execute Command In Terminal    cat /proc/cpuinfo
+            IF    "AuthenticAMD" in """${cpuinfo}"""
+                ${temperature}=    Execute Command In Terminal
+                ...    sensors 2>/dev/null | awk -F '[+°]' '/Tctl:/ {printf $2}'
+            ELSE
+                ${temperature}=    Execute Command In Terminal
+                ...    sensors 2>/dev/null | awk -F '[+°]' '/Package id 0:/ {printf $2}'
+            END
         END
-
         RETURN    ${temperature}
     ELSE IF    '${cpu_temperature_measurement_method}' == 'hwmon'
         ${cpu_temperature_measurement_hwmon_path}=    Get From Dictionary
