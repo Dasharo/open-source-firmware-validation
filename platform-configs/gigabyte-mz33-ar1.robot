@@ -96,6 +96,7 @@ ${SMM_WRITE_PROTECTION_SUPPORT}=            ${TRUE}
 
 # Test module: dasharo-security
 ${TPM_SUPPORTED_VERSION}=                   2
+${TPM_MULTIPLE_BANK_SUPPORT}=               ${FALSE}
 ${MEASURED_BOOT_SUPPORT}=                   ${TRUE}
 ${SECURE_BOOT_SUPPORT}=                     ${TRUE}
 ${USB_MASS_STORAGE_SUPPORT}=                ${TRUE}
