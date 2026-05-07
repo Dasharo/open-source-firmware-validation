@@ -9,7 +9,9 @@ Suite Setup         Run Keywords
 ...                     AND    Prepare CPF
 ...                     AND    Prepare STB
 ...                     AND    Print Concurrent Tests Summary
-Suite Teardown      Boot System Or From Connected Disk    ${DEFAULT_BOOT_OS_ID}
+Suite Teardown      Run Keywords
+...                     Boot System Or From Connected Disk    ${DEFAULT_BOOT_OS_ID}
+...                     AND    Log Out And Close Connection
 
 Default Tags        automated
 
