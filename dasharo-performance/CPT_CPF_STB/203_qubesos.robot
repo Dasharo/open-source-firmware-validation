@@ -16,6 +16,8 @@ Suite Setup     Run Keywords
 ...                 AND    Power On
 ...                 AND    Boot System Or From Connected Disk    ${ENV_ID_QUBES}
 ...                 AND    Login To Linux
+Suite Teardown  Run Keyword
+...                 Log Out And Close Connection
 
 Default Tags    automated
 

@@ -14,8 +14,10 @@ Suite Setup     Run Keywords
 ...                 AND    Prepare CPF
 ...                 AND    Prepare STB
 ...                 AND    Print Concurrent Tests Summary
+Suite Teardown  Run Keyword
+...                 Log Out And Close Connection
 
-Default Tags    automated
+Default Tags        automated
 
 
 *** Test Cases ***
