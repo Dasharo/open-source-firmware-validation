@@ -1,4 +1,5 @@
 *** Settings ***
+Library             DateTime
 Library             Telnet    timeout=20 seconds    connection_timeout=120 seconds
 Library             SSHLibrary    timeout=90 seconds
 Resource            ../lib/platform/boot.robot
@@ -101,14 +102,22 @@ Measure FW Boot Time On Linux
 Get FW Boot Time From Systemd-analyze
     [Documentation]    Use systemd-analyze to get firmware boot time
     FOR    ${index}    IN RANGE    0    30
-        ${boot_time}=    Execute Linux Command
-        ...    systemd-analyze | awk 'NR==1 {print $4}' | sed 's/s//g'
+        ${out}=    Execute Linux Command    systemd-analyze
 
         # ssh opens before GDM might finish loading desktop
         ${status}=    Run Keyword And Ignore Error
-        ...    Should Not Contain    ${boot_time}    not yet finished
+        ...    Should Not Contain    ${out}    not yet finished
 
-        IF    '${status}[0]' != 'FAIL'    RETURN    ${boot_time}
+        IF    '${status}[0]' != 'FAIL'
+            ${boot_time}=    Get Regexp Matches    ${out}
+            ...    Startup finished in (.*) \\(firmware\\)    1
+            Should Not Be Empty    ${boot_time}
+            # On servers the boot time may be over 1 minute, systemd-analyze
+            # will return <X>min <Y>s instead of seconds. It has to be converted.
+            # For example: 3min 6.813s will be converted to 186.813
+            ${boot_time}=    Convert Time    ${boot_time}[0]
+            RETURN    ${boot_time}
+        END
 
         Sleep    5s
     END
