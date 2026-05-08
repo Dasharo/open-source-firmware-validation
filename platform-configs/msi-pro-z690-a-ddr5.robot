@@ -4,11 +4,13 @@ Resource    include/msi-z690-z790-common.robot
 
 
 *** Variables ***
-${FW_VERSION}=                              v1.1.6
+${FW_VERSION}=                              v1.1.7-rc2
 ${DMIDECODE_SERIAL_NUMBER}=                 N/A
 ${DMIDECODE_FIRMWARE_VERSION}=              Dasharo (coreboot+UEFI) ${FW_VERSION}
 ${DMIDECODE_PRODUCT_NAME}=                  MS-7D25
 ${DMIDECODE_RELEASE_DATE}=                  05/30/2026
+
+${EXPECTED_FW_SHA256}=                      a115ae254a2054d8fec6988ba89f251bc77dbaf74eb44e0069631d2b36433932
 
 # DTS E2E variables
 ${DTS_TEST_BOARD_MODEL}=                    PRO Z690-A WIFI (MS-7D25)

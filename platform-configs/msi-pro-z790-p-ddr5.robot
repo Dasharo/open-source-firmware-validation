@@ -12,6 +12,7 @@ ${DMIDECODE_RELEASE_DATE}=              05/30/2026
 
 ${WIFI_CARD}=                           Intel(R) Wi-Fi 6 AX201 160MHz
 ${WIFI_CARD_UBUNTU}=                    Intel Corporation Alder Lake-S PCH CNVi WiFi
+${EXPECTED_FW_SHA256}=                  ea8bafa11b93902cab3a9803fac37468343870fe7637aeb3ff0024eff5c1945b
 
 ${WIRELESS_CARD_SUPPORT}=               ${TRUE}
 ${WIRELESS_CARD_WIFI_SUPPORT}=          ${TRUE}

@@ -35,7 +35,7 @@ ${ME_STATICALLY_DISABLED}=              ${TRUE}
 ${PLATFORM_CPU_SPEED}=                  2.00
 ${PLATFORM_RAM_SPEED}=                  2400
 ${PLATFORM_RAM_SIZE}=                   8192
-
+${EXPECTED_FW_SHA256}=                  d7f1681987894664e6012dc56e793a73ca96f81979dd9bcc64bf2bd6b893f0a6
 @{ETH_PERF_PAIR_1_G}=                   enp2s0    enp3s0
 
 @{ETH_PORTS}=                           64-62-66-21-03-b8

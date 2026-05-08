@@ -24,6 +24,7 @@ ${DUT_CONNECTION_METHOD}=               SSH
 ${TESTS_IN_FIRMWARE_SUPPORT}=           ${FALSE}
 ${OPTIONS_LIB}=                         options-lib_dcu
 ${POWER_CTRL}=                          none
+${EXPECTED_FW_SHA256}=                  7595d57fcec2d315db0b612b9aab6cf680a1151719b7a3b2d3313aea6be97c06
 
 ${DEFAULT_BOOT_OS_ID}=                  ${ENV_ID_UBUNTU}
 # ${ENV_ID_FEDORA}

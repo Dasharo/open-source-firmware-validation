@@ -44,6 +44,7 @@ ${ETHERNET_ID}=                     8086:15f3
 ${NVME_DISK_SUPPORT}=               ${FALSE}
 
 ${TPM_EXPECTED_CHIP}=               SLB9670
+${EXPECTED_FW_SHA256}=              f3e4201d118805a09c9709a5688eda31fd3f1e586f0250f2effe15ae86c9a433
 
 
 *** Keywords ***

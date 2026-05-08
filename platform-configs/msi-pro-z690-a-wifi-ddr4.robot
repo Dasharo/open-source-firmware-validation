@@ -10,6 +10,8 @@ ${DMIDECODE_FIRMWARE_VERSION}=              Dasharo (coreboot+UEFI) ${FW_VERSION
 ${DMIDECODE_PRODUCT_NAME}=                  MS-7D25
 ${DMIDECODE_RELEASE_DATE}=                  05/30/2026
 
+${EXPECTED_FW_SHA256}=                      a115ae254a2054d8fec6988ba89f251bc77dbaf74eb44e0069631d2b36433932
+
 @{TESTED_LINUX_DISTROS}=                    ${ENV_ID_UBUNTU}    ${ENV_ID_QUBES}
 
 ${WIFI_CARD}=                               Intel(R) Wi-Fi 6 AX201 160MHz

@@ -29,6 +29,7 @@ ${DEF_ONLINE_CPU}=                  0-3
 ${DEVICE_AUDIO1}=                   Alderlake-P HDMI
 ${DEVICE_AUDIO2}=                   ${EMPTY}
 ${DEVICE_AUDIO1_WIN}=               High Definition Audio Controller
+${EXPECTED_FW_SHA256}=              142398d967b59649ef0adbf4552c305b5dd2b3297ca669070f59b9130fda90f3
 
 ${DEVICE_NVME_DISK}=                Non-Volatile memory controller
 

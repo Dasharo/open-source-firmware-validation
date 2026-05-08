@@ -23,7 +23,7 @@ ${DEF_THREADS}=                 1
 ${DEF_CPU}=                     2
 ${DRAM_SIZE}=                   ${16384}
 ${PLATFORM_RAM_SIZE}=           16384
-
+${EXPECTED_FW_SHA256}=          e553f0d8cd07c874b3b77da2bfd08d52d1a431ff125106e6fa1832894e5d1554
 ${DMIDECODE_PRODUCT_NAME}=      OptiPlex 7010
 
 ${DEVICE_NVME_DISK}=            Non-Volatile memory controller

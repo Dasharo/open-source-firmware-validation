@@ -12,5 +12,6 @@ ${PLATFORM_RAM_SPEED}=              1333
 ${PLATFORM_RAM_SIZE}=               4096
 ${BIOS_LOCK_SUPPORT}=               ${True}
 ${APU_FLASH_WP_GPIO}=               1
+${EXPECTED_FW_SHA256}=              ced10be54f61da14c9943412fd12ca656cd0b71d2fd1cdbea2e4e4e213520fd4
 
 # DTS E2E variables

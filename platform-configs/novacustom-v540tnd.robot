@@ -40,6 +40,7 @@ ${ME_STATICALLY_DISABLED}=                          ${TRUE}
 ${DMIDECODE_FIRMWARE_VERSION}=                      Dasharo (coreboot+UEFI) v1.0.0
 ${DMIDECODE_RELEASE_DATE}=                          01/29/2026
 ${TPM_DETECT_SUPPORT}=                              ${TRUE}
+${EXPECTED_FW_SHA256}=                              3bb957f609f8ad995be396f5cca674e6f16dc7bab0bf70c4d613a78fa0676033
 
 ${DOCKING_STATION_USB_C_CHARGING_SUPPORT}=          ${TRUE}
 ${DOCKING_STATION_AUDIO_SUPPORT}=                   ${TRUE}

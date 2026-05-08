@@ -29,6 +29,7 @@ ${FAN_SPEED_MEASURE_SUPPORT}=           ${TRUE}
 # DMI
 ${DMIDECODE_FIRMWARE_VERSION}=          Dasharo (coreboot+UEFI) v1.0.0
 ${DMIDECODE_RELEASE_DATE}=              01/29/2026
+${EXPECTED_FW_SHA256}=                  ef5c7ff15e4ad04943da7d62b3ffea218fa0a98a32f850930dfc1567951ce714
 
 ${DEFAULT_BOOT_OS_ID}=                  ${ENV_ID_UBUNTU}
 @{TESTED_LINUX_DISTROS}=                ${ENV_ID_UBUNTU}    # ${ENV_ID_FEDORA}

@@ -19,7 +19,7 @@ ${USB_DEVICE}=                              SanDisk
 ${USB_MODEL}=                               Ultra USB
 ${CPU_MAX_FREQUENCY}=                       4800
 ${CPU_MIN_FREQUENCY}=                       300
-
+${EXPECTED_FW_SHA256}=                      7d596ad45674226695a6b2fc318fb2e514dbaddcc4995b2897b7d44b7cb2e772
 @{TESTED_LINUX_DISTROS}=                    ${ENV_ID_UBUNTU}    ${ENV_ID_QUBES}
 
 ${BLUETOOTH_CARD_UBUNTU}=                   8087:0026

@@ -15,6 +15,7 @@ ${DEVICE_USB_KEYBOARD}=                 Logitech, Inc. Keyboard K120
 ${DMIDECODE_PRODUCT_NAME}=              V54x_6x_TU
 ${DMIDECODE_FIRMWARE_VERSION}=          Dasharo (coreboot+UEFI) v1.0.1
 ${DMIDECODE_RELEASE_DATE}=              01/29/2026
+${EXPECTED_FW_SHA256}=                  22c644a19d7f883bcf19ca42943c62afe81b2ead697ae883d89200ff5bf23fc0
 
 ${CPU_MAX_FREQUENCY}=                   4500
 ${CPU_MIN_FREQUENCY}=                   300

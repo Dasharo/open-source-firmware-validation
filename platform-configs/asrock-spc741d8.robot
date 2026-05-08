@@ -30,6 +30,7 @@ ${FLASH_VERIFY_METHOD}=                         iPXE-boot
 ${TESTS_IN_UBUNTU_SUPPORT}=                     ${TRUE}
 ${TESTS_IN_FIRMWARE_SUPPORT}=                   ${TRUE}
 ${DEVICE_NVME_DISK}=                            Non-Volatile memory controller
+${EXPECTED_FW_SHA256}=                          2cbaf3ffb9d16312a79763719d280741d18ad5480a4cd2dd022e488556d1ea1c
 
 ${DEFAULT_BOOT_OS_ID}=                          ${ENV_ID_UBUNTU}
 @{TESTED_LINUX_DISTROS}=

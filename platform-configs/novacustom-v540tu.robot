@@ -21,6 +21,8 @@ ${DMIDECODE_PRODUCT_NAME}=              V54x_6x_TU
 ${DMIDECODE_FIRMWARE_VERSION}=          Dasharo (coreboot+UEFI) v1.0.1
 ${DMIDECODE_RELEASE_DATE}=              01/29/2026
 ${DMIDECODE_SERIAL_NUMBER}=             123456789
+${EXPECTED_FW_SHA256}=                  d18c4677cf488f69e9caa33a307a4f580eea14b4addb27a2857b2669327708c9
+
 ${WIFI_CARD}=
 ...                                     Intel Corporation Meteor Lake PCH CNVi WiFi
 

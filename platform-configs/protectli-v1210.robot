@@ -10,6 +10,7 @@ ${CPU_MIN_FREQUENCY}=           800
 ${PLATFORM_CPU_SPEED}=          2.00
 ${PLATFORM_RAM_SPEED}=          2933
 ${PLATFORM_RAM_SIZE}=           4096
+${EXPECTED_FW_SHA256}=          a012adad6be96ebc28a6550e338f49f41d52fbab737cf454a5391c769040f871
 
 # List of ethernet interfaces
 @{ETH_PORTS}=                   64-62-66-2f-00-12
