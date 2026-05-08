@@ -251,6 +251,12 @@ CPF012.203 CPU with load runs on expected frequency (Qubes OS) (USB-PD)
 
 *** Keywords ***
 Prepare STB QUBES
+    [Documentation]    Setup STB concurrent test contexts
+    # Stability check
+    Add Concurrent Test Skip Condition
+    ...    STB001.203
+    ...    not ${PLATFORM_STABILITY_CHECKING}
+    ...    Stability checking not supported
     Add Concurrent Test Skip Condition
     ...    STB001.203
     ...    not ${PLATFORM_STABILITY_CHECKING}
@@ -259,7 +265,7 @@ Prepare STB QUBES
     ...    STB001.203
     ...    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}
     ...    Tests in Qubes OS not supported
-
+    # Linux dmesg check
     Add Concurrent Test Skip Condition
     ...    STB002.203
     ...    not ${PLATFORM_STABILITY_CHECKING}
