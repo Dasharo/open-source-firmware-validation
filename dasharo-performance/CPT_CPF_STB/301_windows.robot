@@ -147,14 +147,14 @@ STB001.301 Verify if no reboot occurs in the OS (Windows)
 
 _CONCURRENT_Background Measurements (load) (Windows)
     ${gather_freqs}=    Will Concurrent Test Be Run    ${CPF_LOAD_ID}.301
-    ${gather_stab}=    Will Concurrent Test Be Run    STB001.301
+    ${gather_stab}=    Will Concurrent Test Be Run    STB002.301
     Skip If    not (${gather_freqs} or ${gather_stab})    No test depends on this step
 
     Power On
     Boot And Login To Windows
 
     ${gather_freqs}=    Evaluate    "${CPF_LOAD_ID}.301" if ${gather_freqs} else ${None}
-    ${gather_stab}=    Evaluate    "STB001.301" if ${gather_stab} else ${None}
+    ${gather_stab}=    Evaluate    "STB002.301" if ${gather_stab} else ${None}
 
     # Start CPU Stress
     ${stress_duration}=    Evaluate
@@ -198,6 +198,16 @@ CPF012.301 CPU with load runs on expected frequency (Windows)
     Skip If Concurrent Test Not Supported    ${concurrent_test_id}
     ${freqs}=    Get Concurrent Test Outputs    ${concurrent_test_id}
     Check CPU Freqs Windows    ${freqs}
+
+STB002.301 Verify if no reboot occurs in the OS (Windows)
+    [Documentation]    This test aims to verify that the DUT booted to the
+    ...    Operating System does not reset. The test is performed in multiple
+    ...    iterations - after a defined time an attempt to read the output of
+    ...    specific commands confirming the stability of work is repeated.
+    VAR    ${concurrent_test_id}=    STB002.301
+    Skip If Concurrent Test Not Supported    ${concurrent_test_id}
+    ${measurements}=    Get Concurrent Test Outputs    ${concurrent_test_id}
+    Check Platform Stability    ${measurements}
 
 
 *** Keywords ***
@@ -261,5 +271,13 @@ Prepare STB
     ...    Stability checking not supported
     Add Concurrent Test Skip Condition
     ...    STB001.301
+    ...    not ${TESTS_IN_WINDOWS_SUPPORT}
+    ...    Tests in Windows not supported
+    Add Concurrent Test Skip Condition
+    ...    STB002.301
+    ...    not ${PLATFORM_STABILITY_CHECKING}
+    ...    Stability checking not supported
+    Add Concurrent Test Skip Condition
+    ...    STB002.301
     ...    not ${TESTS_IN_WINDOWS_SUPPORT}
     ...    Tests in Windows not supported

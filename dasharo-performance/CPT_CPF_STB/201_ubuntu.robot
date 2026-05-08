@@ -90,7 +90,7 @@ STB002.201 Verify if no unexpected boot errors appear in Linux logs
     ...    error ,essages in Linux kernel logs.
     ...    Previous IDs: STB002.001
     [Tags]    automated    minimal-regression
-    VAR    ${concurrent_test_id}=    STB001.201
+    VAR    ${concurrent_test_id}=    STB002.201
     Skip If Concurrent Test Not Supported    ${concurrent_test_id}
     ${outs}=    Get Concurrent Test Outputs    ${concurrent_test_id}
     Check Unexpected Boot Errors    ${outs}
@@ -297,10 +297,6 @@ CPF012.201 CPU with load runs on expected frequency (USB-PD) (Ubuntu)
     ${freqs}=    Get Concurrent Test Outputs    ${concurrent_test_id}
     Check CPU Freqs Linux    ${freqs}
 
-#############################################################################
-#    Tests that gather measurements on Ubuntu, n\a load    #
-#############################################################################
-
 STB001.201 Verify if no reboot occurs in the OS (Ubuntu)
     [Documentation]    This test aims to verify that the DUT booted to the
     ...    Operating System does not reset. The test is performed in multiple
@@ -373,7 +369,7 @@ Prepare CPF
     ...    tests in Ubuntu not supported
     Add Concurrent Test Skip Condition
     ...    ${CPF_STUCK_ID}.201
-    ...    '201' not in ${TESTED_LINUX_DISTROS}
+    ...    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}
     ...    Ubuntu not in tested distros
     # No load Ubuntu
     Add Concurrent Test Skip Condition
@@ -386,7 +382,7 @@ Prepare CPF
     ...    tests in Ubuntu not supported
     Add Concurrent Test Skip Condition
     ...    ${CPF_NO_LOAD_ID}.201
-    ...    '201' not in ${TESTED_LINUX_DISTROS}
+    ...    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}
     ...    Ubuntu not in tested distros
     # Load Ubuntu
     Add Concurrent Test Skip Condition
@@ -399,7 +395,7 @@ Prepare CPF
     ...    tests in Ubuntu not supported
     Add Concurrent Test Skip Condition
     ...    ${CPF_LOAD_ID}.201
-    ...    '201' not in ${TESTED_LINUX_DISTROS}
+    ...    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}
     ...    Ubuntu not in tested distros
 
 Prepare CPT

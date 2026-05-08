@@ -83,7 +83,7 @@ CPF004.202 CPU not stuck on initial frequency (USB-PD) (Fedora)
 STB002.202 Verify if no unexpected boot errors appear in Linux logs
     [Documentation]    This test aims to verify that there are no unexpected
     ...    error ,essages in Linux kernel logs.
-    VAR    ${concurrent_test_id}=    STB001.202
+    VAR    ${concurrent_test_id}=    STB002.202
     Skip If Concurrent Test Not Supported    ${concurrent_test_id}
     ${outs}=    Get Concurrent Test Outputs    ${concurrent_test_id}
     Check Unexpected Boot Errors    ${outs}
@@ -177,16 +177,6 @@ CPF008.202 CPU runs on expected frequency (USB-PD) (Fedora)
     Skip If Concurrent Test Not Supported    ${concurrent_test_id}
     ${freqs}=    Get Concurrent Test Outputs    ${concurrent_test_id}
     Check CPU Freqs Linux    ${freqs}
-
-STB001.202 Verify if no reboot occurs in the OS (Fedora)
-    [Documentation]    This test aims to verify that the DUT booted to the
-    ...    Operating System does not reset. The test is performed in multiple
-    ...    iterations - after a defined time an attempt to read the output of
-    ...    specific commands confirming the stability of work is repeated.
-    VAR    ${concurrent_test_id}=    STB001.202
-    Skip If Concurrent Test Not Supported    ${concurrent_test_id}
-    ${measurements}=    Get Concurrent Test Outputs    ${concurrent_test_id}
-    Check Platform Stability    ${measurements}
 
 #############################################################################
 #    Tests that gather measurements on Fedora, load, n/a power source    #
@@ -284,6 +274,16 @@ CPF012.202 CPU with load runs on expected frequency(USB-PD) (Fedora)
     ${freqs}=    Get Concurrent Test Outputs    ${concurrent_test_id}
     Check CPU Freqs Linux    ${freqs}
 
+STB001.202 Verify if no reboot occurs in the OS (Fedora)
+    [Documentation]    This test aims to verify that the DUT booted to the
+    ...    Operating System does not reset. The test is performed in multiple
+    ...    iterations - after a defined time an attempt to read the output of
+    ...    specific commands confirming the stability of work is repeated.
+    VAR    ${concurrent_test_id}=    STB001.202
+    Skip If Concurrent Test Not Supported    ${concurrent_test_id}
+    ${measurements}=    Get Concurrent Test Outputs    ${concurrent_test_id}
+    Check Platform Stability    ${measurements}
+
 
 *** Keywords ***
 Prepare STB
@@ -333,7 +333,7 @@ Prepare CPF
     ...    frequency measure not supported
     Add Concurrent Test Skip Condition
     ...    ${CPF_STUCK_ID}.202
-    ...    '201' not in ${TESTED_LINUX_DISTROS}
+    ...    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}
     ...    Fedora not in tested distros
     # No load Fedora
     Add Concurrent Test Skip Condition
@@ -342,7 +342,7 @@ Prepare CPF
     ...    frequency measure not supported
     Add Concurrent Test Skip Condition
     ...    ${CPF_NO_LOAD_ID}.202
-    ...    '201' not in ${TESTED_LINUX_DISTROS}
+    ...    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}
     ...    Fedora not in tested distros
     # Load Fedora
     Add Concurrent Test Skip Condition
@@ -351,7 +351,7 @@ Prepare CPF
     ...    frequency measure not supported
     Add Concurrent Test Skip Condition
     ...    ${CPF_LOAD_ID}.202
-    ...    '201' not in ${TESTED_LINUX_DISTROS}
+    ...    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}
     ...    Fedora not in tested distros
 
 Prepare CPT
@@ -376,6 +376,7 @@ Prepare CPT
     ...    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}
     ...    Fedora not in tested distros
     # Load Fedora
-    Add Concurrent Test Skip Condition    ${CPT_LOAD_ID}.202
+    Add Concurrent Test Skip Condition
+    ...    ${CPT_LOAD_ID}.202
     ...    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}
     ...    Fedora not in tested distros
