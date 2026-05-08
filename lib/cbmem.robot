@@ -28,6 +28,20 @@ Get Timestamp From Cbmem Log
     ${timestamp}=    Get From List    ${columns}    1
     RETURN    ${timestamp}
 
+Get First Timestamp From Cbmem Log
+    [Documentation]    Return the first timestamp from cbmem timestamps
+    # fix for LT1000 and protectli platforms (output without tabs)
+    ${out_cbmem}=    Execute Command In Terminal    cbmem -T
+    Should Not Contain
+    ...    ${out_cbmem}
+    ...    Operation not permitted
+    ...    msg=Cannot get cbmem log. Probably Secure Boot is enabled (kernel lockdown mode).
+    ${lines}=    Split To Lines    ${out_cbmem}
+    ${first_line}=    Get From List    ${lines}    0
+    ${first_timestamp}=    Get Timestamp From Cbmem Log    ${first_line}
+    ${boot_start}=    Evaluate    float(${first_timestamp} / 1000000.0)
+    RETURN    ${boot_start}
+
 Calculate Boot Time Statistics
     [Documentation]    Calculates the standard deviation, min, max of
     ...    boot time measurements

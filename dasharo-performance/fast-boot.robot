@@ -90,7 +90,19 @@ Measure FW Boot Time On Linux
         Execute Reboot Command    linux    ${True}
         Login To Linux
         Switch To Root User
-        ${boot_time}=    Get FW Boot Time From Systemd-analyze
+        # On AMD systems, PSP may take a long time before x86 starts
+        # To properly estimate the gain from fast boot, we have to
+        # consider only the time spent on x86 side, not on proprietary
+        # processors running before x86. For Intel this time is neglectable
+        # so only do it for AMD for now.
+        ${cpuinfo}=    Execute Command In Terminal    cat /proc/cpuinfo
+        IF    "AuthenticAMD" in """${cpuinfo}"""
+            ${boot_start}=    Get First Timestamp From Cbmem Log
+            ${boot_time}=    Get FW Boot Time From Systemd-analyze
+            ${boot_time}=    Evaluate    float(${boot_time} - ${boot_start})
+        ELSE
+            ${boot_time}=    Get FW Boot Time From Systemd-analyze
+        END
         Log To Console    (${index}) Boot time: ${boot_time} s
         Append To List    ${durations}    ${boot_time}
     END
