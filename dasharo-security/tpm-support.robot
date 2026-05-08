@@ -155,34 +155,55 @@ TPM011.101 Change active PCR banks with TPM PPI (EDK2 UEFI)
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    TPM011.101 not supported
     Power On
     Enter The TCG Configuration Menu
-    ${sha1_position}=    Search For Option Not Visible After Entering Menu    PCR Bank: SHA1
-    ${sha256_position}=    Search For Option Not Visible After Entering Menu    PCR Bank: SHA256
-    Reenter Menu
-    # Set all PCR Banks to True
-    ${target_option_index}=    Search For Option Not Visible After Entering Menu    TPM2 Operation
-    Reenter Menu
-    Press Key N Times And Enter    ${target_option_index}    ${ARROW_DOWN}
-    VAR    ${checkpoint}=    \---------------------------------------------------------------------/
-    ${tpm2_operation_menu}=    Get Menu Construction    ${checkpoint}    0    0
-    Enter Submenu From Snapshot    ${tpm2_operation_menu}    TCG2 LogAllDigests
-    Save Changes And Reset
-    Enter The TCG Configuration Menu
+    Get Menu Construction    checkpoint=Esc=Exit
+    Press Key N Times    1    ${ARROW_UP}
+    ${menu}=    Get Menu Construction    checkpoint=Esc=Exit
+    ${sha1_value}=    Get Option State    ${menu}    PCR Bank: SHA1
+    ${sha256_value}=    Get Option State    ${menu}    PCR Bank: SHA256
+    ${sha1_position}=    Count Arrows Up To Reach The Option    PCR Bank: SHA1
+    ${sha256_position}=    Count Arrows Up To Reach The Option    PCR Bank: SHA256
+    IF    ${TPM_MULTIPLE_BANK_SUPPORT} == ${TRUE}
+        # Set all PCR Banks to True
+        ${target_option_index}=    Search For Option Not Visible After Entering Menu    TPM2 Operation
+        Reenter Menu
+        Press Key N Times And Enter    ${target_option_index}    ${ARROW_DOWN}
+        VAR    ${checkpoint}=    \---------------------------------------------------------------------/
+        ${tpm2_operation_menu}=    Get Menu Construction    ${checkpoint}    0    0
+        Enter Submenu From Snapshot    ${tpm2_operation_menu}    TCG2 LogAllDigests
+        Save Changes And Reset
+        Enter The TCG Configuration Menu
+    END
     # Order of checks below cannot be changed without changing desired TPM2 Banks states
     # sha1 = True, sha256 = False
-    Press Key N Times And Enter    ${sha256_position}    ${ARROW_DOWN}
-    Check TPM2 Banks State After FW Changes    ${TRUE}    ${FALSE}
-    Execute Reboot Command
-    Enter The TCG Configuration Menu
-    # sha1 = False, sha256 = True
-    Press Key N Times And Enter    ${sha256_position}    ${ARROW_DOWN}
     Reenter Menu
-    Press Key N Times And Enter    ${sha1_position}    ${ARROW_DOWN}
+    IF    ${sha1_value} and not ${sha256_value}
+        Log To Console    \nPCR banks already in the desired state
+    ELSE
+        IF    not ${sha1_value}
+            Press Key N Times And Enter    ${sha1_position}    ${ARROW_UP}
+            Reenter Menu
+        END
+        IF    ${sha256_value}
+            Press Key N Times And Enter    ${sha256_position}    ${ARROW_UP}
+            Reenter Menu
+        END
+        Check TPM2 Banks State After FW Changes    ${TRUE}    ${FALSE}
+        Execute Reboot Command
+        Enter The TCG Configuration Menu
+    END
+    # sha1 = False, sha256 = True
+    Press Key N Times And Enter    ${sha256_position}    ${ARROW_UP}
+    Reenter Menu
+    Press Key N Times And Enter    ${sha1_position}    ${ARROW_UP}
+    Reenter Menu
     Check TPM2 Banks State After FW Changes    ${FALSE}    ${TRUE}
-    Execute Reboot Command
-    Enter The TCG Configuration Menu
-    # Get to the starting state: sha1 = True, sha256 = True
-    Press Key N Times And Enter    ${sha1_position}    ${ARROW_DOWN}
-    Check TPM2 Banks State After FW Changes    ${TRUE}    ${TRUE}
+    IF    ${TPM_MULTIPLE_BANK_SUPPORT} == ${TRUE}
+        Execute Reboot Command
+        Enter The TCG Configuration Menu
+        # Get to the starting state: sha1 = True, sha256 = True
+        Press Key N Times And Enter    ${sha1_position}    ${ARROW_UP}
+        Check TPM2 Banks State After FW Changes    ${TRUE}    ${TRUE}
+    END
 
 TPM014.101 TPM single bank detection (EDK2 UEFI)
     [Documentation]    Test verifies if only one PCR bank is active, finds inactive

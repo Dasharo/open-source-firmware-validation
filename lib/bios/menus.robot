@@ -222,6 +222,60 @@ Count Arrows Down To Reach The Option
 
     Fail    msg=Option '${option}' not found in menu.
 
+Count Arrows Up To Reach The Option
+    [Documentation]
+    ...    Reads the serial output in search for the first occurrence of
+    ...    ${option} when it finds the function returns the
+    ...    quantity of ${ARROW_UP} presses required to reach that ${option}.
+    ...    It works only if the ${option} is not visible after entering menu.
+    ...
+    ...    === Requirements ===
+    ...    - Boot menu has to be entered using ``Enter Boot Menu Tianocore``
+    ...    - The serial must not have been read after entering the boot menu
+    ...    if the ${re_enter} is set to false.
+    ...
+    ...    === Arguments ===
+    ...    ``${option}``: ``string`` The first line of the option you want
+    ...    to find. In case options are split into multiple lines make sure to
+    ...    put only the first line of the option as argument.
+    ...    ``${re_enter}``: ``boolean`` - default ``${TRUE}``, skip reentering
+    ...    menu at the start of the keyword when ``${FALSE}``.
+    ...
+    ...    === Return Value ===
+    ...    - ``int`` - The quantity of ${ARROW_DOWN} presses required to
+    ...    reach that ${option}
+    ...
+    ...    === Effects ===
+    ...    - The submenu is read from the serial buffer
+    [Arguments]    ${option}    ${re_enter}=${TRUE}
+
+    IF    ${re_enter}    Reenter Menu
+    ${menu}=    Read From Terminal Until    LCtrl+LAlt+F12=Save
+    # Lines to strip:
+    #    UP
+    #    Devices List - in Device Manager
+    #    BOTTOM
+    #    v to move selection
+    ${construction}=    Parse Menu Snapshot Into Construction    ${menu}    1    3
+
+    # 50 is random number itassumes that you need lest than 50 arrow up
+    # clicks to go through entire menu
+    FOR    ${key_up_qtty}    IN RANGE    0    50
+        ${contains}=    Run Keyword And Ignore Error
+        ...    Should Contain    ${menu}    ${option}
+        IF    '${contains}[0]' == 'PASS'
+            ${index}=    Get Index From End Of Matching Option In Menu
+            ...    ${construction}    ${option}
+            ${index}=    Evaluate    ${index} + ${key_up_qtty} - 1
+            RETURN    ${index}
+        END
+        Press Key N Times    1    ${ARROW_UP}
+        ${menu}=    Read From Terminal Until    LCtrl+LAlt+F12=Save
+        ${construction}=    Parse Menu Snapshot Into Construction    ${menu}    2    3
+    END
+
+    Fail    msg=Option '${option}' not found in menu.
+
 Enter Boot Menu Tianocore And Return Construction
     [Documentation]
     ...    Enters and returns the construction of the boot menu
@@ -647,6 +701,43 @@ Get Index Of Matching Option In Menu
     IF    ${ignore_not_found_error} == ${FALSE}
         Should Be True    ${index} >= 0    Option ${option} not found in the list
     END
+    RETURN    ${index}
+
+Get Index From End Of Matching Option In Menu
+    [Documentation]
+    ...    This keyword returns the index of a line counted from the end of
+    ...    ``${menu_construction}`` matching ``${option}`` in
+    ...    ``${menu_construction}``
+    ...
+    ...    === Requirements ===
+    ...    None
+    ...
+    ...    === Arguments ===
+    ...    - ``${menu_construction}``: ``string`` - the menu construction
+    ...    - ``${option}``: ``string`` - the content to match
+    ...
+    ...    === Return Value ===
+    ...    - ``integer`` - the index of the matched construction line from the
+    ...    \ end of menu
+    ...
+    ...    === Effects ===
+    ...    None
+    [Arguments]    ${menu_construction}    ${option}    ${ignore_not_found_error}=${FALSE}
+
+    FOR    ${element}    IN    @{menu_construction}
+        ${matches}=    Run Keyword And Return Status
+        ...    Should Match    ${element}    *${option}*
+        IF    ${matches}
+            VAR    ${option}=    ${element}
+            BREAK
+        END
+    END
+    ${index}=    Get Index From List    ${menu_construction}    ${option}
+    IF    ${ignore_not_found_error} == ${FALSE}
+        Should Be True    ${index} >= 0    Option ${option} not found in the list
+    END
+    ${length}=    Get Length    ${menu_construction}
+    ${index}=    Evaluate    ${length} - ${index}
     RETURN    ${index}
 
 Press Key N Times And Enter
