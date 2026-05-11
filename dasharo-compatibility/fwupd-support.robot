@@ -189,6 +189,9 @@ Run Fwupd Local Update
     RETURN    ${out}
 
 Fwupd Local Firmware Update Linux
+    IF    "${POWER_CTRL}"=="none" and @{TEST_TAGS} and "semiauto" not in @{TEST_TAGS}
+        Skip    Skipping semiauto test
+    END
     ${cabinet_given}=    Run Keyword And Return Status
     ...    Get Environment Variable    ${CABINET_ENVVAR}
     IF    not ${cabinet_given}
@@ -203,6 +206,7 @@ Fwupd Local Firmware Update Linux
 
     ${out}=    Run Fwupd Update With Battery Check Workaround    Run Fwupd Local Update    ${cabinet}
     Should Contain    ${out}    Successfully installed firmware
+    # fwupd will automatically reboot the system
     IF    "${POWER_CTRL}"=="none"
         Execute Manual Step    The laptop might stay powered off after update. Power it back on.
     END
