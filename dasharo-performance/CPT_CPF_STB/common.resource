@@ -97,6 +97,7 @@ Background Measurements Windows
     # Initialization
     VAR    @{freq_list}=    @{EMPTY}
     VAR    @{stab_list}=    @{EMPTY}
+    ${next_temp_time}=    Evaluate    0 if $id_temp is not ${None} else 999999
     ${next_freq_time}=    Evaluate    0 if $id_freq is not ${None} else 999999
     ${next_stab_time}=    Evaluate    0 if $id_stab is not ${None} else 999999
     VAR    ${longest_duration}=
@@ -108,6 +109,16 @@ Background Measurements Windows
     # measurement loop
     WHILE    ${timer} < ${longest_duration}
         Sleep    ${time_to_next_interval}
+
+        IF    ${TEMPERATURE_TEST_DURATION} >= ${timer} >= ${next_temp_time}
+            ${temperature}=    Get CPU Temperature In Windows
+            ${next_temp_time}=    Evaluate    ${timer} + ${TEMPERATURE_TEST_MEASURE_INTERVAL}
+            Append To List    ${TEMP_LIST}    ${temperature}
+            Log To Console    Temperature: ${temperature}
+        END
+        IF    ${timer} > ${TEMPERATURE_TEST_DURATION}
+            VAR    ${next_temp_time}=    999999
+        END
 
         IF    ${FREQUENCY_TEST_DURATION} >= ${timer} >= ${next_freq_time}
             ${freqs}=    Get CPU Frequency In Windows
@@ -142,7 +153,7 @@ Background Measurements Windows
         ${now}=    Get Current Date
         ${timer}=    Subtract Date From Date    ${now}    ${start}
         ${time_to_next_interval}=    Evaluate
-        ...    max(0, min(${next_stab_time}, ${next_freq_time}, ${NEXT_TEMP_TIME}) - ${timer})
+        ...    max(0, min(${next_stab_time}, ${next_freq_time}, ${next_temp_time}) - ${timer})
     END
 
     Set Concurrent Test Outputs    ${id_freq}    ${freq_list}
