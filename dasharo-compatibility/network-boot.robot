@@ -75,6 +75,7 @@ PXE004.001 DTS option is available and works correctly
     ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
     Enter Submenu From Snapshot    ${boot_menu}    ${IPXE_BOOT_ENTRY}
     ${ipxe_menu}=    Get IPXE Boot Menu Construction
+    ${ipxe_menu}=    Synchronize Time In IPXE Shell    ${ipxe_menu}
     Enter Submenu From Snapshot    ${ipxe_menu}    Dasharo Tools Suite
     Set DUT Response Timeout    5m
     ${out}=    Read From Terminal Until    Enter an option
@@ -93,6 +94,7 @@ PXE005.001 OS installation option is available and works correctly
     ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
     Enter Submenu From Snapshot    ${boot_menu}    ${IPXE_BOOT_ENTRY}
     ${ipxe_menu}=    Get IPXE Boot Menu Construction
+    ${ipxe_menu}=    Synchronize Time In IPXE Shell    ${ipxe_menu}
     Enter Submenu From Snapshot    ${ipxe_menu}    OS installation
     ${out}=    Read From Terminal Until    netboot.xyz [ enabled: true ]
     Should Contain    ${out}    netboot.xyz
@@ -127,3 +129,16 @@ PXE007.001 Dasharo Network Boot over https not http
     Log    ${out}
     Should Contain    ${out}    https://
     Should Not Contain    ${out}    http://
+
+
+*** Keywords ***
+Synchronize Time In IPXE Shell
+    [Documentation]    Synchronize iPXE time before selecting HTTPS-backed boot options.
+    [Arguments]    ${ipxe_menu}
+    Enter IPXE Shell Submenu    ${ipxe_menu}
+    Set DUT Response Timeout    60s
+    Write Into Terminal    ntp pool.ntp.org
+    Read From Terminal Until Prompt
+    Write Into Terminal    exit
+    ${ipxe_menu}=    Get IPXE Boot Menu Construction
+    RETURN    ${ipxe_menu}
