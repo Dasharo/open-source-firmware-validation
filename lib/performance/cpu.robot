@@ -73,6 +73,15 @@ Check If CPU Not Stuck On Initial Frequency In Windows
         Should Not Be Equal    ${out}    ${out2}
     END
 
+Get CPU Temperature In Windows
+    ${temp}=    Execute Command In Terminal
+    ...    ((Get-CimInstance MSAcpi_ThermalZoneTemperature -Namespace "root/wmi").CurrentTemperature / 10 - 273.15).ToString()
+    ${matches}=    Get Regexp Matches    ${temp}    \\d+(?:\\.\\d+)?
+    ${temp}=    Get From List    ${matches}    0
+    Should Not Be Empty    ${temp}    Failed to get current temperature
+    ${temp}=    Convert To Number    ${temp}
+    RETURN    ${temp}
+
 Get CPU Frequency In Windows
     ${freq_current_info}=    Execute Command In Terminal
     ...    (Get-CimInstance CIM_Processor).MaxClockSpeed*((Get-Counter -Counter "\\Processor Information(_Total)\\% Processor Performance").CounterSamples.CookedValue)/100
