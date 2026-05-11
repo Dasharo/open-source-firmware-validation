@@ -155,9 +155,9 @@ Enter The TCG Configuration Menu
 Check TPM PCR Banks State In FW
     [Documentation]    Build & return dictionary containing all existing PCR bank options
     ...    and state of each.
-    Read From Terminal
-    Press Key N Times    1    ${ARROW_UP}
     VAR    ${checkpoint}=    F9=Reset to Defaults
+    Read From Terminal Until    ${checkpoint}
+    Press Key N Times    1    ${ARROW_UP}
     ${tpm2_operation_menu}=    Read From Terminal Until    ${checkpoint}
     ${tgc2_menu_protocol_part}=    Parse Menu Snapshot Into Construction    ${tpm2_operation_menu}    6    1
     ${sha_banks}=    Get Matches    ${tgc2_menu_protocol_part}    PCR Bank: SHA*
