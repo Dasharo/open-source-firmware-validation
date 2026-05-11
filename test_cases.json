@@ -4635,6 +4635,13 @@
   },
   {
     "doc": {
+      "_id": "NVM003.201",
+      "name": "NVMe SATA disabling check in OS (Ubuntu)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
       "_id": "OPN001.001",
       "name": "OPNSense stable (VGA output) installation on Hard Disk",
       "module": "Dasharo Compatibility"

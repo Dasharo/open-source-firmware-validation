@@ -58,6 +58,15 @@ NVM002.201 NVMe slot change to x2 support in OS (Ubuntu)
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    NVM002.201 not supported
     NVMe Slot Change Support In OS    ${ENV_ID_UBUNTU}
 
+NVM003.201 NVMe SATA disabling check in OS (Ubuntu)
+    [Documentation]    Check that the NVMe controller PCIe LnkCap and LnkCtl
+    ...    fields reported by lspci match the expected values after SATA
+    ...    disabling.
+    Depends On    ${TESTS_IN_UBUNTU_SUPPORT}
+    Depends On    ${NVME_SATA_DISABLING_SUPPORT}
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    NVM003.201 not supported
+    NVMe SATA Disabling Check In OS    ${ENV_ID_UBUNTU}
+
 NVM001.202 NVMe support in OS (Fedora)
     [Documentation]    Check whether the Operating System can boot from NVMe
     ...    disk in M.2 slot.
@@ -126,3 +135,19 @@ NVMe Slot Change Support In OS
         END
     END
     Should Be True    ${found}
+
+NVMe SATA Disabling Check In OS
+    [Documentation]    Compare NVMe controller LnkCap and LnkCtl fields from
+    ...    lspci -vvv with expected values stored in platform config.
+    [Arguments]    ${os_id}=${DEFAULT_BOOT_OS_ID}
+    Power On
+    Boot System Or From Connected Disk    ${os_id}
+    Login To Linux
+    Switch To Root User
+    ${lnkcap_line}=    Execute Command In Terminal
+    ...    lspci -vvv | grep -A 50 "Non-Volatile memory controller" | grep -m1 "LnkCap:"
+    ${lnkctl_line}=    Execute Command In Terminal
+    ...    lspci -vvv | grep -A 50 "Non-Volatile memory controller" | grep -m1 "LnkCtl:"
+    Should Contain    ${lnkcap_line}    ${NVME_LNKCAP}
+    Should Contain    ${lnkctl_line}    ${NVME_LNKCTL}
+    Exit From Root User
