@@ -399,6 +399,10 @@ Prepare CPT
     # No load Ubuntu
     Add Concurrent Test Skip Condition
     ...    ${CPT_NO_LOAD_ID}.201
+    ...    not ${CPU_TEMPERATURE_MEASURE}
+    ...    temperature measure not supported
+    Add Concurrent Test Skip Condition
+    ...    ${CPT_NO_LOAD_ID}.201
     ...    not ${TESTS_IN_UBUNTU_SUPPORT}
     ...    tests in Ubuntu not supported
     Add Concurrent Test Skip Condition
@@ -406,6 +410,10 @@ Prepare CPT
     ...    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}
     ...    Ubuntu not in tested distros
     # Load Ubuntu
+    Add Concurrent Test Skip Condition
+    ...    ${CPT_LOAD_ID}.201
+    ...    not ${CPU_TEMPERATURE_MEASURE}
+    ...    temperature measure not supported
     Add Concurrent Test Skip Condition
     ...    ${CPT_LOAD_ID}.201
     ...    not ${TESTS_IN_UBUNTU_SUPPORT}

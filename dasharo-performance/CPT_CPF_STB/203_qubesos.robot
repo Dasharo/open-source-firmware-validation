@@ -338,9 +338,17 @@ Prepare CPT QUBES
 
     Add Concurrent Test Skip Condition
     ...    ${CPT_NO_LOAD_ID}.203
+    ...    not ${CPU_TEMPERATURE_MEASURE}
+    ...    temperature measure not supported
+    Add Concurrent Test Skip Condition
+    ...    ${CPT_NO_LOAD_ID}.203
     ...    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}
     ...    tests in Qubes OS not supported
 
+    Add Concurrent Test Skip Condition
+    ...    ${CPT_LOAD_ID}.203
+    ...    not ${CPU_TEMPERATURE_MEASURE}
+    ...    temperature measure not supported
     Add Concurrent Test Skip Condition
     ...    ${CPT_LOAD_ID}.203
     ...    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}
