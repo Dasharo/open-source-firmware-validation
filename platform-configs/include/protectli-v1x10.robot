@@ -15,6 +15,7 @@ ${INITIAL_CPU_FREQUENCY}=                       2000
 ${MAX_CPU_TEMP}=                                77
 
 ${E_MMC_NAME}=                                  BJTD4R
+${NVME_SATA_DISABLING_SUPPORT}=                 ${TRUE}
 
 ${DMIDECODE_SERIAL_NUMBER}=                     N/A
 ${DMIDECODE_FIRMWARE_VERSION}=                  Dasharo (coreboot+UEFI) v
