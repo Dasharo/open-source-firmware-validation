@@ -7011,14 +7011,14 @@
     "doc": {
       "_id": "STB001.201",
       "name": "Verify if no reboot occurs in the OS (Ubuntu)",
-      "module": "Dasharo Compatibility"
+      "module": "Dasharo Performance"
     }
   },
   {
     "doc": {
       "_id": "STB001.202",
       "name": "Verify if no reboot occurs in the OS (Fedora)",
-      "module": "Dasharo Compatibility"
+      "module": "Dasharo Performance"
     }
   },
   {
@@ -7032,7 +7032,7 @@
     "doc": {
       "_id": "STB001.301",
       "name": "Verify if no reboot occurs in the OS (Windows)",
-      "module": "Dasharo Compatibility"
+      "module": "Dasharo Performance"
     }
   },
   {
@@ -7055,14 +7055,14 @@
     "doc": {
       "_id": "STB002.201",
       "name": "Verify if no unexpected boot errors appear in Linux logs (Ubuntu)",
-      "module": "Dasharo Compatibility"
+      "module": "Dasharo Performance"
     }
   },
   {
     "doc": {
       "_id": "STB002.202",
       "name": "Verify if no unexpected boot errors appear in Linux logs (Fedora)",
-      "module": "Dasharo Compatibility"
+      "module": "Dasharo Performance"
     }
   },
   {
@@ -7076,7 +7076,7 @@
     "doc": {
       "_id": "STB002.301",
       "name": "Verify if no reboot occurs in the OS (Windows)",
-      "module": "Dasharo Compatibility"
+      "module": "Dasharo Performance"
     }
   },
   {
