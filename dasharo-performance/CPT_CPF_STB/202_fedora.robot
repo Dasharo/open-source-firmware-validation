@@ -373,9 +373,17 @@ Prepare CPT
     # No load Fedora
     Add Concurrent Test Skip Condition
     ...    ${CPT_NO_LOAD_ID}.202
+    ...    not ${CPU_TEMPERATURE_MEASURE}
+    ...    temperature measure not supported
+    Add Concurrent Test Skip Condition
+    ...    ${CPT_NO_LOAD_ID}.202
     ...    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}
     ...    Fedora not in tested distros
     # Load Fedora
+    Add Concurrent Test Skip Condition
+    ...    ${CPT_LOAD_ID}.202
+    ...    not ${CPU_TEMPERATURE_MEASURE}
+    ...    temperature measure not supported
     Add Concurrent Test Skip Condition
     ...    ${CPT_LOAD_ID}.202
     ...    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}
