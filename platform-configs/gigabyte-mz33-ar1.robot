@@ -119,6 +119,7 @@ ${BOOT_FROM_USB_ITERATIONS_NUMBER}=         5
 
 ${DCU_UUID_SUPPORT}=                        ${TRUE}
 ${DCU_SERIAL_SUPPORT}=                      ${TRUE}
+${CUSTOM_LOGO_SUPPORT}=                     ${TRUE}
 
 ${DASHARO_PCI_PCIE_MENU_SUPPORT}=           ${TRUE}
 ${DASHARO_PCIE_REBAR_SUPPORT}=              ${TRUE}
