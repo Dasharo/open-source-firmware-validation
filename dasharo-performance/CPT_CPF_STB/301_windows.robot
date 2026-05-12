@@ -213,7 +213,7 @@ STB002.301 Verify if no reboot occurs in the OS (Windows)
 *** Keywords ***
 Stress Test Windows
     SSHLibrary.Put File    stress-test-windows.ps1    /C:/Users/user
-    Execute Command In Terminal    .\\stress-test-windows.ps1
+    Execute Command In Terminal    .\\stress-test-windows.ps1    60s
 
 Prepare CPF
     [Documentation]    Setup CPF concurrent test contexts
