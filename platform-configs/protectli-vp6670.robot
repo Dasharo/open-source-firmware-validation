@@ -15,7 +15,6 @@ ${LTE_CARD}=                            ${TBD}
 ${DEVICE_NVME_DISK}=                    Non-Volatile memory controller
 ${USB_MODEL}=                           SanDisk
 @{ATTACHED_USB}=                        Wilk USB
-${EXPECTED_FW_SHA256}=                  f66e19018e2893f6cfec0d1edbfc0db033293ac16fdb21debb5da745071ddada
 ${DMIDECODE_PRODUCT_NAME}=              VP6670
 ${HAS_E_CORES}=                         ${TRUE}
 

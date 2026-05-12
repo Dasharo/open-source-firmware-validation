@@ -21,6 +21,7 @@ ${INTEL_HYBRID_ARCH_SUPPORT}=                       ${TRUE}
 @{ETH_PERF_PAIR_10_G}=                              enp2s0f0    enp2s0f1
 ${WIFI_CARD_UBUNTU}=                                Qualcomm Atheros QCA6174 802.11ac Wireless Network Adapter
 ${WIFI_CARD}=                                       Qualcomm Atheros QCA61x4A Wireless Network Adapter
+${EXPECTED_FW_SHA256}=                              f66e19018e2893f6cfec0d1edbfc0db033293ac16fdb21debb5da745071ddada
 
 ${ETHERNET_ID}=                                     8086:125c
 
