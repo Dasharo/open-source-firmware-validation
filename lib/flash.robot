@@ -109,11 +109,16 @@ Flash Firmware
         Boot System Or From Connected Disk    ${BOOTED_OS_ID}
         Login To Linux
         Switch To Root User
-        VAR    @{regions}=    bios
-        IF    ${INTEL_CBNT_BOOTGUARD_FUSING_SUPPORT}
-            VAR    @{regions}=    @{regions}    me
+        ${cpuinfo}=    Execute Command In Terminal    cat /proc/cpuinfo
+        IF    "AuthenticAMD" in """${cpuinfo}"""
+            Flash Via Internal Programmer    ${fw_file}
+        ELSE
+            VAR    @{regions}=    bios
+            IF    ${INTEL_CBNT_BOOTGUARD_FUSING_SUPPORT}
+                VAR    @{regions}=    @{regions}    me
+            END
+            Flash Via Internal Programmer    ${fw_file}    @{regions}
         END
-        Flash Via Internal Programmer    ${fw_file}    @{regions}
     END
 
     IF    '''${POWER_CTRL}''' == '''none'''
