@@ -99,8 +99,9 @@ Background Measurements Windows
     ...    in concurrent. Set '${id_*}' vars to a test case ID to save the results
     ...    for this type of measurements under a chosen ID. Set to none to skip
     ...    measurements of the given type.
-    [Arguments]    ${id_freq}=${None}    ${id_stab}=${None}
+    [Arguments]    ${id_temp}=${None}    ${id_freq}=${None}    ${id_stab}=${None}
     # Initialization
+    VAR    @{temp_list}=    @{EMPTY}
     VAR    @{freq_list}=    @{EMPTY}
     VAR    @{stab_list}=    @{EMPTY}
     ${next_temp_time}=    Evaluate    0 if $id_temp is not ${None} else 999999
@@ -119,7 +120,7 @@ Background Measurements Windows
         IF    ${TEMPERATURE_TEST_DURATION} >= ${timer} >= ${next_temp_time}
             ${temperature}=    Get CPU Temperature In Windows
             ${next_temp_time}=    Evaluate    ${timer} + ${TEMPERATURE_TEST_MEASURE_INTERVAL}
-            Append To List    ${TEMP_LIST}    ${temperature}
+            Append To List    ${temp_list}    ${temperature}
             Log To Console    Temperature: ${temperature}
         END
         IF    ${timer} > ${TEMPERATURE_TEST_DURATION}
@@ -162,6 +163,7 @@ Background Measurements Windows
         ...    max(0, min(${next_stab_time}, ${next_freq_time}, ${next_temp_time}) - ${timer})
     END
 
+    Set Concurrent Test Outputs    ${id_temp}    ${temp_list}
     Set Concurrent Test Outputs    ${id_freq}    ${freq_list}
     Set Concurrent Test Outputs    ${id_stab}    ${stab_list}
 

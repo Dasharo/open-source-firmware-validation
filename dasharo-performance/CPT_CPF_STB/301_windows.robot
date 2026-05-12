@@ -8,6 +8,7 @@ Suite Setup         Run Keywords
 ...                     AND    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}
 ...                     AND    Check Power Supply
 ...                     AND    Init Concurrent Testing
+...                     AND    Prepare CPT
 ...                     AND    Prepare CPF
 ...                     AND    Prepare STB
 ...                     AND    Print Concurrent Tests Summary
@@ -31,7 +32,7 @@ _CONCURRENT_Background Measurements Immediate (no load) (Windows)
     Power On
     Boot And Login To Windows
 
-    # CPF001.301 steps
+    # CPF001.301 / CPF002.301 / CPF003.301 / CPF004.301 steps
     VAR    ${concurrent_test_id}=    ${CPF_STUCK_ID}.301
     ${check_frequency}=    Check Concurrent Test Supported    ${concurrent_test_id}
     IF    ${check_frequency}
@@ -79,6 +80,7 @@ CPF004.301 CPU not stuck on initial frequency (USB-PD) (Windows)
 #############################################################################
 
 _CONCURRENT_Background Measurements (no load) (Windows)
+    ${gather_temps}=    Will Concurrent Test Be Run    ${CPT_NO_LOAD_ID}.301
     ${gather_freqs}=    Will Concurrent Test Be Run    ${CPF_NO_LOAD_ID}.301
     ${gather_stab}=    Will Concurrent Test Be Run    STB001.301
     Skip If    not (${gather_freqs} or ${gather_stab})    No test depends on this step
@@ -86,11 +88,48 @@ _CONCURRENT_Background Measurements (no load) (Windows)
     Power On
     Boot And Login To Windows
 
+    ${gather_temps}=    Evaluate    "${CPT_NO_LOAD_ID}.301" if ${gather_temps} else ${None}
     ${gather_freqs}=    Evaluate    "${CPF_NO_LOAD_ID}.301" if ${gather_freqs} else ${None}
     ${gather_stab}=    Evaluate    "STB001.301" if ${gather_stab} else ${None}
 
     Background Measurements Windows
-    ...    id_freq=${gather_freqs}    id_stab=${gather_stab}
+    ...    id_temp=${gather_temps}    id_freq=${gather_freqs}    id_stab=${gather_stab}
+
+CPT001.301 CPU temperature without load (Windows)
+    [Documentation]    This test aims to verify whether the temperature of CPU
+    ...    cores after system booting is not higher than the maximum
+    ...    allowed temperature.
+    VAR    ${concurrent_test_id}=    CPT001.301
+    Skip If Concurrent Test Not Supported    ${concurrent_test_id}
+    ${temps}=    Get Concurrent Test Outputs    ${concurrent_test_id}
+    Check CPU Temps    ${temps}
+
+CPT002.301 CPU temperature without load (Battery) (Windows)
+    [Documentation]    This test aims to verify whether the temperature of CPU
+    ...    cores after system booting is not higher than the maximum
+    ...    allowed temperature.
+    VAR    ${concurrent_test_id}=    CPT002.301
+    Skip If Concurrent Test Not Supported    ${concurrent_test_id}
+    ${temps}=    Get Concurrent Test Outputs    ${concurrent_test_id}
+    Check CPU Temps    ${temps}
+
+CPT003.301 CPU temperature without load (AC) (Windows)
+    [Documentation]    This test aims to verify whether the temperature of CPU
+    ...    cores after system booting is not higher than the maximum
+    ...    allowed temperature.
+    VAR    ${concurrent_test_id}=    CPT003.301
+    Skip If Concurrent Test Not Supported    ${concurrent_test_id}
+    ${temps}=    Get Concurrent Test Outputs    ${concurrent_test_id}
+    Check CPU Temps    ${temps}
+
+CPT004.301 CPU temperature without load (USB-PD) (Windows)
+    [Documentation]    This test aims to verify whether the temperature of CPU
+    ...    cores after system booting is not higher than the maximum
+    ...    allowed temperature.
+    VAR    ${concurrent_test_id}=    CPT004.301
+    Skip If Concurrent Test Not Supported    ${concurrent_test_id}
+    ${temps}=    Get Concurrent Test Outputs    ${concurrent_test_id}
+    Check CPU Temps    ${temps}
 
 CPF005.301 CPU runs on expected frequency (Windows)
     [Documentation]    This test aims to verify whether the mounted CPU is
@@ -139,6 +178,7 @@ STB001.301 Verify if no reboot occurs in the OS (Windows)
 #############################################################################
 
 _CONCURRENT_Background Measurements (load) (Windows)
+    ${gather_temps}=    Will Concurrent Test Be Run    ${CPT_LOAD_ID}.301
     ${gather_freqs}=    Will Concurrent Test Be Run    ${CPF_LOAD_ID}.301
     ${gather_stab}=    Will Concurrent Test Be Run    STB002.301
     Skip If    not (${gather_freqs} or ${gather_stab})    No test depends on this step
@@ -146,6 +186,7 @@ _CONCURRENT_Background Measurements (load) (Windows)
     Power On
     Boot And Login To Windows
 
+    ${gather_temps}=    Evaluate    "${CPT_LOAD_ID}.301" if ${gather_temps} else ${None}
     ${gather_freqs}=    Evaluate    "${CPF_LOAD_ID}.301" if ${gather_freqs} else ${None}
     ${gather_stab}=    Evaluate    "STB002.301" if ${gather_stab} else ${None}
 
@@ -154,8 +195,44 @@ _CONCURRENT_Background Measurements (load) (Windows)
     ...    max(${TEMPERATURE_TEST_DURATION}, ${FREQUENCY_TEST_DURATION}, ${STABILITY_TEST_DURATION})
     Stress Test Windows
     Background Measurements Windows
-    ...    id_freq=${gather_freqs}    id_stab=${gather_stab}
+    ...    id_temp=${gather_temps}    id_freq=${gather_freqs}    id_stab=${gather_stab}
     Stop Stress Test Windows
+
+CPT005.301 CPU temperature after stress test (Windows)
+    [Documentation]    This test aims to verify whether the temperature of the
+    ...    CPU cores is not higher than the maximum allowed
+    ...    temperature during stress test.
+    VAR    ${concurrent_test_id}=    CPT005.301
+    Skip If Concurrent Test Not Supported    ${concurrent_test_id}
+    ${temps}=    Get Concurrent Test Outputs    ${concurrent_test_id}
+    Check CPU Temps    ${temps}
+
+CPT006.301 CPU temperature after stress test (Battery) (Windows)
+    [Documentation]    This test aims to verify whether the temperature of the
+    ...    CPU cores is not higher than the maximum allowed
+    ...    temperature during stress test.
+    VAR    ${concurrent_test_id}=    CPT006.301
+    Skip If Concurrent Test Not Supported    ${concurrent_test_id}
+    ${temps}=    Get Concurrent Test Outputs    ${concurrent_test_id}
+    Check CPU Temps    ${temps}
+
+CPT007.301 CPU temperature after stress test (AC) (Windows)
+    [Documentation]    This test aims to verify whether the temperature of the
+    ...    CPU cores is not higher than the maximum allowed
+    ...    temperature during stress test.
+    VAR    ${concurrent_test_id}=    CPT007.301
+    Skip If Concurrent Test Not Supported    ${concurrent_test_id}
+    ${temps}=    Get Concurrent Test Outputs    ${concurrent_test_id}
+    Check CPU Temps    ${temps}
+
+CPT008.301 CPU temperature after stress test (USB-PD) (Windows)
+    [Documentation]    This test aims to verify whether the temperature of the
+    ...    CPU cores is not higher than the maximum allowed
+    ...    temperature during stress test.
+    VAR    ${concurrent_test_id}=    CPT008.301
+    Skip If Concurrent Test Not Supported    ${concurrent_test_id}
+    ${temps}=    Get Concurrent Test Outputs    ${concurrent_test_id}
+    Check CPU Temps    ${temps}
 
 CPF009.301 CPU with load runs on expected frequency (Windows)
     [Documentation]    This test aims to verify whether the mounted CPU is
@@ -208,6 +285,41 @@ Stress Test Windows
 Stop Stress Test Windows
     Execute Command In Terminal    Stop-Job cpu_stress
     Execute Command In Terminal    Remove-Job cpu_stress
+
+Prepare CPT
+    [Documentation]    Setup CPT concurrent test contexts
+    IF    not ${LAPTOP_PLATFORM}
+        VAR    ${CPT_NO_LOAD_ID}=    CPT001    scope=SUITE
+        VAR    ${CPT_LOAD_ID}=    CPT005    scope=SUITE
+    ELSE IF    ${BATTERY_PRESENT}
+        VAR    ${CPT_NO_LOAD_ID}=    CPT002    scope=SUITE
+        VAR    ${CPT_LOAD_ID}=    CPT006    scope=SUITE
+    ELSE IF    ${AC_CONNECTED}
+        VAR    ${CPT_NO_LOAD_ID}=    CPT003    scope=SUITE
+        VAR    ${CPT_LOAD_ID}=    CPT007    scope=SUITE
+    ELSE IF    ${USB_PD_CONNECTED}
+        VAR    ${CPT_NO_LOAD_ID}=    CPT004    scope=SUITE
+        VAR    ${CPT_LOAD_ID}=    CPT008    scope=SUITE
+    END
+
+    # No load Windows
+    Add Concurrent Test Skip Condition
+    ...    ${CPT_NO_LOAD_ID}.301
+    ...    not ${CPU_TEMPERATURE_MEASURE}
+    ...    temperature measure not supported
+    Add Concurrent Test Skip Condition
+    ...    ${CPT_NO_LOAD_ID}.301
+    ...    not ${TESTS_IN_WINDOWS_SUPPORT}
+    ...    tests in Windows not supported
+    # Load Windows
+    Add Concurrent Test Skip Condition
+    ...    ${CPT_LOAD_ID}.301
+    ...    not ${CPU_TEMPERATURE_MEASURE}
+    ...    temperature measure not supported
+    Add Concurrent Test Skip Condition
+    ...    ${CPT_LOAD_ID}.301
+    ...    not ${TESTS_IN_WINDOWS_SUPPORT}
+    ...    tests in Windows not supported
 
 Prepare CPF
     [Documentation]    Setup CPF concurrent test contexts
