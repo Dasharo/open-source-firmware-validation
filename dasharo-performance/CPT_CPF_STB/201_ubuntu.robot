@@ -428,6 +428,7 @@ Prepare CPT
     ...    ${CPT_LOAD_ID}.201
     ...    not ${TESTS_IN_UBUNTU_SUPPORT}
     ...    tests in Ubuntu not supported
-    Add Concurrent Test Skip Condition    ${CPT_LOAD_ID}.201
+    Add Concurrent Test Skip Condition
+    ...    ${CPT_LOAD_ID}.201
     ...    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}
     ...    Ubuntu not in tested distros

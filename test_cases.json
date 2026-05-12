@@ -1815,6 +1815,13 @@
   },
   {
     "doc": {
+      "_id": "CPT001.301",
+      "name": "CPU temperature without load (Windows)",
+      "module": "Dasharo Performance"
+    }
+  },
+  {
+    "doc": {
       "_id": "CPT002.001",
       "name": "CPU temperature after stress test (Ubuntu)",
       "module": "Dasharo Performance",
@@ -1861,6 +1868,13 @@
   },
   {
     "doc": {
+      "_id": "CPT002.301",
+      "name": "CPU temperature without load (Windows) (battery)",
+      "module": "Dasharo Performance"
+    }
+  },
+  {
+    "doc": {
       "_id": "CPT003.201",
       "name": "CPU temperature without load (Ubuntu) (AC)",
       "module": "Dasharo Performance"
@@ -1875,6 +1889,13 @@
   },
   {
     "doc": {
+      "_id": "CPT003.301",
+      "name": "CPU temperature without load (Windows) (AC)",
+      "module": "Dasharo Performance"
+    }
+  },
+  {
+    "doc": {
       "_id": "CPT004.201",
       "name": "CPU temperature without load (Ubuntu) (USB-PD)",
       "module": "Dasharo Performance"
@@ -1884,6 +1905,13 @@
     "doc": {
       "_id": "CPT004.202",
       "name": "CPU temperature without load (Fedora) (USB-PD)",
+      "module": "Dasharo Performance"
+    }
+  },
+  {
+    "doc": {
+      "_id": "CPT004.301",
+      "name": "CPU temperature without load (Windows) (USB-PD)",
       "module": "Dasharo Performance"
     }
   },
@@ -1910,6 +1938,13 @@
   },
   {
     "doc": {
+      "_id": "CPT005.301",
+      "name": "CPU temperature after stress test (Windows)",
+      "module": "Dasharo Performance"
+    }
+  },
+  {
+    "doc": {
       "_id": "CPT006.201",
       "name": "CPU temperature after stress test (Ubuntu) (battery)",
       "module": "Dasharo Performance"
@@ -1919,6 +1954,13 @@
     "doc": {
       "_id": "CPT006.202",
       "name": "CPU temperature after stress test (Fedora) (battery)",
+      "module": "Dasharo Performance"
+    }
+  },
+  {
+    "doc": {
+      "_id": "CPT006.301",
+      "name": "CPU temperature after stress test (Windows) (battery)",
       "module": "Dasharo Performance"
     }
   },
@@ -1938,6 +1980,13 @@
   },
   {
     "doc": {
+      "_id": "CPT007.301",
+      "name": "CPU temperature after stress test (Windows) (AC)",
+      "module": "Dasharo Performance"
+    }
+  },
+  {
+    "doc": {
       "_id": "CPT008.201",
       "name": "CPU temperature after stress test (Ubuntu) (USB-PD)",
       "module": "Dasharo Performance"
@@ -1947,6 +1996,13 @@
     "doc": {
       "_id": "CPT008.202",
       "name": "CPU temperature after stress test (Fedora) (USB-PD)",
+      "module": "Dasharo Performance"
+    }
+  },
+  {
+    "doc": {
+      "_id": "CPT008.301",
+      "name": "CPU temperature after stress test (Windows) (USB-PD)",
       "module": "Dasharo Performance"
     }
   },
