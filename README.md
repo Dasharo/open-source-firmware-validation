@@ -533,10 +533,10 @@ The output file can be opened in any web-browser like so:
 $ firefox keywords.html
 ```
 
-Or use the provided `create-docs.sh` script, which automatically concatenates
-all of the keyword-containing libraries from `lib/` directory with
-`keywords.robot`, and generates one big html file containing all the
-keywords within this repo.
+Or use the provided `create-docs.sh` script, which automatically combines
+`keywords.robot` with keyword-containing Robot and Python libraries from the
+`lib/` directory, and generates one big html file containing all the keywords
+within this repo.
 
 ```bash
 $(venv) ./scripts/create-docs.sh

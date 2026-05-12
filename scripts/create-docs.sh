@@ -6,20 +6,19 @@
 
 TEMP_DIR=$(mktemp -d)
 FILE_NAME="$TEMP_DIR/all-keywords.robot"
+HTML_FILE="$TEMP_DIR/all-keywords.html"
 
-python3 scripts/create-docs.py $FILE_NAME
-
-libdoc "$TEMP_DIR/all-keywords.robot" "$TEMP_DIR/all-keywords.html" >/dev/null 2>&1
+python3 scripts/create-docs.py "$FILE_NAME" "$HTML_FILE"
 
 if [ $? -ne 0 ]; then
-  echo "libdoc command failed"
+  echo "documentation generation failed"
   exit 1
 fi
 
-cp "$TEMP_DIR/all-keywords.html" ./docs/index.html
+cp "$HTML_FILE" ./docs/index.html
 
 rm "$TEMP_DIR/all-keywords.robot"
-rm "$TEMP_DIR/all-keywords.html"
+rm "$HTML_FILE"
 rmdir "$TEMP_DIR"
 
 echo "Documentation generated and saved as ./docs/index.html"
