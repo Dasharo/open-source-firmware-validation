@@ -273,6 +273,7 @@ ${NETWORK_INTERFACE_AFTER_SUSPEND_SUPPORT}=         ${FALSE}
 ${CAPSULE_UPDATE_SUPPORT}=                          ${FALSE}
 ${FUM_BOOT_IPXE_FOR_AUTO_UPDATE}=                   ${TRUE}
 ${CAPSULE_DOES_NOT_PERSIST_ACROSS_RESET}=           ${FALSE}
+${CAPSULE_ON_DISK_SUPPORT}=                         ${FALSE}
 
 # Test module: trenchboot
 ${TRENCHBOOT_SUPPORT}=                              ${FALSE}

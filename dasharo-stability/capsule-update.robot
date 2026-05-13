@@ -390,6 +390,14 @@ Perform Capsule Update
     VAR    ${capsule_fs_path}=    ${capsule_file}
     Set Startup Nsh Variable    capsule_file    ${capsule_fs_path}
     Set Startup Nsh Variable    step    0
+    # If capsules do not survive resets, we are forced to use capsule on disk
+    IF    ${CAPSULE_DOES_NOT_PERSIST_ACROSS_RESET} and ${CAPSULE_ON_DISK_SUPPORT}
+        Set Startup Nsh Capsule On Disk Variable    1
+    ELSE
+        # Capsule will likely fail if CAPSULE_DOES_NOT_PERSIST_ACROSS_RESET is True
+        # and CAPSULE_ON_DISK_SUPPORT is False. BUt that should be desired outcome.
+        Set Startup Nsh Capsule On Disk Variable    0
+    END
     Set Nextboot Bootentry    ${CAPSULE_UPDATE_SHELL_BOOTENTRY_NAME}
     Execute Reboot Command    assume_correct_boot=${True}
     VAR    ${menu}=    NOT_SET
@@ -606,3 +614,10 @@ Get CUP Environment Variables
     ...    depending on the configuration used during testing
     ${rc0}=    Get Environment Variable    name=CAPSULE_UPDATE_RC0_FW_FILE
     VAR    ${CAPSULE_UPDATE_RC0_FW_FILE}=    ${rc0}    scope=SUITE
+
+Set Startup Nsh Capsule On Disk Variable
+    [Documentation]    Sets the variable that controls the Capsuel on Disk in
+    ...    the startup.nsh script located in the EFI shell workspace.
+    [Arguments]    ${value}
+    VAR    ${target}=    ${CAPSULE_UPDATE_SHELL_DIR}/variable_step.nsh
+    Execute Command In Terminal    echo "set CAPSULE_ON_DISK ${value}" >> '${target}'

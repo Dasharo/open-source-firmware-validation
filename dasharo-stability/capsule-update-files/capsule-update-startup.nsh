@@ -37,7 +37,11 @@ set LOG_FILE %CAPSULE_WORKSPACE%\logs.txt
 
 # Step 0 - launch capsule update
 if "%STEP%" == "0" then
-    %CAPSULE_FS%:CapsuleApp.efi "%CAPSULE_WORKSPACE%\%CAPSULE_FILE%" -NR
+    if "%CAPSULE_ON_DISK%" == "0" then
+        %CAPSULE_FS%:CapsuleApp.efi "%CAPSULE_WORKSPACE%\%CAPSULE_FILE%" -NR
+    else
+        %CAPSULE_FS%:CapsuleApp.efi "%CAPSULE_WORKSPACE%\%CAPSULE_FILE%" -NR -OD
+    endif
     stall 5000000
     reset
 endif
