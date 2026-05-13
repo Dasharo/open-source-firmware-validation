@@ -293,6 +293,7 @@ ${CAPSULE_UPDATE_SUPPORT}=                          ${FALSE}
 # to ${FALSE}.
 ${CAPSULE_UPDATE_IN_FUM_SUPPORT}=                   ${TRUE}
 ${CAPSULE_UPDATE_V2_SUPPORT}=                       ${FALSE}
+${FUM_BOOT_IPXE_FOR_AUTO_UPDATE}=                   ${TRUE}
 
 # Test module: trenchboot
 ${TRENCHBOOT_SUPPORT}=                              ${FALSE}

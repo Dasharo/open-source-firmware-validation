@@ -15,6 +15,34 @@ Resource            ../../keywords.robot
 
 
 *** Keywords ***
+Press Boot Menu Key
+    [Documentation]
+    ...    Press tianocore boot menu key mapped in keys list.
+    ...
+    ...    === Requirements ===
+    ...    - Serial port connection has to be supported by the platform
+    ...    - Has to be called in quick succession after Enter Boot Menu Tianocore
+    ...    \ keyword or right after reading TIANOCORE_STRING
+    ...
+    ...    === Arguments ===
+    ...    None
+    ...
+    ...    === Return Value ===
+    ...    None
+    ...
+    ...    === Effects ===
+    ...    - UEFI Boot menu key is pressed
+    IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
+        Single Key PiKVM    ${BOOT_MENU_KEY}
+    ELSE
+        Write Bare Into Terminal    ${BOOT_MENU_KEY}
+    END
+    IF    ${LAPTOP_EC_SERIAL_WORKAROUND} == ${TRUE}
+        # FIXME: Laptop EC serial workaround
+        Press Key N Times    1    ${ARROW_DOWN}
+        Press Key N Times    1    ${ARROW_UP}
+    END
+
 Enter Boot Menu Tianocore
     [Documentation]
     ...    Enter Boot Menu with tianocore boot menu key mapped in
@@ -35,16 +63,7 @@ Enter Boot Menu Tianocore
     ...    - UEFI Boot menu is entered
 
     Read From Terminal Until    ${TIANOCORE_STRING}
-    IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
-        Single Key PiKVM    ${BOOT_MENU_KEY}
-    ELSE
-        Write Bare Into Terminal    ${BOOT_MENU_KEY}
-    END
-    IF    ${LAPTOP_EC_SERIAL_WORKAROUND} == ${TRUE}
-        # FIXME: Laptop EC serial workaround
-        Press Key N Times    1    ${ARROW_DOWN}
-        Press Key N Times    1    ${ARROW_UP}
-    END
+    Press Boot Menu Key
 
 Get Boot Menu Construction
     [Documentation]

@@ -142,8 +142,8 @@ Login To Booted OS
 
 Boot And Login To OS
     [Documentation]    Universal kw to boot an OS and log in to its shell.
-    [Arguments]    ${env_id}    ${try_recover_from_invalid_os_booted}=${TRUE}
-    Boot System Or From Connected Disk    ${env_id}
+    [Arguments]    ${env_id}    ${boot_menu}=NOT_SET    ${try_recover_from_invalid_os_booted}=${TRUE}
+    Boot System Or From Connected Disk    ${env_id}    ${boot_menu}
     Login To Booted OS    ${try_recover_from_invalid_os_booted}
 
 Serial Root Login Linux
