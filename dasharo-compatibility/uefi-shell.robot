@@ -34,7 +34,10 @@ USH001.001 UEFI Shell
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    USH001.001 not supported
     Power On
     Enter UEFI Shell
-    ${shell_dump_handle}=    Execute UEFI Shell Command    dh    60s
+    # Server platforms have a lot more devices, so more handles will be printed
+    # by dh command. With serial console it takes a lot of time to print everything
+    # due to slow screen scrolling on the graphical display. Give it 3 minutes
+    ${shell_dump_handle}=    Execute UEFI Shell Command    dh    180s
 
     Should Not Contain    ${shell_dump_handle}    LoadedImage(Shell)
     ...    UEFI Shell sourced from Dasharo FW image!
