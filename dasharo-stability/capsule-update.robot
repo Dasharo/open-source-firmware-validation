@@ -373,6 +373,7 @@ CUP260.101 Capsule update in Firmware Update Mode works (EDK2 UEFI)
     [Documentation]    Check if capsule update works when in Firmware Update
     ...    Mode
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}
+    Skip If    ${CAPSULE_DOES_NOT_PERSIST_ACROSS_RESET}    Capsules do not survive reset on this platform
     Skip If    "${OPTIONS_LIB}" == "options-lib_dcu"
     Skip If
     ...    not ${CAPSULE_UPDATE_IN_FUM_SUPPORT}

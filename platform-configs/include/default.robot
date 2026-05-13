@@ -294,6 +294,7 @@ ${CAPSULE_UPDATE_SUPPORT}=                          ${FALSE}
 ${CAPSULE_UPDATE_IN_FUM_SUPPORT}=                   ${TRUE}
 ${CAPSULE_UPDATE_V2_SUPPORT}=                       ${FALSE}
 ${FUM_BOOT_IPXE_FOR_AUTO_UPDATE}=                   ${TRUE}
+${CAPSULE_DOES_NOT_PERSIST_ACROSS_RESET}=           ${FALSE}
 
 # Test module: trenchboot
 ${TRENCHBOOT_SUPPORT}=                              ${FALSE}
