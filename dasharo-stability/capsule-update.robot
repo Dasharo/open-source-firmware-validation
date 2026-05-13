@@ -658,7 +658,7 @@ Handle Capsule Update Screens
 
 Handle FUM Screen
     ${out}=    Read From Terminal Until Regexp    (${TIANOCORE_STRING})|(${FUM_DIALOG_TOP})
-    IF    '${FUM_DIALOG_TOP}' in ${out}
+    IF    '${FUM_DIALOG_TOP}' in $out
         ${fum_screen}=    Read From Terminal Until    ${FUM_DIALOG_BOTTOM}
         ${digit}=    Get Key To Press    ${fum_screen}
         Write Bare Into Terminal    ${digit}
@@ -670,7 +670,7 @@ Handle FUM Screen
         # after Handle FUM Screen will fail waiting for TIANOCORE_STRING again.
         # Thus we return the boot menu construction and the state of FUM screen,
         # so that we can pass the menu to OS booting keyword.
-        IF    '${TIANOCORE_STRING}' in ${out}
+        IF    '${TIANOCORE_STRING}' in $out
             Press Boot Menu Key
             ${menu}=    Get Boot Menu Construction
             RETURN    ${FALSE}    ${menu}
