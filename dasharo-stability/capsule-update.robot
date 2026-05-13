@@ -590,10 +590,14 @@ Perform Capsule Update
     VAR    ${capsule_fs_path}=    ${capsule_file}
     Set Startup Nsh Variable    capsule_file    ${capsule_fs_path}
     Set Startup Nsh Variable    step    0
-    IF    ${ondisk}
+    # Use capsule on disk when explicitly requested, or when capsules do not
+    # survive resets and on-disk is supported (otherwise the capsule will likely
+    # fail, which is the desired outcome on such platforms).
+    IF    ${ondisk} or (${CAPSULE_DOES_NOT_PERSIST_ACROSS_RESET} and ${CAPSULE_ON_DISK_SUPPORT})
         Set Startup Nsh Variable    ondisk    1
     ELSE
         Set Startup Nsh Variable    ondisk    0
+    END
     END
     Set Nextboot Bootentry    ${CAPSULE_UPDATE_SHELL_BOOTENTRY_NAME}
     Execute Reboot Command    assume_correct_boot=${True}
