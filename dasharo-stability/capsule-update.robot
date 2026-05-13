@@ -41,6 +41,8 @@ ${FUM_DIALOG_TOP}=                          Update Mode. All firmware write prot
 ${FUM_DIALOG_BOTTOM}=                       The platform will automatically reboot and disable Firmware Update Mode
 ${WRONG_KEYS_CAPSULE_STATUS}=               Capsule Status: Security Violation
 ${WRONG_GUID_CAPSULE_STATUS}=               Capsule Status: Not Ready
+${WRONG_KEYS_CAPSULE_ON_DISK_STATUS}=       Status of payload: Security Violation
+${WRONG_GUID_CAPSULE_ON_DISK_STATUS}=       Firmware GUID wasn't recognized (error: Not Ready)
 # Paths used by SSH-only capsule updates to stage files under the EFI shell workspace
 ${UEFI_SHELL_BOOT_DIR}=                     /boot/efi
 ${CAPSULE_UPDATE_SHELL_DIR}=                ${UEFI_SHELL_BOOT_DIR}/capsule_testing
@@ -51,13 +53,21 @@ ${CAPSULE_UPDATE_SHELL_BOOTENTRY_NAME}=     UEFI Shell
 CUP001.001 Capsule Update With Wrong Keys
     [Documentation]    Check that DUT rejects flashing a capsule signed with invalid certificate.
     ${status}    ${version_changed}=    Perform Capsule Update And Return Status    wrong_cert.cap
-    Should Contain    ${status}    ${WRONG_KEYS_CAPSULE_STATUS}
+    IF    ${CAPSULE_DOES_NOT_PERSIST_ACROSS_RESET} and ${CAPSULE_ON_DISK_SUPPORT}
+        Should Contain    ${status}    ${WRONG_KEYS_CAPSULE_ON_DISK_STATUS}
+    ELSE
+        Should Contain    ${status}    ${WRONG_KEYS_CAPSULE_STATUS}
+    END
     Should Not Be True    ${version_changed}
 
 CUP002.001 Capsule Update With Wrong GUID
     [Documentation]    Check that DUT rejects flashing a capsule with invalid GUID.
     ${status}    ${version_changed}=    Perform Capsule Update And Return Status    invalid_guid.cap
-    Should Contain    ${status}    ${WRONG_GUID_CAPSULE_STATUS}
+    IF    ${CAPSULE_DOES_NOT_PERSIST_ACROSS_RESET} and ${CAPSULE_ON_DISK_SUPPORT}
+        Should Contain    ${status}    ${WRONG_GUID_CAPSULE_ON_DISK_STATUS}
+    ELSE
+        Should Contain    ${status}    ${WRONG_GUID_CAPSULE_STATUS}
+    END
     Should Not Be True    ${version_changed}
 
 CUP003.001 Capsule Update with wrong BtG key
@@ -86,8 +96,12 @@ CUP150.001 Capsule Update
     ...    to keep the number of actual FW updates to minimum to prevent chip degradation.
     ${status}    ${version_changed}=    Perform Capsule Update And Return Status    valid_capsule.cap
     Should Be True    ${version_changed}
-    Should Contain    ${status}    CapsuleMax
-    Should Not Contain    ${status}    CapsuleLast
+    IF    ${CAPSULE_DOES_NOT_PERSIST_ACROSS_RESET} and ${CAPSULE_ON_DISK_SUPPORT}
+        Should Contain    ${status}    Firmware Update Succeeded
+    ELSE
+        Should Contain    ${status}    CapsuleMax
+        Should Not Contain    ${status}    CapsuleLast
+    END
 
 CUP160.001 Verifying BIOS Settings Persistence After Update - PART 2
     Power On
@@ -276,7 +290,14 @@ Perform Capsule Update And Return Status
 
     Perform Capsule Update    ${capsule_file}
 
-    Power On
+    IF    ${CAPSULE_DOES_NOT_PERSIST_ACROSS_RESET} and ${CAPSULE_ON_DISK_SUPPORT} and '${INITIAL_DUT_CONNECTION_METHOD}' != 'SSH'
+        # This path should only be executed if Capsule Update reporting is enabled
+        ${logs}=    Read From Terminal Until    ENTER to reboot
+        Press Key N Times    1    ${ENTER}
+    ELSE
+        Power On
+    END
+
     Boot System Or From Connected Disk    ${DEFAULT_BOOT_OS_ID}
     Login To Linux With Root Privileges
     ${updated_bios_version}=    Get BIOS Version Linux    After update
@@ -284,6 +305,11 @@ Perform Capsule Update And Return Status
     ...    Should Not Be Equal
     ...    ${original_bios_version}
     ...    ${updated_bios_version}
+
+    IF    ${CAPSULE_DOES_NOT_PERSIST_ACROSS_RESET} and ${CAPSULE_ON_DISK_SUPPORT}
+        RETURN    ${logs}    ${version_changed}
+    END
+
     ${logs}=    Get Capsule Update Logs
     RETURN    ${logs}    ${version_changed}
 
@@ -395,11 +421,15 @@ Perform Capsule Update
         Set Startup Nsh Capsule On Disk Variable    1
     ELSE
         # Capsule will likely fail if CAPSULE_DOES_NOT_PERSIST_ACROSS_RESET is True
-        # and CAPSULE_ON_DISK_SUPPORT is False. BUt that should be desired outcome.
+        # and CAPSULE_ON_DISK_SUPPORT is False. But that should be desired outcome.
         Set Startup Nsh Capsule On Disk Variable    0
     END
     Set Nextboot Bootentry    ${CAPSULE_UPDATE_SHELL_BOOTENTRY_NAME}
     Execute Reboot Command    assume_correct_boot=${True}
+    # Capsule on Disk may halt on pop-up if an error occurs do not attempt to boot OS
+    IF    ${CAPSULE_DOES_NOT_PERSIST_ACROSS_RESET} and ${CAPSULE_ON_DISK_SUPPORT}
+        RETURN
+    END
     VAR    ${menu}=    NOT_SET
     # uefi shell runs and reboots the platform
     IF    '${OPTIONS_LIB}' == 'options-lib_uefi-setup-menu'
