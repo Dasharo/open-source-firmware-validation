@@ -194,7 +194,11 @@ CUP260.101 Capsule update in Firmware Update Mode works
     ...    Mode
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}
     Skip If    "${OPTIONS_LIB}" == "options-lib_dcu"
-    Power On
+    IF    ${FUM_BOOT_IPXE_FOR_AUTO_UPDATE}
+        Power On
+    ELSE
+        Set UEFI Option    NetworkBoot    ${TRUE}
+    END
     # Enable FUM
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
@@ -202,12 +206,21 @@ CUP260.101 Capsule update in Firmware Update Mode works
     Enter Submenu From Snapshot    ${security_menu}    Enter Firmware Update Mode
     Read From Terminal Until    Press ENTER to continue and reboot
     Press Enter
-    Handle FUM Screen
-    # Stop iPXE from booting default option as it contains workaround for this
-    # issue
-    Read From Terminal Until    efi/FirmwareUpdateMode:hex = 01
-    Press Key N Times    1    ${CTRL_C}
-    Enter IPXE Shell Submenu
+    ${fum_appeared}    ${menu}=    Handle FUM Screen
+    IF    ${FUM_BOOT_IPXE_FOR_AUTO_UPDATE}
+        # Stop iPXE from booting default option as it contains workaround for this
+        # issue
+        Read From Terminal Until    efi/FirmwareUpdateMode:hex = 01
+        Press Key N Times    1    ${CTRL_C}
+        Enter IPXE Shell Submenu
+    ELSE
+        IF    ${fum_appeared}
+            Enter Submenu From Snapshot    ${menu}    ${IPXE_BOOT_ENTRY}
+            Enter IPXE Shell Submenu
+        ELSE
+            Enter IPXE
+        END
+    END
     Execute Command In Terminal    dhcp
     # Write Bare allows to set interval between each character which might be
     # needed on slower platforms/serial connection
@@ -378,23 +391,36 @@ Perform Capsule Update
     Set Startup Nsh Variable    step    0
     Set Nextboot Bootentry    ${CAPSULE_UPDATE_SHELL_BOOTENTRY_NAME}
     Execute Reboot Command    assume_correct_boot=${True}
+    VAR    ${menu}=    NOT_SET
     # uefi shell runs and reboots the platform
     IF    '${OPTIONS_LIB}' == 'options-lib_uefi-setup-menu'
         # If serial console supported, then FUM dialog will be shown
         # Confirm update by following instructions of Firmware Update Mode dialog
         Read From Terminal Until    ${TIANOCORE_STRING}    # booting UEFI Shell
-        Handle FUM Screen
+        ${fum_appeared}    ${menu}=    Handle FUM Screen
     END
-    Boot And Login To OS    ${DEFAULT_BOOT_OS_ID}
+    Boot And Login To OS    ${DEFAULT_BOOT_OS_ID}    boot_menu=${menu}
 
 Handle FUM Screen
     ${out}=    Read From Terminal Until Regexp    (${TIANOCORE_STRING})|(${FUM_DIALOG_TOP})
-    IF    '${FUM_DIALOG_TOP}' in $out
+    IF    '${FUM_DIALOG_TOP}' in ${out}
         ${fum_screen}=    Read From Terminal Until    ${FUM_DIALOG_BOTTOM}
         ${digit}=    Get Key To Press    ${fum_screen}
         Write Bare Into Terminal    ${digit}
+        RETURN    ${TRUE}    NOT_SET
     ELSE
         Log    FUM screen did not appear    WARN
+        # If FUM screen did not apper, we already have consumed
+        # the TIANOCORE_STRING. So any keyword that attempts to boot an OS
+        # after Handle FUM Screen will fail waiting for TIANOCORE_STRING again.
+        # Thus we return the boot menu construction and the state of FUM screen,
+        # so that we can pass the menu to OS booting keyword.
+        IF    '${TIANOCORE_STRING}' in ${out}
+            Press Boot Menu Key
+            ${menu}=    Get Boot Menu Construction
+            RETURN    ${FALSE}    ${menu}
+        END
+        RETURN    ${FALSE}    NOT_SET
     END
 
 Get File Name Without Extension
