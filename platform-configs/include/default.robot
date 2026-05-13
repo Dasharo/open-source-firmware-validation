@@ -272,6 +272,7 @@ ${USB_TYPE_A_DEVICES_DETECTION_SUPPORT}=            ${FALSE}
 ${NETWORK_INTERFACE_AFTER_SUSPEND_SUPPORT}=         ${FALSE}
 ${CAPSULE_UPDATE_SUPPORT}=                          ${FALSE}
 ${FUM_BOOT_IPXE_FOR_AUTO_UPDATE}=                   ${TRUE}
+${CAPSULE_DOES_NOT_PERSIST_ACROSS_RESET}=           ${FALSE}
 
 # Test module: trenchboot
 ${TRENCHBOOT_SUPPORT}=                              ${FALSE}

@@ -193,6 +193,7 @@ CUP260.101 Capsule update in Firmware Update Mode works
     [Documentation]    Check if capsule update works when in Firmware Update
     ...    Mode
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}
+    Skip If    ${CAPSULE_DOES_NOT_PERSIST_ACROSS_RESET}    Capsules do not survive reset on this platform
     Skip If    "${OPTIONS_LIB}" == "options-lib_dcu"
     IF    ${FUM_BOOT_IPXE_FOR_AUTO_UPDATE}
         Power On
