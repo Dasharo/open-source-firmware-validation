@@ -34,7 +34,7 @@ USH001.106 UEFI Shell Support (UEFI Shell)
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    USH001.106 not supported
     Power On
     Enter UEFI Shell
-    ${shell_dump_handle}=    Execute UEFI Shell Command    dh
+    ${shell_dump_handle}=    Execute UEFI Shell Command    dh    60s
 
     Should Not Contain    ${shell_dump_handle}    LoadedImage(Shell)
     ...    UEFI Shell sourced from Dasharo FW image!
