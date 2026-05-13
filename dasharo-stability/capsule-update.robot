@@ -66,6 +66,8 @@ ${V2_RESULT_SCREEN_BOTTOM}=
 # Capsule Statuses for verification of update rejection
 ${WRONG_KEYS_CAPSULE_STATUS}=                   Security Violation
 ${WRONG_GUID_CAPSULE_STATUS}=                   Not Ready
+${WRONG_KEYS_CAPSULE_ON_DISK_STATUS}=           Status of payload: Security Violation
+${WRONG_GUID_CAPSULE_ON_DISK_STATUS}=           Firmware GUID wasn't recognized (error: Not Ready)
 
 # Setup related variables
 # # Paths used by SSH-only capsule updates to stage files under the EFI shell workspace
@@ -131,7 +133,11 @@ CUP001.101 Capsule Update With Wrong Keys (EDK2 UEFI)
     ${status}    ${version_changed}=    Perform Capsule Update And Return Status
     ...    wrong_cert.cap
     ...    manual_v2_results_screen=${manual_gui}
-    Should Contain    ${status}    ${WRONG_KEYS_CAPSULE_STATUS}
+    IF    ${CAPSULE_DOES_NOT_PERSIST_ACROSS_RESET} and ${CAPSULE_ON_DISK_SUPPORT}
+        Should Contain    ${status}    ${WRONG_KEYS_CAPSULE_ON_DISK_STATUS}
+    ELSE
+        Should Contain    ${status}    ${WRONG_KEYS_CAPSULE_STATUS}
+    END
     Should Not Be True    ${version_changed}
 
 CUP280.101 Capsule Update V2 Failure Screen Wrong Keys (EDK2 UEFI)
@@ -165,7 +171,11 @@ CUP002.101 Capsule Update With Wrong GUID (EDK2 UEFI)
     ${status}    ${version_changed}=    Perform Capsule Update And Return Status
     ...    invalid_guid.cap
     ...    manual_v2_results_screen=${manual_gui}
-    Should Contain    ${status}    ${WRONG_GUID_CAPSULE_STATUS}
+    IF    ${CAPSULE_DOES_NOT_PERSIST_ACROSS_RESET} and ${CAPSULE_ON_DISK_SUPPORT}
+        Should Contain    ${status}    ${WRONG_GUID_CAPSULE_ON_DISK_STATUS}
+    ELSE
+        Should Contain    ${status}    ${WRONG_GUID_CAPSULE_STATUS}
+    END
     Should Not Be True    ${version_changed}
 
 CUP281.101 Capsule Update V2 Failure Screen Wrong GUID (EDK2 UEFI)
@@ -229,8 +239,12 @@ CUP150.101 Capsule Update (EDK2 UEFI)
     ...    valid_capsule.cap
     ...    manual_v2_results_screen=${verify_results_screen}
     Should Be True    ${version_changed}
-    Should Contain    ${status}    CapsuleMax
-    Should Not Contain    ${status}    CapsuleLast
+    IF    ${CAPSULE_DOES_NOT_PERSIST_ACROSS_RESET} and ${CAPSULE_ON_DISK_SUPPORT}
+        Should Contain    ${status}    Firmware Update Succeeded
+    ELSE
+        Should Contain    ${status}    CapsuleMax
+        Should Not Contain    ${status}    CapsuleLast
+    END
 
 CUP151.101 Capsule Update Production Keys (EDK2 UEFI)
     [Documentation]    Check for a successful Capsule Update using the production keys.
@@ -481,7 +495,14 @@ Perform Capsule Update And Return Status
     ...    ondisk=${ondisk}
     ...    manual_v2_results_screen=${manual_v2_results_screen}
 
-    Power On
+    IF    ${CAPSULE_DOES_NOT_PERSIST_ACROSS_RESET} and ${CAPSULE_ON_DISK_SUPPORT} and '${INITIAL_DUT_CONNECTION_METHOD}' != 'SSH'
+        # This path should only be executed if Capsule Update reporting is enabled
+        ${logs}=    Read From Terminal Until    ENTER to reboot
+        Press Key N Times    1    ${ENTER}
+    ELSE
+        Power On
+    END
+
     Boot System Or From Connected Disk    ${DEFAULT_BOOT_OS_ID}
     Login To Linux With Root Privileges
     Deploy Uefi Shell    os_logged_in=${TRUE}
@@ -491,6 +512,11 @@ Perform Capsule Update And Return Status
     ...    Should Not Be Equal
     ...    ${original_bios_version}
     ...    ${updated_bios_version}
+
+    IF    ${CAPSULE_DOES_NOT_PERSIST_ACROSS_RESET} and ${CAPSULE_ON_DISK_SUPPORT}
+        RETURN    ${logs}    ${version_changed}
+    END
+
     ${logs}=    Get Capsule Update Logs
     RETURN    ${logs}    ${version_changed}
 
@@ -598,9 +624,12 @@ Perform Capsule Update
     ELSE
         Set Startup Nsh Variable    ondisk    0
     END
-    END
     Set Nextboot Bootentry    ${CAPSULE_UPDATE_SHELL_BOOTENTRY_NAME}
     Execute Reboot Command    assume_correct_boot=${True}
+    # Capsule on Disk may halt on pop-up if an error occurs do not attempt to boot OS
+    IF    ${CAPSULE_DOES_NOT_PERSIST_ACROSS_RESET} and ${CAPSULE_ON_DISK_SUPPORT}
+        RETURN
+    END
     # uefi shell runs and reboots the platform
     IF    '${OPTIONS_LIB}' == 'options-lib_uefi-setup-menu'
         # Depending on: Serial Console support, V2 capsules support, whether FUM confirmation is used
