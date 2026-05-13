@@ -498,6 +498,7 @@ Perform Capsule Update And Return Status
     IF    ${CAPSULE_DOES_NOT_PERSIST_ACROSS_RESET} and ${CAPSULE_ON_DISK_SUPPORT} and '${INITIAL_DUT_CONNECTION_METHOD}' != 'SSH'
         # This path should only be executed if Capsule Update reporting is enabled
         ${logs}=    Read From Terminal Until    ENTER to reboot
+        Sleep    2s
         Press Key N Times    1    ${ENTER}
     ELSE
         Power On
