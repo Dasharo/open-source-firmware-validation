@@ -290,10 +290,26 @@ Perform Capsule Update And Return Status
 
     Perform Capsule Update    ${capsule_file}
 
-    IF    ${CAPSULE_DOES_NOT_PERSIST_ACROSS_RESET} and ${CAPSULE_ON_DISK_SUPPORT} and '${INITIAL_DUT_CONNECTION_METHOD}' != 'SSH'
-        # This path should only be executed if Capsule Update reporting is enabled
+    # TODO: Only if Capsule Update reporting is enabled
+    IF    ${CAPSULE_DOES_NOT_PERSIST_ACROSS_RESET} and ${CAPSULE_ON_DISK_SUPPORT}
+        IF    '${INITIAL_DUT_CONNECTION_METHOD}' == 'SSH'
+            Fail    Cannot read logs from Capsule on Disk with SSH connection
+        END
+        # Couple more checkpoints before waiting for capsule update completion
+        Read From Terminal Until    Shell>
+        Read From Terminal Until    Succeed to write ${capsule_file}
+        # Give the capsuel enough time to actually finish the update
+        # On AMD servers where the boot time is long because of PSP, we may not
+        # have enough time to wait for pop-up with default response timeout
+        ${prev_timeout}=    Set DUT Response Timeout    500s
         ${logs}=    Read From Terminal Until    ENTER to reboot
-        Sleep    2s
+        Set DUT Response Timeout    ${prev_timeout}
+        # The ENTER key does not seem to be picked immediately after we read
+        # the "ENTER to reboot" string from the pop-up. Probably because of
+        # the color change of the pop-up on the screen after it is initially
+        # drawn. It likely delays the key polling in firmware and drops the
+        # premature key presses.
+        Sleep    3s
         Press Key N Times    1    ${ENTER}
     ELSE
         Power On
