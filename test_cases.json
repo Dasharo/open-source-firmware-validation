@@ -11544,6 +11544,13 @@
   },
   {
     "doc": {
+      "_id": "WOL001.201",
+      "name": "Wake On LAN works (Ubuntu)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
       "_id": "WTD006.201",
       "name": "Watchdog resets platform on kernel crash (Ubuntu)",
       "module": "Dasharo Compatibility"
