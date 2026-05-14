@@ -161,6 +161,8 @@ NVMe SATA Disabling Check In OS
     ...    lspci -vvv | grep -A 50 "Non-Volatile memory controller" | grep -m1 "LnkCap:"
     ${lnkctl_line}=    Execute Command In Terminal
     ...    lspci -vvv | grep -A 50 "Non-Volatile memory controller" | grep -m1 "LnkCtl:"
+    Should Not Be Empty    ${lnkcap_line}
+    Should Not Be Empty    ${lnkctl_line}
     Should Contain    ${lnkcap_line}    ${NVME_LNKCAP}
     Should Contain    ${lnkctl_line}    ${NVME_LNKCTL}
     Exit From Root User
