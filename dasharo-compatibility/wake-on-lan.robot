@@ -29,8 +29,9 @@ WOL001.201 Wake On LAN works (Ubuntu)
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
-    ${iface}=    Execute Command In Terminal    ls /sys/class/net | grep -E '^(en|eth)' | head -n1
-    ${iface}=    Strip String    ${iface}
+    ${net_ls}=    Execute Command In Terminal    ls -1 /sys/class/net
+    # Filter in Python: keep en/eth interfaces, exclude SFP ports (np appears after position 3)
+    ${iface}=    Evaluate    [i for i in """${net_ls}""".split() if i.startswith('en') and 'np' not in i[3:]][0]
     Log To Console    Interface: ${iface}
     ${mac}=    Get Interface MAC    ${iface}
     Log To Console    Interface MAC: ${mac}
@@ -62,20 +63,26 @@ Suspend Remote System
 
 Send WOL Packet From Local
     [Arguments]    ${mac}
+    # Send magic packet as unicast to DEVICE_IP — unicast is routed so it crosses
+    # subnet boundaries, unlike broadcast. Relies on ARP entry being fresh in the
+    # router cache (typically valid for minutes, enough for a 15s suspend).
     ${result}=    Run Process
-    ...    wakeonlan
-    ...    ${mac}
+    ...    wakeonlan    -i    ${DEVICE_IP}    ${mac}
     ...    shell=True
-    ...    stdout=TRUE
-    ...    stderr=TRUE
     Log    ${result.stdout}
+    Should Be Equal As Integers    ${result.rc}    0    msg=wakeonlan failed: ${result.stderr}
 
 Wait For System After WOL
-    [Documentation]    Wait until system responds to ping after WoL.
+    [Documentation]    Wait until system responds to ping after WoL, then verify shell prompt
+    ...    is restored. An empty line on the terminal (no prompt) indicates incomplete wake-up
+    ...    and would be a false positive if only ping were checked.
     Wait Until Keyword Succeeds
     ...    2 min
     ...    10 sec
     ...    Ping Remote Host
+    Read From Terminal
+    Write Bare Into Terminal    ${ENTER}
+    Read From Terminal Until Prompt
 
 Ping Remote Host
     ${result}=    Run Process
