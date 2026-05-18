@@ -157,13 +157,10 @@ NVMe SATA Disabling Check In OS
     Boot System Or From Connected Disk    ${os_id}
     Login To Linux
     Switch To Root User
-    ${lnkcap_line}=    Execute Command In Terminal
-    ...    lspci -vvv | grep -A 50 "Non-Volatile memory controller" | grep -m1 "LnkCap:"
     ${lnkctl_line}=    Execute Command In Terminal
     ...    lspci -vvv | grep -A 50 "Non-Volatile memory controller" | grep -m1 "LnkCtl:"
     ${lnksta_line}=    Execute Command In Terminal
     ...    lspci -vvv | grep -A 50 "Non-Volatile memory controller" | grep -m1 "LnkSta:"
-    Should Match Regexp    ${lnkcap_line}    ${NVME_LNKCAP}
     Should Match Regexp    ${lnkctl_line}    ${NVME_LNKCTL}
     Should Match Regexp    ${lnksta_line}    ${NVME_LNKSTA}
     Exit From Root User

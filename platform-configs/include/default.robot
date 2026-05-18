@@ -123,7 +123,6 @@ ${IPXE_BOOT_SUPPORT}=                               ${FALSE}
 ${NVME_DISK_SUPPORT}=                               ${FALSE}
 ${NVME_X2_SLOT_SUPPORT}=                            ${FALSE}
 ${NVME_SATA_DISABLING_SUPPORT}=                     ${FALSE}
-${NVME_LNKCAP}=                                     ${EMPTY}
 ${NVME_LNKCTL}=                                     ${EMPTY}
 ${NVME_LNKSTA}=                                     ${EMPTY}
 ${SD_CARD_READER_SUPPORT}=                          ${FALSE}

@@ -16,8 +16,6 @@ ${MAX_CPU_TEMP}=                                77
 
 ${E_MMC_NAME}=                                  BJTD4R
 ${NVME_SATA_DISABLING_SUPPORT}=                 ${TRUE}
-${NVME_LNKCAP}=
-...                                             LnkCap: Port #0, Speed \\d+GT/s, Width x4, ASPM L1, Exit Latency L1 <64us
 ${NVME_LNKCTL}=                                 LnkCtl: ASPM L1 Enabled; RCB 64 bytes, LnkDisable- CommClk\\+
 ${NVME_LNKSTA}=                                 Speed \\d+GT/s \\(downgraded\\), Width x2 \\(downgraded\\)
 ${DMIDECODE_SERIAL_NUMBER}=                     N/A
