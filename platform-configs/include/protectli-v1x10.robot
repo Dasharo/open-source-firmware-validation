@@ -16,8 +16,9 @@ ${MAX_CPU_TEMP}=                                77
 
 ${E_MMC_NAME}=                                  BJTD4R
 ${NVME_SATA_DISABLING_SUPPORT}=                 ${TRUE}
-${NVME_LNKCAP}=                                 LnkCap: Port #0, Speed 8GT/s, Width x4, ASPM L1, Exit Latency L1 <64us
-${NVME_LNKCTL}=                                 LnkCtl: ASPM L1 Enabled; RCB 64 bytes, LnkDisable- CommClk+
+${NVME_LNKCAP}=
+...                                             LnkCap: Port #0, Speed \d+GT/s, Width x4, ASPM L1, Exit Latency L1 <64us
+${NVME_LNKCTL}=                                 LnkCtl: ASPM L1 Enabled; RCB 64 bytes, LnkDisable- CommClk\+
 ${DMIDECODE_SERIAL_NUMBER}=                     N/A
 ${DMIDECODE_FIRMWARE_VERSION}=                  Dasharo (coreboot+UEFI) v
 ${DMIDECODE_RELEASE_DATE}=                      ${EMPTY}
