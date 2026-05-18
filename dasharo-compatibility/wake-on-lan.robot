@@ -55,7 +55,9 @@ Enable WOL
 
 Suspend Remote System
     [Documentation]    Put system into suspend state.
-    Execute Command In Terminal    systemctl suspend
+    # Write Into Terminal (fire-and-forget) — no prompt returns after suspend.
+    # systemctl suspend fails over SSH (no logind seat session); write directly to kernel.
+    Write Into Terminal    echo mem > /sys/power/state
     Sleep    15s
 
 Send WOL Packet From Local
