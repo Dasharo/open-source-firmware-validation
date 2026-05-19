@@ -51,15 +51,13 @@ FWUPD003.203 Fwupd LVFS Firmware Update (Qubes OS)
     [Documentation]    Test if a firmware update can be performed using fwupd
     ...    and a signed cabinet from LVFS
     [Tags]    semiauto
-    Skip If    '${ENV_ID_QUBES}' not int ${TESTED_LINUX_DISTROS}
-    Execute Manual Step    Power on and boot into Qubes OS
-    Execute Manual Step    Open dom0 terminal
-    Execute Manual Step
-    ...    Run `export ID=$(fwupdmgr get-devices 2>/dev/null | grep -A1 -E "(System Firmware)|(Device Firmware)" | grep "Device ID" | awk '{print $NF}')`
-    Execute Manual Step    Run `yes n | fwupdmgr install \$ID --allow-reinstall --allow-older`
-    Execute Manual Step
-    ...    Should not print any of: `failed to find`, `No updatable devices`, `No releases found`, `no devices`
-    Execute Manual Step    Should print `Successfully installed firmware`
+    Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}
+    Skip If
+    ...    '${POWER_CTRL}'=='none' and ${INCLUDE_TAGS} and 'semiauto' not in ${INCLUDE_TAGS}
+    ...    Semiauto tag not in scope (-i flag)
+    Power On
+    Boot And Login To OS    ${ENV_ID_QUBES}
+    Fwupd LVFS Firmware Update Linux
 
 
 *** Keywords ***
@@ -70,26 +68,36 @@ Run Fwupd LVFS Update
     ...    timeout=300s
     RETURN    ${out}
 
-Fwupd LVFS Firmware Update Linux
-    ${username}=    Get Environment Variable    LVFS_USERNAME    default=${EMPTY}
-    ${password}=    Get Environment Variable    LVFS_PASSWORD    default=${EMPTY}
-    IF    "${username}" != "${EMPTY}" and "${password}" != "${EMPTY}"
-        VAR    ${use_embargo}=    ${TRUE}
-        Log    Using an embargoed LVFS channel    level=WARN
-        Log
-        ...    WARNING: LVFS credentials WILL BE VISIBLE in test logs. Don't share them with anyone. Set test results manually.
-        ...    level=WARN
-        Execute Manual Step
-        ...    WARNING: LVFS credentials WILL BE VISIBLE in test logs. Don't share them with anyone. Set test results manually.
-    ELSE
-        Log    Using public LVFS channel    level=WARN
-        VAR    ${use_embargo}=    ${FALSE}
+Qubes Run Fwupd LVFS Update
+    [Arguments]    ${firmware_id}
+    ${out}=    Execute Command In Terminal
+    ...    yes y | qubes-fwupdmgr install ${firmware_id} --allow-reinstall --allow-older --assume-yes
+    ...    timeout=300s
+    Execute Reboot Command
+    RETURN    ${out}
+
+LVFS Refresh And Install Qubes
+    [Documentation]    The steps differ slightly on QubesOS due to the
+    ...    `qubes-fwupdmgr` wrapper being used.
+    Execute Command In Terminal    qubes-fwupdmgr refresh
+    VAR    ${id_extract_command}=
+    ...    qubes-fwupdmgr get-devices 2>/dev/null
+    ...    grep -A3 -E "(System Firmware)|(Device Firmware)"
+    ...    grep "DeviceId"
+    ...    awk '{print $NF}'
+    ...    separator= |
+    ${firmware_id}=    Execute Command In Terminal    ${id_extract_command}
+    ${out}=    Run Fwupd Update With Battery Check Workaround    Run Fwupd LVFS Update    ${firmware_id}
+    IF    "${POWER_CTRL}"=="none"
+        Execute Manual Step    The laptop might stay powered off after update. Power it back on.
     END
-    Switch To Root User
-    IF    ${use_embargo}
-        Setup Fwupd Embargo Config Linux    ${username}    ${password}
-        Execute Command In Terminal    printf '[fwupd]\\nOnlyTrusted=true\\n' > /etc/fwupd/fwupd.conf
-    END
+    Set DUT Response Timeout    300s
+    Boot System Or From Connected Disk    ${DEFAULT_BOOT_OS_ID}
+    Login To Linux
+    IF    ${USE_EMBARGO}    Clean Up Fwupd Embargo Config Linux
+    RETURN    ${out}
+
+LVFS Refresh And Install
     Execute Command In Terminal    fwupdmgr refresh
     VAR    ${id_extract_command}=
     ...    fwupdmgr get-devices 2>/dev/null
@@ -98,21 +106,47 @@ Fwupd LVFS Firmware Update Linux
     ...    awk '{print $NF}'
     ...    separator= |
     ${firmware_id}=    Execute Command In Terminal    ${id_extract_command}
+    ${out}=    Run Fwupd Update With Battery Check Workaround    Run Fwupd LVFS Update    ${firmware_id}
+    IF    "${POWER_CTRL}"=="none"
+        Execute Manual Step    The laptop might stay powered off after update. Power it back on.
+    END
+    Set DUT Response Timeout    300s
+    Boot System Or From Connected Disk    ${DEFAULT_BOOT_OS_ID}
+    Login To Linux
+    IF    ${USE_EMBARGO}    Clean Up Fwupd Embargo Config Linux
+
+Fwupd LVFS Firmware Update Linux
+    ${username}=    Get Environment Variable    LVFS_USERNAME    default=${EMPTY}
+    ${password}=    Get Environment Variable    LVFS_PASSWORD    default=${EMPTY}
+    IF    "${username}" != "${EMPTY}" and "${password}" != "${EMPTY}"
+        VAR    ${USE_EMBARGO}=    ${TRUE}    scope=SUITE
+        Log    Using an embargoed LVFS channel    level=WARN
+        Log
+        ...    WARNING: LVFS credentials WILL BE VISIBLE in test logs. Don't share them with anyone. Set test results manually.
+        ...    level=WARN
+        Execute Manual Step
+        ...    WARNING: LVFS credentials WILL BE VISIBLE in test logs. Don't share them with anyone. Set test results manually.
+    ELSE
+        Log    Using public LVFS channel    level=WARN
+        VAR    ${USE_EMBARGO}=    ${FALSE}    scope=SUITE
+    END
+    Switch To Root User
+    IF    ${USE_EMBARGO}
+        Setup Fwupd Embargo Config Linux    ${username}    ${password}
+        Execute Command In Terminal    printf '[fwupd]\\nOnlyTrusted=true\\n' > /etc/fwupd/fwupd.conf
+    END
     TRY
-        ${out}=    Run Fwupd Update With Battery Check Workaround    Run Fwupd LVFS Update    ${firmware_id}
-        IF    "${POWER_CTRL}"=="none"
-            Execute Manual Step    The laptop might stay powered off after update. Power it back on.
+        IF    ${BOOTED_OS_ID}==${ENV_ID_QUBES}
+            ${out}=    LVFS Refresh And Install Qubes
+        ELSE
+            ${out}=    LVFS Refresh And Install
         END
-        Set DUT Response Timeout    300s
-        Boot System Or From Connected Disk    ${BOOTED_OS_ID}
-        Login To Linux
-        IF    ${use_embargo}    Clean Up Fwupd Embargo Config Linux
     FINALLY
         # Make sure we clean up the config
         Power On
         Boot System Or From Connected Disk    ${BOOTED_OS_ID}
         Login To Linux
-        IF    ${use_embargo}    Clean Up Fwupd Embargo Config Linux
+        IF    ${USE_EMBARGO}    Clean Up Fwupd Embargo Config Linux
     END
 
     Should Not Contain    ${out}    failed to find    ignore_case=${True}
