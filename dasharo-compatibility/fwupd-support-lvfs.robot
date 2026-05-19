@@ -87,7 +87,7 @@ LVFS Refresh And Install Qubes
     ...    awk '{print $NF}'
     ...    separator= |
     ${firmware_id}=    Execute Command In Terminal    ${id_extract_command}
-    ${out}=    Run Fwupd Update With Battery Check Workaround    Run Fwupd LVFS Update    ${firmware_id}
+    ${out}=    Run Fwupd Update With Battery Check Workaround    Qubes Run Fwupd LVFS Update    ${firmware_id}
     IF    "${POWER_CTRL}"=="none"
         Execute Manual Step    The laptop might stay powered off after update. Power it back on.
     END
@@ -114,6 +114,7 @@ LVFS Refresh And Install
     Boot System Or From Connected Disk    ${DEFAULT_BOOT_OS_ID}
     Login To Linux
     IF    ${USE_EMBARGO}    Clean Up Fwupd Embargo Config Linux
+    RETURN    ${out}
 
 Fwupd LVFS Firmware Update Linux
     ${username}=    Get Environment Variable    LVFS_USERNAME    default=${EMPTY}

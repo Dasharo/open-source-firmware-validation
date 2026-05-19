@@ -130,16 +130,14 @@ Login To Booted OS
         Log    Login failed, attempting fallback across supported OSes.    WARN
         VAR    ${target_os}=    ${BOOTED_OS_ID}
         VAR    ${RECOVERY_IN_PROGRESS}=    ${TRUE}    scope=GLOBAL
-        TRY
-            Recover Broken Bootorder By Trying All Supported OSes
-        FINALLY
-            VAR    ${RECOVERY_IN_PROGRESS}=    ${FALSE}    scope=GLOBAL
-            Load OS Credentials    ${target_os}
-        END
+        ${success}=    Run Keyword And Return Status    Recover Broken Bootorder By Trying All Supported OSes
+        VAR    ${RECOVERY_IN_PROGRESS}=    ${FALSE}    scope=GLOBAL
+        Load OS Credentials    ${target_os}
+        IF    ${success}    RETURN
     ELSE
-        Fail    Login to ${BOOTED_OS_ID} failed.
+        Fail    Login to ${BOOTED_OS_ID} failed and recovery is disabled.
     END
-    Fail    Login to ${BOOTED_OS_ID} failed and recovery is disabled.
+    Fail    Login to ${BOOTED_OS_ID} failed.
 
 Boot And Login To OS
     [Documentation]    Universal kw to boot an OS and log in to its shell.
