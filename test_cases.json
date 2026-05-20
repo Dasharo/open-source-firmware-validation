@@ -6146,6 +6146,20 @@
   },
   {
     "doc": {
+      "_id": "PXE007.001",
+      "name": "Dasharo Network Boot over https not http",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "PXE008.001",
+      "name": "DTS nightly option is available and works correctly",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
       "_id": "QBS001.001",
       "name": "Qubes OS installation",
       "module": "Dasharo Compatibility"
