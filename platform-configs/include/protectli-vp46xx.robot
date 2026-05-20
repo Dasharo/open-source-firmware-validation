@@ -15,8 +15,8 @@ ${E_MMC_NAME}=                      AJTD4R
 
 # IMPORTANT! Update the revisions with new releases
 @{MICROCODE_REVISIONS}=             0x100
-${DMIDECODE_FIRMWARE_VERSION}=      Dasharo (coreboot+UEFI) v1.2.1-rc4
-${DMIDECODE_RELEASE_DATE}=          05/05/2026
+${DMIDECODE_FIRMWARE_VERSION}=      Dasharo (coreboot+UEFI) v1.2.1-rc5
+${DMIDECODE_RELEASE_DATE}=          05/22/2026
 ${DMIDECODE_SERIAL_NUMBER}=         123456789
 ${SERIAL_NUMBER_VERIFICATION}=      ${TRUE}
 
