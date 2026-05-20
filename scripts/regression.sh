@@ -8,6 +8,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "${SCRIPT_DIR}/lib/robot.sh"
 
 # FW_FILE and DEVICE_IP are required for full regression
+resolve_fw_file
 check_env_variable "FW_FILE"
 check_env_variable "DEVICE_IP"
 

@@ -30,6 +30,48 @@ check_test_station_variables() {
   fi
 }
 
+resolve_fw_file() {
+  if [ -n "${FW_FILE}" ] || [ -z "${FW_URI}" ]; then
+    return
+  fi
+
+  local cache_root cache_dir uri_without_query file_name target_file tmp_file
+  cache_root="${FW_CACHE_DIR:-${HOME}/.cache/osfv/firmware}"
+
+  if [ -n "${FW_VERSION}" ]; then
+    cache_dir="${cache_root}/${FW_VERSION}"
+  else
+    cache_dir="${cache_root}"
+  fi
+
+  uri_without_query="${FW_URI%%\?*}"
+  file_name="$(basename "${uri_without_query}")"
+  if [ -z "${file_name}" ] || [ "${file_name}" = "." ] || [ "${file_name}" = "/" ]; then
+    file_name="$(printf '%s' "${FW_URI}" | sha256sum | cut -d ' ' -f 1).rom"
+  fi
+
+  mkdir -p "${cache_dir}"
+  target_file="${cache_dir}/${file_name}"
+
+  if [ ! -f "${target_file}" ]; then
+    tmp_file="${target_file}.tmp.$$"
+    echo "Downloading firmware binary from ${FW_URI} to ${target_file}"
+    if command -v curl >/dev/null 2>&1; then
+      curl --fail --location --retry 3 --output "${tmp_file}" "${FW_URI}"
+    elif command -v wget >/dev/null 2>&1; then
+      wget --output-document="${tmp_file}" "${FW_URI}"
+    else
+      echo "Error: curl or wget is required to download FW_URI."
+      exit 1
+    fi
+    mv "${tmp_file}" "${target_file}"
+  else
+    echo "Using cached firmware binary ${target_file}"
+  fi
+
+  export FW_FILE="${target_file}"
+}
+
 handle_ctrl_c() {
   echo "Ctrl+C pressed. Exiting."
   # You can add cleanup tasks here if needed
@@ -240,6 +282,8 @@ execute_robot() {
   else
     rte_ip_option=""
   fi
+
+  resolve_fw_file
 
   # FW_FILE environment variable is optional for some tests
   if [ -n "${FW_FILE}" ]; then
