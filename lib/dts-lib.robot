@@ -37,6 +37,8 @@ ${DTS_DPP_SEA_MENUPOINT}=                       DPP version (coreboot + SeaBIOS)
 ${DTS_DPP_SLIM_BOOTLOADER_UEFI_MENUPOINT}=      DPP version (Slim Bootloader + UEFI)
 # Default DTS boot type, can be overwritten by CMD:
 ${DTS_BOOT_TYPE}=                               iPXE
+${DTS_IPXE_MENU_ENTRY}=                         Dasharo Tools Suite
+${DTS_IPXE_NIGHTLY_MENU_ENTRY}=                 Dasharo Tools Suite (Nightly)
 # DTS options:
 ${DTS_HCL_OPT}=                                 1
 ${DTS_DEPLOY_OPT}=                              2
@@ -84,6 +86,7 @@ Boot Dasharo Tools Suite Via IPXE Shell
 
 Boot Dasharo Tools Suite Via IPXE Menu
     [Documentation]    Boots DTS via option available in Dasharo iPXE menu.
+    [Arguments]    ${dts_ipxe_menu_entry}=${DTS_IPXE_MENU_ENTRY}
     # 1) Check and enable network boot, it is disabled by default:
     Make Sure That Network Boot Is Enabled
 
@@ -93,7 +96,7 @@ Boot Dasharo Tools Suite Via IPXE Menu
     ${ipxe_menu}=    Get IPXE Boot Menu Construction
 
     # 3) Boot DTS:
-    Enter Submenu From Snapshot    ${ipxe_menu}    Dasharo Tools Suite
+    Enter Submenu From Snapshot    ${ipxe_menu}    ${dts_ipxe_menu_entry}
     Set DUT Response Timeout    5m
     Read From Terminal Until Regexp    \.cpio\.gz\.\.\.|[0-9]\.efi
     Read From Terminal Until    ok
