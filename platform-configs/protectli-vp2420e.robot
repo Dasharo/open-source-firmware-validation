@@ -8,7 +8,7 @@ ${FLASHING_METHOD}=                 internal
 
 ${DMIDECODE_SERIAL_NUMBER}=         N/A
 ${DMIDECODE_FIRMWARE_VERSION}=
-...                                 Dasharo (coreboot+UEFI) v1.2.1-rc3
+...                                 Dasharo (coreboot+UEFI) v1.2.2-rc1
 ${DMIDECODE_PRODUCT_NAME}=          VP2420
 ${DMIDECODE_RELEASE_DATE}=          1/13/2025
 

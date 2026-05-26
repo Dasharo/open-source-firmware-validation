@@ -19,7 +19,7 @@ ${CPU}=                             Intel(R) N100
 
 ${DMIDECODE_SERIAL_NUMBER}=         123456789
 ${DMIDECODE_PRODUCT_NAME}=          VP3210
-${DMIDECODE_FIRMWARE_VERSION}=      Dasharo (coreboot+UEFI) v0.9.0-rc10
+${DMIDECODE_FIRMWARE_VERSION}=      Dasharo (coreboot+UEFI) v0.9.1-rc1
 ${DMIDECODE_RELEASE_DATE}=          03/14/2025
 ${DEF_THREADS_TOTAL}=               4
 ${DEF_THREADS_PER_CORE}=            1
