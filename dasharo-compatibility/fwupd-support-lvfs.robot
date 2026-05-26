@@ -19,7 +19,9 @@ Suite Setup         Run Keywords
 Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
 
-Default Tags        semiauto
+# Both tags set as it needs to be determined dynamically whether
+# it can be performed automatically or not.
+Default Tags        automated    semiauto
 
 
 *** Test Cases ***
