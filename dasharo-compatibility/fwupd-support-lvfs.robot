@@ -50,7 +50,6 @@ FWUPD003.202 Fwupd LVFS Firmware Update (Fedora)
 FWUPD003.203 Fwupd LVFS Firmware Update (Qubes OS)
     [Documentation]    Test if a firmware update can be performed using fwupd
     ...    and a signed cabinet from LVFS
-    [Tags]    semiauto
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}
     Skip If
     ...    '${POWER_CTRL}'=='none' and ${INCLUDE_TAGS} and 'semiauto' not in ${INCLUDE_TAGS}
@@ -92,7 +91,7 @@ LVFS Refresh And Install Qubes
         Execute Manual Step    The laptop might stay powered off after update. Power it back on.
     END
     Set DUT Response Timeout    300s
-    Boot System Or From Connected Disk    ${DEFAULT_BOOT_OS_ID}
+    Boot System Or From Connected Disk    ${BOOTED_OS_ID}
     Login To Linux
     IF    ${USE_EMBARGO}    Clean Up Fwupd Embargo Config Linux
     RETURN    ${out}
@@ -111,7 +110,7 @@ LVFS Refresh And Install
         Execute Manual Step    The laptop might stay powered off after update. Power it back on.
     END
     Set DUT Response Timeout    300s
-    Boot System Or From Connected Disk    ${DEFAULT_BOOT_OS_ID}
+    Boot System Or From Connected Disk    ${BOOTED_OS_ID}
     Login To Linux
     IF    ${USE_EMBARGO}    Clean Up Fwupd Embargo Config Linux
     RETURN    ${out}
