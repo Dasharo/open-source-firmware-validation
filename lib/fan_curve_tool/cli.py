@@ -13,7 +13,7 @@ from .plot import plot as plot_fn
 from .plot import plot_load_grid
 from .sensors import CpuTempReader, FanReader, pick_fan_mode, prepare_sensors
 from .sensors_yaml import SensorsConfig
-from .terminal import SSHTerminal
+from .terminal import Terminal
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -72,10 +72,9 @@ def main(argv: list[str] | None = None) -> int:
 def _gather(args) -> int:
     sensors_cfg = SensorsConfig.load(args.sensors_config)
     fan_mode, spec = pick_fan_mode(sensors_cfg)
-    terminal = SSHTerminal(
+    with Terminal(
         host=args.host, user=args.user, port=args.port, password=args.password
-    )
-    try:
+    ) as terminal:
         prepare_sensors(terminal, sensors_cfg)
         cache = Cache.open(
             logs_dir=args.logs_dir,
@@ -100,8 +99,6 @@ def _gather(args) -> int:
             cache=cache,
             config=mcfg,
         )
-    finally:
-        terminal.close()
     return 0
 
 

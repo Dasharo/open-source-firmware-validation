@@ -27,7 +27,7 @@ from lib.fan_curve_tool.sensors import (
     prepare_sensors,
 )
 from lib.fan_curve_tool.sensors_yaml import SensorsConfig
-from lib.fan_curve_tool.terminal import RobotTerminal
+from lib.fan_curve_tool.terminal import Terminal
 
 
 @library(scope="GLOBAL", auto_keywords=False)
@@ -38,7 +38,6 @@ class FanCurveTool:
         self._logs_dir = ""
         self._sensors_cfg: SensorsConfig | None = None
         self._curve_cfg: CurveConfig | None = None
-        self._console_connection: RobotTerminal | None = None
         self._temp_reader: CpuTempReader | None = None
         self._fan_reader: FanReader | None = None
         self._fan_mode = ""
@@ -68,7 +67,6 @@ class FanCurveTool:
         self._fan_mode, spec = pick_fan_mode(self._sensors_cfg)
         self._temp_reader = CpuTempReader(self._sensors_cfg.cpu_temp)
         self._fan_reader = FanReader(spec, self._fan_mode)
-        self._console_connection = RobotTerminal()
 
         self._cache = Cache.open(
             logs_dir=self._logs_dir,
@@ -77,7 +75,8 @@ class FanCurveTool:
             fan_mode=self._fan_mode,
             resume=bool(resume),
         )
-        stop_stress(self._console_connection)
+        with _open_terminal() as t:
+            stop_stress(t)
 
     @keyword("Fan Measure Gather")
     def fan_measure_gather(
@@ -89,22 +88,23 @@ class FanCurveTool:
         quick: bool = False,
     ) -> dict:
         assert self._cache is not None, "Fan Measure Init must be called first"
-        prepare_sensors(self._console_connection, self._sensors_cfg)
         self._config.apply_overrides(
             verbose=verbose,
             quick=quick,
             max_runtime=max_runtime,
             target_per_bin=target_per_bin,
         )
-        block = gather(
-            profile=profile,
-            terminal=self._console_connection,
-            temp_reader=self._temp_reader,
-            fan_reader=self._fan_reader,
-            fan_mode=self._fan_mode,
-            cache=self._cache,
-            config=self._config,
-        )
+        with _open_terminal() as t:
+            prepare_sensors(t, self._sensors_cfg)
+            block = gather(
+                profile=profile,
+                terminal=t,
+                temp_reader=self._temp_reader,
+                fan_reader=self._fan_reader,
+                fan_mode=self._fan_mode,
+                cache=self._cache,
+                config=self._config,
+            )
         return {
             "samples_n": len(block.samples),
             "reachable_min": block.reachable_temp_range[0],
@@ -135,13 +135,12 @@ class FanCurveTool:
 
     @keyword("Fan Measure Stop Stress")
     def fan_measure_stop_stress(self) -> None:
-        if self._console_connection is None:
-            return
         try:
-            stop_stress(self._console_connection)
+            with _open_terminal() as t:
+                stop_stress(t)
         except Exception:
-            # Best-effort during teardown — a dead session here shouldn't
-            # mask the real failure.
+            # Best-effort during teardown — a dead DUT here shouldn't mask
+            # the real failure.
             pass
 
     @staticmethod
@@ -153,3 +152,21 @@ class FanCurveTool:
 def _platform_configs_dir() -> str:
     here = os.path.dirname(os.path.abspath(__file__))
     return os.path.normpath(os.path.join(here, "..", "..", "platform-configs"))
+
+
+def _open_terminal() -> Terminal:
+    """Open a dedicated SSH session to the DUT.
+
+    Reads the same Robot variables the rest of OSFV uses for SSH logins, so
+    the test suite doesn't need to pass connection details through Robot
+    arguments. The dedicated session keeps fan-curve traffic off the Robot
+    console terminal — no `Execute Command In Terminal` noise in the log.
+    """
+    from robot.libraries.BuiltIn import BuiltIn
+
+    bi = BuiltIn()
+    host = bi.get_variable_value("${DEVICE_IP}")
+    user = bi.get_variable_value("${DEVICE_OS_USERNAME}") or "root"
+    password = bi.get_variable_value("${DEVICE_OS_PASSWORD}")
+    assert host, "DEVICE_IP variable must be defined"
+    return Terminal(host=host, user=user, password=password, sudo_password=password)

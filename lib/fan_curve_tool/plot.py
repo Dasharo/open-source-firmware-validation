@@ -58,7 +58,7 @@ def plot(
 
     ax.set_xlabel("CPU temperature [°C]")
     ax.set_ylabel("Fan PWM [%]" if cache.fan_mode == "pwm" else "Fan RPM")
-    ax.set_title(f"Fan curve — {profile or 'all profiles'} — run_id={cache.run_id}")
+    ax.set_title(f"Fan curve, {profile or 'all profiles'}, run_id={cache.run_id}")
     ax.legend(loc="best", fontsize="small")
     ax.grid(True, alpha=0.3)
     fig.tight_layout()
