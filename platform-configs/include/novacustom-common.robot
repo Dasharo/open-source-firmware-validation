@@ -37,6 +37,7 @@ ${DMIDECODE_MANUFACTURER}=                          Notebook
 ${DMIDECODE_VENDOR}=                                3mdeb
 ${DMIDECODE_FAMILY}=                                Not Applicable
 ${DMIDECODE_TYPE}=                                  Notebook
+${SERIAL_NUMBER_VERIFICATION}=                      ${TRUE}
 
 ${DEVICE_USB_KEYBOARD}=                             Logitech, Inc. Keyboard K120
 
@@ -134,8 +135,9 @@ ${SERIAL_BOOT_MEASURE}=                             ${TRUE}
 ${CPU_TEMPERATURE_MEASURE}=                         ${TRUE}
 ${CPU_FREQUENCY_MEASURE}=                           ${TRUE}
 ${PLATFORM_STABILITY_CHECKING}=                     ${TRUE}
-${CUSTOM_FAN_CURVE_SILENT_MODE_SUPPORT}=            ${FALSE}
-${CUSTOM_FAN_CURVE_PERFORMANCE_MODE_SUPPORT}=       ${FALSE}
+${COREBOOT_FAN_CONTROL_SUPPORT}=                    ${TRUE}
+${CUSTOM_FAN_CURVE_SILENT_MODE_SUPPORT}=            ${TRUE}
+${CUSTOM_FAN_CURVE_PERFORMANCE_MODE_SUPPORT}=       ${TRUE}
 ${TEMPERATURE_TEST_DURATION}=                       3600
 ${DISK_IO_PERFORMANCE_TESTS}=                       ${TRUE}
 ${CPU_PERFORMANCE_TESTS_SUPPORT}=                   ${TRUE}

@@ -42,3 +42,5 @@ ${L3_CACHE_SUPPORT}=                ${TRUE}
 
 @{DTS_TEST_WORKFLOW_PROFILES}=
 ...                                 ${{ ("UEFI Update", "DCR") }}
+
+${HDMI_AUDIO_SUPPORT}=              ${TRUE}
