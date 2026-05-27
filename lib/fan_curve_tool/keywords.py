@@ -27,7 +27,7 @@ from lib.fan_curve_tool import (
     MeasureConfig,
     SensorsConfig,
     Terminal,
-    gather,
+    gather_measurements,
     pick_fan_mode,
     plot,
     plot_load_grid,
@@ -107,7 +107,7 @@ class FanCurveTool:
         )
         with _open_terminal() as terminal:
             prepare_sensors(terminal, self._sensors_config)
-            block = gather(
+            block = gather_measurements(
                 profile=profile,
                 terminal=terminal,
                 temp_reader=self._temp_reader,

@@ -13,24 +13,24 @@ from lib.fan_curve_tool import (
     _bin_of,
     _default_workers_grid,
     _direction_counts,
-    _invert_map_2d,
-    _least_filled_bin,
+    _get_most_underfilled_bin,
     _LoadPoint,
     _pick_direction,
+    _suggest_load_params,
     plot,
 )
 
 
 def _sample(temp=50.0, fan=1000.0, direction="rising", stable=True):
     return Sample(
-        ts="2026-05-15T12:00:00+00:00",
+        timestamp="2026-05-15T12:00:00+00:00",
         temp=temp,
         fan=fan,
-        mode="rpm",
+        fan_mode="rpm",
         workers=4,
-        load=50,
+        cpu_load=50,
         direction=direction,
-        settle_dt=20.0,
+        settle_seconds=20.0,
         stable=stable,
     )
 
@@ -100,7 +100,7 @@ def test_direction_counts_per_bin():
 def test_least_filled_bin_returns_under_filled_when_present():
     samples = [_sample(40.0), _sample(40.0), _sample(40.0)]
     # range 40..42, target 3; 40 is full, 41 and 42 are empty
-    bin_ = _least_filled_bin(samples, 1.0, 3, 40.0, 42.0)
+    bin_ = _get_most_underfilled_bin(samples, 1.0, 3, 40.0, 42.0)
     assert bin_ in (41.0, 42.0)
 
 
@@ -115,7 +115,7 @@ def test_least_filled_bin_returns_direction_imbalance_when_counts_met():
         _sample(42.0, direction="rising"),
         _sample(42.0, direction="rising"),
     ]
-    bin_ = _least_filled_bin(samples, 1.0, 2, 40.0, 42.0)
+    bin_ = _get_most_underfilled_bin(samples, 1.0, 2, 40.0, 42.0)
     assert bin_ == 41.0
 
 
@@ -126,7 +126,7 @@ def test_least_filled_bin_none_when_fully_covered():
             _sample(temp, direction="rising"),
             _sample(temp, direction="falling"),
         ]
-    assert _least_filled_bin(samples, 1.0, 2, 40.0, 42.0) is None
+    assert _get_most_underfilled_bin(samples, 1.0, 2, 40.0, 42.0) is None
 
 
 def test_pick_direction_alternates():
@@ -142,7 +142,9 @@ def test_invert_map_2d_picks_in_bin_match():
         _LoadPoint(workers=2, cpu_load=50, temp=50.5),
         _LoadPoint(workers=4, cpu_load=100, temp=75.0),
     ]
-    workers, load = _invert_map_2d(points, target_bin=50.0, bin_width=1.0, nproc=4)
+    workers, load = _suggest_load_params(
+        points, target_bin=50.0, bin_width=1.0, nproc=4
+    )
     assert (workers, load) == (2, 50)
 
 
@@ -151,7 +153,9 @@ def test_invert_map_2d_interpolates_when_no_in_bin_point():
         _LoadPoint(workers=2, cpu_load=20, temp=40.0),
         _LoadPoint(workers=2, cpu_load=80, temp=70.0),
     ]
-    workers, load = _invert_map_2d(points, target_bin=55.0, bin_width=1.0, nproc=4)
+    workers, load = _suggest_load_params(
+        points, target_bin=55.0, bin_width=1.0, nproc=4
+    )
     assert workers == 2
     assert 40 <= load <= 60
 
@@ -159,7 +163,9 @@ def test_invert_map_2d_interpolates_when_no_in_bin_point():
 def test_invert_map_2d_falls_back_to_extremes():
     points = [_LoadPoint(workers=1, cpu_load=0, temp=35.0)]
     # No point at or above target - should aim for the upper extreme.
-    workers, load = _invert_map_2d(points, target_bin=60.0, bin_width=1.0, nproc=4)
+    workers, load = _suggest_load_params(
+        points, target_bin=60.0, bin_width=1.0, nproc=4
+    )
     assert (workers, load) == (4, 100)
 
 
@@ -171,7 +177,9 @@ def test_invert_map_2d_picks_workers_when_loads_match():
     # No in-bin point and no shared-workers below/above pair to bisect cpu_load.
     # cpu_load is already saturated on the "above" point, so step workers down
     # toward the cooler anchor rather than overshooting at (4, 100).
-    workers, load = _invert_map_2d(points, target_bin=70.0, bin_width=1.0, nproc=4)
+    workers, load = _suggest_load_params(
+        points, target_bin=70.0, bin_width=1.0, nproc=4
+    )
     assert (workers, load) == (3, 100)
 
 

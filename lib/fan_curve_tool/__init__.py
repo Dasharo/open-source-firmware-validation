@@ -90,14 +90,14 @@ class Terminal:
 
 @dataclass
 class Sample:
-    ts: str
+    timestamp: str
     temp: float
     fan: float
-    mode: str
+    fan_mode: str
     workers: int
-    load: int
+    cpu_load: int
     direction: str
-    settle_dt: float
+    settle_seconds: float
     stable: bool
 
     @classmethod
@@ -428,10 +428,10 @@ class MeasureConfig:
     temp_std_thresh: float = 1.0
     fan_std_thresh_rpm: float = 100.0
     fan_std_thresh_pwm: float = 5.0
-    stability_window: int = 5
+    stability_wait_s: int = 5
     stable_timeout_s: float = 30.0
     bin_arrival_timeout_s: float = 30.0
-    staging_timeout_s: float = 60.0
+    hysteresis_timeout_s: float = 60.0
     no_progress_timeout_s: float = 60.0
     max_runtime_s: float = 60 * 60
     verbose: bool = False
@@ -450,7 +450,7 @@ class MeasureConfig:
         self.verbose = bool(verbose)
         if quick:
             self.stable_timeout_s = 30.0
-            self.staging_timeout_s = 60.0
+            self.hysteresis_timeout_s = 60.0
             self.bin_arrival_timeout_s = 60.0
             self.target_per_bin = 1
             self.require_both_directions = False
@@ -467,7 +467,7 @@ class _LoadPoint:
     temp: float
 
 
-def gather(
+def gather_measurements(
     profile: str,
     terminal: Terminal,
     temp_reader: CpuTempReader,
@@ -500,7 +500,7 @@ def gather(
         if config.verbose:
             print(f"[fan-curve {time.strftime('%H:%M:%S')}] {message}", flush=True)
 
-    def collect(workers: int, cpu_load: int, direction: str):
+    def collect_samples(workers: int, cpu_load: int, direction: str):
         stable, temp, fan, settle = _wait_stable(
             terminal, temp_reader, fan_reader, config, fan_std_thresh
         )
@@ -529,13 +529,16 @@ def gather(
         f"target_per_bin={config.target_per_bin}"
     )
 
-    # Phase A: small (workers, cpu_load) grid to learn load -> temp.
+    # Phase A: small (workers, cpu_load) grid to learn how load corresponds
+    # to temperature
     for workers in workers_grid:
         for cpu_load in config.cpu_load_grid:
             if cpu_load == 0 and any(p.cpu_load == 0 for p in load_temp_map):
                 continue
             _set_stress(terminal, workers, cpu_load, config.stable_timeout_s)
-            stable, readings, settle, mean_temp = collect(workers, cpu_load, "phase_a")
+            stable, readings, settle, mean_temp = collect_samples(
+                workers, cpu_load, "phase_a"
+            )
             log(
                 f"phase_a workers={workers} load={cpu_load} -> "
                 f"temp={mean_temp:.1f}C fan={readings[-1][1]:.0f} stable={stable} "
@@ -550,7 +553,7 @@ def gather(
     reachable_max = max(p.temp for p in load_temp_map)
     log(f"phase_b reachable=[{reachable_min:.1f}..{reachable_max:.1f}]C")
 
-    # Phase B: target under-filled bins, alternating approach direction.
+    # Phase B: target temperature ranges which are not covered enough
     last_progress = time.time()
     last_total = len(block.samples)
     stop_reason = "all_bins_filled"
@@ -558,7 +561,7 @@ def gather(
         if time.time() - run_start > config.max_runtime_s:
             stop_reason = "max_runtime"
             break
-        target_bin = _least_filled_bin(
+        target_temp_bin = _get_most_underfilled_bin(
             block.samples,
             config.bin_width,
             config.target_per_bin,
@@ -566,17 +569,19 @@ def gather(
             reachable_max,
             require_both_directions=config.require_both_directions,
         )
-        if target_bin is None:
+        if target_temp_bin is None:
             break
         if time.time() - last_progress > config.no_progress_timeout_s:
             stop_reason = "no_progress"
             break
 
-        direction = _pick_direction(block.samples, target_bin, config.bin_width)
-        workers, cpu_load = _invert_map_2d(
-            load_temp_map, target_bin, config.bin_width, nproc
+        direction = _pick_direction(block.samples, target_temp_bin, config.bin_width)
+        workers, cpu_load = _suggest_load_params(
+            load_temp_map, target_temp_bin, config.bin_width, nproc
         )
-        _move_to_staging(direction, target_bin, config, terminal, temp_reader, nproc)
+        _prepare_hysteresis_temp_change(
+            direction, target_temp_bin, config, terminal, temp_reader, nproc
+        )
         _set_stress(
             terminal,
             workers,
@@ -584,18 +589,20 @@ def gather(
             config.bin_arrival_timeout_s + config.stable_timeout_s,
         )
         _wait_until_in_bin(
-            target_bin,
+            target_temp_bin,
             config.bin_width,
             config.bin_arrival_timeout_s,
             terminal,
             temp_reader,
             config,
         )
-        stable, readings, settle, mean_temp = collect(workers, cpu_load, direction)
+        stable, readings, settle, mean_temp = collect_samples(
+            workers, cpu_load, direction
+        )
         reachable_min = min(reachable_min, min(t for t, _ in readings))
         reachable_max = max(reachable_max, max(t for t, _ in readings))
         log(
-            f"phase_b bin={target_bin:.1f}C dir={direction} workers={workers} "
+            f"phase_b bin={target_temp_bin:.1f}C dir={direction} workers={workers} "
             f"load={cpu_load} -> temp={mean_temp:.1f}C fan={readings[-1][1]:.0f} "
             f"stable={stable} burst={len(readings)} n={len(block.samples)}"
         )
@@ -668,7 +675,7 @@ def _wait_stable(
     recent reading even on timeout, with stable=False."""
     start = time.time()
     window_size = max(2, int(config.stddev_window / config.poll_interval_s))
-    consecutive_needed = max(1, int(config.stability_window / config.poll_interval_s))
+    consecutive_needed = max(1, int(config.stability_wait_s / config.poll_interval_s))
     temp_history: list[float] = []
     fan_history: list[float] = []
     consecutive_stable = 0
@@ -697,7 +704,7 @@ def _wait_stable(
 
 
 def _wait_until_in_bin(
-    target_bin: float,
+    target_temp_bin: float,
     bin_width: float,
     timeout: float,
     terminal: Terminal,
@@ -707,16 +714,16 @@ def _wait_until_in_bin(
     start = time.time()
     while True:
         temp = float(temp_reader.read(terminal))
-        if target_bin <= temp < target_bin + bin_width:
+        if target_temp_bin <= temp < target_temp_bin + bin_width:
             return True
         if time.time() - start > timeout:
             return False
         time.sleep(config.poll_interval_s)
 
 
-def _move_to_staging(
+def _prepare_hysteresis_temp_change(
     direction: str,
-    target_bin: float,
+    target_temp_bin: float,
     config: MeasureConfig,
     terminal: Terminal,
     temp_reader: CpuTempReader,
@@ -725,13 +732,15 @@ def _move_to_staging(
     """Drive temperature below (rising) or above (falling) the target bin so
     the next gather sample enters the bin from the chosen direction."""
     if direction == "rising":
-        _set_stress(terminal, 1, 0, config.staging_timeout_s)
-        is_done = lambda temp: temp < target_bin - config.bin_width
+        stop_stress(terminal)
+        # cool to at least one bin below
+        is_done = lambda temp: temp < target_temp_bin - config.bin_width
     else:
-        _set_stress(terminal, nproc, 100, config.staging_timeout_s)
-        is_done = lambda temp: temp > target_bin + 2 * config.bin_width
+        _set_stress(terminal, nproc, 100, config.hysteresis_timeout_s)
+        # heat to at least one bin above (2x because target_temp_bin is the bins lowest temp)
+        is_done = lambda temp: temp > target_temp_bin + 2 * config.bin_width
     start = time.time()
-    while time.time() - start < config.staging_timeout_s:
+    while time.time() - start < config.hysteresis_timeout_s:
         if is_done(float(temp_reader.read(terminal))):
             return
         time.sleep(config.poll_interval_s)
@@ -750,11 +759,11 @@ def _bin_counts(samples: list[Sample], bin_width: float) -> dict[float, int]:
 
 
 def _direction_counts(
-    samples: list[Sample], target_bin: float, bin_width: float
+    samples: list[Sample], target_temp_bin: float, bin_width: float
 ) -> tuple[int, int]:
     rising = falling = 0
     for sample in samples:
-        if _bin_of(sample.temp, bin_width) != target_bin:
+        if _bin_of(sample.temp, bin_width) != target_temp_bin:
             continue
         if sample.direction == "rising":
             rising += 1
@@ -763,7 +772,7 @@ def _direction_counts(
     return rising, falling
 
 
-def _least_filled_bin(
+def _get_most_underfilled_bin(
     samples: list[Sample],
     bin_width: float,
     target_per_bin: int,
@@ -786,8 +795,8 @@ def _least_filled_bin(
         return least
     if not require_both_directions:
         return None
-    # All bins meet the count; check for missing rising/falling samples in
-    # interior bins (edges may be one-direction-only on this DUT).
+    # All bins meet the count, but also check for missing rising/falling samples
+    # on all but the first and last bin
     current_bin = lower_bin + bin_width
     while current_bin < upper_bin - 1e-9:
         rising, falling = _direction_counts(samples, current_bin, bin_width)
@@ -797,14 +806,16 @@ def _least_filled_bin(
     return None
 
 
-def _pick_direction(samples: list[Sample], target_bin: float, bin_width: float) -> str:
-    rising, falling = _direction_counts(samples, target_bin, bin_width)
+def _pick_direction(
+    samples: list[Sample], target_temp_bin: float, bin_width: float
+) -> str:
+    rising, falling = _direction_counts(samples, target_temp_bin, bin_width)
     return "rising" if rising <= falling else "falling"
 
 
-def _invert_map_2d(
+def _suggest_load_params(
     load_temp_map: list[_LoadPoint],
-    target_bin: float,
+    target_temp_bin: float,
     bin_width: float,
     nproc: int,
 ) -> tuple[int, int]:
@@ -818,13 +829,15 @@ def _invert_map_2d(
         for (workers, load), temps in temps_by_setting.items()
     ]
 
-    center = target_bin + bin_width / 2
-    in_bin = [p for p in points if target_bin <= p.temp < target_bin + bin_width]
+    center = target_temp_bin + bin_width / 2
+    in_bin = [
+        p for p in points if target_temp_bin <= p.temp < target_temp_bin + bin_width
+    ]
     if in_bin:
         best = min(in_bin, key=lambda p: abs(p.temp - center))
         return best.workers, best.cpu_load
-    below = [p for p in points if p.temp < target_bin]
-    above = [p for p in points if p.temp >= target_bin + bin_width]
+    below = [p for p in points if p.temp < target_temp_bin]
+    above = [p for p in points if p.temp >= target_temp_bin + bin_width]
     if not above:
         return nproc, 100
     if not below:
@@ -846,10 +859,10 @@ def _invert_map_2d(
         candidates.sort()
         return candidates[0][1], candidates[0][2]
 
-    # Every interpolation lands on a tried setting. Nudge from the coolest
-    # "above" point along an untried direction.
+    # If every interpolation was tried and we're still not getting good results,
+    # try to move the load params an orthogonal direction
     coolest_above = min(above, key=lambda p: p.temp)
-    for worker_delta, load_delta in [(-1, 0), (0, -10), (-1, -10), (1, -10), (-2, 0)]:
+    for worker_delta, load_delta in [(-1, 0), (0, -10), (-1, -10), (1, -10)]:
         workers = max(1, min(nproc, coolest_above.workers + worker_delta))
         load = max(0, min(100, coolest_above.cpu_load + load_delta))
         if (workers, load) not in tried:
@@ -935,8 +948,7 @@ def plot_load_grid(
     profile: str | None = None,
     show: bool = False,
 ) -> str:
-    """2D heatmap of (workers, cpu_load) -> mean stable temperature, one panel
-    per profile. Cells without samples stay blank."""
+    """2D heatmap showing how temperature depends on number of workers and cpu_load"""
     out_dir = os.path.join(logs_dir, "fan_measurements")
     os.makedirs(out_dir, exist_ok=True)
     out_path = os.path.join(out_dir, f"{cache.run_id}_loadgrid_{profile or 'all'}.png")
@@ -1002,10 +1014,10 @@ def _plot_one_load_grid(ax, profile_name: str, samples: list[Sample], fig) -> No
         return
 
     workers_values = sorted({s.workers for s in stable})
-    load_values = sorted({s.load for s in stable})
+    load_values = sorted({s.cpu_load for s in stable})
     cells: dict[tuple[int, int], list[float]] = {}
     for sample in stable:
-        cells.setdefault((sample.workers, sample.load), []).append(sample.temp)
+        cells.setdefault((sample.workers, sample.cpu_load), []).append(sample.temp)
 
     grid = np.full((len(workers_values), len(load_values)), np.nan, dtype=float)
     for (workers, load), temps in cells.items():
@@ -1140,7 +1152,7 @@ def _cli_gather(args) -> int:
             max_runtime=args.max_runtime,
             target_per_bin=args.target_per_bin,
         )
-        gather(
+        gather_measurements(
             profile=args.profile,
             terminal=terminal,
             temp_reader=CpuTempReader(sensors_config.cpu_temp),
