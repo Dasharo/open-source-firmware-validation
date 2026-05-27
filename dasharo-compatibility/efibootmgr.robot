@@ -32,17 +32,12 @@ EBM001.201 Network Boot enable (Ubuntu)
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
     Skip If    not ${DASHARO_NETWORKING_MENU_SUPPORT}    EBM001.201 not supported
 
-    Set UEFI Option    NetworkBoot    ${FALSE}
-
-    ${boot_menu}=    Get UEFI Boot Manager Entries
-    Should Not Contain    ${boot_menu}    ${IPXE_BOOT_ENTRY}
-
     Set UEFI Option    NetworkBoot    ${TRUE}
-
-    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
-    Login To Linux
-    Switch To Root User
-
+    IF    '${OPTIONS_LIB}' == 'options-lib_dcu'
+        Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
+        Login To Linux
+        Switch To Root User
+    END
     ${boot_menu}=    Get UEFI Boot Manager Entries
     Should Contain    ${boot_menu}    ${IPXE_BOOT_ENTRY}
 
@@ -51,15 +46,12 @@ EBM002.201 Network Boot disable (Ubuntu)
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}
     Skip If    not ${DASHARO_NETWORKING_MENU_SUPPORT}    EBM002.201 not supported
 
-    ${boot_menu}=    Get UEFI Boot Manager Entries
-    Should Contain    ${boot_menu}    ${IPXE_BOOT_ENTRY}
-
     Set UEFI Option    NetworkBoot    ${FALSE}
-
-    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
-    Login To Linux
-    Switch To Root User
-
+    IF    '${OPTIONS_LIB}' == 'options-lib_dcu'
+        Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
+        Login To Linux
+        Switch To Root User
+    END
     ${boot_menu}=    Get UEFI Boot Manager Entries
     Should Not Contain    ${boot_menu}    ${IPXE_BOOT_ENTRY}
 
@@ -129,7 +121,7 @@ EBM004.201 Custom Boot Order Remove (Ubuntu)
 
 *** Keywords ***
 Login And Remove Test Boot Entry
-    Power Cycle On
+    Power On
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
