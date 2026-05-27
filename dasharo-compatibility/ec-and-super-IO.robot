@@ -51,6 +51,7 @@ ECR035.001 EC power button watchdog
 PPS001.001 PS/2 keyboard detection
     [Documentation]    Check whether the external PS/2 keyboard is detected in OS and all keys work correctly.
     [Tags]    semiauto
+    Skip If    not ${PS2_SUPPORT}    PPS001.001 not supported
     Execute Manual Step    [1/8] Power on the DUT.
     Execute Manual Step    [2/8] Boot into the system.
     Execute Manual Step    [3/8] Log into the system by using the proper login and password.
@@ -70,6 +71,7 @@ PPS001.001 PS/2 keyboard detection
 SIO002.001 PS/2 keyboard in firmware
     [Documentation]    Check whether the PS/2 keyboard works correctly in firmware (UEFI/BIOS menus).
     [Tags]    semiauto
+    Skip If    not ${PS2_SUPPORT}    SIO002.001 not supported
     Execute Manual Step    [1/2] Power on the DUT and press the BIOS_SETUP_KEY to enter the setup menu.
     Execute Manual Step    [2/2] Use the arrow keys and the Enter key to navigate the menus.
     Execute Manual Step    [Expected result] All menus can be entered using the PS/2 keyboard.
@@ -77,6 +79,7 @@ SIO002.001 PS/2 keyboard in firmware
 SIO004.001 Serial port in firmware
     [Documentation]    Check whether the serial port works correctly in firmware (UEFI/BIOS menus).
     [Tags]    semiauto
+    Skip If Not    ${PS2_SUPPORT}    SIO004.001 not supported
     Execute Manual Step    [1/3] Open the terminal emulator, e.g. minicom, on the RS232/USB adapter.
     Execute Manual Step    [2/3] Power on the DUT and press the BIOS_SETUP_KEY to enter the setup menu.
     Execute Manual Step    [3/3] Use the arrow keys and the Enter key to navigate the menus.
