@@ -20,12 +20,6 @@ Suite Setup         Run Keywords
 ...                     Prepare Test Suite
 ...                     AND
 ...                     Skip If    not ${DEVICE_DETECT_TEST_IN_SCOPE}
-...                     AND
-...                     Skip If    '${OPTIONS_LIB}' != 'options-lib_dcu'
-...                     AND
-...                     Skip If    '${DUT_CONNECTION_METHOD}' == 'telnet'
-...                     AND
-...                     Set UEFI Option    UsbDriverStack    Enabled
 Suite Teardown      Run Keywords
 ...                     Run Keyword If    '${SUITE_STATUS}' != 'SKIP'    Set UEFI Option    UsbDriverStack    Enabled
 ...                     AND
@@ -38,14 +32,11 @@ Default Tags        automated
 DDET001.201 USB Stack disable (Ubuntu)
     [Documentation]    Test disabling the USB stack
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    DDET001.201 not supported
-    Login To Linux With Root Privileges
     Set UEFI Option    UsbDriverStack    Disabled
-
-    Execute Reboot Command
-    Sleep    10s
-
     Set DUT Response Timeout    30s
-    Login To Linux With Root Privileges
+    Power On
+    Boot And Login To OS    ${ENV_ID_UBUNTU}
+    Switch To Root User
     ${out}=    Execute Command In Terminal
     ...    cbmem -1 | grep "UsbBusStart:"
 
@@ -55,13 +46,11 @@ DDET001.201 USB Stack disable (Ubuntu)
 DDET002.201 USB Stack enable (Ubuntu)
     [Documentation]    Test enabling the USB stack
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    DDET002.201 not supported
-    Login To Linux With Root Privileges
     Set UEFI Option    UsbDriverStack    Enabled
-    Execute Reboot Command
-    Sleep    10s
-
     Set DUT Response Timeout    30s
-    Login To Linux With Root Privileges
+    Power On
+    Boot And Login To OS    ${ENV_ID_UBUNTU}
+    Switch To Root User
     ${out}=    Execute Command In Terminal
     ...    cbmem -1 | grep "UsbBusStart"
 
@@ -74,10 +63,14 @@ DDET003.201 Usb Devices Detected In Firmware Warmboot (Ubuntu)
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    DDET003.201 not supported
     Skip If
     ...    not ${RTC_BOOT_SUPPORT} and ${INCLUDE_TAGS} is not ${None} and 'semiauto' not in ${INCLUDE_TAGS}
-    Login To Linux With Root Privileges
+    Power On
+    Boot And Login To OS    ${ENV_ID_UBUNTU}
+    Switch To Root User
     Perform Warmboot Using Rtcwake
-    Login To Linux With Root Privileges
 
+    Power On
+    Boot And Login To OS    ${ENV_ID_UBUNTU}
+    Switch To Root User
     ${out}=    Execute Command In Terminal
     ...    cbmem -1 | grep -i 'UsbEnumeratePort'
 
@@ -87,10 +80,13 @@ DDET003.201 Usb Devices Detected In Firmware Warmboot (Ubuntu)
 DDET004.201 NET Controller Detected After Reboot (Ubuntu)
     [Documentation]    Test if a network controller is detected on an PCI lane
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    DDET004.201 not supported
-    Login To Linux With Root Privileges
+    Power On
+    Boot And Login To OS    ${ENV_ID_UBUNTU}
+    Switch To Root User
     Execute Reboot Command
-    Login To Linux With Root Privileges
 
+    Boot And Login To OS    ${ENV_ID_UBUNTU}
+    Switch To Root User
     ${out}=    Execute Command In Terminal
     ...    lspci | grep -i 'net'
 
