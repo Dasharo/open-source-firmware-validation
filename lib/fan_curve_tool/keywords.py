@@ -93,7 +93,7 @@ class FanCurveTool:
     def fan_measure_gather(
         self,
         profile: str,
-        verbose: bool = False,
+        verbose: bool = True,
         max_runtime: float | None = None,
         target_per_bin: int | None = None,
         quick: bool = False,

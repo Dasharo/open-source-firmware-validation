@@ -52,6 +52,7 @@ class Terminal:
         )
 
     def run(self, command: str, timeout: float = 30.0) -> str:
+        print(command)
         if self._sudo_password is not None and self._user != "root":
             wrapped = f"sudo -S -p '' sh -c {shlex.quote(command)}"
             stdin, stdout, _ = self._client.exec_command(wrapped, timeout=timeout)
@@ -60,6 +61,17 @@ class Terminal:
         else:
             _, stdout, _ = self._client.exec_command(command, timeout=timeout)
         return stdout.read().decode("utf-8", errors="replace")
+
+    def run_detached(self, command: str) -> None:
+        detached = f"nohup sh -c {shlex.quote(command)} </dev/null >/dev/null 2>&1 &"
+        if self._sudo_password is not None and self._user != "root":
+            wrapped = f"sudo -S -p '' sh -c {shlex.quote(detached)}"
+            stdin, stdout, _ = self._client.exec_command(wrapped, timeout=10)
+            stdin.write(f"{self._sudo_password}\n")
+            stdin.flush()
+        else:
+            _, stdout, _ = self._client.exec_command(detached, timeout=10)
+        stdout.channel.recv_exit_status()
 
     def close(self) -> None:
         self._client.close()
@@ -639,7 +651,7 @@ def _set_stress(
     stop_stress(terminal=terminal)
     if cpu_load <= 0 or workers <= 0:
         return
-    terminal.run(
+    terminal.run_detached(
         f"(stress-ng --cpu {workers} --cpu-load {cpu_load} "
         f"--timeout {int(duration_s) + 30} -q &> /dev/null & disown) 2>/dev/null"
     )
