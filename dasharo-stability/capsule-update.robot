@@ -306,7 +306,9 @@ CUP170.201 Verifying UUID (Ubuntu)
 
     Should Be Equal    ${ORIGINAL_UUID}    ${UPDATED_UUID}
     IF    ${ROMHOLE_SUPPORT} == ${TRUE}
-        Should Be Equal    ${UPDATED_UUID}    00112233-4455-6677-8899-aabbccddeeff
+        # dmidecode reports all FFs as "Not Present":
+        # https://github.com/mirror/dmidecode/blob/b70f6ee0f2e879deebc630da20d27d350407889e/dmidecode.c#L461
+        Should Be Equal    ${UPDATED_UUID}    Not Present
     END
 
 CUP170.301 Verifying UUID (Windows)
@@ -328,7 +330,7 @@ CUP170.301 Verifying UUID (Windows)
     END
 
     IF    ${ROMHOLE_SUPPORT} == ${TRUE}
-        Should Be Equal    ${WIN_UPDATED_UUID}    00112233-4455-6677-8899-aabbccddeeff
+        Should Be Equal    ${WIN_UPDATED_UUID}    ffffffff-ffff-ffff-ffff-ffffffffffff
     END
 
 CUP180.201 Verifying Serial Number (Ubuntu)
