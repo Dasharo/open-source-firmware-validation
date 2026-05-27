@@ -3,7 +3,6 @@ Resource            common.resource
 
 Suite Setup         Run Keywords
 ...                     Prepare Test Suite
-...                     AND    Skip If    not ${TESTS_IN_QUBESOS_SUPPORT}    Qubes OS not supported
 ...                     AND    Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    Qubes OS not supported
 ...                     AND    Init AUD Qubes OS
 Suite Teardown      Log Out And Close Connection

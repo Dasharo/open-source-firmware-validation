@@ -996,7 +996,6 @@ ECR025.203 Permanent keyboard illumination after cold boot (Qubes OS)
 ECR026.203 Permanent keyboard illumination after warm boot (Qubes OS)
     [Documentation]    Check whether keyboard backlight level persists after warm boot.
     [Tags]    semiauto
-    Depends On    ${TESTS_IN_QUBESOS_SUPPORT}    ${TEST_NAME} not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    ${TEST_NAME} not supported
     Execute Manual Step    [1/5] Make sure Qubes OS is booted.
     Execute Manual Step    [2/5] Set keyboard backlight to a visible, non-default level (Fn+F4).
@@ -1007,7 +1006,6 @@ ECR026.203 Permanent keyboard illumination after warm boot (Qubes OS)
 ECR027.203 Permanent keyboard illumination after reboot (Qubes OS)
     [Documentation]    Check whether keyboard backlight level persists after cold reboot.
     [Tags]    semiauto
-    Depends On    ${TESTS_IN_QUBESOS_SUPPORT}    ${TEST_NAME} not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    ${TEST_NAME} not supported
     Execute Manual Step    [1/5] Make sure Qubes OS is booted.
     Execute Manual Step    [2/5] Set keyboard backlight to a visible, non-default level (Fn+F4).
@@ -1018,7 +1016,6 @@ ECR027.203 Permanent keyboard illumination after reboot (Qubes OS)
 ECR028.203 Permanent keyboard illumination after suspension (Qubes OS)
     [Documentation]    Check whether keyboard backlight level persists after suspend/resume.
     [Tags]    semiauto
-    Depends On    ${TESTS_IN_QUBESOS_SUPPORT}    ${TEST_NAME} not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    ${TEST_NAME} not supported
     Execute Manual Step    [1/5] Make sure Qubes OS is booted.
     Execute Manual Step    [2/5] Set keyboard backlight to a visible, non-default level (Fn+F4).
@@ -1031,7 +1028,6 @@ ECR029.203 FnLock Hotkey (Qubes OS)
     ...    Without Fn Lock: FX keys send standard F1-F12 keycodes.
     ...    With Fn Lock active: FX keys act as if Fn is held, triggering special functions.
     [Tags]    semiauto
-    Depends On    ${TESTS_IN_QUBESOS_SUPPORT}    ${TEST_NAME} not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    ${TEST_NAME} not supported
     Execute Manual Step
     ...    [1/4] Make sure Qubes OS is booted.
@@ -1045,7 +1041,6 @@ ECR029.203 FnLock Hotkey (Qubes OS)
 ECR030.203 Charging until 98% level in OS (Qubes OS)
     [Documentation]    Check whether the DUT stops charging the battery when 98% level is reached.
     [Tags]    semiauto
-    Depends On    ${TESTS_IN_QUBESOS_SUPPORT}    ${TEST_NAME} not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    ${TEST_NAME} not supported
     Execute Manual Step    [1/5] Make sure Qubes OS is booted.
     Execute Manual Step    [2/5] Connect the power adapter.
@@ -1056,7 +1051,6 @@ ECR030.203 Charging until 98% level in OS (Qubes OS)
 ECR031.203 Not charging between 95% and 98% in OS (Qubes OS)
     [Documentation]    Check whether the DUT does not charge battery between 95% and 98%.
     [Tags]    semiauto
-    Depends On    ${TESTS_IN_QUBESOS_SUPPORT}    ${TEST_NAME} not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    ${TEST_NAME} not supported
     Execute Manual Step    [1/5] Make sure Qubes OS is booted.
     Execute Manual Step    [2/5] Ensure battery level is between 95% and 98%.
