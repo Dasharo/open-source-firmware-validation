@@ -25,7 +25,6 @@ ${WEBCAM_UBUNTU}=                           Chicony Electronics Co., Ltd Chicony
 # DMI
 ${DMIDECODE_FIRMWARE_VERSION}=              Dasharo (coreboot+UEFI) v1.8.0-rc9
 ${DMIDECODE_RELEASE_DATE}=                  03/24/2026
-${DMIDECODE_SERIAL_NUMBER}=                 123456789
 
 ${L3_CACHE_SUPPORT}=                        ${TRUE}
 

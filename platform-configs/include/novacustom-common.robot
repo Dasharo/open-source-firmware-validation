@@ -32,7 +32,7 @@ ${TELNET_FUZZY_MAX_DELETIONS}=                      1
 # https://github.com/Dasharo/open-source-firmware-validation/issues/1068
 ${RTC_BOOT_SUPPORT}=                                ${FALSE}
 
-${DMIDECODE_SERIAL_NUMBER}=                         N/A
+${DMIDECODE_SERIAL_NUMBER}=                         123456789
 ${DMIDECODE_MANUFACTURER}=                          Notebook
 ${DMIDECODE_VENDOR}=                                3mdeb
 ${DMIDECODE_FAMILY}=                                Not Applicable
