@@ -41,6 +41,7 @@ ${SERIAL_NUMBER_VERIFICATION}=                      ${TRUE}
 
 ${DEVICE_USB_KEYBOARD}=                             Logitech, Inc. Keyboard K120
 
+${MINI_PC_IE_SLOT_SUPPORT}=                         ${TRUE}
 ${3_MDEB_WIFI_NETWORK}=                             3mdeb_abr
 ${OPTIONS_LIB}=                                     options-lib_dcu
 # Supported test environments
