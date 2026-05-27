@@ -101,8 +101,9 @@ ${HIBERNATION_AND_RESUME_SUPPORT}=                  ${TRUE}
 ${USB_DISKS_DETECTION_SUPPORT}=                     ${TRUE}
 ${USB_KEYBOARD_DETECTION_SUPPORT}=                  ${TRUE}
 
-# It causes "Power on AC" option to reset to disable, so we can no longer Power On using Sonoff
-${RESET_TO_DEFAULTS_SUPPORT}=                       ${FALSE}
+# # It causes "Power on AC" option to reset to disable, so we can no longer Power On using Sonoff
+# Laptops are tested mostly using SSH and with no power control, change if using sonoff
+${RESET_TO_DEFAULTS_SUPPORT}=                       ${TRUE}
 ${DEFAULT_POWER_STATE_AFTER_FAIL}=                  Powered Off
 ${DTS_SUPPORT}=                                     ${TRUE}
 ${DTS_FIRMWARE_FLASHING_SUPPORT}=                   ${TRUE}
