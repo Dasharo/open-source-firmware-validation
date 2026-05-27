@@ -58,11 +58,11 @@ class FanCurveTool:
     @keyword("Fan Measure Init")
     def fan_measure_init(
         self,
-        run_id: str,
         sensors_config_file: str,
         curve_config_file: str,
         logs_dir: str = "",
         resume: bool = False,
+        run_id: str = None,
     ) -> None:
         platform = os.environ.get("CONFIG", socket.gethostname())
         run_id = run_id or f"{platform}-{time.strftime('%Y%m%dT%H%M%S')}"

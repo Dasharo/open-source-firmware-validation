@@ -244,10 +244,6 @@ ${DGPU_ONLY_SUPPORT}=                               ${FALSE}
 # measuring temperatures, fans etc.
 ${SENSORS_CONFIG_FILE}=                             include/sensors/default-sensors-config.yaml
 ${CUSTOM_FAN_CURVE_FILE}=                           ${TBD}
-# Identifier for a fan-measurement run; empty means auto-generate from the
-# platform config name and a timestamp. Used to key the cache JSON written to
-# ${LOGS_DIR}/fan_measurements/ by lib/fan_curve_tool.
-${FAN_RUN_ID}=                                      ${EMPTY}
 ${DISK_IO_PERFORMANCE_TESTS}=                       ${FALSE}
 ${CPU_PERFORMANCE_TESTS_SUPPORT}=                   ${FALSE}
 ${GPU_PERFORMANCE_TESTS_SUPPORT}=                   ${FALSE}

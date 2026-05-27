@@ -71,7 +71,7 @@ Gather All Enabled Fan Profiles
     Import Variables    ${CURDIR}/../platform-configs/${CUSTOM_FAN_CURVE_FILE}
     Power On
     Boot And Login To OS    ${DEFAULT_BOOT_OS_ID}
-    Fan Measure Init    ${FAN_RUN_ID}    ${SENSORS_CONFIG_FILE}    ${CUSTOM_FAN_CURVE_FILE}
+    Fan Measure Init    ${SENSORS_CONFIG_FILE}    ${CUSTOM_FAN_CURVE_FILE}
     IF    ${CUSTOM_FAN_CURVE_SILENT_MODE_SUPPORT}
         Log To Console    Gathering Silent curve
         Gather One Fan Profile    Silent    silent
