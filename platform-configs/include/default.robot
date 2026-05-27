@@ -128,6 +128,7 @@ ${COREBOOT_FAN_CONTROL_SUPPORT}=                    ${FALSE}
 ${INTERNAL_LCD_DISPLAY_SUPPORT}=                    ${FALSE}
 ${EXTERNAL_HDMI_DISPLAY_SUPPORT}=                   ${FALSE}
 ${EXTERNAL_DISPLAY_PORT_SUPPORT}=                   ${FALSE}
+${EXTERNAL_VGA_DISPLAY_SUPPORT}=                    ${FALSE}
 ${EC_AND_SUPER_IO_SUPPORT}=                         ${FALSE}
 ${CUSTOM_LOGO_SUPPORT}=                             ${FALSE}
 ${USB_DISKS_DETECTION_SUPPORT}=                     ${FALSE}

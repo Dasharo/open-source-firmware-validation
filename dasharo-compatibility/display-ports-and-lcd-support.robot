@@ -47,7 +47,7 @@ DSP003.001 External DP display in firmware
     [Documentation]    Check whether an external DisplayPort display is detected and
     ...    visible during firmware execution (POST/UEFI).
     [Tags]    semiauto
-    Skip If    not ${EXTERNAL_DP_DISPLAY_SUPPORT}    DSP003.001 not supported
+    Skip If    not ${EXTERNAL_DISPLAY_PORT_SUPPORT}    DSP003.001 not supported
     Execute Manual Step    [1/4] Connect an external display to the DUT via DisplayPort
     Execute Manual Step    [2/4] Power on the DUT
     Execute Manual Step    [3/4] Observe the DP-connected display during POST and UEFI setup
