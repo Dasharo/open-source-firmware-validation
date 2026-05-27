@@ -322,13 +322,7 @@ CUP170.301 Verifying UUID (Windows)
     Log To Console    \n[Before Update] ${WIN_ORIGINAL_UUID}
     Log To Console    \n[After Update] ${WIN_UPDATED_UUID}
 
-    # dmidecode reports `Not Settable` for all zeroes
-    IF    '${WIN_ORIGINAL_UUID}' == 'Not Settable'
-        Should Be Equal    ${WIN_UPDATED_UUID}    00000000-0000-0000-0000-000000000000
-    ELSE
-        Should Be Equal    ${WIN_ORIGINAL_UUID}    ${WIN_UPDATED_UUID}
-    END
-
+    Should Be Equal    ${WIN_ORIGINAL_UUID}    ${WIN_UPDATED_UUID}
     IF    ${ROMHOLE_SUPPORT} == ${TRUE}
         Should Be Equal    ${WIN_UPDATED_UUID}    ffffffff-ffff-ffff-ffff-ffffffffffff
     END
