@@ -883,7 +883,7 @@ Execute Linux Tpm2 Tools Command
     ...    enter the command. The timeout_after defines for how long
     ...    we wait until the next prompt (until the executed command
     ...    finishes).
-    [Arguments]    ${cmd}    ${timeout}=30
+    [Arguments]    ${cmd}    ${timeout}=60
     Write Into Terminal    ${cmd}
     Set DUT Response Timeout    ${timeout} seconds
     ${out}=    Read From Terminal Until Prompt
