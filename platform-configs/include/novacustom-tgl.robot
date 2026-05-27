@@ -20,9 +20,9 @@ ${BLUETOOTH_CARD_UBUNTU}=           Intel Corp. AX201 Bluetooth
 ${WEBCAM_UBUNTU}=                   Chicony Electronics Co., Ltd Chicony USB2.0 Camera
 
 # DMI
-${DMIDECODE_FIRMWARE_VERSION}=      Dasharo (coreboot+UEFI) v1.6.0-rc1
+${DMIDECODE_FIRMWARE_VERSION}=      Dasharo (coreboot+UEFI) v1.6.0-rc3
 # TODO verify
-${DMIDECODE_RELEASE_DATE}=          03/17/2022
+${DMIDECODE_RELEASE_DATE}=          05/22/2026
 
 ${L3_CACHE_SUPPORT}=                ${TRUE}
 
