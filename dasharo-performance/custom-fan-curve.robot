@@ -11,6 +11,7 @@ Library             RequestsLibrary
 Library             CSVLibrary
 Library             ../lib/fan_curve_tests/fan_curve_tests.py
 Library             ../lib/fan_curve_tool/keywords.py
+Library             ../lib/images.py
 # TODO: maybe have a single file to include if we need to include the same
 # stuff in all test cases
 Resource            ../variables.robot
@@ -100,7 +101,10 @@ Show Fan Curve Overlay And Confirm
     ...    in the Robot report, and asks the tester to PASS/FAIL via dialog.
     [Arguments]    ${dialog_message}
     ${img}=    Fan Measure Show Graphs
-    Log    <img src="../${img}">    html=true
+
+    Log Image    ${img}
+    Start Process    xdg-open    ${img}
+    Sleep    1s
     Execute Manual Step    ${dialog_message}\n\nOverlay: ${img}
 
 Perform Custom Fan Curve Test
