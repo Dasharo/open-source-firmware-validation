@@ -238,7 +238,7 @@ Check Platform Stability
         VAR    ${last_uptime}=    ${measurement["uptime"]}
         # the network interface is up (skipped when network data was not collected)
         IF    $measurement["network"] != ''
-            Should Contain    ${measurement["network"]}    UP    ignore_case=${True}
+            Should Be True    "UP" in $measurement["network"].upper()
         END
     END
 
