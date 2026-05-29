@@ -66,7 +66,7 @@ Background Measurements
         END
 
         IF    ${STABILITY_TEST_DURATION} >= ${timer} >= ${next_stab_time}
-            IF    '${iface_pattern}' != ''
+            IF    $iface_pattern != ''
                 ${network_status}=    Execute Command In Terminal
                 ...    ip link | grep -E '${iface_pattern}' | grep -Eo 'UP|DOWN'
             ELSE
@@ -173,7 +173,7 @@ Check CPU Frequencies Not Stuck
     [Arguments]    ${frequencies}
     ${first_frequency}=    Get From List    ${frequencies}    0
     FOR    ${frequency}    IN    @{frequencies}
-        IF    ${frequency} != ${INITIAL_CPU_FREQUENCY}
+        IF    $frequency != ${INITIAL_CPU_FREQUENCY}
             Pass Execution    CPU does not stuck on initial frequency
         END
     END
