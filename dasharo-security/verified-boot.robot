@@ -29,7 +29,8 @@ Suite Setup         Run Keywords
 ...                     AND
 ...                     Prepare Tools, Keys And Binaries
 Suite Teardown      Run Keywords
-...                     Log Out And Close Connection
+...                     Run Keyword If    '${SUITE_STATUS}' != 'SKIP'    Flash Firmware    ${FW_FILE}
+...                     AND    Log Out And Close Connection
 ...                     AND    Run    rm -rf ${KEYS_DIR}
 Test Setup          Run Keyword
 ...                     Power On
