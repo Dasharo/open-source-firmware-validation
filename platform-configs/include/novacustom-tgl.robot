@@ -44,3 +44,5 @@ ${L3_CACHE_SUPPORT}=                ${TRUE}
 ...                                 ${{ ("UEFI Update", "DCR") }}
 
 ${HDMI_AUDIO_SUPPORT}=              ${TRUE}
+
+${SENSORS_CONFIG_FILE}=             include/sensors/novacustom-tgl-sensors-config.yaml
