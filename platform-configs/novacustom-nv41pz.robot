@@ -9,7 +9,7 @@ ${CPU}=                                     Intel(R) Core(TM) i5-1240P CPU
 
 # Test configuration
 ${3_MDEB_WIFI_NETWORK}=                     3mdeb_abr
-${CLEVO_BATTERY_CAPACITY}=                  3200*1000
+${CLEVO_BATTERY_CAPACITY}=                  3250000
 
 ${DEVICE_NVME_DISK}=                        Non-Volatile memory controller
 ${DEVICE_USB_KEYBOARD}=                     Logitech, Inc. Keyboard K120

@@ -2,17 +2,23 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-cpu_temperature_measurement:
-  method: lm-sensors
-  lm_sensors_sensor_name: dasharo_acpi-isa-0000
+sensors_requirements_commands:
+  "201":
+    - which sensors || (apt update && apt -y install lm-sensors)
+    - which stress-ng || (apt update && apt -y install stress-ng)
+  "202":
+    - which sensors || dnf -y install lm_sensors
+    - which stress-ng || dnf -y install stress-ng
 
-fan_pwm_measurement:
-  method: none
+sensors_prepare_commands:
+  - sensors-detect --auto
+
+cpu_temperature_measurement:
+  gather: sensors dasharo_acpi-isa-0000 2>/dev/null
+  filter: grep "CPU Package 0" | grep -oE "[0-9]+\.[0-9]+"
+  postprocess: cut -d. -f1
 
 fan_rpm_measurement:
-  method: lm-sensors
-  lm_sensors_sensor_name: dasharo_acpi-isa-0000
-
-sensors_kernel_modules:
-  - module: dasharo-acpi
-    force_id: none
+  gather: sensors dasharo_acpi-isa-0000 2>/dev/null
+  filter: grep RPM | grep "CPU 0" | tr -s ' ' | cut -d ' ' -f3
+  postprocess:
