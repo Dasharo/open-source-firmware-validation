@@ -1,5 +1,6 @@
 *** Settings ***
 Library             Collections
+Library             Dialogs
 Library             OperatingSystem
 Library             Process
 Library             String
@@ -63,9 +64,9 @@ FAN003.201 Fans are turning off during suspend mode with ME Enabled (Ubuntu)
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
-    Log To Console    \nFan test started, please check fan state manually
+    Execute Manual Step    \nFan test started, please check fan state manually
     Perform Suspend Test Using FWTS
-    Log To Console    \nFan state test ended, please note the result
+    Execute Manual Step    \nFan state test ended, please note the result
 
 FAN004.201 Fans are turning off during suspend mode with ME Soft disabled (Ubuntu)
     [Documentation]    Check for correct behavior
@@ -76,9 +77,9 @@ FAN004.201 Fans are turning off during suspend mode with ME Soft disabled (Ubunt
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
-    Log To Console    \nFan test started, please check fan state manually
+    Execute Manual Step    \nFan test started, please check fan state manually
     Perform Suspend Test Using FWTS
-    Log To Console    \nFan state test ended, please note the result
+    Execute Manual Step    \nFan state test ended, please note the result
 
 FAN005.201 Fans are turning off during suspend mode with ME HAP disabled (Ubuntu)
     [Documentation]    Check for correct behavior
@@ -89,9 +90,9 @@ FAN005.201 Fans are turning off during suspend mode with ME HAP disabled (Ubuntu
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
-    Log To Console    \nFan test started, please check fan state manually
+    Execute Manual Step    \nFan test started, please check fan state manually
     Perform Suspend Test Using FWTS
-    Log To Console    \nFan state test ended, please note the result
+    Execute Manual Step    \nFan state test ended, please note the result
 
 FAN006.201 GPU fan speed measure (Ubuntu)
     [Documentation]    The fan has been configured to follow a custom curve.
