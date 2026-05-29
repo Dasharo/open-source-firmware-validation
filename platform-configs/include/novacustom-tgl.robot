@@ -46,3 +46,4 @@ ${L3_CACHE_SUPPORT}=                ${TRUE}
 ${HDMI_AUDIO_SUPPORT}=              ${TRUE}
 
 ${SENSORS_CONFIG_FILE}=             include/sensors/novacustom-tgl-sensors-config.yaml
+${CUSTOM_FAN_CURVE_FILE}=           include/sensors/novacustom-tgl-fan-curve-config.yaml
