@@ -562,6 +562,7 @@ SIO001.201 PS/2 mouse in OS - (Ubuntu)
     [Tags]    semiauto
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SIO001.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    SIO001.201 not supported
+    Skip If    not ${PS2_SUPPORT}    PS/2 not supported
     Execute Manual Step    [1/4] Power on the DUT.
     Execute Manual Step    [2/4] Boot into the system.
     Execute Manual Step    [3/4] Log into the system by using the proper login and password.
@@ -573,6 +574,7 @@ SIO002.201 PS/2 keyboard in OS (Ubuntu)
     [Tags]    semiauto
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SIO002.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    SIO002.201 not supported
+    Skip If    not ${PS2_SUPPORT}    PS/2 not supported
     Execute Manual Step    [1/5] Power on the DUT.
     Execute Manual Step    [2/5] Boot into the system.
     Execute Manual Step    [3/5] Log into the system by using the proper login and password.
@@ -586,6 +588,7 @@ SIO003.201 PS/2 keyboard wake in OS (Ubuntu)
     [Tags]    semiauto
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SIO003.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    SIO003.201 not supported
+    Skip If    not ${PS2_SUPPORT}    PS/2 not supported
     Execute Manual Step    [1/5] Power on the DUT.
     Execute Manual Step    [2/5] Boot into the system.
     Execute Manual Step    [3/5] Log into the system by using the proper login and password.
@@ -1600,6 +1603,7 @@ SIO001.301 PS/2 mouse in OS - (Windows)
     [Documentation]    Check whether the PS/2 mouse works correctly in Windows.
     [Tags]    semiauto
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    SIO001.301 not supported
+    Skip If    not ${PS2_SUPPORT}    PS/2 not supported
     Execute Manual Step    [1/4] Power on the DUT.
     Execute Manual Step    [2/4] Boot into the system.
     Execute Manual Step    [3/4] Log into the system by using the proper login and password.
@@ -1610,6 +1614,7 @@ SIO002.301 PS/2 keyboard in OS (Windows)
     [Documentation]    Check whether the PS/2 keyboard works correctly in Windows.
     [Tags]    semiauto
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    SIO002.301 not supported
+    Skip If    not ${PS2_SUPPORT}    PS/2 not supported
     Execute Manual Step    [1/8] Power on the DUT.
     Execute Manual Step    [2/8] Boot into the system.
     Execute Manual Step    [3/8] Log into the system by using the proper login and password.
@@ -1626,6 +1631,7 @@ SIO003.301 PS/2 keyboard wake in OS (Windows)
     [Documentation]    Check whether the PS/2 keyboard can wake the platform from sleep in Windows.
     [Tags]    semiauto
     Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    SIO003.301 not supported
+    Skip If    not ${PS2_SUPPORT}    PS/2 not supported
     Execute Manual Step    [1/5] Power on the DUT.
     Execute Manual Step    [2/5] Boot into the system.
     Execute Manual Step    [3/5] Log into the system by using the proper login and password.
