@@ -19,8 +19,8 @@ Resource            ../lib/sensors/sensors.robot
 # exactly the case right now)
 Suite Setup         Run Keywords
 ...                     Prepare Test Suite
-...                     AND
-...                     Skip If    not ${COREBOOT_FAN_CONTROL_SUPPORT}    coreboot fan control not supported
+...                     AND    Skip If    not ${COREBOOT_FAN_CONTROL_SUPPORT}    coreboot fan control not supported
+...                     AND    Prepare Sensors
 Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
 
