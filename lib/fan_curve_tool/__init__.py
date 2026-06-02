@@ -13,7 +13,7 @@ import sys
 import time
 from dataclasses import asdict, dataclass, field
 from datetime import datetime, timezone
-from typing import Any
+from typing import Any, Iterable
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -105,22 +105,22 @@ class Sample:
         cls,
         temp: float,
         fan: float,
-        mode: str,
+        fan_mode: str,
         workers: int,
         cpu_load: int,
         direction: str,
-        settle_dt: float,
+        settle_seconds: float,
         stable: bool,
     ) -> "Sample":
         return cls(
-            ts=datetime.now(timezone.utc).isoformat(timespec="seconds"),
+            timestamp=datetime.now(timezone.utc).isoformat(timespec="seconds"),
             temp=float(temp),
             fan=float(fan),
-            mode=mode,
+            fan_mode=fan_mode,
             workers=int(workers),
             load=int(cpu_load),
             direction=direction,
-            settle_dt=float(settle_dt),
+            settle_seconds=float(settle_seconds),
             stable=bool(stable),
         )
 
@@ -208,59 +208,49 @@ class Cache:
 
 
 @dataclass
-class MeasurementSpec:
-    method: str
-    hwmon_path: str | None = None
-    lm_sensors_sensor_name: str | None = None
+class Measurement:
+    gather: str
+    filter: str = ""
+    process: str = ""
 
     @classmethod
-    def from_dict(cls, raw: dict[str, Any]) -> "MeasurementSpec":
+    def from_dict(cls, raw: dict[str, Any]) -> "Measurement":
         return cls(
-            method=raw.get("method", "none"),
-            hwmon_path=_optional(raw.get("hwmon_path")),
-            lm_sensors_sensor_name=_optional(raw.get("lm_sensors_sensor_name")),
+            gather=raw["gather"],
+            filter=raw.get("filter") or "",
+            process=raw.get("process") or "",
         )
 
-
-@dataclass
-class KernelModule:
-    module: str
-    force_id: str | None = None
+    def pipe(self) -> str:
+        # empty stage = passthrough; native shell pipe (byte-safe)
+        stages = [self.gather, self.filter or "cat", self.process or "cat"]
+        return " | ".join(stages)
 
 
 @dataclass
 class SensorsConfig:
-    cpu_temp: MeasurementSpec
-    fan_pwm: MeasurementSpec
-    fan_rpm: MeasurementSpec
-    modules: list[KernelModule] = field(default_factory=list)
+    cpu_temp: Measurement | None
+    fan_pwm: Measurement | None
+    fan_rpm: Measurement | None
+    requirements: list[str] = field(default_factory=list)
+    prepare: list[str] = field(default_factory=list)
 
     @classmethod
     def load(cls, path: str) -> "SensorsConfig":
         with open(path, "r") as file:
             raw = yaml.safe_load(file) or {}
-        modules: list[KernelModule] = []
-        for entry in raw.get("sensors_kernel_modules", []) or []:
-            name = entry.get("module", "none")
-            if name == "none":
-                continue
-            modules.append(
-                KernelModule(module=name, force_id=_optional(entry.get("force_id")))
-            )
+
+        def measurement(key: str) -> Measurement | None:
+            block = raw.get(key)
+            return Measurement.from_dict(block) if block else None
+
         return cls(
-            cpu_temp=MeasurementSpec.from_dict(
-                raw.get("cpu_temperature_measurement", {})
-            ),
-            fan_pwm=MeasurementSpec.from_dict(raw.get("fan_pwm_measurement", {})),
-            fan_rpm=MeasurementSpec.from_dict(raw.get("fan_rpm_measurement", {})),
-            modules=modules,
+            cpu_temp=measurement("cpu_temperature_measurement"),
+            fan_pwm=measurement("fan_pwm_measurement"),
+            fan_rpm=measurement("fan_rpm_measurement"),
+            requirements=list(raw.get("sensors_requirements") or []),
+            prepare=list(raw.get("sensors_prepare") or []),
         )
-
-
-def _optional(value: Any) -> str | None:
-    if value is None or (isinstance(value, str) and value.strip().lower() == "none"):
-        return None
-    return value
 
 
 PROFILE_KEY_PREFIX = "temperature_curve_"
@@ -337,78 +327,28 @@ class CurveConfig:
 # ----------------------------------------------------------------------------
 
 
-_TEMP_RE = re.compile(r"Package id 0:.*?\+(\d+(?:\.\d+)?)")
-_FAN_RPM_RE = re.compile(r"^\s*CPU \d+\s*:\s*(\d+) RPM", re.MULTILINE)
-_FAN_PWM_RE = re.compile(r"^\s*pwm\d+\s*:\s*(\d+)", re.MULTILINE)
-_S76_FAN_RE = re.compile(r"CPU fan\s*:?\s*(\d+)")
-
-
 @dataclass
-class CpuTempReader:
-    spec: MeasurementSpec
+class Reader:
+    spec: Measurement
 
     def read(self, terminal: Terminal) -> float:
-        if self.spec.method == "lm-sensors":
-            output = terminal.run("sensors 2>/dev/null")
-            match = _TEMP_RE.search(output)
-            if not match:
-                raise ValueError(
-                    f"no `Package id 0:` line in sensors output:\n{output[:600]!r}"
-                )
-            return float(match.group(1))
-        if self.spec.method == "hwmon":
-            return int(terminal.run(f"cat {self.spec.hwmon_path}").strip()) / 1000.0
-        raise ValueError(f"unsupported cpu temp method: {self.spec.method!r}")
+        out = terminal.run(self.spec.pipe()).strip()
+        return float(out)
 
 
-@dataclass
-class FanReader:
-    spec: MeasurementSpec
-    mode: str
-
-    def read(self, terminal: Terminal) -> float:
-        if self.spec.method == "hwmon":
-            return float(terminal.run(f"cat {self.spec.hwmon_path}").strip())
-        if self.spec.method == "lm-sensors":
-            chip = self.spec.lm_sensors_sensor_name or ""
-            output = terminal.run(f"sensors {chip} 2>/dev/null")
-            regex = _FAN_PWM_RE if self.mode == "pwm" else _FAN_RPM_RE
-            match = regex.search(output)
-            if not match:
-                raise ValueError(
-                    f"no fan {self.mode} line in sensors {chip!r} output:\n"
-                    f"{output[:600]!r}"
-                )
-            return float(match.group(1))
-        if self.spec.method == "system76-acpi":
-            output = terminal.run("sensors 2>/dev/null")
-            match = _S76_FAN_RE.search(output)
-            if not match:
-                raise ValueError(
-                    f"no `CPU fan` line in sensors output:\n{output[:600]!r}"
-                )
-            return float(match.group(1))
-        raise ValueError(f"unsupported fan method: {self.spec.method!r}")
-
-
-def pick_fan_mode(config: SensorsConfig) -> tuple[str, MeasurementSpec]:
-    if config.fan_pwm.method != "none":
+def pick_fan_mode(config: SensorsConfig) -> tuple[str, Measurement]:
+    if config.fan_pwm is not None:
         return "pwm", config.fan_pwm
-    if config.fan_rpm.method != "none":
+    if config.fan_rpm is not None:
         return "rpm", config.fan_rpm
-    raise ValueError("no fan measurement method configured")
+    raise ValueError("no fan measurement configured")
 
 
 def prepare_sensors(terminal: Terminal, config: SensorsConfig) -> None:
-    for module in config.modules:
-        force = f" force_id={module.force_id}" if module.force_id else ""
-        terminal.run(f"modprobe {module.module}{force}")
-    using_lm_sensors = any(
-        spec.method == "lm-sensors"
-        for spec in (config.cpu_temp, config.fan_pwm, config.fan_rpm)
-    )
-    if using_lm_sensors:
-        terminal.run("sensors-detect --auto")
+    for cmd in config.requirements:  # once per device, guarded idempotent
+        terminal.run(cmd)
+    for cmd in config.prepare:  # per boot
+        terminal.run(cmd)
 
 
 # ----------------------------------------------------------------------------
@@ -470,8 +410,8 @@ class _LoadPoint:
 def gather_measurements(
     profile: str,
     terminal: Terminal,
-    temp_reader: CpuTempReader,
-    fan_reader: FanReader,
+    temp_reader: Reader,
+    fan_reader: Reader,
     fan_mode: str,
     cache: Cache,
     config: MeasureConfig | None = None,
@@ -628,8 +568,8 @@ def stop_stress(terminal: Terminal) -> None:
 
 def _burst_readings(
     terminal: Terminal,
-    temp_reader: CpuTempReader,
-    fan_reader: FanReader,
+    temp_reader: Reader,
+    fan_reader: Reader,
     config: MeasureConfig,
     first_temp: float,
     first_fan: float,
@@ -666,8 +606,8 @@ def _set_stress(
 
 def _wait_stable(
     terminal: Terminal,
-    temp_reader: CpuTempReader,
-    fan_reader: FanReader,
+    temp_reader: Reader,
+    fan_reader: Reader,
     config: MeasureConfig,
     fan_std_thresh: float,
 ) -> tuple[bool, float, float, float]:
@@ -905,7 +845,6 @@ def plot(
             ax,
             profile_name,
             block.samples,
-            cache.fan_mode,
             bin_width,
             colors[profile_name],
             focus,
@@ -989,9 +928,7 @@ def _profile_colors(profile_names: list[str]) -> dict[str, tuple]:
 def _plot_profile(ax, name, samples, fan_mode, bin_width, color, focus):
     temps = [s.temp for s in samples]
     fan_values = [s.fan for s in samples]
-    bins, medians, lower_quartiles, upper_quartiles = _bin_stats(
-        samples, fan_mode, bin_width
-    )
+    bins, medians, lower_quartiles, upper_quartiles = _bin_stats(samples, bin_width)
     line_alpha = 1.0 if focus else 0.35
     band_alpha = 0.25 if focus else 0.08
     if bins:
@@ -1000,10 +937,6 @@ def _plot_profile(ax, name, samples, fan_mode, bin_width, color, focus):
             bins, lower_quartiles, upper_quartiles, color=color, alpha=band_alpha
         )
         ax.plot(bins, medians, color=color, alpha=line_alpha, label=name)
-
-
-def _fan_value(sample: Sample, fan_mode: str) -> float:
-    return sample.fan / 2.55 if fan_mode == "pwm" else sample.fan
 
 
 def _plot_one_load_grid(ax, profile_name: str, samples: list[Sample], fig) -> None:
@@ -1050,11 +983,11 @@ def _plot_one_load_grid(ax, profile_name: str, samples: list[Sample], fig) -> No
     fig.colorbar(image, ax=ax, label="temp [C]")
 
 
-def _bin_stats(samples, fan_mode, bin_width):
+def _bin_stats(samples, bin_width):
     buckets: dict[float, list[float]] = {}
     for sample in samples:
         bin_floor = math.floor(sample.temp / bin_width) * bin_width
-        buckets.setdefault(bin_floor, []).append(_fan_value(sample, fan_mode))
+        buckets.setdefault(bin_floor, []).append(sample.fan)
     bins: list[float] = []
     medians: list[float] = []
     lower_quartiles: list[float] = []
@@ -1155,8 +1088,8 @@ def _cli_gather(args) -> int:
         gather_measurements(
             profile=args.profile,
             terminal=terminal,
-            temp_reader=CpuTempReader(sensors_config.cpu_temp),
-            fan_reader=FanReader(fan_spec, fan_mode),
+            temp_reader=Reader(sensors_config.cpu_temp),
+            fan_reader=Reader(fan_spec),
             fan_mode=fan_mode,
             cache=cache,
             config=measure_config,
