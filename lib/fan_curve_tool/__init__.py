@@ -118,7 +118,7 @@ class Sample:
             fan=float(fan),
             fan_mode=fan_mode,
             workers=int(workers),
-            load=int(cpu_load),
+            cpu_load=int(cpu_load),
             direction=direction,
             settle_seconds=float(settle_seconds),
             stable=bool(stable),
