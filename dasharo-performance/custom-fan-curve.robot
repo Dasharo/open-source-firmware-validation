@@ -71,6 +71,8 @@ Gather All Enabled Fan Profiles
     Import Variables    ${CURDIR}/../platform-configs/${CUSTOM_FAN_CURVE_FILE}
     Power On
     Boot And Login To OS    ${DEFAULT_BOOT_OS_ID}
+    VAR    ${DUT_CONNECTION_METHOD}=    SSH    scope=SUITE
+    Login To Booted OS
     Fan Measure Init    ${SENSORS_CONFIG_FILE}    ${CUSTOM_FAN_CURVE_FILE}
     IF    ${CUSTOM_FAN_CURVE_SILENT_MODE_SUPPORT}
         Log To Console    Gathering Silent curve
