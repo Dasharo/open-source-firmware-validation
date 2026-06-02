@@ -30,30 +30,4 @@ ${EC_NO_SYNC_DOWNLOAD_LINK}=
 ${FW_NO_EC_SYNC_VERSION}=           v1.5.1
 ${EC_NO_SYNC_VERSION}=              2023-10-31_f148431
 
-# cpu performance Windows
-&{UPP_SMALLPT_BENCHMARK}=
-...                                 name=smallpt
-...                                 score=38.263
-...                                 scale=lower_is_better
-...                                 dev=0.2
-...                                 type=singlecore
-&{UPP_CRAFTY_BENCHMARK}=
-...                                 name=crafty
-...                                 score=8494085
-...                                 scale=higher_is_better
-...                                 dev=0.2
-...                                 type=singlecore
-&{UPP_CACHEBENCH_BENCHMARK}=
-...                                 name=cachebench
-...                                 score=97428.4
-...                                 scale=higher_is_better
-...                                 dev=0.2
-...                                 type=multicore
-&{UPP_BLAKE2_BENCHMARK}=            name=blake2    score=3.51    scale=lower_is_better    dev=0.2    type=multicore
-@{UPP_BENCHMARKS}=
-...                                 &{UPP_SMALLPT_BENCHMARK}
-...                                 &{UPP_CRAFTY_BENCHMARK}
-...                                 &{UPP_CACHEBENCH_BENCHMARK}
-...                                 &{UPP_BLAKE2_BENCHMARK}
-
 # DTS E2E variables
