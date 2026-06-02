@@ -19,7 +19,10 @@ Resource            ../keys.robot
 Resource            ../lib/sensors/sensors.robot
 Resource            ../lib/performance/cpu.robot
 
-Suite Setup         Gather All Enabled Fan Profiles    ${ENV_ID_UBUNTU}
+Suite Setup         Run Keywords
+...                     Prepare Test Suite
+...                     AND    Skip If    '''${CUSTOM_FAN_CURVE_FILE}''' == '''${TBD}'''    CFC not supported - CUSTOM_FAN_CURVE_FILE not defined
+...                     AND    Gather All Enabled Fan Profiles    ${ENV_ID_UBUNTU}
 Suite Teardown      Run Keywords
 ...                     Fan Measure Stop Stress
 ...                     AND
@@ -65,9 +68,6 @@ Gather All Enabled Fan Profiles
     ...    a single profile are logged as WARN so the remaining profiles still
     ...    gather and the test cases run with partial data.
     [Arguments]    ${os_id}
-    Prepare Test Suite
-    Skip If    '''${CUSTOM_FAN_CURVE_FILE}''' == '''${TBD}'''
-    ...    CFC not supported - CUSTOM_FAN_CURVE_FILE not defined
     Import Variables    ${CURDIR}/../platform-configs/${CUSTOM_FAN_CURVE_FILE}
     Power On
     Boot And Login To OS    ${os_id}
