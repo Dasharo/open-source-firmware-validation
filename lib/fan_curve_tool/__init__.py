@@ -925,7 +925,7 @@ def _profile_colors(profile_names: list[str]) -> dict[str, tuple]:
     return {name: cmap(i % cmap.N) for i, name in enumerate(profile_names)}
 
 
-def _plot_profile(ax, name, samples, fan_mode, bin_width, color, focus):
+def _plot_profile(ax, name, samples, bin_width, color, focus):
     temps = [s.temp for s in samples]
     fan_values = [s.fan for s in samples]
     bins, medians, lower_quartiles, upper_quartiles = _bin_stats(samples, bin_width)
