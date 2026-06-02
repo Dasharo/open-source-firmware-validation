@@ -91,9 +91,6 @@ ${USB_DEVICE}=                                  SanDisk
 ...                                             dev=0.2
 ...                                             type=multicore
 @{CPP_BENCHMARKS}=
-...                                             &{CPP_CRAY_1080_P_BENCHMARK}
-...                                             &{CPP_CRAY_4_K_BENCHMARK}
-...                                             &{CPP_CRAY_5_K_BENCHMARK}
 ...                                             &{CPP_COREMARK_BENCHMARK}
 ...                                             &{CPP_ZIP_COMPRESSION_BENCHMARK}
 ...                                             &{CPP_ZIP_DECOMPRESSION_BENCHMARK}

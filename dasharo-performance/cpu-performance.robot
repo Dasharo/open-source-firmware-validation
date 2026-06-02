@@ -83,7 +83,6 @@ CPU Performance Suite Setup
     # Set DynamicRunCount to FALSE to prevent unstable run time
     Execute Linux Command
     ...    perl -pi -e 's|<DynamicRunCount>.*?</DynamicRunCount>|<DynamicRunCount>FALSE</DynamicRunCount>|' /etc/phoronix-test-suite.xml
-    Execute Linux Command    phoronix-test-suite install c-ray    300
     Execute Linux Command    phoronix-test-suite install compress-7zip    300
     Execute Linux Command    phoronix-test-suite install coremark    300
     Write Into Terminal    phoronix-test-suite batch-setup
@@ -119,12 +118,6 @@ Run Supported Benchmarks
     VAR    ${test_name_to_path}=    ${test_name_to_path}    ${CURRENT_DATE}    separator=${EMPTY}
 
     IF    '${target_type}' == 'singlecore'
-        Execute Command In Terminal    export FORCE_TIMES_TO_RUN=${RUNS_AMOUNT}
-        ${result}=    Execute Command In Terminal
-        ...    echo 4 | phoronix-test-suite batch-run pts/c-ray TEST_RESULTS_NAME=${test_name_to_path}
-        ...    timeout=18000
-        Should Not Contain    ${result}    The batch mode must first be configured.
-
         Execute Command In Terminal    export FORCE_TIMES_TO_RUN=${RUNS_AMOUNT}
         ${result}=    Execute Command In Terminal
         ...    phoronix-test-suite batch-run pts/coremark TEST_RESULTS_NAME=${test_name_to_path}
