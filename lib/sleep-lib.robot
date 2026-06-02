@@ -2,6 +2,7 @@
 Documentation       Collection of keywords related to System Sleep States
 
 Resource            ../keywords.robot
+Resource            ../lib/framework.robot
 
 
 *** Keywords ***
@@ -166,7 +167,12 @@ Perform Warmboot Using Rtcwake
     # would hang here and fail.
     # Sometimes it may take long to shutdown all systemd services,
     # so the waiting times have to be excessive to avoid false negatives.
-    IF    '${POWER_CTRL}' == 'none'    Set Nextboot    ${BOOTED_OS_ID}
+    IF    '${POWER_CTRL}' == 'none'
+        ${laptop}=    Check The Platform Is A Laptop
+        Skip If
+        ...    ${laptop} and not ${SHOULD_RUN_SEMIAUTO_TESTS}
+        ...    Automatic warmboots are not currently possible on laptops https://github.com/Dasharo/open-source-firmware-validation/issues/1068
+    END
     Write Into Terminal    rtcwake -m off -s 60
     Set DUT Response Timeout    300s
     Sleep    60s
