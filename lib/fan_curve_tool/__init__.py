@@ -648,7 +648,7 @@ def _wait_until_in_bin(
     bin_width: float,
     timeout: float,
     terminal: Terminal,
-    temp_reader: CpuTempReader,
+    temp_reader: Reader,
     config: MeasureConfig,
 ) -> bool:
     start = time.time()
@@ -666,7 +666,7 @@ def _prepare_hysteresis_temp_change(
     target_temp_bin: float,
     config: MeasureConfig,
     terminal: Terminal,
-    temp_reader: CpuTempReader,
+    temp_reader: Reader,
     nproc: int,
 ) -> None:
     """Drive temperature below (rising) or above (falling) the target bin so

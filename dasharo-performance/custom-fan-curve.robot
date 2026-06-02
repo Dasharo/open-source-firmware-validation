@@ -10,7 +10,7 @@ Library             SSHLibrary    timeout=90 seconds
 Library             RequestsLibrary
 Library             CSVLibrary
 Library             ../lib/fan_curve_tests/fan_curve_tests.py
-Library             ../lib/fan_curve_tool/keywords.py
+Library             ../lib/fan_curve_tool/FanCurveTool.py
 Library             ../lib/images.py
 # TODO: maybe have a single file to include if we need to include the same
 # stuff in all test cases

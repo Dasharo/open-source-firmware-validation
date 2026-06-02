@@ -21,10 +21,9 @@ from robot.libraries.BuiltIn import BuiltIn
 
 from lib.fan_curve_tool import (
     Cache,
-    CpuTempReader,
     CurveConfig,
-    FanReader,
     MeasureConfig,
+    Reader,
     SensorsConfig,
     Terminal,
     gather_measurements,
@@ -49,8 +48,8 @@ class FanCurveTool:
         self._logs_dir = ""
         self._sensors_config: SensorsConfig | None = None
         self._curve_config: CurveConfig | None = None
-        self._temp_reader: CpuTempReader | None = None
-        self._fan_reader: FanReader | None = None
+        self._temp_reader: Reader | None = None
+        self._fan_reader: Reader | None = None
         self._fan_mode = ""
         self._cache: Cache | None = None
         self._measure_config = MeasureConfig()
@@ -76,8 +75,8 @@ class FanCurveTool:
             os.path.join(PLATFORM_CONFIGS_DIR, curve_config_file)
         )
         self._fan_mode, fan_spec = pick_fan_mode(self._sensors_config)
-        self._temp_reader = CpuTempReader(self._sensors_config.cpu_temp)
-        self._fan_reader = FanReader(fan_spec, self._fan_mode)
+        self._temp_reader = Reader(self._sensors_config.cpu_temp)
+        self._fan_reader = Reader(fan_spec)
 
         self._cache = Cache.open(
             logs_dir=self._logs_dir,
