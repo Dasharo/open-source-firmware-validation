@@ -19,7 +19,7 @@ Resource            ../keys.robot
 Resource            ../lib/sensors/sensors.robot
 Resource            ../lib/performance/cpu.robot
 
-Suite Setup         Gather All Enabled Fan Profiles
+Suite Setup         Gather All Enabled Fan Profiles    ${ENV_ID_UBUNTU}
 Suite Teardown      Run Keywords
 ...                     Fan Measure Stop Stress
 ...                     AND
@@ -64,7 +64,7 @@ Gather All Enabled Fan Profiles
     ...    boots Ubuntu, becomes root, and runs Fan Measure Gather. Failures of
     ...    a single profile are logged as WARN so the remaining profiles still
     ...    gather and the test cases run with partial data.
-    [Arguments]    ${os_id}=${ENV_ID_UBUNTU}
+    [Arguments]    ${os_id}
     Prepare Test Suite
     Skip If    '''${CUSTOM_FAN_CURVE_FILE}''' == '''${TBD}'''
     ...    CFC not supported - CUSTOM_FAN_CURVE_FILE not defined
