@@ -2,21 +2,19 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-cpu_temperature_measurement:
-  method: lm-sensors
-  hwmon_path: none
-  lm_sensors_sensor_name: none
+sensors_requirements_commands:
+  - which sensors || (apt-get update && apt-get -y install lm-sensors)
 
-fan_pwm_measurement:
-  method: none
-  hwmon_path: none
-  lm_sensors_sensor_name: none
+sensors_prepare_commands:
+  - modprobe it87 force_id=0x8786
+  - sensors-detect --auto
+
+cpu_temperature_measurement:
+  gather: sensors 2>/dev/null
+  filter: awk -F '[+°]' '/Package id 0:/ {print $2}'
+  postprocess: cut -d. -f1
 
 fan_rpm_measurement:
-  method: lm-sensors
-  hwmon_path: none
-  lm_sensors_sensor_name: it8786-isa-0a20
-
-sensors_kernel_modules:
-  - module: it87
-    force_id: '0x8786'
+  gather: sensors it8786-isa-0a20 2>/dev/null
+  filter: grep fan1 | tr -s ' ' | cut -d ' ' -f2
+  postprocess:
