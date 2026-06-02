@@ -3,8 +3,12 @@
 # SPDX-License-Identifier: Apache-2.0
 
 sensors_requirements_commands:
-  "201": [ which sensors || (apt update && apt -y install lm-sensors) ]
-  "202": [ which sensors || dnf -y install lm_sensors ]
+  "201":
+    - which sensors || (apt update && apt -y install lm-sensors)
+    - which stress-ng || (apt update && apt -y install stress-ng)
+  "202":
+    - which sensors || dnf -y install lm_sensors
+    - which stress-ng || dnf -y install stress-ng
 
 sensors_prepare_commands:
   - sensors-detect --auto
