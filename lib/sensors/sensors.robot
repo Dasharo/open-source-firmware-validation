@@ -16,7 +16,8 @@ Prepare Sensors
     Login To Linux
     IF    ${BOOTED_OS_ID} != ${ENV_ID_QUBES}    Switch To Root User
     Import Variables    ${CURDIR}/../../platform-configs/${SENSORS_CONFIG_FILE}
-    FOR    ${cmd}    IN    @{SENSORS_REQUIREMENTS_COMMANDS}
+    ${requirements}=    Get From Dictionary    ${SENSORS_REQUIREMENTS}    ${BOOTED_OS_ID}    default=@{EMPTY}
+    FOR    ${cmd}    IN    @{requirements}
         Execute Command In Terminal    ${cmd}
     END
     FOR    ${cmd}    IN    @{SENSORS_PREPARE_COMMANDS}

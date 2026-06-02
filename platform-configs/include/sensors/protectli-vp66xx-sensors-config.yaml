@@ -3,7 +3,8 @@
 # SPDX-License-Identifier: Apache-2.0
 
 sensors_requirements_commands:
-  - which sensors || (apt-get update && apt-get -y install lm-sensors)
+  ubuntu: [ which sensors || (apt update && apt -y install lm-sensors) ]
+  fedora: [ which sensors || dnf -y install lm_sensors ]
 
 sensors_prepare_commands:
   - modprobe it87 force_id=0x8786

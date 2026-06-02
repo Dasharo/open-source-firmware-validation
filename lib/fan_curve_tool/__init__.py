@@ -344,10 +344,10 @@ def pick_fan_mode(config: SensorsConfig) -> tuple[str, Measurement]:
     raise ValueError("no fan measurement configured")
 
 
-def prepare_sensors(terminal: Terminal, config: SensorsConfig) -> None:
-    for cmd in config.requirements:  # once per device, guarded idempotent
+def prepare_sensors(terminal: Terminal, config: SensorsConfig, env_id: str) -> None:
+    for cmd in config.requirements[env_id]:
         terminal.run(cmd)
-    for cmd in config.prepare:  # per boot
+    for cmd in config.prepare:
         terminal.run(cmd)
 
 
@@ -1057,6 +1057,7 @@ def main(argv: list[str] | None = None) -> int:
         action="store_true",
         help="Also emit a (workers x cpu_load) -> temperature heatmap.",
     )
+    gather_parser.add_argument("--env-id", required=True)
 
     args = parser.parse_args(argv)
     if args.cmd == "gather":
