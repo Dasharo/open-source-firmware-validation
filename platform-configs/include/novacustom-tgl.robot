@@ -49,21 +49,22 @@ ${SENSORS_CONFIG_FILE}=                 include/sensors/novacustom-tgl-sensors-c
 ${CUSTOM_FAN_CURVE_FILE}=               include/sensors/novacustom-tgl-fan-curve-config.yaml
 
 # cpu performance Ubuntu
+# https://openbenchmarking.org/s/Intel+Core+i7-1185G7
 &{CPP_COREMARK_BENCHMARK}=
 ...                                     name=CoreMark Size 666 - Iterations Per Second
-...                                     score=68000
+...                                     score=130000
 ...                                     scale=higher_is_better
 ...                                     dev=0.2
 ...                                     type=singlecore
 &{CPP_ZIP_COMPRESSION_BENCHMARK}=
 ...                                     name=Test: Compression Rating
-...                                     score=50000
+...                                     score=33000
 ...                                     scale=higher_is_better
 ...                                     dev=0.2
 ...                                     type=multicore
 &{CPP_ZIP_DECOMPRESSION_BENCHMARK}=
 ...                                     name=Test: Decompression Rating
-...                                     score=35000
+...                                     score=20000
 ...                                     scale=higher_is_better
 ...                                     dev=0.2
 ...                                     type=multicore
