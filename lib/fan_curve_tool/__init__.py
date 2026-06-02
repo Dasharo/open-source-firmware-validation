@@ -232,8 +232,8 @@ class SensorsConfig:
     cpu_temp: Measurement | None
     fan_pwm: Measurement | None
     fan_rpm: Measurement | None
-    requirements: list[str] = field(default_factory=list)
-    prepare: list[str] = field(default_factory=list)
+    requirements_commands: dict[str, list[str]] = field(default_factory=dict)
+    prepare_commands: list[str] = field(default_factory=list)
 
     @classmethod
     def load(cls, path: str) -> "SensorsConfig":
@@ -248,8 +248,8 @@ class SensorsConfig:
             cpu_temp=measurement("cpu_temperature_measurement"),
             fan_pwm=measurement("fan_pwm_measurement"),
             fan_rpm=measurement("fan_rpm_measurement"),
-            requirements=list(raw.get("sensors_requirements") or []),
-            prepare=list(raw.get("sensors_prepare") or []),
+            requirements_commands=raw.get("sensors_requirements_commands", {}) or {},
+            prepare_commands=raw.get("sensors_prepare_commands", []) or [],
         )
 
 
@@ -345,9 +345,9 @@ def pick_fan_mode(config: SensorsConfig) -> tuple[str, Measurement]:
 
 
 def prepare_sensors(terminal: Terminal, config: SensorsConfig, env_id: str) -> None:
-    for cmd in config.requirements[env_id]:
+    for cmd in config.requirements_commands.get(env_id, []):
         terminal.run(cmd)
-    for cmd in config.prepare:
+    for cmd in config.prepare_commands:
         terminal.run(cmd)
 
 
