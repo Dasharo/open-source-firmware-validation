@@ -1071,7 +1071,7 @@ def _cli_gather(args) -> int:
     with Terminal(
         host=args.host, user=args.user, port=args.port, password=args.password
     ) as terminal:
-        prepare_sensors(terminal, sensors_config)
+        prepare_sensors(terminal, sensors_config, args.env_id)
         cache = Cache.open(
             logs_dir=args.logs_dir,
             run_id=args.run_id,

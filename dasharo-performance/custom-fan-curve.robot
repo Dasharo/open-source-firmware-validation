@@ -65,38 +65,39 @@ Gather All Enabled Fan Profiles
     ...    boots Ubuntu, becomes root, and runs Fan Measure Gather. Failures of
     ...    a single profile are logged as WARN so the remaining profiles still
     ...    gather and the test cases run with partial data.
+    [Arguments]    ${os_id}=${ENV_ID_UBUNTU}
     Prepare Test Suite
     Skip If    '''${CUSTOM_FAN_CURVE_FILE}''' == '''${TBD}'''
     ...    CFC not supported - CUSTOM_FAN_CURVE_FILE not defined
     Import Variables    ${CURDIR}/../platform-configs/${CUSTOM_FAN_CURVE_FILE}
     Power On
-    Boot And Login To OS    ${DEFAULT_BOOT_OS_ID}
+    Boot And Login To OS    ${os_id}
     VAR    ${DUT_CONNECTION_METHOD}=    SSH    scope=SUITE
     Login To Booted OS
     Fan Measure Init    ${SENSORS_CONFIG_FILE}    ${CUSTOM_FAN_CURVE_FILE}
     IF    ${CUSTOM_FAN_CURVE_SILENT_MODE_SUPPORT}
         Log To Console    Gathering Silent curve
-        Gather One Fan Profile    Silent    silent
+        Gather One Fan Profile    Silent    silent    ${os_id}
     END
     IF    ${CUSTOM_FAN_CURVE_PERFORMANCE_MODE_SUPPORT}
         Log To Console    Gathering Performance curve
-        Gather One Fan Profile    Performance    performance
+        Gather One Fan Profile    Performance    performance    ${os_id}
     END
     IF    ${CUSTOM_FAN_CURVE_OFF_MODE_SUPPORT}
         Log To Console    Gathering Fans Off curve
-        Gather One Fan Profile    Fans Off    off
+        Gather One Fan Profile    Fans Off    off    ${os_id}
     END
 
 Gather One Fan Profile
     [Documentation]    Reboots into the requested FanCurveOption, boots Ubuntu,
     ...    becomes root, and runs Fan Measure Gather for the named profile.
-    [Arguments]    ${uefi_value}    ${profile}
+    [Arguments]    ${uefi_value}    ${profile}    ${os_id}
     Set UEFI Option    FanCurveOption    ${uefi_value}
     Power On
-    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
+    Boot System Or From Connected Disk    ${os_id}
     Login To Linux
     Switch To Root User
-    Run Keyword And Warn On Failure    Fan Measure Gather    ${profile}
+    Run Keyword And Warn On Failure    Fan Measure Gather    ${profile}    ${os_id}
 
 Show Fan Curve Overlay And Confirm
     [Documentation]    Renders the combined fan-curve overlay, embeds it inline

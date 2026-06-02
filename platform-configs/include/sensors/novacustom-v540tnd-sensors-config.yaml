@@ -3,8 +3,8 @@
 # SPDX-License-Identifier: Apache-2.0
 
 sensors_requirements_commands:
-  ubuntu: [ which sensors || (apt update && apt -y install lm-sensors) ]
-  fedora: [ which sensors || dnf -y install lm_sensors ]
+  "201": [ which sensors || (apt update && apt -y install lm-sensors) ]
+  "202": [ which sensors || dnf -y install lm_sensors ]
 
 sensors_prepare_commands:
   - sensors-detect --auto

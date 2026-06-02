@@ -26,8 +26,10 @@
 #   process: awk '{print int($1/1000)}'
 
 # Run once per device. e.g. install lm-sensors.
+# Separate instructions for different ENV_IDs
 sensors_requirements_commands:
-  - which sensors || (apt-get update && apt-get -y install lm-sensors)
+  "201": [ which sensors || (apt update && apt -y install lm-sensors) ]
+  "202": [ which sensors || dnf -y install lm_sensors ]
 
 # Run after each boot, before measuring. e.g. load modules, detect sensors.
 sensors_prepare_commands:

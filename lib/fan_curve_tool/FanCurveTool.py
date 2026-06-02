@@ -92,6 +92,7 @@ class FanCurveTool:
     def fan_measure_gather(
         self,
         profile: str,
+        env_id: str,
         verbose: bool = True,
         max_runtime: float | None = None,
         target_per_bin: int | None = None,
@@ -105,7 +106,7 @@ class FanCurveTool:
             target_per_bin=target_per_bin,
         )
         with _open_terminal() as terminal:
-            prepare_sensors(terminal, self._sensors_config)
+            prepare_sensors(terminal, self._sensors_config, env_id)
             block = gather_measurements(
                 profile=profile,
                 terminal=terminal,
