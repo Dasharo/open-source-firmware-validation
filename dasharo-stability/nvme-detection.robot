@@ -27,7 +27,6 @@ SNV001.201 NVMe detection after cold boot (Ubuntu)
     [Documentation]    Check whether the NVMe disk is detected and working
     ...    correctly after performing a cold boot.
     [Tags]    semiauto
-    Skip If    not ${NVME_DETECTION_SUPPORT}    SNV001.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SNV001.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    SNV001.201 not supported
     Pause Execution    This is a manual test.
@@ -40,8 +39,10 @@ SNV001.201 NVMe detection after cold boot (Ubuntu)
 SNV002.201 NVMe detection after warm boot (Ubuntu)
     [Documentation]    Check whether the NVMe disk is detected and working
     ...    correctly after performing a warm boot.
+    [Tags]    automated    semiauto
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SNV002.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    SNV002.201 not supported
+    Skip If    '${POWER_CTRL}'=='none' and not ${SHOULD_RUN_SEMIAUTO_TESTS}
     Power On
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
