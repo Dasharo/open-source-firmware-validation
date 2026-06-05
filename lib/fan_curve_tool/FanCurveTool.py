@@ -6,6 +6,7 @@ import os
 import socket
 import sys
 import time
+import traceback
 
 # Robot loads this file by path (Library ../lib/fan_curve_tool/keywords.py),
 # not as a package, so absolute `lib.fan_curve_tool.*` imports need the repo
@@ -16,6 +17,7 @@ _REPO_ROOT = os.path.dirname(
 if _REPO_ROOT not in sys.path:
     sys.path.insert(0, _REPO_ROOT)
 
+from robot.api import logger
 from robot.api.deco import keyword, library
 from robot.libraries.BuiltIn import BuiltIn
 
@@ -105,17 +107,24 @@ class FanCurveTool:
             max_runtime=max_runtime,
             target_per_bin=target_per_bin,
         )
-        with _open_terminal() as terminal:
-            prepare_sensors(terminal, self._sensors_config, env_id)
-            block = gather_measurements(
-                profile=profile,
-                terminal=terminal,
-                temp_reader=self._temp_reader,
-                fan_reader=self._fan_reader,
-                fan_mode=self._fan_mode,
-                cache=self._cache,
-                config=self._measure_config,
+        try:
+            with _open_terminal() as terminal:
+                prepare_sensors(terminal, self._sensors_config, env_id)
+                block = gather_measurements(
+                    profile=profile,
+                    terminal=terminal,
+                    temp_reader=self._temp_reader,
+                    fan_reader=self._fan_reader,
+                    fan_mode=self._fan_mode,
+                    cache=self._cache,
+                    config=self._measure_config,
+                )
+        except Exception as e:
+            logger.warn(
+                f"Fan Measure Gather failed for profile {profile!r}:\n"
+                f"{traceback.format_exc()}"
             )
+            raise e
         return {
             "samples_n": len(block.samples),
             "reachable_min": block.reachable_temp_range[0],
