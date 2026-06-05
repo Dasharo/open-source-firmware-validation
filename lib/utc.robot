@@ -54,47 +54,6 @@ Resource    options/options-lib_dcu.robot
 ...                                 [5/7] Connect three external displays to the dock (HDMI/DP).
 ...                                 [6/7] Verify that all three displays are detected and active.
 ...                                 [7/7] Disconnect and reconnect one display to confirm stability.
-@{QUBES_COLD_BOOT_STEPS}=
-...                                 [1/9] Boot into dom0.
-...                                 [2/9] Connect docking station to DUT.
-...                                 [3/9] Verify docking station is detected.
-...                                 [4/9] Record current system boot time (uptime --since).
-...                                 [5/9] Power cycle the DUT.
-...                                 [6/9] Boot again into dom0.
-...                                 [7/9] Verify docking station is detected after cold boot.
-...                                 [8/9] Repeat cold boot cycle for ${STABILITY_DETECTION_COLDBOOT_ITERATIONS} iterations.
-...                                 [9/9] Verify that no failed detections occurred.
-
-@{QUBES_WARM_BOOT_STEPS}=
-...                                 [1/9] Boot into dom0.
-...                                 [2/9] Connect docking station to DUT.
-...                                 [3/9] Verify docking station is detected.
-...                                 [4/9] Record current system boot time (uptime --since).
-...                                 [5/9] Perform warm boot: rtcwake --mode mem --seconds 10
-...                                 [6/9] Boot again into dom0.
-...                                 [7/9] Verify docking station is detected after warm boot.
-...                                 [8/9] Repeat warm boot cycle for ${STABILITY_DETECTION_WARMBOOT_ITERATIONS} iterations.
-...                                 [9/9] Verify that no failed detections occurred.
-
-@{QUBES_REBOOT_STEPS}=
-...                                 [1/8] Boot into dom0.
-...                                 [2/8] Connect docking station to DUT.
-...                                 [3/8] Verify docking station is detected.
-...                                 [4/8] Reboot the system.
-...                                 [5/8] Boot again into dom0.
-...                                 [6/8] Verify docking station is detected after reboot.
-...                                 [7/8] Repeat reboot cycle for ${STABILITY_DETECTION_REBOOT_ITERATIONS} iterations.
-...                                 [8/8] Verify that no failed detections occurred.
-
-@{QUBES_SUSPEND_STEPS}=
-...                                 [1/8] Boot into dom0.
-...                                 [2/8] Connect docking station to DUT.
-...                                 [3/8] Verify docking station is detected.
-...                                 [4/8] Suspend the system.
-...                                 [5/8] Resume the system.
-...                                 [6/8] Verify docking station is detected after suspend/resume.
-...                                 [7/8] Repeat suspend cycle for ${STABILITY_DETECTION_SUSPEND_ITERATIONS} iterations.
-...                                 [8/8] Verify that no failed detections occurred.
 
 
 *** Keywords ***
@@ -428,7 +387,17 @@ Docking Station Detection After Coldboot
         Pause Execution In Console    Qubes detected — switching to manual cold boot test
         Execute Manual Step
         ...    Make sure Intel ME is in state: ${me_state}. Enter BIOS/UEFI if needed, save and reboot. Skip if on Heads.
-        Run Qubes Steps    @{QUBES_COLD_BOOT_STEPS}
+        VAR    @{qubes_cold_boot_steps}=
+        ...    [1/9] Boot into dom0.
+        ...    [2/9] Connect docking station to DUT.
+        ...    [3/9] Verify docking station is detected.
+        ...    [4/9] Record current system boot time (uptime --since).
+        ...    [5/9] Power cycle the DUT.
+        ...    [6/9] Boot again into dom0.
+        ...    [7/9] Verify docking station is detected after cold boot.
+        ...    [8/9] Repeat cold boot cycle for ${STABILITY_DETECTION_COLDBOOT_ITERATIONS} iterations.
+        ...    [9/9] Verify that no failed detections occurred.
+        Run Qubes Steps    @{qubes_cold_boot_steps}
     ELSE
         Ensure ME State    ${me_state}
         Power On
@@ -475,7 +444,17 @@ Docking Station Detection After Warmboot
         Pause Execution In Console    Qubes detected — switching to manual warm boot test
         Execute Manual Step
         ...    Make sure Intel ME is in state: ${me_state}. Enter BIOS/UEFI if needed, save and reboot. Skip if on Heads.
-        Run Qubes Steps    @{QUBES_WARM_BOOT_STEPS}
+        VAR    @{qubes_warm_boot_steps}=
+        ...    [1/9] Boot into dom0.
+        ...    [2/9] Connect docking station to DUT.
+        ...    [3/9] Verify docking station is detected.
+        ...    [4/9] Record current system boot time (uptime --since).
+        ...    [5/9] Perform warm boot: rtcwake --mode mem --seconds 10
+        ...    [6/9] Boot again into dom0.
+        ...    [7/9] Verify docking station is detected after warm boot.
+        ...    [8/9] Repeat warm boot cycle for ${STABILITY_DETECTION_WARMBOOT_ITERATIONS} iterations.
+        ...    [9/9] Verify that no failed detections occurred.
+        Run Qubes Steps    @{qubes_warm_boot_steps}
     ELSE
         Ensure ME State    ${me_state}
         Power On
@@ -522,7 +501,17 @@ Docking Station Detection After Reboot
         Pause Execution In Console    Qubes detected — switching to manual reboot test
         Execute Manual Step
         ...    Make sure Intel ME is in state: ${me_state}. Enter BIOS/UEFI if needed, save and reboot. Skip if on Heads.
-        Run Qubes Steps    @{QUBES_REBOOT_STEPS}
+
+        VAR    @{qubes_reboot_steps}=
+        ...    [1/8] Boot into dom0.
+        ...    [2/8] Connect docking station to DUT.
+        ...    [3/8] Verify docking station is detected.
+        ...    [4/8] Reboot the system.
+        ...    [5/8] Boot again into dom0.
+        ...    [6/8] Verify docking station is detected after reboot.
+        ...    [7/8] Repeat reboot cycle for ${STABILITY_DETECTION_REBOOT_ITERATIONS} iterations.
+        ...    [8/8] Verify that no failed detections occurred.
+        Run Qubes Steps    @{qubes_reboot_steps}
     ELSE
         Ensure ME State    ${me_state}
         Power On
