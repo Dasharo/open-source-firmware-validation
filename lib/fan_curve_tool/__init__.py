@@ -51,7 +51,7 @@ class Terminal:
             look_for_keys=False,
         )
 
-    def run(self, command: str, timeout: float = 30.0) -> str:
+    def run(self, command: str, timeout: float = 300.0) -> str:
         print(command)
         if self._sudo_password is not None and self._user != "root":
             wrapped = f"sudo -S -p '' sh -c {shlex.quote(command)}"
