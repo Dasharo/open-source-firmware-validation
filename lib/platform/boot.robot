@@ -14,6 +14,7 @@ Resource            ../../keys.robot
 
 *** Keywords ***
 Set Selected OS As First In Boot Order Via EDK2
+    # robocop: off=LEN01
     [Documentation]    Uses EDK2 menu to select given OS as first in
     ...    boot menu.
     ...
@@ -77,7 +78,14 @@ Set Selected OS As First In Boot Order Via EDK2
         ...    System name '${system_name}' not found in boot menu list
 
         Press Key N Times    ${index}    ${ARROW_DOWN}
-        Press Key N Times    ${index}    ${KEY_PLUS}
+        IF    "${DUT_CONNECTION_METHOD}"=="PIKVM"
+            VAR    @{plus_key_combo}=    Shift    Equals
+            FOR    ${i}    IN RANGE    ${index}
+                Key Combination PiKVM    ${plus_key_combo}
+            END
+        ELSE
+            Press Key N Times    ${index}    ${KEY_PLUS}
+        END
         Press Enter
         Write Bare Into Terminal    ${F10}
         Sleep    1s
