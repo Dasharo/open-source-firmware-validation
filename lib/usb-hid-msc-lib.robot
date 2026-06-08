@@ -103,3 +103,44 @@ Get First USB Stick In Linux
         IF    "${removable}" == "1"    RETURN    ${device}
     END
     Fail    Couldn't find any USB stick
+
+Get PCIE2USB USB Bus Numbers
+    [Documentation]    Return newline-separated list of USB bus numbers whose
+    ...    host controller is the PCIe-to-USB converter.
+    ...
+    ...    Uses ${PCIE2USB_PCI_ADDRESS} when set. Otherwise auto-detects the
+    ...    converter as the first USB controller not at an integrated PCI
+    ...    address (i.e. not on bus 0000:00:).
+    VAR    ${pci_addr}=    ${PCIE2_USB_PCI_ADDRESS}
+    IF    "${pci_addr}" == "${EMPTY}"
+        ${pci_addr}=    Execute Command In Terminal
+        ...    lspci -D | grep -i "usb" | grep -v "^0000:00:" | awk '{print $1}' | head -1
+        Should Not Be Empty    ${pci_addr}
+        ...    Cannot auto-detect PCIe-to-USB converter. Set PCIE2USB_PCI_ADDRESS in the platform config.
+    END
+    VAR    ${cmd}=
+    ...    for u in /sys/bus/usb/devices/usb*; do
+    ...    pci=$(readlink -f "$u" | grep -oP '0000:[0-9a-f]{2}:[0-9a-f]{2}\\.[0-9a-f]' | tail -1);
+    ...    [ "$pci" = "${pci_addr}" ] && cat "$u/busnum";
+    ...    done
+    ...    separator=${SPACE}
+    ${buses}=    Execute Command In Terminal    ${cmd}
+    Should Not Be Empty    ${buses}
+    ...    No USB buses found for PCIe-to-USB converter at ${pci_addr}
+    RETURN    ${buses}
+
+Verify USB Device On PCIE2USB Converter
+    [Documentation]    Verify that a device (matched by substring in lsusb
+    ...    output) is visible on a USB bus belonging to the PCIe-to-USB
+    ...    converter. Fails if the device is not found on any of those buses.
+    [Arguments]    ${device_string}
+    ${buses}=    Get PCIE2USB USB Bus Numbers
+    @{bus_list}=    Split To Lines    ${buses}
+    FOR    ${bus}    IN    @{bus_list}
+        ${bus_padded}=    Execute Command In Terminal    printf "%03d" ${bus}
+        ${lsusb_out}=    Execute Command In Terminal    lsusb | grep "Bus ${bus_padded}" || true
+        ${found}=    Run Keyword And Return Status    Should Contain    ${lsusb_out}    ${device_string}
+        IF    ${found}    RETURN
+    END
+    Fail
+    ...    Device "${device_string}" not found on any PCIe-to-USB converter bus (buses: ${buses})

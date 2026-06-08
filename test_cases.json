@@ -6805,6 +6805,20 @@
   },
   {
     "doc": {
+      "_id": "USB004.203",
+      "name": "USB devices detected via PCIe2USB converter (Qubes OS)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "USB005.203",
+      "name": "USB keyboard detected via PCIe2USB converter (Qubes OS)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
       "_id": "USC001.101",
       "name": "USB power and charging option is present (EDK2 UEFI)",
       "module": "Dasharo Compatibility"

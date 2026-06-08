@@ -16,7 +16,7 @@ ${DEF_ONLINE_CPU}=                      0-17
 ${DEF_SOCKETS}=                         1
 
 ${DEVICE_NVME_DISK}=                    Non-Volatile memory controller
-${USB_MODEL}=                           ${TBD}
+${USB_MODEL}=                           Phison Electronics Corp. USB DISK 3.0
 ${USB_DEVICE}=                          Linux
 
 ${INITIAL_DUT_CONNECTION_METHOD}=       SSH
