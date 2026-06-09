@@ -16,7 +16,7 @@ ${MAX_CPU_TEMP}=                                77
 
 ${E_MMC_NAME}=                                  BJTD4R
 ${NVME_SATA_DISABLING_SUPPORT}=                 ${TRUE}
-${NVME_LNKCTL}=                                 LnkCtl: ASPM Disabled; RCB 64 bytes, LnkDisable- CommClk\\+
+${NVME_LNKCTL}=                                 LnkCtl: ASPM Disabled; RCB 64 bytes, (LnkDisable|Disabled)- CommClk\\+
 ${NVME_LNKSTA}=                                 Speed \\d+GT/s \\(downgraded\\), Width x2 \\(downgraded\\)
 ${DMIDECODE_SERIAL_NUMBER}=                     N/A
 ${DMIDECODE_FIRMWARE_VERSION}=                  Dasharo (coreboot+UEFI) v
