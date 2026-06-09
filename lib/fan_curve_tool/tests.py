@@ -143,7 +143,7 @@ def test_invert_map_2d_picks_in_bin_match():
         _LoadPoint(workers=4, cpu_load=100, temp=75.0),
     ]
     workers, load = _suggest_load_params(
-        points, target_bin=50.0, bin_width=1.0, nproc=4
+        points, target_temp_bin=50.0, bin_width=1.0, nproc=4
     )
     assert (workers, load) == (2, 50)
 
@@ -154,7 +154,7 @@ def test_invert_map_2d_interpolates_when_no_in_bin_point():
         _LoadPoint(workers=2, cpu_load=80, temp=70.0),
     ]
     workers, load = _suggest_load_params(
-        points, target_bin=55.0, bin_width=1.0, nproc=4
+        points, target_temp_bin=55.0, bin_width=1.0, nproc=4
     )
     assert workers == 2
     assert 40 <= load <= 60
@@ -164,7 +164,7 @@ def test_invert_map_2d_falls_back_to_extremes():
     points = [_LoadPoint(workers=1, cpu_load=0, temp=35.0)]
     # No point at or above target - should aim for the upper extreme.
     workers, load = _suggest_load_params(
-        points, target_bin=60.0, bin_width=1.0, nproc=4
+        points, target_temp_bin=60.0, bin_width=1.0, nproc=4
     )
     assert (workers, load) == (4, 100)
 
@@ -178,7 +178,7 @@ def test_invert_map_2d_picks_workers_when_loads_match():
     # cpu_load is already saturated on the "above" point, so step workers down
     # toward the cooler anchor rather than overshooting at (4, 100).
     workers, load = _suggest_load_params(
-        points, target_bin=70.0, bin_width=1.0, nproc=4
+        points, target_temp_bin=70.0, bin_width=1.0, nproc=4
     )
     assert (workers, load) == (3, 100)
 
