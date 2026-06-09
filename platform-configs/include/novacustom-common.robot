@@ -135,11 +135,22 @@ ${INTEL_CBNT_STATUS_MENU_SUPPORT}=                  ${TRUE}
 ${SERIAL_BOOT_MEASURE}=                             ${TRUE}
 ${CPU_TEMPERATURE_MEASURE}=                         ${TRUE}
 ${CPU_FREQUENCY_MEASURE}=                           ${TRUE}
+# Stability tests duration in seconds
+${STABILITY_TEST_DURATION}=                         600
+# Interval between the following readings in stability tests
+${STABILITY_TEST_MEASURE_INTERVAL}=                 150
+# Frequency measure test duration
+${FREQUENCY_TEST_DURATION}=                         600
+# Interval between the following readings in frequency measure tests
+${FREQUENCY_TEST_MEASURE_INTERVAL}=                 30
+# Temperature measure test duration
+${TEMPERATURE_TEST_DURATION}=                       600
+# Interval between the following readings in temperature measure tests
+${TEMPERATURE_TEST_MEASURE_INTERVAL}=               30
 ${PLATFORM_STABILITY_CHECKING}=                     ${TRUE}
 ${COREBOOT_FAN_CONTROL_SUPPORT}=                    ${TRUE}
 ${CUSTOM_FAN_CURVE_SILENT_MODE_SUPPORT}=            ${TRUE}
 ${CUSTOM_FAN_CURVE_PERFORMANCE_MODE_SUPPORT}=       ${TRUE}
-${TEMPERATURE_TEST_DURATION}=                       3600
 ${DISK_IO_PERFORMANCE_TESTS}=                       ${TRUE}
 ${CPU_PERFORMANCE_TESTS_SUPPORT}=                   ${TRUE}
 ${FAST_AND_QUIET_BOOT_SUPPORT}=                     ${TRUE}
