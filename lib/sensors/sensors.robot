@@ -16,7 +16,7 @@ Prepare Sensors
     Login To Linux
     IF    ${BOOTED_OS_ID} != ${ENV_ID_QUBES}    Switch To Root User
     Import Variables    ${CURDIR}/../../platform-configs/${SENSORS_CONFIG_FILE}
-    ${requirements}=    Get From Dictionary    ${SENSORS_REQUIREMENTS}    ${BOOTED_OS_ID}    default=@{EMPTY}
+    ${requirements}=    Get From Dictionary    ${SENSORS_REQUIREMENTS_COMMANDS}    ${BOOTED_OS_ID}    default=@{EMPTY}
     FOR    ${cmd}    IN    @{requirements}
         Execute Command In Terminal    ${cmd}
     END
@@ -26,16 +26,16 @@ Prepare Sensors
 
 Sensors Measure
     [Documentation]    Run a measurement bash pipeline:
-    ...    gather -> filter -> process
+    ...    gather -> filter -> postprocess
     ...    Piping stdout to stdin of every command and logging each stage.
     [Arguments]    ${measurement}
     ${gather}=    Get From Dictionary    ${measurement}    gather
     ${filter}=    Get From Dictionary    ${measurement}    filter    default=${EMPTY}
     IF    not $filter    VAR    ${filter}=    cat
-    ${process}=    Get From Dictionary    ${measurement}    process    default=${EMPTY}
-    IF    not $process    VAR    ${process}=    cat
+    ${postprocess}=    Get From Dictionary    ${measurement}    postprocess    default=${EMPTY}
+    IF    not $postprocess    VAR    ${process}=    cat
     ${value}=    Execute Command In Terminal
-    ...    set -o pipefail; ${gather} | tee /tmp/sensors.gather | ${filter} | tee /tmp/sensors.filter | ${process}
+    ...    set -o pipefail; ${gather} | tee /tmp/sensors.gather | ${filter} | tee /tmp/sensors.filter | ${postprocess}
     # For debugging in the future save the intermediate values
     ${raw}=    Execute Command In Terminal    cat /tmp/sensors.gather
     ${filtered}=    Execute Command In Terminal    cat /tmp/sensors.filter
