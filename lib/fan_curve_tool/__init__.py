@@ -6,14 +6,13 @@ import argparse
 import json
 import math
 import os
-import re
 import shlex
 import statistics
 import sys
 import time
 from dataclasses import asdict, dataclass, field
 from datetime import datetime, timezone
-from typing import Any, Iterable
+from typing import Any
 
 import matplotlib.pyplot as plt
 import numpy as np

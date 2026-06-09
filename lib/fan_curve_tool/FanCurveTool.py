@@ -60,7 +60,7 @@ class FanCurveTool:
     def fan_measure_init(
         self,
         sensors_config_file: str,
-        curve_config_file: str,
+        curve_config_file: str = None,
         logs_dir: str = "",
         resume: bool = False,
         run_id: str = None,
@@ -73,9 +73,10 @@ class FanCurveTool:
         self._sensors_config = SensorsConfig.load(
             os.path.join(PLATFORM_CONFIGS_DIR, sensors_config_file)
         )
-        self._curve_config = CurveConfig.load(
-            os.path.join(PLATFORM_CONFIGS_DIR, curve_config_file)
-        )
+        if curve_config_file:
+            self._curve_config = CurveConfig.load(
+                os.path.join(PLATFORM_CONFIGS_DIR, curve_config_file)
+            )
         self._fan_mode, fan_spec = pick_fan_mode(self._sensors_config)
         self._temp_reader = Reader(self._sensors_config.cpu_temp)
         self._fan_reader = Reader(fan_spec)

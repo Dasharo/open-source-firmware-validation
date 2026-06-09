@@ -243,7 +243,7 @@ ${DGPU_ONLY_SUPPORT}=                               ${FALSE}
 # Variables used in lib/sensors to determine platform-specific methods of
 # measuring temperatures, fans etc.
 ${SENSORS_CONFIG_FILE}=                             include/sensors/default-sensors-config.yaml
-${CUSTOM_FAN_CURVE_FILE}=                           ${TBD}
+${CUSTOM_FAN_CURVE_FILE}=                           ${NONE}
 ${DISK_IO_PERFORMANCE_TESTS}=                       ${FALSE}
 ${CPU_PERFORMANCE_TESTS_SUPPORT}=                   ${FALSE}
 ${GPU_PERFORMANCE_TESTS_SUPPORT}=                   ${FALSE}

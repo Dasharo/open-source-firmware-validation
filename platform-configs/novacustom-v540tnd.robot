@@ -178,4 +178,3 @@ ${DTS_TEST_BOARD_MODEL}=                            V540TNx
 ${CUSTOM_FAN_CURVE_SILENT_MODE_SUPPORT}=            ${TRUE}
 ${CUSTOM_FAN_CURVE_PERFORMANCE_MODE_SUPPORT}=       ${TRUE}
 ${SENSORS_CONFIG_FILE}=                             include/sensors/novacustom-v540tnd-sensors-config.yaml
-${CUSTOM_FAN_CURVE_FILE}=                           include/sensors/novacustom-v540tnd-fan-curve-config.yaml
