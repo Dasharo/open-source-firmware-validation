@@ -22,6 +22,7 @@ ${CPU_MAX_FREQUENCY}=                       5000
 ${CPU_MIN_FREQUENCY}=                       300
 
 # We have 2 such platforms in the lab and options below are suitable only for one of them as they have different CPUs.
+# 14700k
 ${DEF_THREADS_PER_CORE}=                    2
 ${DEF_THREADS_TOTAL}=                       28
 ${DEF_ONLINE_CPU}=                          0-27
