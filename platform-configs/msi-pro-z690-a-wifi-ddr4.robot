@@ -1,5 +1,5 @@
 *** Settings ***
-Resource    include/msi-z690-common.robot
+Resource    include/msi-z690-z790-common.robot
 
 
 *** Variables ***
