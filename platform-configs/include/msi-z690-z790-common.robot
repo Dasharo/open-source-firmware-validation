@@ -26,6 +26,7 @@ ${FLASH_VERIFY_METHOD}=                         none
 ${WIFI_CARD}=                                   ${TBD}
 ${MAX_CPU_TEMP}=                                80
 ${CHECK_POWER_LED_SUPPORT}=                     ${FALSE}
+${INITIAL_CPU_FREQUENCY}=                       300
 
 ${DMIDECODE_MANUFACTURER}=                      Micro-Star International Co., Ltd.
 ${DMIDECODE_VENDOR}=                            3mdeb
