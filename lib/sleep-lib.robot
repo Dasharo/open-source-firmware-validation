@@ -179,6 +179,7 @@ Perform Warmboot Using Rtcwake
 
 Perform Suspend And Wake Using Rtcwake
     [Documentation]    Suspends and then wakes up the device after some time
+    [Arguments]    ${wake_after}=20
 
     # Using "Execute Command In Terimal" will cause the test to wait
     # for command prompt to appear before continuing but the prompt
@@ -186,6 +187,6 @@ Perform Suspend And Wake Using Rtcwake
     # would hang here and fail.
     # Sometimes it may take long to shutdown all systemd services,
     # so the waiting times have to be excessive to avoid false negatives.
-    Write Into Terminal    rtcwake -m ram -s 20
+    Write Into Terminal    rtcwake -m ram -s ${wake_after}
     Set DUT Response Timeout    300s
-    Sleep    20s
+    Sleep    ${wake_after}s
