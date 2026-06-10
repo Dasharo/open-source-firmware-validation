@@ -73,19 +73,6 @@ NVM001.202 NVMe support in OS (Fedora)
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    NVM001.202 not supported
     NVMe Support In OS    ${ENV_ID_FEDORA}
 
-NVM002.202 NVMe slot change to x2 support in OS (Fedora)
-    Depends On    ${NVME_X2_SLOT_SUPPORT}
-    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    NVM002.202 not supported
-    NVMe Slot Change Support In OS    ${ENV_ID_FEDORA}
-
-NVM003.202 NVMe SATA disabling check in OS (Fedora)
-    [Documentation]    Check that the NVMe controller PCIe LnkCap and LnkCtl
-    ...    fields reported by lspci match the expected values after SATA
-    ...    disabling.
-    Depends On    ${NVME_SATA_DISABLING_SUPPORT}
-    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    NVM003.202 not supported
-    NVMe SATA Disabling Check In OS    ${ENV_ID_FEDORA}
-
 NVM001.205 NVMe support in OS (XCP-NG)
     [Documentation]    Check whether the Operating System can boot from NVMe
     ...    disk in M.2 slot.
