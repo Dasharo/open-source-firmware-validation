@@ -7,7 +7,7 @@ ${FW_VERSION}=                          v0.9.5-rc2
 ${DMIDECODE_SERIAL_NUMBER}=             N/A
 ${DMIDECODE_FIRMWARE_VERSION}=          Dasharo (coreboot+UEFI) ${FW_VERSION}
 ${DMIDECODE_PRODUCT_NAME}=              MS-7E06
-${DMIDECODE_RELEASE_DATE}=              05/31/2026
+${DMIDECODE_RELEASE_DATE}=              05/30/2026
 
 ${CPU_MAX_FREQUENCY}=                   5200
 ${CPU_MIN_FREQUENCY}=                   300
