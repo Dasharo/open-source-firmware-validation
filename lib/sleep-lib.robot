@@ -187,6 +187,6 @@ Perform Suspend And Wake Using Rtcwake
     # would hang here and fail.
     # Sometimes it may take long to shutdown all systemd services,
     # so the waiting times have to be excessive to avoid false negatives.
-    Write Into Terminal    rtcwake -m ram -s ${wake_after}
+    Write Into Terminal    rtcwake -m mem -s ${wake_after}
     Set DUT Response Timeout    300s
     Sleep    ${wake_after}s
