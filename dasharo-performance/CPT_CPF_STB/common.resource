@@ -224,7 +224,7 @@ Check Platform Stability
         Should Be True    float(${measurement["uptime"]}) > float(${last_uptime})
         VAR    ${last_uptime}=    ${measurement["uptime"]}
         # the network interface is up (skipped when network data was not collected)
-        IF    '${measurement["network"]}' != ''
+        IF    $measurement["network"] != ''
             Should Contain    ${measurement["network"]}    UP    ignore_case=${True}
         END
     END
