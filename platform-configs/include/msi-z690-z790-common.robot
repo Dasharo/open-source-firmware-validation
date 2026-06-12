@@ -38,6 +38,8 @@ ${DEVICE_NVME_DISK}=                            Non-Volatile memory controller
 ${WIFI_CARD_UBUNTU}=                            ${TBD}
 ${USB_MODEL}=                                   Kingston
 ${USB_DEVICE}=                                  Multifunction Composite Gadget
+${POWERSHELL_STR_HEADSET_OUT}=                  Speakers
+${POWERSHELL_STR_HEADSET_IN}=                   Microphone
 
 # Supported test environments
 ${TESTS_IN_FIRMWARE_SUPPORT}=                   ${TRUE}
