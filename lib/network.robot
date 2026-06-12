@@ -36,12 +36,12 @@ Send File To DUT Directly
 
 Send File To DUT
     [Documentation]    Sends file DUT and saves it at given location
-    [Arguments]    ${source_path}    ${target_path}    ${switch_root}=${TRUE}
+    [Arguments]    ${source_path}    ${target_path}    ${switch_root}=${TRUE}    ${force}=${False}
     ${filename}=    Evaluate    os.path.basename(r"${target_path}")
     VAR    ${tmp_target}=    /tmp/${filename}
     ${hash_source}=    Run    md5sum ${source_path} | cut -d ' ' -f 1
     ${hash_target}=    Execute Command In Terminal    md5sum ${target_path} | cut -d ' ' -f 1
-    IF    '${hash_source}' == '${hash_target}'
+    IF    not ${force} and '${hash_source}' == '${hash_target}'
         Log To Console    File ${source_path} already present at DUT: ${target_path}
         RETURN
     END
