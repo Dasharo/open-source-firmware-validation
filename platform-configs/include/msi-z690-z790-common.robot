@@ -33,9 +33,10 @@ ${DMIDECODE_VENDOR}=                            3mdeb
 ${DMIDECODE_FAMILY}=                            N/A
 ${DMIDECODE_TYPE}=                              Desktop
 
+${M2_WIFI_SUPPORT}=                             ${TRUE}
 ${DEVICE_USB_KEYBOARD}=                         Logitech, Inc. Keyboard K120
 ${DEVICE_NVME_DISK}=                            Non-Volatile memory controller
-${WIFI_CARD_UBUNTU}=                            ${TBD}
+${WIFI_CARD_UBUNTU}=                            WiFi
 ${USB_MODEL}=                                   Kingston
 ${USB_DEVICE}=                                  Multifunction Composite Gadget
 ${POWERSHELL_STR_HEADSET_OUT}=                  Speakers
