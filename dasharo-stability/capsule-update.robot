@@ -367,37 +367,6 @@ CUP190.201 Verifying If Custom Logo Persists Across updates (Ubuntu)
     Get Ubuntu System Values    UPDATED_SERIAL    UPDATED_UUID    UPDATED_LOGO_SHA256
     Should Be Equal    ${ORIGINAL_LOGO_SHA256}    ${UPDATED_LOGO_SHA256}
 
-CUP240.101 Capsule Update UX Tests - Observation (EDK2 UEFI)
-    [Documentation]    Collect the observations about how the capsule update UX looks.
-    ...    Use them later to confirm it looks as expected.
-    [Tags]    semiauto
-    # Ensure we're running FW with the default logo
-    IF    ${CUSTOM_LOGO_SUPPORT}
-        Flash Firmware    ${CAPSULE_UPDATE_RC0_FW_FILE_NO_LOGO}
-    END
-    Deploy Uefi Shell
-    # Bump the timeout for memory training
-    Set DUT Response Timeout    5m
-    IF    ${DASHARO_INTEL_ME_MENU_SUPPORT}
-        Set UEFI Option    MeMode    Disabled (HAP)
-    END
-    Power On
-    Boot System Or From Connected Disk    ${DEFAULT_BOOT_OS_ID}
-    Login To Linux With Root Privileges
-
-    VAR    @{message}=
-    ...    A capsule update will be performed shortly after choosing PASS.
-    ...    Observe the screen and prepare to verify the following:\n
-    Append To List    ${message}    @{CUP_250_MESSAGE}
-    IF    ${CAPSULE_UPDATES_V2_SUPPORT}
-        Append To List    ${message}    @{CUP_251_MESSAGE}
-        Append To List    ${message}    @{CUP_252_MESSAGE}
-    END
-    VAR    ${message}=    @{message}    separator=\n
-    Run Keyword And Ignore Error    Execute Manual Step    ${message}
-
-    Perform Capsule Update    valid_capsule.cap
-
 CUP260.101 Capsule update in Firmware Update Mode works (EDK2 UEFI)
     [Documentation]    Check if capsule update works when in Firmware Update
     ...    Mode

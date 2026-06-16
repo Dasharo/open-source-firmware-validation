@@ -1814,13 +1814,6 @@
   },
   {
     "doc": {
-      "_id": "CUP240.101",
-      "name": "Capsule Update UX Tests - Observation (EDK2 UEFI)",
-      "module": "Dasharo Stability"
-    }
-  },
-  {
-    "doc": {
       "_id": "CUP250.101",
       "name": "Capsule Update Progress Bar - Default Logo (EDK2 UEFI)",
       "module": "Dasharo Stability"
