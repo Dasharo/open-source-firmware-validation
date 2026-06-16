@@ -19,9 +19,9 @@ ${CHECK_POWER_LED_SUPPORT}=             ${False}
 ${E_MMC_NAME}=                          8GTF4R
 
 ${DMIDECODE_SERIAL_NUMBER}=             N/A
-${DMIDECODE_FIRMWARE_VERSION}=          Dasharo (coreboot+UEFI) v
+${DMIDECODE_FIRMWARE_VERSION}=          Dasharo (coreboot+UEFI) v1.1.2-rc2
 ${DMIDECODE_PRODUCT_NAME}=              VP2410
-${DMIDECODE_RELEASE_DATE}=              ${TBD}
+${DMIDECODE_RELEASE_DATE}=              06/16/2026
 
 ${L3_CACHE_SUPPORT}=                    ${FALSE}
 ${DASHARO_SECURITY_MENU_SUPPORT}=       ${TRUE}
