@@ -1,5 +1,6 @@
 *** Settings ***
 Library     Collections
+Library     Dialogs
 Library     OperatingSystem
 Resource    lib/bios/menus.robot
 Resource    lib/secure-boot-lib.robot

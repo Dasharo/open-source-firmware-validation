@@ -4,7 +4,6 @@ Documentation       Library for UEFI configuration using Dasharo Configuration
 ...                 available.
 
 Library             Collections
-Library             Dialogs
 Library             OperatingSystem
 Library             Process
 Library             String

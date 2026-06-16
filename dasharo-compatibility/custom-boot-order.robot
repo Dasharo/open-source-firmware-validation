@@ -1,5 +1,4 @@
 *** Settings ***
-Library             Dialogs
 Resource            ../lib/platform/power.robot
 Resource            ../lib/platform/boot.robot
 

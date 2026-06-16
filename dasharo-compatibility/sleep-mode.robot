@@ -1,5 +1,4 @@
 *** Settings ***
-Library             Dialogs
 Resource            ../variables.robot
 Resource            ../keywords.robot
 Resource            ../keys.robot
