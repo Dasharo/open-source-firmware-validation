@@ -7,7 +7,7 @@ ${INITIAL_CPU_FREQUENCY}=           2600
 ${FLASHING_METHOD}=                 internal
 
 # eMMC driver support
-${E_MMC_NAME}=                      8GTF4R
+${E_MMC_NAME}=                      AJTD4R
 
 ${DMIDECODE_SERIAL_NUMBER}=         N/A
 ${DMIDECODE_FIRMWARE_VERSION}=
