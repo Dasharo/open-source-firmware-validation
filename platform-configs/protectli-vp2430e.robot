@@ -7,9 +7,9 @@ ${INITIAL_CPU_FREQUENCY}=           3300
 ${FLASHING_METHOD}=                 external
 
 ${DMIDECODE_SERIAL_NUMBER}=         123456789
-${DMIDECODE_FIRMWARE_VERSION}=      Dasharo (coreboot+UEFI) v0.9.1-rce
+${DMIDECODE_FIRMWARE_VERSION}=      Dasharo (coreboot+UEFI) v0.9.2-rc1
 ${DMIDECODE_PRODUCT_NAME}=          VP2430e
-${DMIDECODE_RELEASE_DATE}=          06/16/2026
+${DMIDECODE_RELEASE_DATE}=          06/19/2026
 
 ${CPU_MAX_FREQUENCY}=               3400
 ${CPU_MIN_FREQUENCY}=               700
