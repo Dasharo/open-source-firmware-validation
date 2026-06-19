@@ -14,6 +14,7 @@ ${MAX_CPU_TEMP}=                        77
 ${CPU_MAX_FREQUENCY}=                   2800
 ${CPU_MIN_FREQUENCY}=                   300
 ${CHECK_POWER_LED_SUPPORT}=             ${False}
+${FLASHING_METHOD}=                     internal
 
 ${DMIDECODE_SERIAL_NUMBER}=             N/A
 ${DMIDECODE_FIRMWARE_VERSION}=          Dasharo (coreboot+UEFI) v1.1.2-rc2
