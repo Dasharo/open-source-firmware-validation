@@ -43,5 +43,4 @@ ${PLATFORM_RAM_SIZE}=                   8192
 
 ${ETHERNET_ID}=                         8086:1539
 
-${EMMC_SUPPORT}=                        ${FALSE}
 ${E_MMC_NAME}=                          ${NONE}

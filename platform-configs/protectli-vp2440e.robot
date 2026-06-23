@@ -50,5 +50,4 @@ ${SATA_SUPPORT}=                    ${TRUE}
 ${DEVICE_NVME_DISK}=
 ...                                 Non-Volatile memory controller: Phison Electronics Corporation PS5019-E19 PCIe4 NVMe Controller
 
-${EMMC_SUPPORT}=                    ${FALSE}
 ${E_MMC_NAME}=                      ${NONE}

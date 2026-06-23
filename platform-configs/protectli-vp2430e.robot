@@ -48,5 +48,4 @@ ${TPM_EXPECTED_CHIP}=               SLB9670
 ${SATA_SUPPORT}=                    ${TRUE}
 ${DEVICE_NVME_DISK}=                Non-Volatile memory controller: Kingston Technology Company
 
-${EMMC_SUPPORT}=                    ${FALSE}
 ${E_MMC_NAME}=                      ${NONE}

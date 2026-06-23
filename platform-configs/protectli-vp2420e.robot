@@ -42,7 +42,6 @@ ${NVME_DISK_SUPPORT}=               ${FALSE}
 
 ${TPM_EXPECTED_CHIP}=               SLB9670
 
-${EMMC_SUPPORT}=                    ${FALSE}
 ${E_MMC_NAME}=                      ${NONE}
 
 

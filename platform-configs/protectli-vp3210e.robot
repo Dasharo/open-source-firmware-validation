@@ -37,5 +37,4 @@ ${DEVICE_NVME_DISK}=                Non-Volatile memory controller
 ${TPM_SUPPORTED_VERSION}=           2
 ${TPM_EXPECTED_CHIP}=               SLB9670
 
-${EMMC_SUPPORT}=                    ${FALSE}
 ${E_MMC_NAME}=                      ${NONE}
