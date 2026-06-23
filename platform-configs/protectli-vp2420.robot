@@ -11,9 +11,9 @@ ${E_MMC_NAME}=                      AJTD4R
 
 ${DMIDECODE_SERIAL_NUMBER}=         N/A
 ${DMIDECODE_FIRMWARE_VERSION}=
-...                                 Dasharo (coreboot+UEFI) v1.2.2-rc3
+...                                 Dasharo (coreboot+UEFI) v1.2.2-rc4
 ${DMIDECODE_PRODUCT_NAME}=          VP2420
-${DMIDECODE_RELEASE_DATE}=          06/16/2026
+${DMIDECODE_RELEASE_DATE}=          06/23/2026
 
 ${CPU_MAX_FREQUENCY}=               2700
 ${CPU_MIN_FREQUENCY}=               300
