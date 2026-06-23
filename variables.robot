@@ -285,6 +285,12 @@ ${OS_UBUNTU}=               ubuntu
 ...                         platform=gigabyte-mz33-ar1
 ...                         platform_vendor=Giga Computing
 
+# ASRock TURIND8UD
+# TODO: set sonoff_ip for this board
+&{RTE76}=                   ip=192.168.4.87
+...                         platform=asrock-turind8ud
+...                         platform_vendor=ASRock
+
 @{RTE_LIST}=                &{RTE05}    &{RTE06}    &{RTE07}    &{RTE08}    &{RTE09}
 ...                         &{RTE10}    &{RTE11}    &{RTE12}    &{RTE13}    &{RTE14}
 ...                         &{RTE15}    &{RTE16}    &{RTE17}    &{RTE18}    &{RTE19}
@@ -299,6 +305,7 @@ ${OS_UBUNTU}=               ubuntu
 ...                         &{RTE60}    &{RTE61}    &{RTE62}    &{RTE63}    &{RTE64}
 ...                         &{RTE65}    &{RTE66}    &{RTE67}    &{RTE68}    &{RTE69}
 ...                         &{RTE70}    &{RTE71}    &{RTE72}    &{RTE73}    &{RTE74}
+...                         &{RTE76}
 
 # hardware database:
 # -----------------------------------------------------------------------------
@@ -508,6 +515,7 @@ ${OS_UBUNTU}=               ubuntu
 @{CONFIG57}=                &{RTE73}
 @{CONFIG58}=                &{RTE74}    &{SSD21}
 @{CONFIG59}=                &{RTE75}    &{EMMC03}    &{SSD22}
+@{CONFIG60}=                &{RTE76}
 
 @{CONFIG_LIST}=             @{CONFIG01}    @{CONFIG02}    @{CONFIG03}    @{CONFIG04}
 ...                         @{CONFIG05}    @{CONFIG06}    @{CONFIG08}    @{CONFIG09}
@@ -523,4 +531,4 @@ ${OS_UBUNTU}=               ubuntu
 ...                         @{CONFIG46}    @{CONFIG47}    @{CONFIG48}    @{CONFIG49}
 ...                         @{CONFIG50}    @{CONFIG51}    @{CONFIG52}    @{CONFIG53}
 ...                         @{CONFIG54}    @{CONFIG55}    @{CONFIG56}    @{CONFIG57}
-...                         @{CONFIG58}    @{CONFIG59}
+...                         @{CONFIG58}    @{CONFIG59}    @{CONFIG60}
