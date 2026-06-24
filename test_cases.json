@@ -1926,6 +1926,34 @@
   },
   {
     "doc": {
+      "_id": "DBETA001.201",
+      "name": "Dasharo Beta LVFS Upgrade (Ubuntu)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "DBETA001.202",
+      "name": "Dasharo Beta LVFS Upgrade (Fedora)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "DBETA002.201",
+      "name": "Dasharo Beta LVFS Downgrade (Ubuntu)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "DBETA002.202",
+      "name": "Dasharo Beta LVFS Downgrade (Fedora)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
       "_id": "DCU001.201",
       "name": "Change the UUID (Ubuntu)",
       "module": "Dasharo Compatibility"

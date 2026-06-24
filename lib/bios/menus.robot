@@ -431,6 +431,8 @@ Parse Menu Snapshot Into Construction
         ${slice_end}=    Evaluate    ${lines_bot} * -1
     END
     ${menu}=    Remove String    ${menu}    \r
+    # Remove VT100/ANSI escape sequence remnants (e.g., |5H|---| artifacts from terminal redraw)
+    ${menu}=    Replace String Using Regexp    ${menu}    \\|[0-9;]+[A-Za-z]\\|    |
     @{menu_lines}=    Split To Lines    ${menu}
     VAR    @{construction}=    @{EMPTY}
     FOR    ${line}    IN    @{menu_lines}
