@@ -105,10 +105,11 @@ ${OS_UBUNTU}=               ubuntu
 &{RTE32}=                   ip=192.168.20.6
 ...                         platform=apu1
 ...                         platform_vendor=PC Engines
-# MSI-PRO-Z690-A platforms (Zir-Blazer) -----------------------------
+# MSI-PRO-B850-P-WIFI platform -----------------------------
 &{RTE33}=                   ip=192.168.10.107
-...                         platform=msi-pro-z690-a-wifi-ddr4
-...                         platform_vendor=MSI Co., Ltd    sonoff_ip=192.168.10.170
+...                         platform=msi-pro-b850-p-wifi
+...                         platform_vendor=MSI Co., Ltd    sonoff_ip=192.168.10.47
+# MSI-PRO-Z690-A platforms (Zir-Blazer) -----------------------------
 &{RTE34}=                   ip=192.168.10.199
 ...                         platform=msi-pro-z690-a-wifi-ddr4
 ...                         platform_vendor=MSI Co., Ltd    sonoff_ip=192.168.10.169
@@ -372,12 +373,18 @@ ${OS_UBUNTU}=               ubuntu
 &{SSD22}=                   vendor=TOSHIBA    volume=240GB    type=Storage_SSD
 ...                         interface=SATA    count=1
 ...                         boot_name=TOSHIBA-TR200
+&{SSD23}=                   vendor=SiliconPower    volume=512GB    type=Storage_SSD
+...                         interface=NVME    count=1
+...                         boot_name=SPCC M.2 PCIe SSD
+&{SSD24}=                   vendor=Samsung    volume=1TB    type=Storage_SSD
+...                         interface=SATA    count=1
+...                         boot_name=Samsung SSD 870
 
 @{SSD_LIST}=                &{SSD01}    &{SSD02}    &{SSD03}    &{SSD04}    &{SSD05}
 ...                         &{SSD06}    &{SSD07}    &{SSD08}    &{SSD09}    &{SSD10}
 ...                         &{SSD11}    &{SSD12}    &{SSD13}    &{SSD14}    &{SSD15}
 ...                         &{SSD16}    &{SSD17}    &{SSD18}    &{SSD19}    &{SSD20}
-...                         &{SSD21}
+...                         &{SSD21}    &{SSD22}    &{SSD23}    &{SSD24}
 # -----------------------------------------------------------------------------
 &{CARD01}=                  vendor=SanDisk    volume=16GB    type=SD_Storage
 ...                         interface=SDCARD    count=1
@@ -473,7 +480,7 @@ ${OS_UBUNTU}=               ubuntu
 @{CONFIG23}=                &{RTE30}    &{MODULE11}    &{CARD04}
 ...                         &{MODULE09}    &{SSD05}    &{MODULE10}
 @{CONFIG24}=                &{RTE32}
-@{CONFIG25}=                &{RTE33}    &{SSD08}
+@{CONFIG25}=                &{RTE33}    &{SSD23}    &{SSD24}
 @{CONFIG26}=                &{RTE34}    &{SSD08}
 @{CONFIG27}=                &{RTE35}    &{SSD02}    &{MODULE10}
 @{CONFIG28}=                &{RTE36}    &{SSD09}
