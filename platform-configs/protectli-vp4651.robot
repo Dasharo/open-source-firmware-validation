@@ -21,7 +21,6 @@ ${WIFI_CARD_UBUNTU}=                Qualcomm Atheros QCA6174
 ${LTE_CARD}=                        ${TBD}
 ${DEVICE_NVME_DISK}=                Non-Volatile memory controller
 ${USB_MODEL}=                       SanDisk
-
 ${DMIDECODE_PRODUCT_NAME}=          VP4651
 
 ${CPU_MAX_FREQUENCY}=               4300

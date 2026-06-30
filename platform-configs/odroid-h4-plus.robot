@@ -125,6 +125,8 @@ ${MEMORY_IBECC_SUPPORT}=                        ${TRUE}
 ${DTS_FIRMWARE_FLASHING_SUPPORT}=               ${TRUE}
 ${FAST_AND_QUIET_BOOT_SUPPORT}=                 ${TRUE}
 
+${EXPECTED_FW_SHA256}=                          f68c9b7abce46d0de6ae54ccd8d301cf6198e82a1023c0b432ed15c490849fa7
+
 ${DTS_SUPPORT}=                                 ${TRUE}
 
 # DTS E2E variables

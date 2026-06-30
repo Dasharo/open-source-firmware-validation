@@ -62,6 +62,7 @@ ${DEVICE_OS_ROOT_PROMPT}=                           ${TBD}
 ${3_MDEB_WIFI_NETWORK}=                             3mdeb_Laboratorium
 
 ${FW_VERSION}=                                      ${TBD}
+${EXPECTED_FW_SHA256}=                              ${EMPTY}
 ${DMIDECODE_SERIAL_NUMBER}=                         ${TBD}
 ${DMIDECODE_FIRMWARE_VERSION}=                      ${TBD}
 ${DMIDECODE_PRODUCT_NAME}=                          ${TBD}
@@ -229,7 +230,7 @@ ${INTEL_CBNT_SUPPORT}=                              ${FALSE}
 ${INTEL_CBNT_STATUS_MENU_SUPPORT}=                  ${FALSE}
 ${INTEL_CBNT_BOOTGUARD_FUSING_SUPPORT}=             ${FALSE}
 ${INTEL_CBNT_BOOTGUARD_FUSED}=                      ${FALSE}
-${FIRMWARE_UPDATE_MODE_SUPPORT}=                    ${TBD}
+${FIRMWARE_UPDATE_MODE_SUPPORT}=                    ${FALSE}
 
 # Test module: dasharo-performance
 ${SERIAL_BOOT_MEASURE}=                             ${FALSE}
@@ -243,7 +244,7 @@ ${DGPU_ONLY_SUPPORT}=                               ${FALSE}
 # Variables used in lib/sensors to determine platform-specific methods of
 # measuring temperatures, fans etc.
 ${SENSORS_CONFIG_FILE}=                             include/sensors/default-sensors-config.yaml
-${CUSTOM_FAN_CURVE_FILE}=                           ${TBD}
+${CUSTOM_FAN_CURVE_FILE}=                           ${NONE}
 ${DISK_IO_PERFORMANCE_TESTS}=                       ${FALSE}
 ${CPU_PERFORMANCE_TESTS_SUPPORT}=                   ${FALSE}
 ${GPU_PERFORMANCE_TESTS_SUPPORT}=                   ${FALSE}

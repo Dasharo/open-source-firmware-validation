@@ -275,6 +275,7 @@ Get E Cores Count
     RETURN    ${count}
 
 CCC Teardown
+    Power On
     Enter Setup Menu Tianocore
     Reset To Defaults Tianocore
     Save Changes And Reset

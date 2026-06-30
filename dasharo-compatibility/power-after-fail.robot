@@ -43,6 +43,7 @@ PSF002.101 Powered Off State Restoration Test (EDK2 UEFI)
     ...    keep the DUT powered off after power failure.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    PSF002.101 not supported
     Set UEFI Option    PowerStateAfterPowerAcLoss    Powered Off
+    VAR    ${POWER_STATE_AFTER_FAIL}=    Powered Off    scope=GLOBAL
     Enter Setup Menu Tianocore
     Simulate Power Failure
     ${output}=    Run Keyword And Return Status
@@ -54,6 +55,7 @@ PSF003.101 Powered On State Restoration Test (EDK2 UEFI)
     ...    power the DUT back on after failure.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    PSF003.101 not supported
     Set UEFI Option    PowerStateAfterPowerAcLoss    Powered On
+    VAR    ${POWER_STATE_AFTER_FAIL}=    Powered On    scope=GLOBAL
     Enter Setup Menu Tianocore
     Simulate Power Failure
     Enter Setup Menu Tianocore

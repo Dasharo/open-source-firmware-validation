@@ -32,6 +32,7 @@ ${DEF_THREADS_PER_CORE}=            1
 ${DEF_CORES_PER_SOCKET}=            8
 ${DEF_SOCKETS}=                     1
 ${DEF_ONLINE_CPU}=                  0-7
+${EXPECTED_FW_SHA256}=              142398d967b59649ef0adbf4552c305b5dd2b3297ca669070f59b9130fda90f3
 
 ${DEVICE_NVME_DISK}=                Phison Electronics Corporation PS5019-E19
 

@@ -19,7 +19,7 @@ ${USB_DEVICE}=                      SanDisk
 ${USB_MODEL}=                       USB Flash Memory
 ${CPU_MAX_FREQUENCY}=               4800
 ${CPU_MIN_FREQUENCY}=               300
-
+${EXPECTED_FW_SHA256}=              56c7752aed4d2514a44f77878eb87a740f3eaa9a2c602c3b2905b10ab6407724
 # dasharo-compability
 ${FW_NO_EC_SYNC_DOWNLOAD_LINK}=
 ...                                 https://dl.3mdeb.com/open-source-firmware/Dasharo/novacustom_ns5x_tgl/v1.5.1/novacustom_ns5x_tgl_v1.5.1.rom

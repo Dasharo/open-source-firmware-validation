@@ -1,17 +1,22 @@
 *** Settings ***
-Resource    include/msi-z690-common.robot
+Resource    include/msi-13600k.robot
+Resource    include/msi-z690-z790-common.robot
 
 
 *** Variables ***
-${FW_VERSION}=                          v0.9.4
+${FW_VERSION}=                          v0.9.5-rc2
 ${DMIDECODE_SERIAL_NUMBER}=             N/A
 ${DMIDECODE_FIRMWARE_VERSION}=          Dasharo (coreboot+UEFI) ${FW_VERSION}
 ${DMIDECODE_PRODUCT_NAME}=              MS-7E06
-${DMIDECODE_RELEASE_DATE}=              11/29/2025
+${DMIDECODE_RELEASE_DATE}=              05/30/2026
 
-${CPU_MAX_FREQUENCY}=                   5200
-${CPU_MIN_FREQUENCY}=                   300
+${WIFI_CARD}=                           Intel(R) Wi-Fi 6 AX201 160MHz
+${WIFI_CARD_UBUNTU}=                    Intel Corporation Alder Lake-S PCH CNVi WiFi
+${EXPECTED_FW_SHA256}=                  ea8bafa11b93902cab3a9803fac37468343870fe7637aeb3ff0024eff5c1945b
 
+${WIRELESS_CARD_SUPPORT}=               ${TRUE}
+${WIRELESS_CARD_WIFI_SUPPORT}=          ${TRUE}
+${WIRELESS_CARD_BLUETOOTH_SUPPORT}=     ${TRUE}
 # DTS E2E variables
 ${DTS_TEST_BOARD_MODEL}=                PRO Z790-P WIFI (MS-7E06)
 @{DTS_TEST_DEFAULT_RELEASES}=           DPP
@@ -43,3 +48,6 @@ ${DTS_TEST_BOARD_MODEL}=                PRO Z790-P WIFI (MS-7E06)
 ...                                     ${{ ("UEFI->Heads Transition", "DPP") }}
 ...                                     ${{ ("UEFI Update", "DPP") }}
 ...                                     ${{ ("Initial Deployment", "DPP") }}
+
+${PLATFORM_RAM_SPEED}=                  4000
+${PLATFORM_RAM_SIZE}=                   32768

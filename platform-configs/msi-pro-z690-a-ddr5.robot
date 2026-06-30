@@ -1,26 +1,16 @@
 *** Settings ***
-Resource    include/msi-z690-common.robot
+Resource    include/msi-13600k.robot
+Resource    include/msi-z690-z790-common.robot
 
 
 *** Variables ***
-${FW_VERSION}=                              v1.1.6
+${FW_VERSION}=                              v1.1.7-rc2
 ${DMIDECODE_SERIAL_NUMBER}=                 N/A
 ${DMIDECODE_FIRMWARE_VERSION}=              Dasharo (coreboot+UEFI) ${FW_VERSION}
 ${DMIDECODE_PRODUCT_NAME}=                  MS-7D25
-${DMIDECODE_RELEASE_DATE}=                  11/29/2025
+${DMIDECODE_RELEASE_DATE}=                  05/30/2026
 
-${CPU_MAX_FREQUENCY}=                       5200
-${CPU_MIN_FREQUENCY}=                       300
-
-${DEF_THREADS_PER_CORE}=                    2
-${DEF_THREADS_TOTAL}=                       20
-${DEF_ONLINE_CPU}=                          0-19
-${DEF_SOCKETS}=                             1
-
-${DEF_CORES_PER_SOCKET}=                    14
-
-${CPU_P_CORES_MAX}=                         6
-${CPU_E_CORES_MAX}=                         8
+${EXPECTED_FW_SHA256}=                      a115ae254a2054d8fec6988ba89f251bc77dbaf74eb44e0069631d2b36433932
 
 # DTS E2E variables
 ${DTS_TEST_BOARD_MODEL}=                    PRO Z690-A WIFI (MS-7D25)

@@ -1,13 +1,16 @@
 *** Settings ***
-Resource    include/msi-z690-common.robot
+Resource    include/msi-14700k.robot
+Resource    include/msi-z690-z790-common.robot
 
 
 *** Variables ***
-${FW_VERSION}=                              v1.1.6
+${FW_VERSION}=                              v1.1.7-rc2
 ${DMIDECODE_SERIAL_NUMBER}=                 N/A
 ${DMIDECODE_FIRMWARE_VERSION}=              Dasharo (coreboot+UEFI) ${FW_VERSION}
 ${DMIDECODE_PRODUCT_NAME}=                  MS-7D25
-${DMIDECODE_RELEASE_DATE}=                  11/29/2025
+${DMIDECODE_RELEASE_DATE}=                  05/30/2026
+
+${EXPECTED_FW_SHA256}=                      a115ae254a2054d8fec6988ba89f251bc77dbaf74eb44e0069631d2b36433932
 
 @{TESTED_LINUX_DISTROS}=                    ${ENV_ID_UBUNTU}    ${ENV_ID_QUBES}
 
@@ -17,20 +20,6 @@ ${WIFI_CARD_UBUNTU}=                        Intel Corporation Alder Lake-S PCH C
 ${WIRELESS_CARD_SUPPORT}=                   ${TRUE}
 ${WIRELESS_CARD_WIFI_SUPPORT}=              ${TRUE}
 ${WIRELESS_CARD_BLUETOOTH_SUPPORT}=         ${TRUE}
-
-${CPU_MAX_FREQUENCY}=                       5000
-${CPU_MIN_FREQUENCY}=                       300
-
-# We have 2 such platforms in the lab and options below are suitable only for one of them as they have different CPUs.
-${DEF_THREADS_PER_CORE}=                    2
-${DEF_THREADS_TOTAL}=                       28
-${DEF_ONLINE_CPU}=                          0-27
-${DEF_SOCKETS}=                             1
-
-${DEF_CORES_PER_SOCKET}=                    20
-
-${CPU_P_CORES_MAX}=                         8
-${CPU_E_CORES_MAX}=                         12
 
 # DTS E2E variables
 ${DTS_TEST_BOARD_MODEL}=                    PRO Z690-A WIFI DDR4(MS-7D25)
@@ -54,3 +43,6 @@ ${DTS_TEST_BOARD_MODEL}=                    PRO Z690-A WIFI DDR4(MS-7D25)
 &{DTS_TEST_EXPORTS_PER_FULL_WORKFLOW}=
 ...                                         ${{ ("UEFI Update", "DCR") }}=${{ {"TEST_BIOS_VERSION": "Dasharo (coreboot+UEFI) 0.0.0", "TEST_FMAP_REGIONS": "", "TEST_ME_HAP_DISABLED": "false", "TEST_ME_DISABLED": "true", "TEST_ROMHOLE_MIGRATION_FROM": "flashmap", "TEST_ROMHOLE_MIGRATION_TO": "flashmap" } }}
 ...                                         ${{ ("UEFI Update", "DPP") }}=${{ {"TEST_ME_OP_MODE": "2", "TEST_ME_HAP_DISABLED": "true"} }}
+
+${PLATFORM_RAM_SPEED}=                      2400
+${PLATFORM_RAM_SIZE}=                       32768

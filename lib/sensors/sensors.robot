@@ -9,75 +9,43 @@ Resource            ../terminal.robot
 
 *** Keywords ***
 Prepare Sensors
-    [Documentation]    Do any preparation work needed for accessing sensors
-
-    # Might only do this when any method is said to be lm-sensors.
-    IF    ${BOOTED_OS_ID}==${ENV_ID_QUBES}
-        Power On
-        Boot System Or From Connected Disk    ${ENV_ID_QUBES}
-        Login To Linux
-    ELSE
-        Power On
-        Boot System Or From Connected Disk    ${BOOTED_OS_ID}
-        Login To Linux
-        Switch To Root User
-    END
+    [Documentation]    Boot, then run the device's `requirements` (once) and
+    ...    `prepare` (per boot) bash steps from the config.
+    Power On
+    Boot System Or From Connected Disk    ${BOOTED_OS_ID}
+    Login To Linux
+    IF    ${BOOTED_OS_ID} != ${ENV_ID_QUBES}    Switch To Root User
     Import Variables    ${CURDIR}/../../platform-configs/${SENSORS_CONFIG_FILE}
-    ${cpu_temperature_measurement_method}=    Get From Dictionary    ${CPU_TEMPERATURE_MEASUREMENT}    method
-    ${fan_pwm_measurement_method}=    Get From Dictionary    ${FAN_PWM_MEASUREMENT}    method
-    ${fan_rpm_measurement_method}=    Get From Dictionary    ${FAN_RPM_MEASUREMENT}    method
-
-    VAR    ${lm_sensors_used}=
-    ...    '''${cpu_temperature_measurement_method}''' == '''system76-acpi''' or
-    ...    '''${cpu_temperature_measurement_method}''' == '''lm-sensors''' or
-    ...    '''${fan_rpm_measurement_method}''' != '''lm-sensors''' or
-    ...    '''${fan_pwm_measurement_method}''' == '''lm-sensors'''
-    ...    separator=${SPACE}
-    ${lm_sensors_used}=    Evaluate    ${lm_sensors_used}
-
-    FOR    ${module}    IN    @{SENSORS_KERNEL_MODULES}
-        ${module_name}=    Get From Dictionary    ${module}    module
-        ${force_id}=    Get From Dictionary    ${module}    force_id
-        VAR    ${optional_force_id}=    ${EMPTY}
-        IF    '''${force_id}''' != '''none'''
-            VAR    ${optional_force_id}=    force_id=${force_id}
-        END
-        Execute Command In Terminal    modprobe ${module_name} ${optional_force_id}
+    ${requirements}=    Get From Dictionary    ${SENSORS_REQUIREMENTS_COMMANDS}    ${BOOTED_OS_ID}    default=@{EMPTY}
+    FOR    ${cmd}    IN    @{requirements}
+        Execute Command In Terminal    ${cmd}
+    END
+    FOR    ${cmd}    IN    @{SENSORS_PREPARE_COMMANDS}
+        Execute Command In Terminal    ${cmd}
     END
 
-    IF    ${lm_sensors_used} == ${TRUE}
-        Execute Command In Terminal    sudo sensors-detect --auto
-    END
+Sensors Measure
+    [Documentation]    Run a measurement bash pipeline:
+    ...    gather -> filter -> postprocess
+    ...    Piping stdout to stdin of every command and logging each stage.
+    [Arguments]    ${measurement}
+    ${gather}=    Get From Dictionary    ${measurement}    gather
+    ${filter}=    Get From Dictionary    ${measurement}    filter    default=${EMPTY}
+    IF    not $filter    VAR    ${filter}=    cat
+    ${postprocess}=    Get From Dictionary    ${measurement}    postprocess    default=${EMPTY}
+    IF    not $postprocess    VAR    ${process}=    cat
+    ${value}=    Execute Command In Terminal
+    ...    set -o pipefail; ${gather} | tee /tmp/sensors.gather | ${filter} | tee /tmp/sensors.filter | ${postprocess}
+    # For debugging in the future save the intermediate values
+    ${raw}=    Execute Command In Terminal    cat /tmp/sensors.gather
+    ${filtered}=    Execute Command In Terminal    cat /tmp/sensors.filter
+    RETURN    ${value}
 
 Get CPU Temperature
     [Documentation]    Get current CPU temperature. Might need preparing the
     ...    sensors using `Prepare Sensors` keyword.
-    ${cpu_temperature_measurement_method}=    Get From Dictionary    ${CPU_TEMPERATURE_MEASUREMENT}    method
-    IF    '''${cpu_temperature_measurement_method}''' == '''lm-sensors'''
-        IF    ${BOOTED_OS_ID}==${ENV_ID_QUBES}
-            ${temperature}=    Execute Command In Terminal
-            ...    sensors 2>/dev/null | grep -E 'Sensor'| head -n1 | awk -F'+' '{print $2}' | awk '{print $1}' | grep -oE "[0-9]+\.[0-9]+"
-        ELSE
-            ${temperature}=    Execute Command In Terminal
-            ...    sensors 2>/dev/null | awk -F '[+°]' '/Package id 0:/ {printf $2}'
-            RETURN    ${temperature}
-        END
-
-        RETURN    ${temperature}
-    ELSE IF    '${cpu_temperature_measurement_method}' == 'hwmon'
-        ${cpu_temperature_measurement_hwmon_path}=    Get From Dictionary
-        ...    ${CPU_TEMPERATURE_MEASUREMENT}
-        ...    hwmon_path
-
-        ${temperature}=    Execute Command In Terminal
-        ...    cat ${cpu_temperature_measurement_hwmon_path}
-        ${temperature}=    Evaluate    ${temperature[:2]}
-        ${temperature}=    Convert To Number    ${temperature}
-        RETURN    ${temperature}
-    ELSE
-        Fail    Wrong platform configuration. CPU_TEMPERATURE_MEASUREMENT["method"]
-        ...    is of unknown value ${cpu_temperature_measurement_method}.
-    END
+    ${v}=    Sensors Measure    ${CPU_TEMPERATURE_MEASUREMENT}
+    RETURN    ${v}
 
 Get Fan Speed
     [Documentation]    Get PWM or RPM depending on argument
@@ -93,63 +61,26 @@ Get Fan Speed
     END
 
 Get Fan PWM
-    [Documentation]    Get current CPU fan PWM
-    ${fan_pwm_measurement_method}=    Get From Dictionary    ${FAN_PWM_MEASUREMENT}    method
-    IF    '''${fan_pwm_measurement_method}''' == '''none'''
-        Fail    Wrong platform configuration. FAN_PWM_MEASUREMENT["method"] is
-        ...    none. Either it should be changed or this test should not be
-        ...    performed on this platform.
-    ELSE IF    '''${fan_pwm_measurement_method}''' == '''hwmon'''
-        ${fan_pwm_measurement_hwmon_path}=    Get From Dictionary    ${FAN_PWM_MEASUREMENT}    hwmon_path
-        ${pwm}=    Execute Command In Terminal
-        ...    cat ${fan_pwm_measurement_hwmon_path}
-        ${pwm}=    Convert To Number    ${pwm}
-        RETURN    ${pwm}
-    ELSE
-        Fail    Wrong platform configuration. FAN_PWM_MEASUREMENT["method"] is
-        ...    of unknown value ${fan_pwm_measurement_method}.
-    END
+    [Documentation]    Get current CPU fan PWM. Might need preparing the
+    ...    sensors using `Prepare Sensors` keyword.
+    ${v}=    Sensors Measure    ${FAN_PWM_MEASUREMENT}
+    RETURN    ${v}
 
 Get Fan RPM
-    [Documentation]    Get current CPU fan RPM
-    ${fan_rpm_measurement_method}=    Get From Dictionary    ${FAN_RPM_MEASUREMENT}    method
-    IF    '''${fan_rpm_measurement_method}''' == '''lm-sensors'''
-        ${fan_rpm_measurement_sensor}=    Get From Dictionary    ${FAN_RPM_MEASUREMENT}    lm_sensors_sensor_name
-        IF    '''${fan_rpm_measurement_sensor}''' == '''none'''
-            Fail
-            ...    FAN_RPM_MEASUREMENT["lm_sensors_sensor_name"] mustn't be "none" if FAN_RPM_MEASUREMENT["method"] is "lm-sensors"
-        END
-        ${rpm}=    Execute Linux Command
-        ...    sensors ${fan_rpm_measurement_sensor} 2> /dev/null | grep -E 'fan1' | tr -s ' ' | cut -d ' ' -f2
-        ${rpm}=    Convert To Integer    ${rpm}
-        RETURN    ${rpm}
-    ELSE IF    '''${fan_rpm_measurement_method}''' == '''system76-acpi'''
-        ${speed}=    Execute Command In Terminal    sensors | grep "CPU fan"
-        ${speed_split}=    Split String    ${speed}
-        ${rpm}=    Get From List    ${speed_split}    2
-        RETURN    ${rpm}
-    ELSE IF    '''${fan_rpm_measurement_method}''' == '''none'''
-        Fail    Wrong platform configuration. FAN_RPM_MEASUREMENT["method"] is
-        ...    none. Either it should be changed or this test should not be
-        ...    performed on this platform.
-    ELSE
-        Fail    Wrong platform configuration. FAN_RPM_MEASUREMENT["method"] is
-        ...    of unknown value ${fan_rpm_measurement_method}.
-    END
+    [Documentation]    Get current CPU fan RPM. Might need preparing the
+    ...    sensors using `Prepare Sensors` keyword.
+    ${v}=    Sensors Measure    ${FAN_RPM_MEASUREMENT}
+    RETURN    ${v}
 
 Is Fan PWM Measurement Supported
-    ${fan_pwm_measurement_method}=    Get From Dictionary    ${FAN_PWM_MEASUREMENT}    method
-    IF    '''${fan_pwm_measurement_method}''' == '''none'''
-        RETURN    ${FALSE}
-    END
-    RETURN    ${TRUE}
+    ${supported}=    Run Keyword And Return Status
+    ...    Variable Should Exist    ${FAN_PWM_MEASUREMENT}
+    RETURN    ${supported}
 
 Is Fan RPM Measurement Supported
-    ${fan_rpm_measurement_method}=    Get From Dictionary    ${FAN_RPM_MEASUREMENT}    method
-    IF    '''${fan_rpm_measurement_method}''' == '''none'''
-        RETURN    ${FALSE}
-    END
-    RETURN    ${TRUE}
+    ${supported}=    Run Keyword And Return Status
+    ...    Variable Should Exist    ${FAN_RPM_MEASUREMENT}
+    RETURN    ${supported}
 
 Get Fan Measurement Unit Name
     [Documentation]    Returns "pwm" or "rpm" depending on which is supported

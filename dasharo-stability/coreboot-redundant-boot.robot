@@ -1,6 +1,5 @@
 *** Settings ***
 Library             Collections
-Library             Dialogs
 Library             String
 Resource            ../variables.robot
 Resource            ../keywords.robot

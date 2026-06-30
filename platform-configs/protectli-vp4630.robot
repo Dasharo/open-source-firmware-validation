@@ -14,7 +14,6 @@ ${WIFI_CARD_UBUNTU}=            Wi-Fi 6 AX200
 ${LTE_CARD}=                    ME906s LTE
 ${DEVICE_NVME_DISK}=            Non-Volatile memory controller
 ${USB_MODEL}=                   SanDisk
-
 ${DMIDECODE_PRODUCT_NAME}=      VP4630
 
 ${CPU_MAX_FREQUENCY}=           4200

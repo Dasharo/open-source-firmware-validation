@@ -19,17 +19,18 @@ ${DEVICE_NVME_DISK}=                    Non-Volatile memory controller
 ${USB_MODEL}=                           ${TBD}
 ${USB_DEVICE}=                          Linux
 
-${INITIAL_DUT_CONNECTION_METHOD}=       Telnet
-${DUT_CONNECTION_METHOD}=               Telnet
-${TESTS_IN_FIRMWARE_SUPPORT}=           ${TRUE}
-${OPTIONS_LIB}=                         options-lib_uefi-setup-menu
-${POWER_CTRL}=                          sonoff
+${INITIAL_DUT_CONNECTION_METHOD}=       SSH
+${DUT_CONNECTION_METHOD}=               SSH
+${TESTS_IN_FIRMWARE_SUPPORT}=           ${FALSE}
+${OPTIONS_LIB}=                         options-lib_dcu
+${POWER_CTRL}=                          none
+${EXPECTED_FW_SHA256}=                  7595d57fcec2d315db0b612b9aab6cf680a1151719b7a3b2d3313aea6be97c06
 
 ${DEFAULT_BOOT_OS_ID}=                  ${ENV_ID_UBUNTU}
 # ${ENV_ID_FEDORA}
 @{TESTED_LINUX_DISTROS}=
 ...                                     ${ENV_ID_UBUNTU}
-${TESTS_IN_WINDOWS_SUPPORT}=            ${TRUE}
+${TESTS_IN_WINDOWS_SUPPORT}=            ${FALSE}
 
 # cpu performance Ubuntu
 &{CPP_CRAY_1080_P_BENCHMARK}=

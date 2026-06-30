@@ -28,6 +28,7 @@ ${DEF_ONLINE_CPU}=                  0-3
 ${PLATFORM_CPU_SPEED}=              0.80    # get-robot-variables suggests 3,40, but 0,80 is what setup menu shows
 ${PLATFORM_RAM_SPEED}=              4800
 ${PLATFORM_RAM_SIZE}=               49152
+${EXPECTED_FW_SHA256}=              51b385aa7f5ba428bf0e734650c9c9be6fff525e1370f0207efac33565f7c276
 
 ${CPU}=                             Intel(R) N100
 

@@ -42,6 +42,7 @@ ${BLUETOOTH_CARD_UBUNTU}=               Qualcomm Atheros QCA6174 802.11ac Wirele
 ${USB_MODEL}=                           SanDisk
 ${USB_DEVICE}=                          SanDisk
 @{ATTACHED_USB}=                        SanDisk
+${EXPECTED_FW_SHA256}=                  43e9ff889ee8161d43f05d4ccc3ef370a6e2a1bd0e807fe52de7f9ad63a64894
 
 ${ESP_SCANNING_SUPPORT}=                ${TRUE}
 @{ETH_PORTS}=                           64-62-66-25-05-61

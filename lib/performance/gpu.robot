@@ -1,7 +1,6 @@
 *** Settings ***
 Documentation       GPU header for OSFV Performance Library
 
-Library             Dialogs
 Resource            common.robot
 
 

@@ -17,7 +17,6 @@ ${DEVICE_NVME_DISK}=            Non-Volatile memory controller
 ${USB_MODEL}=                   SanDisk
 
 ${DMIDECODE_PRODUCT_NAME}=      VP4670
-
 ${CPU_MAX_FREQUENCY}=           5000
 ${CPU_MIN_FREQUENCY}=           300
 

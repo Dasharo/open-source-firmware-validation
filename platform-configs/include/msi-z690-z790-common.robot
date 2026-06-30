@@ -26,17 +26,21 @@ ${FLASH_VERIFY_METHOD}=                         none
 ${WIFI_CARD}=                                   ${TBD}
 ${MAX_CPU_TEMP}=                                80
 ${CHECK_POWER_LED_SUPPORT}=                     ${FALSE}
+${INITIAL_CPU_FREQUENCY}=                       300
 
 ${DMIDECODE_MANUFACTURER}=                      Micro-Star International Co., Ltd.
 ${DMIDECODE_VENDOR}=                            3mdeb
 ${DMIDECODE_FAMILY}=                            N/A
 ${DMIDECODE_TYPE}=                              Desktop
 
+${M2_WIFI_SUPPORT}=                             ${TRUE}
 ${DEVICE_USB_KEYBOARD}=                         Logitech, Inc. Keyboard K120
 ${DEVICE_NVME_DISK}=                            Non-Volatile memory controller
-${WIFI_CARD_UBUNTU}=                            ${TBD}
+${WIFI_CARD_UBUNTU}=                            WiFi
 ${USB_MODEL}=                                   Kingston
 ${USB_DEVICE}=                                  Multifunction Composite Gadget
+${POWERSHELL_STR_HEADSET_OUT}=                  Speakers
+${POWERSHELL_STR_HEADSET_IN}=                   Microphone
 
 # Supported test environments
 ${TESTS_IN_FIRMWARE_SUPPORT}=                   ${TRUE}
@@ -99,7 +103,7 @@ ${SMM_WRITE_PROTECTION_SUPPORT}=                ${TRUE}
 ${EARLY_BOOT_DMA_SUPPORT}=                      ${TRUE}
 ${UEFI_PASSWORD_SUPPORT}=                       ${TRUE}
 # IMPORTANT! Update the revisions with new releases
-@{MICROCODE_REVISIONS}=                         0x3d    0x132
+@{MICROCODE_REVISIONS}=                         0x133
 
 # Test module: dasharo-performance
 ${SERIAL_BOOT_MEASURE}=                         ${TRUE}

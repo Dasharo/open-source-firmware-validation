@@ -82,7 +82,7 @@ Ensure Custom Entry
     ${bootnums}=    Get Bootnums For Label    ${custom_label}    ${TRUE}
     ${already_exists}=    Run Keyword And Return Status    Should Not Be Empty    ${bootnums}
     IF    ${already_exists} and not ${force}
-        Log    ${custom_label} Already exists at ${bootnums}    level=WARN
+        Log    ${custom_label} Already exists at ${bootnums}
         ${bootnum}=    Get From List    ${bootnums}    0
         ${is_first}=    Run Keyword And Return Status
         ...    BootOrder Should Start With Bootnum

@@ -1,41 +1,53 @@
-# SPDX-FileCopyrightText: 2024 3mdeb <contact@3mdeb.com>
+# SPDX-FileCopyrightText: 2026 3mdeb <contact@3mdeb.com>
 #
 # SPDX-License-Identifier: Apache-2.0
 
-# example_sensor_measurement:
-#     # Can be one of {`lm-sensors`, `hwmon`, `system76-acpi`, `none`} depending on measured value and device
-#   - method: none
-#     # Abosule path to hwmon file representing the sensor
-#     # Has to be set if PWM measurement method is hwmon
-#     # example: /sys/devices/LNXSYSTM\:00/LNXSYBUS\:00/17761776\:00/hwmon/hwmon0/pwm1
-#     hwmon_path: none
-#     # The name of the sensor in `sensors` command if method
-#     # is set to lm-sensors. For example `w83795g-i2c-1-2f`. `none` if lm-sensors
-#     # is not used or no filtering of the command output by sensor name is needed
-#     lm_sensors_sensor_name: none
+# Sensor measurement config.
+#
+# The library is dumb: for each measurement it runs three bash stages and pipes
+# the outputs in bash:
+#   gather  - raw, debuggable output (e.g. full `sensors` block)
+#   filter  - isolate the value from the raw output (stdin = gather's stdout)
+#   process - scaling, rounding etc.
+#
+# Rules:
+#   - Each stage is a bash command run on the DUT.
+#   - An empty stage is a passthrough (stdin -> stdout unchanged).
+#   - An empty or absent measurement block means that measurement is unsupported
+#
+# example_measurement:
+#   gather: sensors some-sensor-name 2>/dev/null
+#   filter: awk -F '[+°]' '/Package id 0:/ {print $2}'
+#   process: cut -d. -f1
+#
+# hwmon example (millidegrees -> degrees):
+#   gather: cat /sys/class/hwmon/hwmon0/temp1_input
+#   filter  # empty, value is already isolated in the output
+#   process: awk '{print int($1/1000)}'
+
+# Run once per device. e.g. install lm-sensors.
+# Separate instructions for different ENV_IDs
+sensors_requirements_commands:
+  "201": [ which sensors || (apt update && apt -y install lm-sensors) ]
+  "202": [ which sensors || dnf -y install lm_sensors ]
+
+# Run after each boot, before measuring. e.g. load modules, detect sensors.
+sensors_prepare_commands:
+  - sensors-detect --auto
 
 cpu_temperature_measurement:
-# Can be one of {`lm-sensors`, `hwmon`, `none`}
-  method: lm-sensors
-  hwmon_path: none
-  lm_sensors_sensor_name: none
+  gather: sensors 2>/dev/null
+  filter: awk -F '[+°]' '/Package id 0:/ {print $2}'
+  process: cut -d. -f1
 
-fan_pwm_measurement:
-# Can be one of {`hwmon`, `none`}
-  method: none
-  hwmon_path: none
-  lm_sensors_sensor_name: none
+# absent = unsupported. Uncomment and fill in to enable.
+#fan_pwm_measurement:
+#   gather:
+#   filter:
+#   process:
 
-fan_rpm_measurement:
-# Can be one of {`lm-sensors`, `system76-acpi`, `none`}
-  method: none
-  hwmon_path: none
-  lm_sensors_sensor_name: none
-
-# Kernel modules that might need to be enabled using modprobe in order to use
-# the sensors.
-sensors_kernel_modules:
-    # name of the kernel module
-  - module: none
-    # optional force_id arg for modprobe
-    force_id: none
+# Absent = unsupported. Uncomment and fill in to enable.
+# fan_rpm_measurement:
+#   gather:
+#   filter:
+#   process:

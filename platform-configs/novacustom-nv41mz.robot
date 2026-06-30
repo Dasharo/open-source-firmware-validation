@@ -21,5 +21,5 @@ ${CPU_MAX_FREQUENCY}=           4800
 ${CPU_MIN_FREQUENCY}=           300
 
 ${OPTIONS_LIB}=                 options-lib_dcu
-
+${EXPECTED_FW_SHA256}=          c5b399891fac4f243eb12605ec54327815165594f800ef6fbc4ef5f1b85b79d1
 # DTS E2E variables
