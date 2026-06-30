@@ -256,6 +256,8 @@ Check Unexpected Boot Errors
     Append To List    ${dmesg_err_allowlist}    proc_thermal_pci 0000:00:04.0: error: proc_thermal_add, will continue
     Append To List    ${dmesg_err_allowlist}    tmpfs: Unsupported parameter 'huge'
     Append To List    ${dmesg_err_allowlist}    x86/mktme: No known encryption algorithm is supported: 0x4
+    Append To List    ${dmesg_err_allowlist}    debugfs: 'simulate_fw_crash' already exists in
+    Append To List    ${dmesg_err_allowlist}    debugfs: 'device_dp_stats' already exists in
     @{log}=    Split To Lines    ${log}
     FOR    ${error}    IN    @{log}
         Should Contain    ${dmesg_err_allowlist}    ${error}
