@@ -25,6 +25,8 @@ ${TESTS_IN_FIRMWARE_SUPPORT}=           ${FALSE}
 ${OPTIONS_LIB}=                         options-lib_dcu
 ${POWER_CTRL}=                          none
 ${EXPECTED_FW_SHA256}=                  7595d57fcec2d315db0b612b9aab6cf680a1151719b7a3b2d3313aea6be97c06
+${PCIE2_USB_SUPPORT}=                   ${TRUE}
+${PCIE2_USB_PCI_ADDRESS}=               0000:01:00.0
 
 ${DEFAULT_BOOT_OS_ID}=                  ${ENV_ID_UBUNTU}
 # ${ENV_ID_FEDORA}
