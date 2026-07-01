@@ -12,6 +12,13 @@ Resource    include/default.robot
 ${INITIAL_DUT_CONNECTION_METHOD}=               Telnet
 ${DUT_CONNECTION_METHOD}=                       Telnet
 ${POWER_CTRL}=                                  sonoff
+
+# LinuxBoot payload: drive the firmware-specific boot flow via the LinuxBoot
+# payload library instead of the default EDK2/Tianocore one. Iteration 1 relies
+# on the platform automatically booting the desired OS.
+${PAYLOAD}=                                     linuxboot
+${PAYLOAD_LIB}=                                 payload-lib_linuxboot
+${TESTS_IN_LINUXBOOT_SUPPORT}=                  ${TRUE}
 ${DUT_HAS_CMOS_RESET}=                          ${FALSE}
 ${DUT_HAS_POWER_BUTTON}=                        ${FALSE}
 ${FLASH_SIZE}=                                  ${32*1024*1024}

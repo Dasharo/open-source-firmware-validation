@@ -1,5 +1,6 @@
 *** Settings ***
 Resource        ../../lib/options/${OPTIONS_LIB}.robot
+Resource        ../../lib/payload/${PAYLOAD_LIB}.robot
 Variables       ../../os-config/environment-test-ids.py
 
 
@@ -53,6 +54,14 @@ ${LAPTOP_EC_SERIAL_WORKAROUND}=                     ${FALSE}
 # - dcu: Will use Dasharo Configuration Utility to configure options.
 ${OPTIONS_LIB}=                                     options-lib_uefi-setup-menu
 
+# Payload library: implements the firmware-specific boot flow (entering the
+# boot/setup menus, selecting the OS boot device, resetting to defaults). The
+# generic boot keywords dispatch to the implementation selected here, so the
+# same test cases can run on different payloads.
+# - payload-lib_tianocore: EDK2/Tianocore UEFI payload (default)
+# - payload-lib_linuxboot: LinuxBoot payload
+${PAYLOAD_LIB}=                                     payload-lib_tianocore
+
 # OS config
 ${DEVICE_OS_USERNAME}=                              ${TBD}
 ${DEVICE_OS_PASSWORD}=                              ${TBD}
@@ -82,7 +91,11 @@ ${USB_DEVICE}=                                      ${TBD}
 ${FLASHROM_FLAGS}=                                  ${TBD}
 
 # Supported test environments
+# NOTE: ${TESTS_IN_FIRMWARE_SUPPORT} gates tests that drive the UEFI setup/boot
+# menus and therefore effectively means "UEFI firmware tests supported".
+# LinuxBoot platforms use ${TESTS_IN_LINUXBOOT_SUPPORT} instead.
 ${TESTS_IN_FIRMWARE_SUPPORT}=                       ${FALSE}
+${TESTS_IN_LINUXBOOT_SUPPORT}=                      ${FALSE}
 ${TESTS_IN_UBUNTU_SUPPORT}=                         ${FALSE}
 ${TESTS_IN_DEBIAN_SUPPORT}=                         ${FALSE}
 ${TESTS_IN_WINDOWS_SUPPORT}=                        ${FALSE}
