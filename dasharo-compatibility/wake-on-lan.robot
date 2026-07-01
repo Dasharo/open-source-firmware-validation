@@ -24,6 +24,7 @@ Default Tags        automated
 WOL001.201 Wake On LAN works (Ubuntu)
     [Documentation]    Verify Wake-on-LAN functionality by suspending the system
     ...    and waking it using a magic packet sent from the local machine.
+    Depends On    ${WAKE_ON_LAN_SUPPORT}
     Depends On    ${TESTS_IN_UBUNTU_SUPPORT}
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    WOL001.201 not supported
     Power On

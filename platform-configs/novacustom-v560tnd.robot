@@ -35,6 +35,7 @@ ${DEFAULT_BOOT_OS_ID}=                  ${ENV_ID_UBUNTU}
 @{TESTED_LINUX_DISTROS}=                ${ENV_ID_UBUNTU}    # ${ENV_ID_FEDORA}
 ${TESTS_IN_WINDOWS_SUPPORT}=            ${FALSE}    # change windows/ubuntu support depending
 ${TESTS_IN_UBUNTU_SUPPORT}=             ${TRUE}    # on which OS is first in the boot order
+${WAKE_ON_LAN_SUPPORT}=                 ${TRUE}
 ${TESTS_IN_FEDORA_SUPPORT}=             ${FALSE}
 
 ${USB_DISKS_DETECTION_SUPPORT}=         ${TRUE}

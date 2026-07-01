@@ -28,6 +28,7 @@ ${PLATFORM_CPU_SPEED}=                              3.0
 ${DGPU_ONLY_SUPPORT}=                               ${TRUE}
 ${TESTS_IN_WINDOWS_SUPPORT}=                        ${TRUE}    # change windows/ubuntu support depending
 ${TESTS_IN_UBUNTU_SUPPORT}=                         ${TRUE}    # on which OS is first in the boot order
+${WAKE_ON_LAN_SUPPORT}=                             ${TRUE}
 
 ${WIFI_CARD_UBUNTU}=
 ...                                                 00:14.3 Network controller: Intel Corporation Meteor Lake PCH CNVi WiFi (rev 20)

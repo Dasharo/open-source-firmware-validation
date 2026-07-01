@@ -68,9 +68,10 @@ ${USB_DEVICE}=                                  ${TBD}
 @{ATTACHED_USB}=                                ${TBD}
 
 # Test module: dasharo-compatibility
-${CUSTOM_BOOT_MENU_KEY_SUPPORT}=                ${TRUE}
-${CUSTOM_SETUP_MENU_KEY_SUPPORT}=               ${TRUE}
-${CUSTOM_BOOT_ORDER_SUPPORT}=                   ${TRUE}
+# NOTE: UEFI setup/boot-menu features (custom boot menu key, custom setup menu
+# key, custom boot order, reset to defaults) do not apply to the LinuxBoot
+# payload. They are intentionally omitted here so they inherit ${FALSE} from
+# default.robot; their tests also skip via ${TESTS_IN_FIRMWARE_SUPPORT}.
 ${USB_DISKS_DETECTION_SUPPORT}=                 ${TRUE}
 ${USB_KEYBOARD_DETECTION_SUPPORT}=              ${TRUE}
 ${NVME_DISK_SUPPORT}=                           ${TRUE}
@@ -87,7 +88,6 @@ ${L2_CACHE_SUPPORT}=                            ${TRUE}
 ${L3_CACHE_SUPPORT}=                            ${TRUE}
 ${SATA_SUPPORT}=                                ${TRUE}
 ${CPU_THROTTLING_SUPPORT}=                      ${FALSE}
-${RESET_TO_DEFAULTS_SUPPORT}=                   ${TRUE}
 ${AUDIO_SUBSYSTEM_SUPPORT}=                     ${FALSE}
 
 # Test module: dasharo-security
