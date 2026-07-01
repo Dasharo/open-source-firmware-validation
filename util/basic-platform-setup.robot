@@ -193,6 +193,7 @@ BPS010.001 Deploy UEFI Shell
     [Documentation]    Deploys UEFI Shell on the device.
     ...    Done in RF instead of ansible because of bootorder
     ...    guards implemented in RF keywords.
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    BPS010.001 not supported
     Deploy Uefi Shell
 
 
