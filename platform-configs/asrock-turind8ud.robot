@@ -28,17 +28,19 @@ ${FLASHING_METHOD}=                             external
 # dmidecode.robot
 ${MANUFACTURER}=                                ASRock
 ${DMIDECODE_VENDOR}=                            3mdeb
-# TODO: firmware currently reports a placeholder serial (123456789); update once
-# coreboot sets a real board serial.
-${DMIDECODE_SERIAL_NUMBER}=                     ${TBD}
+# TODO: firmware currently reports a placeholder serial; update once coreboot
+# sets a real board serial.
+${DMIDECODE_SERIAL_NUMBER}=                     123456789
 ${DMIDECODE_FIRMWARE_VERSION}=                  Dasharo v0.9.0-rc1
 # TODO: firmware currently reports "FIXME" as the SMBIOS product name; update
 # this once the coreboot mainboard sets a proper product name.
 ${DMIDECODE_PRODUCT_NAME}=                      FIXME
 ${DMIDECODE_RELEASE_DATE}=                      06/25/2026
-${DMIDECODE_FAMILY}=                            Server
+# TODO: firmware reports "Not Specified"; update once coreboot sets a family.
+${DMIDECODE_FAMILY}=                            Not Specified
 ${DMIDECODE_TYPE}=                              Main Server Chassis
-${DMIDECODE_MANUFACTURER}=                      ASRock
+# NOTE: firmware reports the manufacturer in all-caps ("ASROCK").
+${DMIDECODE_MANUFACTURER}=                      ASROCK
 ${CHECK_POWER_LED_SUPPORT}=                     ${FALSE}
 ${FLASH_VERIFY_METHOD}=                         none
 ${TESTS_IN_UBUNTU_SUPPORT}=                     ${TRUE}
