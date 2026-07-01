@@ -72,7 +72,14 @@ Get UEFI Option
     RETURN    ${state}
 
 Reset UEFI Options To Defaults
-    [Documentation]    Resets all UEFI options to defaults
+    [Documentation]    Resets all UEFI options to defaults. On platforms without
+    ...    a UEFI setup menu (e.g. LinuxBoot) there is nothing to reset, so this
+    ...    returns early instead of skipping, allowing callers that use it in
+    ...    Suite Setup to keep running their in-OS test cases.
+    IF    not ${TESTS_IN_FIRMWARE_SUPPORT}
+        Log    No UEFI setup menu on this platform; skipping reset to defaults.
+        RETURN
+    END
     Power On
     Enter Setup Menu Tianocore
     Reset To Defaults Tianocore

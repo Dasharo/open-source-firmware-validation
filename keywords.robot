@@ -614,7 +614,7 @@ Prepare Test Suite
     ${semiauto_support}=    Should Run Semiauto Tests
     VAR    ${SHOULD_RUN_SEMIAUTO_TESTS}=    ${semiauto_support}    scope=GLOBAL
 
-    Set Library Search Order    ${CONFIG}    ${OPTIONS_LIB}
+    Set Library Search Order    ${CONFIG}    ${OPTIONS_LIB}    ${PAYLOAD_LIB}
     Log Variables
 
 Import Osfv Libraries
