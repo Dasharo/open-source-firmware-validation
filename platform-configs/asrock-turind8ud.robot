@@ -52,17 +52,17 @@ ${DEFAULT_BOOT_OS_ID}=                          ${ENV_ID_UBUNTU}
 ...                                             ${ENV_ID_UBUNTU}    # ${ENV_ID_FEDORA}
 
 # CPF - TODO: fill in from the actual EPYC Turin SKU used for testing
-${CPU}=                                         ${TBD}
-${CPU_MAX_FREQUENCY}=                           ${TBD}
-${CPU_MIN_FREQUENCY}=                           ${TBD}
+${CPU}=                                         AMD EPYC 9115 16-Core Processor
+${CPU_MAX_FREQUENCY}=                           4118.0132
+${CPU_MIN_FREQUENCY}=                           1211.1810
 ${MAX_CPU_TEMP}=                                80
 ${MAX_CPU_TEMP_THRESHOLD}=                      93
 
-${DEF_THREADS_TOTAL}=                           ${TBD}
+${DEF_THREADS_TOTAL}=                           32
 ${DEF_THREADS_PER_CORE}=                        2
-${DEF_CORES_PER_SOCKET}=                        ${TBD}
+${DEF_CORES_PER_SOCKET}=                        16
 ${DEF_SOCKETS}=                                 1
-${DEF_ONLINE_CPU}=                              ${TBD}
+${DEF_ONLINE_CPU}=                              0-31
 
 ${PLATFORM_CPU_SPEED}=                          ${TBD}
 ${PLATFORM_RAM_SPEED}=                          ${TBD}
