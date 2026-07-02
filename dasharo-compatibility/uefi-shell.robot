@@ -20,6 +20,8 @@ Resource            ../lib/custom_bootentries.robot
 Suite Setup         Run Keywords
 ...                     Prepare Test Suite
 ...                     AND
+...                     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    UEFI Shell not supported on this platform
+...                     AND
 ...                     Deploy Uefi Shell
 Suite Teardown      Run Keyword
 ...                     Log Out And Close Connection
