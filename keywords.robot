@@ -975,7 +975,8 @@ Check Displays Windows
 Check HDMI Windows
     [Documentation]    Check if HDMI display is recognized by Windows OS.
     ${out}=    Check Displays Windows
-    Should Contain    ${out}    VideoOutputTechnology : 5
+    # On AMD systems the HDMI on integrated GPU may appear as DVI
+    Should Contain Any    ${out}    VideoOutputTechnology : 4    VideoOutputTechnology : 5
 
 Check DP Windows
     [Documentation]    Check if DP display is recognized by Windows OS.
