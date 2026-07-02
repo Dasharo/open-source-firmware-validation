@@ -100,6 +100,7 @@ ${AUDIO_SUBSYSTEM_SUPPORT}=                     ${FALSE}
 ${TPM_SUPPORTED_VERSION}=                       2
 ${TPM_MULTIPLE_BANK_SUPPORT}=                   ${FALSE}
 ${MEASURED_BOOT_SUPPORT}=                       ${TRUE}
+${SMM_WRITE_PROTECTION_SUPPORT}=                ${TRUE}
 
 # Test module: dasharo-performance
 ${SERIAL_BOOT_MEASURE}=                         ${TRUE}
