@@ -90,9 +90,11 @@ ${SATA_SUPPORT}=                                ${TRUE}
 ${CPU_THROTTLING_SUPPORT}=                      ${FALSE}
 ${RESET_TO_DEFAULTS_SUPPORT}=                   ${TRUE}
 ${AUDIO_SUBSYSTEM_SUPPORT}=                     ${TRUE}
+${EXTERNAL_HEADSET_SUPPORT}=                    ${TRUE}
 ${AUTO_BOOT_TIME_OUT_DEFAULT_VALUE}=            3
 ${NETWORK_BOOT_NEEDS_OPTION_ROMS}=              ${FALSE}
 ${SMM_WRITE_PROTECTION_SUPPORT}=                ${TRUE}
+${EXTERNAL_HDMI_DISPLAY_SUPPORT}=               ${TRUE}
 
 # Test module: dasharo-security
 ${TPM_SUPPORTED_VERSION}=                       2
@@ -116,6 +118,7 @@ ${CAPSULE_UPDATE_SUPPORT}=                      ${TRUE}
 ${FUM_BOOT_IPXE_FOR_AUTO_UPDATE}=               ${FALSE}
 ${CAPSULE_DOES_NOT_PERSIST_ACROSS_RESET}=       ${TRUE}
 ${CAPSULE_ON_DISK_SUPPORT}=                     ${TRUE}
+${ROMHOLE_SUPPORT}=                             ${TRUE}
 ${USB_DETECTION_ITERATIONS_NUMBER}=             5
 ${BOOT_FROM_USB_ITERATIONS_NUMBER}=             5
 
