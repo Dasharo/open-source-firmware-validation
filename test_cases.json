@@ -3844,6 +3844,13 @@
   },
   {
     "doc": {
+      "_id": "FWUPD007.201",
+      "name": "Fwupd firmware update updates dbx (Ubuntu)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
       "_id": "GPP001.201",
       "name": "GPU Performance Measure (Ubuntu) (AC)",
       "module": "Dasharo Performance"

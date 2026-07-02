@@ -11,6 +11,7 @@ Library             RequestsLibrary
 Resource            ../keywords.robot
 Resource            ../lib/performance/cpu.robot
 Resource            ../lib/fwupd.resource
+Resource            ../lib/dcu.robot
 
 Suite Setup         Run Keywords
 ...                     Prepare Test Suite    AND
@@ -25,7 +26,10 @@ Default Tags        automated
 
 
 *** Variables ***
-${CABINET_ENVVAR}=      FWUPD_CABINET_FILE
+${CABINET_ENVVAR}=          FWUPD_CABINET_FILE
+# Older official Microsoft DBXUpdate.bin used to seed an out-of-date dbx before the
+# firmware update (default: committed asset; override with DBX_OLD_DBXUPDATE).
+${DBX_OLD_DBXUPDATE}=       ${TEST_DATA_DIR}/dbx/DBXUpdate_28-10-2022.bin
 
 
 *** Test Cases ***
@@ -78,6 +82,44 @@ FWUPD006.201 Fwupd Check Update Results (Ubuntu)
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Fwupd Check Update Results Linux
+
+FWUPD007.201 Fwupd firmware update updates dbx (Ubuntu)
+    [Documentation]    Seed an older UEFI dbx, perform a full firmware update via
+    ...    fwupd, and verify the update advanced dbx too - dbx is updated as part of
+    ...    the whole-firmware update.
+    [Tags]    automated    semiauto
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}
+    Skip If
+    ...    '${POWER_CTRL}'=='none' and ${INCLUDE_TAGS} and 'semiauto' not in ${INCLUDE_TAGS}
+    ...    Semiauto tag not in scope (-i flag)
+    # Required only because DBX updates are bundled with firmware updates.
+    # DBX can only be done by updating the firmware, which won't update if
+    # the firmware is up to date.
+    # Remove flashing when standalone DBX updates will be supported
+    ${base_fw}=    Get Environment Variable    CAPSULE_UPDATE_RC0_FW_FILE
+    Flash Firmware    ${base_fw}
+    Set UEFI Option    MeMode    Disabled (HAP)
+
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
+    Login To Linux
+    ${version_before}=    Get Dbx Version
+    ${size_before}=    Get Dbxdefault Size
+    Log    Old DBX: version: ${version_before}, size: ${size_before}
+    Fwupd Local Firmware Update Linux
+    ${version_after}=    Get Dbx Version
+    ${size_after}=    Get Dbxdefault Size
+    Log    Updated DBX: version: ${version_after}, size: ${size_after}
+
+    ${dbx_changed}=    Run Keyword And Return Status    Should Not Be Equal    ${version_before}    ${version_after}
+    ${dbx_default_changed}=    Run Keyword And Return Status    Should Not Be Equal    ${size_before}    ${size_after}
+
+    Should Be True    ${dbx_default_changed}    DBX was not updated.
+    IF    not ${dbx_changed}
+        Log
+        ...    The update only updated the dbxDefault. To use the new DBX the user needs to manually reset SB keys to defaults.
+        ...    WARN
+    END
 
 FWUPD004.202 Fwupd Installed (Fedora)
     [Documentation]    Check if fwupd is installed by verifying version output
@@ -224,3 +266,32 @@ Fwupd Check Update Results Linux
     ...    separator= |
     ${firmware_id}=    Execute Command In Terminal    ${id_extract_command}
     Fwupd Verify Update Results Linux    ${firmware_id}
+
+Load Json From Command
+    [Documentation]    Run a command that prints JSON and return the parsed object.
+    [Arguments]    ${cmd}    ${timeout}=60
+    ${out}=    Execute Command In Terminal    ${cmd}    ${timeout}
+    ${data}=    Evaluate
+    ...    json.loads(r'''${out}'''[r'''${out}'''.find('{'):r'''${out}'''.rfind('}') + 1])
+    ...    json
+    RETURN    ${data}
+
+Get Dbx Version
+    [Documentation]    Return the fwupd-reported UEFI dbx version as an integer (a date
+    ...    such as 20250902).
+    ${data}=    Load Json From Command    fwupdmgr get-devices --json
+    ${devices}=    Get From Dictionary    ${data}    Devices    default=@{EMPTY}
+    FOR    ${d}    IN    @{devices}
+        ${name}=    Get From Dictionary    ${d}    Name    default=${EMPTY}
+        IF    'dbx' in '''${name}'''.lower()
+            ${version}=    Get From Dictionary    ${d}    Version    default="None"
+            ${version}=    Convert To Integer    ${version}
+            RETURN    ${version}
+        END
+    END
+    Fail    fwupd does not expose a UEFI dbx device
+
+Get Dbxdefault Size
+    ${size}=    Execute Command In Terminal
+    ...    stat --format=%s /sys/firmware/efi/efivars/dbxDefault-8be4df61-93ca-11d2-aa0d-00e098032b8c
+    RETURN    ${size}
