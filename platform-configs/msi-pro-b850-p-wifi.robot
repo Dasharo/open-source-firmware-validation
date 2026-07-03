@@ -136,3 +136,9 @@ ${PLATFORM_STABILITY_CHECKING}=                 ${TRUE}
 ${FAST_AND_QUIET_BOOT_SUPPORT}=                 ${TRUE}
 ${M2_WIFI_SUPPORT}=                             ${TRUE}
 ${WIFI_CARD_UBUNTU}=                            Qualcomm Technologies, Inc WCN785x Wi-Fi 7
+
+
+*** Keywords ***
+Power On
+    [Documentation]    Implementation of keywords.Power On
+    Power On Default
