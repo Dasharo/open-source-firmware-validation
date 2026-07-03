@@ -31,7 +31,7 @@ Run Fwupd Update With Battery Check Workaround
     ${battery}=    Get Variable Value    ${BATTERY_PRESENT}    ${FALSE}
     # Trigger workaround if the device is battery powered
     IF    ${battery}
-        FOR    ${i}    IN RANGE    5
+        FOR    ${i}    IN RANGE    10
             ${out}=    Run Keyword    ${update_keyword}    @{args}
             ${ac_ok}=    Run Keyword And Return Status    Should Not Contain Any
             ...    ${out}
