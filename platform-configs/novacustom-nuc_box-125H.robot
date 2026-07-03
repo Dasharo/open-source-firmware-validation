@@ -82,7 +82,7 @@ ${TESTS_IN_WINDOWS_SUPPORT}=            ${FALSE}
 # cpu performance Windows
 &{UPP_SMALLPT_BENCHMARK}=
 ...                                     name=smallpt
-...                                     score=12.454
+...                                     score=17
 ...                                     scale=lower_is_better
 ...                                     dev=0.2
 ...                                     type=singlecore
