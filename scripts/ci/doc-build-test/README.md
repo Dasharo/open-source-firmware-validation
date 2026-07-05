@@ -7,8 +7,9 @@ SPDX-License-Identifier: Apache-2.0
 # Documentation build test
 
 A proof-of-concept harness that reads a Dasharo build manual from
-`docs.dasharo.com`, resolves the exact commands a reader would run to build
-one firmware variant, and checks the result against the published release.
+`docs.dasharo.com` and resolves the exact commands a reader would run to build
+one firmware variant, so a resulting binary can be compared against a published
+release.
 
 It is a first step towards
 [dasharo-issues#1153](https://github.com/Dasharo/dasharo-issues/issues/1153):
@@ -38,8 +39,10 @@ Off-the-shelf "runnable docs" tools such as `codedown`, `doc-detective` and
 `tuttest` extract _every_ fenced block on the page and run them in order. On
 the page above that means running the DDR4 build, the DDR5 build and the Heads
 build back to back - incompatible branches concatenated into one broken
-script. This is why a plain run of such a tool against the Dasharo docs has
-mostly failed in earlier experiments on the issue.
+script. Branch concatenation is one failure mode. A separate one the
+maintainers hit when trying doc-detective - its container lacked host
+dependencies the docs assume, such as `sudo` - is about capturing what a fresh
+OS needs, and is out of scope here (see Scope below).
 
 This harness instead resolves a _single path_ through the tree. Tab
 resolution follows MkDocs' own `content.tabs.link` semantics: tabs that share
@@ -70,15 +73,16 @@ the 3mdeb Vboot key while a local build is not, so the `VBLOCK` and `GBB`
 regions legitimately differ. This is documented in the
 [reproducible build verification guide](https://docs.dasharo.com/guides/reproducible-build-verification/).
 
-`verify` therefore returns three verdicts:
-
-- `IDENTICAL` - the binaries match byte for byte.
-- `REPRODUCIBLE_MODULO_SIGNATURE` - they differ only in signed regions, as
-  determined by [romscope](https://github.com/Dasharo/romscope) `compare`.
-- `DIFFERS` - a real, functional difference.
-
-The romscope comparison is delegated to an injected runner, which keeps the
-verdict logic unit-testable without a romscope binary or Docker present.
+`verify` returns `IDENTICAL` (sha256 match) or `DIFFERS`. A `DIFFERS` result is
+_not_ by itself a failure: a legitimately reproducible Dasharo build is not
+byte-identical to the release, because the release is Vboot-signed and both
+carry version strings and build metadata a local build will not match. Deciding
+whether a `DIFFERS` result is functionally reproducible needs
+[romscope](https://github.com/Dasharo/romscope) `compare` and a human reading
+of its report (string / compression / program-data differences). `verify`
+therefore surfaces romscope's raw output for a person to interpret rather than
+inventing a pass/fail verdict from it. The romscope call is an injected runner,
+so the logic stays unit-testable without romscope or Docker present.
 
 ## What it reveals in the current docs
 
@@ -98,9 +102,10 @@ issue is about - without any change to the docs:
   device choice is reported as an ambiguous path, listing the options that
   still need a decision.
 
-The `diagnose` subcommand reports all of these for a page and exits non-zero
-when any are found, so it can gate CI. On the current MSI manual it reports
-eight issues across the three classes above.
+The `diagnose` subcommand reports these for a page and exits non-zero when any
+are found, so it can gate CI. The committed self-tests run against small
+inlined fixtures; the eight findings above were observed by running `diagnose`
+against the live `unified/msi/building-manual.md`, not asserted in the suite.
 
 ## Usage
 
@@ -139,20 +144,32 @@ reproducibility verdict. Deliberately out of scope for now:
   is left to a follow-up, run outside pull-request CI.
 - _Release discovery._ Mapping a device to its published releases and hashes
   (from the per-device `releases.md` pages) is a follow-up.
-- _Placeholder substitution_ handles the common `X.Y.Z`, `VERSION` and
-  `REVISION` tokens; richer templating is a follow-up.
+- _Fresh-OS dependency capture._ Verifying the documented steps on a clean OS
+  with nothing missing - the `sudo`/toolchain gap the maintainers hit - is the
+  harder half of the issue and is not attempted here.
+- _Parsing assumptions._ Only fences tagged with a shell language are treated
+  as commands; heredocs and unusual tab-label conventions are not handled.
+  Placeholder substitution covers the common `X.Y.Z`, `VERSION` and `REVISION`
+  tokens only.
 
 ## Relation to existing work
 
 - Test specifications `[BNO] Build on a fresh OS Installation` and
   `[FLB] Firmware locally building and flashing` describe the manual
   procedure this harness is meant to automate.
-- The build script trialled in
-  [coreboot#579](https://github.com/Dasharo/coreboot/pull/579) and the manual
-  copy in
-  [osfv#545](https://github.com/Dasharo/open-source-firmware-validation/pull/545)
-  both hard-code the build steps. This harness reads them from the docs
-  instead, so the test and the documentation cannot drift apart.
+- This "parse the docs, then hash-compare" approach follows the plan macpijan
+  sketched in
+  [osfv#545](https://github.com/Dasharo/open-source-firmware-validation/pull/545).
+  An alternative discussed in that thread is to standardise the build (a
+  universal script, as trialled in
+  [coreboot#579](https://github.com/Dasharo/coreboot/pull/579), or
+  Jinja-generated docs) so that parsing becomes unnecessary; this PoC does not
+  preclude that direction.
+- [docs#1240](https://github.com/Dasharo/docs/pull/1240) is a parallel,
+  non-executing build-docs command checker in the docs repo. This harness is
+  complementary - single-path resolution, build-script generation and a
+  reproducibility comparison - and the two should be reconciled rather than
+  duplicated.
 
 ## Running the self-tests
 

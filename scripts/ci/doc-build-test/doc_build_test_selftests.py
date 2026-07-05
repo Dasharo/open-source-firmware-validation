@@ -243,8 +243,19 @@ class TestSinglePathResolution(unittest.TestCase):
             MSI_DOC,
             select=["Dasharo (UEFI)", "PRO Z690-A DDR5"],
             version="1.1.3",
+            revision="msi_ms7d25_v1.1.3",
         )
         self.assertEqual(recipe.artifacts, ["$PWD/msi_ms7d25_1.1.3_ddr5.rom"])
+
+    def test_version_without_revision_is_rejected(self):
+        # The MSI clone step is `-b REVISION`; asking for a version but no
+        # revision leaves an unresolved placeholder and must not silently ship.
+        with self.assertRaises(ValueError):
+            ext.resolve(
+                MSI_DOC,
+                select=["Dasharo (UEFI)", "PRO Z690-A DDR4"],
+                version="1.1.3",
+            )
 
     def test_heads_branch_is_independent(self):
         recipe = ext.resolve(
@@ -275,6 +286,23 @@ class TestAdmonitionAndContinuation(unittest.TestCase):
         self.assertIn("coreboot/coreboot-sdk:2023-11-24 /bin/bash", docker[0])
 
 
+class TestFenceHandling(unittest.TestCase):
+    def test_unlabeled_output_fence_is_not_a_command(self):
+        doc = (
+            "# Build\n\n"
+            "```bash\n./build.sh board\n```\n\n"
+            "Expected output:\n\n"
+            "```\nBuild complete\nFirmware size: 16M\n```\n"
+        )
+        recipe = ext.resolve(doc, select=[])
+        self.assertEqual(recipe.commands, ["./build.sh board"])
+
+    def test_attribute_list_fence_is_shell(self):
+        doc = "# Build\n\n```{.bash .no-copy}\n./build.sh board\n```\n"
+        recipe = ext.resolve(doc, select=[])
+        self.assertEqual(recipe.commands, ["./build.sh board"])
+
+
 class TestScriptRendering(unittest.TestCase):
     def test_script_is_fail_fast_and_ordered(self):
         recipe = ext.resolve(
@@ -301,28 +329,27 @@ class TestVerify(unittest.TestCase):
     def test_identical_binaries(self):
         a = self._write(b"same-bytes")
         b = self._write(b"same-bytes")
-        self.assertEqual(ext.verify(a, b), ext.IDENTICAL)
+        self.assertEqual(ext.verify(a, b).verdict, ext.IDENTICAL)
 
     def test_real_difference(self):
         a = self._write(b"one")
         b = self._write(b"two")
-        self.assertEqual(ext.verify(a, b), ext.DIFFERS)
+        result = ext.verify(a, b)
+        self.assertEqual(result.verdict, ext.DIFFERS)
+        self.assertEqual(result.romscope_report, "")
 
-    def test_signature_only_difference_is_reproducible(self):
+    def test_differ_surfaces_romscope_report_without_classifying_it(self):
         a = self._write(b"built")
         b = self._write(b"published")
 
         def fake_romscope(published, built):
-            return (
-                "Vblock regions/fmap/VBLOCK_A.bin differs.\n"
-                "Files match but signatures differ. Binaries are likely "
-                "signed using different Vboot keys."
-            )
+            return "String differences: build_info\nCompression differences"
 
-        self.assertEqual(
-            ext.verify(a, b, romscope_runner=fake_romscope),
-            ext.REPRODUCIBLE_MODULO_SIGNATURE,
-        )
+        result = ext.verify(a, b, romscope_runner=fake_romscope)
+        # DIFFERS is not overridden by a guessed verdict; the raw romscope
+        # report is surfaced for a human to interpret.
+        self.assertEqual(result.verdict, ext.DIFFERS)
+        self.assertIn("Compression differences", result.romscope_report)
 
 
 class TestDiagnose(unittest.TestCase):
@@ -335,6 +362,16 @@ class TestDiagnose(unittest.TestCase):
     def test_clean_docs_report_nothing(self):
         self.assertEqual(ext.diagnose(MSI_DOC), [])
         self.assertEqual(ext.diagnose(NOVA_DOC), [])
+
+    def test_identical_repeated_build_command_is_not_flagged(self):
+        doc = (
+            "# Build\n\n"
+            "```bash\n./build.sh h4\n```\n\n"
+            "Or, equivalently:\n\n"
+            "```bash\n./build.sh h4\n```\n"
+        )
+        kinds = [d.kind for d in ext.diagnose(doc)]
+        self.assertNotIn("multiple-build-commands", kinds)
 
 
 if __name__ == "__main__":

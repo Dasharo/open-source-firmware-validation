@@ -98,9 +98,12 @@ def _cmd_verify(args: argparse.Namespace) -> int:
             )
             return result.stdout + result.stderr
 
-    verdict = ext.verify(args.built, args.published, romscope_runner=runner)
-    print(verdict)
-    return 0 if verdict != ext.DIFFERS else 1
+    result = ext.verify(args.built, args.published, romscope_runner=runner)
+    print(result.verdict)
+    if result.romscope_report:
+        print("\nromscope report (interpret per romscope's 'Interpreting results'):")
+        print(result.romscope_report)
+    return 0 if result.verdict == ext.IDENTICAL else 1
 
 
 def _cmd_diagnose(args: argparse.Namespace) -> int:

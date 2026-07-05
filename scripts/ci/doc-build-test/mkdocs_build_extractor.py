@@ -21,10 +21,11 @@ branches at once, for example::
 
 Off-the-shelf "runnable docs" tools (``codedown``, ``doc-detective``,
 ``tuttest``) extract *every* fenced block on the page and run them in order.
-On a page like the one above that means running ``./build.sh z690a_ddr4`` and
-``./build.sh z690a_ddr5`` and the Heads build back to back - incompatible
-branches mixed together.  That is exactly why those tools "mostly failed" when
-pointed at the Dasharo docs.
+On a page like the one above that concatenates incompatible branches -
+``./build.sh z690a_ddr4`` and ``./build.sh z690a_ddr5`` and the Heads build -
+into a single script.  (Branch concatenation is one failure mode.  A separate
+and equally important one, capturing the exact host dependencies a build needs
+from a fresh OS, is out of scope for this module; see the README.)
 
 This module instead resolves a *single path* through the tree.  Given a
 selection of tab labels (firmware type, device, package manager, ...) it emits
@@ -129,6 +130,21 @@ def _is_blank(line: str) -> bool:
     return line.strip() == ""
 
 
+def _parse_lang(info: str) -> str:
+    """Extract the language from a fence info string.
+
+    Handles plain (```` ```bash ````), title (```` ```bash title="x" ````) and
+    MkDocs attribute-list (```` ```{.bash .no-copy} ````) forms.
+    """
+    info = info.strip()
+    if not info:
+        return ""
+    if info.startswith("{"):
+        m = re.search(r"\.([\w-]+)", info)
+        return m.group(1).lower() if m else ""
+    return info.split()[0].lower()
+
+
 class _Parser:
     """Indentation-aware recursive-descent parser for MkDocs Material blocks."""
 
@@ -188,8 +204,7 @@ class _Parser:
 
     def _code_block(self, indent: int, fence) -> CodeBlock:
         ticks = fence.group("ticks")
-        info = fence.group("info").strip()
-        lang = info.split()[0].lower() if info else ""
+        lang = _parse_lang(fence.group("info"))
         start = self.i + 1
         body: list = []
         self.i += 1
@@ -331,7 +346,9 @@ def _pick_tabs(group: TabGroup, chosen: dict, select: Optional[list]) -> list:
 
 def _absorb(node, state: Recipe) -> Recipe:
     if isinstance(node, CodeBlock):
-        if node.lang in SHELL_LANGS or node.lang == "":
+        # Only fences explicitly tagged with a shell language are build steps.
+        # Unlabeled fences are sample output / file listings, not commands.
+        if node.lang in SHELL_LANGS:
             new = _clone(state)
             for cmd in _split_commands(node.code):
                 new.commands.append(cmd)
@@ -399,21 +416,41 @@ def iter_recipes(nodes: list, select: Optional[list] = None) -> Iterator[Recipe]
     yield from _walk(nodes, 0, {}, select, Recipe())
 
 
+def _leftover_placeholders(commands: list) -> set:
+    joined = "\n".join(commands)
+    return {t for t in (*VERSION_PLACEHOLDERS, REVISION_PLACEHOLDER) if t in joined}
+
+
 def resolve(
     text: str,
     select: list,
     version: Optional[str] = None,
     revision: Optional[str] = None,
 ) -> Recipe:
-    """Resolve exactly one build recipe for a selection, with substitutions."""
+    """Resolve exactly one build recipe for a selection, with substitutions.
+
+    Raises :class:`AmbiguousSelection` if the selection does not pin a single
+    path, and ``ValueError`` if a version/revision placeholder is left
+    unresolved after substitution (e.g. ``--version`` given without the
+    ``--revision`` a ``git clone -b REVISION`` step needs).
+    """
     nodes = parse(text)
     recipes = list(iter_recipes(nodes, select=select))
     if not recipes:
         raise ValueError("no build path found in document")
+    if len(recipes) > 1:
+        raise AmbiguousSelection(sorted({" / ".join(r.selections) for r in recipes}))
     recipe = recipes[0]
     if version is not None or revision is not None:
         recipe.commands = [substitute(c, version, revision) for c in recipe.commands]
         recipe.artifacts = [substitute(a, version, revision) for a in recipe.artifacts]
+        leftover = _leftover_placeholders(recipe.commands)
+        if leftover:
+            raise ValueError(
+                "unresolved placeholder(s) after substitution: "
+                + ", ".join(sorted(leftover))
+                + " (pass --version and/or --revision)"
+            )
     return recipe
 
 
@@ -453,8 +490,15 @@ def to_script(recipe: Recipe) -> str:
 
 # Verdicts returned by :func:`verify`.
 IDENTICAL = "IDENTICAL"
-REPRODUCIBLE_MODULO_SIGNATURE = "REPRODUCIBLE_MODULO_SIGNATURE"
 DIFFERS = "DIFFERS"
+
+
+@dataclass
+class VerifyResult:
+    """Outcome of comparing a built binary to a published release."""
+
+    verdict: str  # IDENTICAL | DIFFERS
+    romscope_report: str = ""
 
 
 def sha256_file(path: str) -> str:
@@ -469,25 +513,25 @@ def verify(
     built: str,
     published: str,
     romscope_runner: Optional[Callable[[str, str], str]] = None,
-) -> str:
+) -> VerifyResult:
     """Compare a locally built binary against a published release.
 
-    A plain ``sha256`` match means the binaries are byte-identical.  When they
-    differ, that is *not* automatically a failure: Dasharo release binaries are
-    signed with 3mdeb's Vboot key while a local build is not, so the VBLOCK/GBB
-    regions legitimately differ (see ``guides/reproducible-build-verification``
-    in Dasharo/docs).  ``romscope compare`` distinguishes a signature-only
-    difference from a real one; when a runner is provided we defer to it.
+    ``sha256`` equality yields ``IDENTICAL``.  Any other result is ``DIFFERS``,
+    which does *not* by itself mean the build is wrong: a legitimately
+    reproducible Dasharo build is not byte-identical to the release (the release
+    is Vboot-signed, and both carry version strings and build metadata a local
+    build will not match).  Deciding whether a ``DIFFERS`` result is
+    *functionally* reproducible needs ``romscope compare`` and human reading of
+    its report (see romscope's "Interpreting results": string / compression /
+    program-data differences).  This function therefore surfaces romscope's raw
+    output rather than inventing a pass/fail verdict from it.
     """
     if sha256_file(built) == sha256_file(published):
-        return IDENTICAL
-    if romscope_runner is None:
-        return DIFFERS
-    output = romscope_runner(published, built)
-    lowered = output.lower()
-    if "signatures differ" in lowered or "signed using different" in lowered:
-        return REPRODUCIBLE_MODULO_SIGNATURE
-    return DIFFERS
+        return VerifyResult(IDENTICAL)
+    report = ""
+    if romscope_runner is not None:
+        report = romscope_runner(published, built)
+    return VerifyResult(DIFFERS, report)
 
 
 # --------------------------------------------------------------------------- #
@@ -563,8 +607,8 @@ def diagnose(text: str) -> list:
       version in prose ("For v1.1.1 and older") instead of a tab, so no single
       command can be selected mechanically for a given version.
     * ``multiple-build-commands`` - one resolved path contains more than one
-      ``./build.sh`` invocation, i.e. mutually exclusive builds were not split
-      into separate tabs.
+      *distinct* ``./build.sh`` invocation: mutually exclusive builds, or
+      several board variants, that were not split into separate tabs.
     * ``inconsistent-tab-labels`` - two build steps label the same device
       differently, so the tabs cannot be linked across steps.
     """
@@ -578,11 +622,12 @@ def diagnose(text: str) -> list:
 
     for recipe in iter_recipes(nodes):
         builds = [c for c in recipe.commands if _BUILD_INVOCATION_RE.search(c)]
-        if len(builds) > 1:
+        distinct = list(dict.fromkeys(builds))  # order-preserving dedupe
+        if len(distinct) > 1:
             found.append(
                 Diagnostic(
                     "multiple-build-commands",
-                    " / ".join(recipe.selections) + ": " + ", ".join(builds),
+                    " / ".join(recipe.selections) + ": " + ", ".join(distinct),
                 )
             )
 
