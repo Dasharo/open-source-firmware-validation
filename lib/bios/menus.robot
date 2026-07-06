@@ -1471,6 +1471,14 @@ Boot System Or From Connected Disk
 
     IF    '${DUT_CONNECTION_METHOD}' == 'SSH'    RETURN
 
+    IF    '''${SEABIOS_BOOT_DEVICE}''' != ''
+        Read From Terminal Until    Press F10 key now for boot menu
+        Write Bare Into Terminal    ${F10}
+        Read From Terminal Until    Select boot device
+        Write Bare Into Terminal    ${SEABIOS_BOOT_DEVICE}
+        RETURN
+    END
+
     Payload Select Boot Device    ${env_id}    ${system_name}    ${boot_menu}
 
 Make Sure That Network Boot Is Enabled

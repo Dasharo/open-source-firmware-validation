@@ -33,14 +33,6 @@ Payload Select Boot Device    # robocop: off=too-long-keyword
     ...    - Boots into the selected OS
     [Arguments]    ${env_id}    ${system_name}    ${boot_menu}=NOT_SET
 
-    IF    '''${SEABIOS_BOOT_DEVICE}''' != ''
-        Read From Terminal Until    Press F10 key now for boot menu
-        Write Bare Into Terminal    ${F10}
-        Read From Terminal Until    Select boot device
-        Write Bare Into Terminal    ${SEABIOS_BOOT_DEVICE}
-        RETURN
-    END
-
     # Allow providing boot menu construction, if we are already in boot menu screen
     # and want to boot into OS from there
     IF    '''${boot_menu}''' == 'NOT_SET'
