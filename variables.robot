@@ -286,7 +286,7 @@ ${OS_UBUNTU}=               ubuntu
 ...                         platform_vendor=Giga Computing
 
 # ASRock TURIND8UD
-&{RTE76}=                   ip=192.168.4.87
+&{RTE76}=                   ip=192.168.10.208
 ...                         platform=asrock-turind8ud
 ...                         platform_vendor=ASRock
 ...                         sonoff_ip=192.168.10.139
