@@ -23,7 +23,7 @@ ${DUT_HAS_CMOS_RESET}=                          ${FALSE}
 ${DUT_HAS_POWER_BUTTON}=                        ${FALSE}
 ${RTC_BOOT_SUPPORT}=                            ${FALSE}
 ${FLASH_SIZE}=                                  ${32*1024*1024}
-${INITIAL_CPU_FREQUENCY}=                       ${TBD}
+${CPU_MIN_FREQUENCY}=                           1211
 ${FLASHING_METHOD}=                             external
 
 # dmidecode.robot
