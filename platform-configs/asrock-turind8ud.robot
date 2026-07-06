@@ -21,6 +21,7 @@ ${PAYLOAD_LIB}=                                 payload-lib_linuxboot
 ${TESTS_IN_LINUXBOOT_SUPPORT}=                  ${TRUE}
 ${DUT_HAS_CMOS_RESET}=                          ${FALSE}
 ${DUT_HAS_POWER_BUTTON}=                        ${FALSE}
+${RTC_BOOT_SUPPORT}=                            ${FALSE}
 ${FLASH_SIZE}=                                  ${32*1024*1024}
 ${INITIAL_CPU_FREQUENCY}=                       ${TBD}
 ${FLASHING_METHOD}=                             external
@@ -49,9 +50,8 @@ ${DEVICE_NVME_DISK}=                            Non-Volatile memory controller
 
 ${DEFAULT_BOOT_OS_ID}=                          ${ENV_ID_UBUNTU}
 @{TESTED_LINUX_DISTROS}=
-...                                             ${ENV_ID_UBUNTU}    # ${ENV_ID_FEDORA}
+...                                             ${ENV_ID_UBUNTU}
 
-# CPF - TODO: fill in from the actual EPYC Turin SKU used for testing
 ${CPU}=                                         AMD EPYC 9115 16-Core Processor
 ${CPU_MAX_FREQUENCY}=                           4118.0132
 ${CPU_MIN_FREQUENCY}=                           1211.1810
@@ -63,15 +63,6 @@ ${DEF_THREADS_PER_CORE}=                        2
 ${DEF_CORES_PER_SOCKET}=                        16
 ${DEF_SOCKETS}=                                 1
 ${DEF_ONLINE_CPU}=                              0-31
-
-${PLATFORM_CPU_SPEED}=                          ${TBD}
-${PLATFORM_RAM_SPEED}=                          ${TBD}
-${PLATFORM_RAM_SIZE}=                           ${TBD}
-
-# TODO: set to the USB stick actually attached to the DUT
-${USB_MODEL}=                                   ${TBD}
-${USB_DEVICE}=                                  ${TBD}
-@{ATTACHED_USB}=                                ${TBD}
 
 # Test module: dasharo-compatibility
 # NOTE: UEFI setup/boot-menu features (custom boot menu key, custom setup menu
@@ -107,7 +98,7 @@ ${SERIAL_BOOT_MEASURE}=                         ${TRUE}
 ${CPU_TEMPERATURE_MEASURE}=                     ${TRUE}
 ${CPU_FREQUENCY_MEASURE}=                       ${TRUE}
 
-# Test module: dasharo-stab
+# Test module: dasharo-stability
 ${TPM_DETECT_SUPPORT}=                          ${TRUE}
 ${NVME_DETECTION_SUPPORT}=                      ${TRUE}
 ${USB_TYPE_A_DEVICES_DETECTION_SUPPORT}=        ${TRUE}
