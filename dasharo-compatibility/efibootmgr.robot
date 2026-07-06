@@ -152,6 +152,7 @@ Efibootmgr Suite Setup
     [Documentation]    Load platform config, and if this suite is supported
     ...    remove remaining boot entries.
     Prepare Test Suite
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    Efi Boot Manager not supported on this platform
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    Efi Boot Manager requires Ubuntu
     Login And Remove Test Boot Entry
 
