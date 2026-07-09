@@ -282,7 +282,9 @@ Run Ansible Playbooks
             ${out}=    Execute Command In Terminal    which /usr/bin/sudo.ws
             Should Not Contain Any    ${out}    not found    apt install    msg=Classical sudo not found on the system
             # will replace /usr/bin/sudo with sudo.ws instead of sudo-rs
-            ${out}=    Execute Command In Terminal    sudo update-alternatives --set sudo /usr/bin/sudo.ws
+            Switch To Root User
+            ${out}=    Execute Command In Terminal    update-alternatives --set sudo /usr/bin/sudo.ws
+            Exit From Root User
             Should Not Contain Any    ${out}    error    not setting
         END
 
