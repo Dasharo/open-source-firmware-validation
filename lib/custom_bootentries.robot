@@ -142,7 +142,7 @@ Ensure Custom Entry
 Extract Loader From EfiLine
     [Arguments]    ${line}
     ${txt}=    Replace String    ${line}    \r    ${EMPTY}
-    ${matches}=    Get Regexp Matches    ${txt}    /File\\(([^)]*)\\)    1
+    ${matches}=    Get Regexp Matches    ${txt}    (\\\\EFI(?:\\\\[^\\\\{\\s]+)+\\.efi)    1
     Should Not Be Empty    ${matches}
 
     ${loader}=    Get From List    ${matches}    0
