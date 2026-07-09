@@ -39,7 +39,7 @@ TPMCMD002.001 PCRREAD Function Verification (Ubuntu)
     ...    properly. Function reads contains of PCR banks and
     ...    returns it to the terminal.
     Skip If    not ${SHA1_ENABLED} and not ${SHA256_ENABLED}    No PCR banks enabled
-    ${out}=    Execute Linux Command    tpm2_pcrread
+    ${out}=    Execute Linux Tpm2 Tools Command    tpm2_pcrread
     Should Contain    ${out}    sha1:
     Should Contain    ${out}    sha256:
     Should Contain    ${out}    0x0000000000000000000000000000000000000000
@@ -54,11 +54,11 @@ TPMCMD003.001 PCREXTEND And PCRRESET Functions (Ubuntu)
     ${sha1_0s}=    Evaluate    "0" * 40
     ${sha256_0s}=    Evaluate    "0" * 64
     Execute Linux Command    tpm2_pcrreset 23
-    ${out1}=    Execute Linux Command    tpm2_pcrread
-    Execute Linux Command    tpm2_pcrextend 23:sha1=${sha1},sha256=${sha256}
-    ${out2}=    Execute Linux Command    tpm2_pcrread
-    Execute Linux Command    tpm2_pcrreset 23
-    ${out3}=    Execute Linux Command    tpm2_pcrread
+    ${out1}=    Execute Linux Tpm2 Tools Command    tpm2_pcrread
+    Execute Linux Tpm2 Tools Command    tpm2_pcrextend 23:sha1=${sha1},sha256=${sha256}
+    ${out2}=    Execute Linux Tpm2 Tools Command    tpm2_pcrread
+    Execute Linux Tpm2 Tools Command    tpm2_pcrreset 23
+    ${out3}=    Execute Linux Tpm2 Tools Command    tpm2_pcrread
     # Append shasum to default PCR value of all 0s
     ${sha1}=    Evaluate    "0" * 40 + "${sha1}"
     ${sha256}=    Evaluate    "0" * 64 + "${sha256}"
@@ -87,7 +87,7 @@ TPMCMD003.002 PCREXTEND And PCRRESET Functions - locality protections (Ubuntu)
     ${sha256}=    Generate Random String    64    [NUMBERS]abcdef
     ${out1}=    Execute Linux Command    tpm2_pcrreset 18
     ${out2}=    Execute Linux Command    tpm2_pcrextend 18:sha1=${sha1},sha256=${sha256}
-    ${out3}=    Execute Linux Command    tpm2_pcrread
+    ${out3}=    Execute Linux Tpm2 Tools Command    tpm2_pcrread
     Should Contain    ${out1}    tpm:warn(2.0): bad locality
     Should Contain    ${out2}    tpm:warn(2.0): bad locality
     Should Contain    ${out3}    18: 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
@@ -96,14 +96,14 @@ TPMCMD004.001 PCREVENT Function (Ubuntu)
     [Documentation]    This test aims to verify that PCREVENT function is
     ...    working properly.
     Skip If    not ${SHA1_ENABLED} and not ${SHA256_ENABLED}    No PCR banks enabled
-    Execute Linux Command    tpm2_pcrreset 23
-    ${out}=    Execute Linux Command    tpm2_pcrread
+    Execute Linux Tpm2 Tools Command    tpm2_pcrreset 23
+    ${out}=    Execute Linux Tpm2 Tools Command    tpm2_pcrread
     ${sha1}=    Evaluate    "0" * 40
     ${sha256}=    Evaluate    "0" * 64
     IF    ${SHA1_ENABLED}    Should Contain    ${out}    23: 0x${sha1}
     IF    ${SHA256_ENABLED}    Should Contain    ${out}    23: 0x${sha256}
     Execute Linux Command    echo "foo" > data
-    ${out}=    Execute Linux Command    tpm2_pcrevent 23 data
+    ${out}=    Execute Linux Tpm2 Tools Command    tpm2_pcrevent 23 data
     # Calculate file shasums and compare with result of tpm2_pcrevent
     ${sha1}=    Execute Linux Command    sha1sum data
     VAR    ${sha1}=    ${sha1.split()}[0]
@@ -121,7 +121,7 @@ TPMCMD004.001 PCREVENT Function (Ubuntu)
     ${sha256}=    Execute Linux Command    echo -n ${sha256} | xxd -r -p | sha256sum
     VAR    ${sha256}=    ${sha256.split()}[0]
     # Compare with PCR values reported by TPM
-    ${out}=    Execute Linux Command    tpm2_pcrread
+    ${out}=    Execute Linux Tpm2 Tools Command    tpm2_pcrread
     IF    ${SHA1_ENABLED}    Should Contain    ${out}    23: 0x${sha1.upper()}
     IF    ${SHA256_ENABLED}
         Should Contain    ${out}    23: 0x${sha256.upper()}
@@ -132,7 +132,7 @@ TPMCMD005.001 CREATEPRIMARY Function Verification (Ubuntu)
     ...    works as expected. This command is used to create a
     ...    primary object under one of the hierarchies: Owner,
     ...    Platform, Endorsement, NULL.
-    ${out}=    Execute Linux Command    tpm2_createprimary -c primary.ctx    60
+    ${out}=    Execute Linux Tpm2 Tools Command    tpm2_createprimary -c primary.ctx    60
     Execute Linux Command    rm -f primary.ctx
     Should Contain    ${out}    value: sha256
     Should Contain    ${out}    value: fixedtpm|fixedparent|sensitivedataorigin|userwithauth|restricted|decrypt
@@ -142,12 +142,12 @@ TPMCMD006.001 NVDEFINE and NVUNDEFINE Functions Verification (Ubuntu)
     [Documentation]    This test aims to verify that NVDEFINE and NVUNDEFINE
     ...    functions are working as expected. Those functions are
     ...    used to define and undefine a TPM Non-Volatile index.
-    Execute Linux Command    tpm2_nvdefine -C o -s 32 -a "ownerread|policywrite|ownerwrite" 1
+    Execute Linux Tpm2 Tools Command    tpm2_nvdefine -C o -s 32 -a "ownerread|policywrite|ownerwrite" 1
     Execute Linux Command    echo "nvtest" > nv.dat
-    Execute Linux Command    tpm2_nvwrite -C o -i nv.dat 1
+    Execute Linux Tpm2 Tools Command    tpm2_nvwrite -C o -i nv.dat 1
     # NV data is usually padded with 0xFF which Python doesn't like, change it to 0x00
-    ${out1}=    Execute Linux Command    tpm2_nvread -C o -s 32 1 | tr '\\377' '\\000'
-    Execute Linux Command    tpm2_nvundefine -C o 1
+    ${out1}=    Execute Linux Tpm2 Tools Command    tpm2_nvread -C o -s 32 1 | tr '\\377' '\\000'
+    Execute Linux Tpm2 Tools Command    tpm2_nvundefine -C o 1
     ${out2}=    Execute Linux Command    tpm2_nvread -C o -s 32 1 2>&1
     Execute Linux Command    rm -f nv.dat
     Should Contain    ${out1}    nvtest
@@ -159,8 +159,8 @@ TPMCMD007.001 CREATE Function (Ubuntu)
     ...    values and store the TPM sealed private and public
     ...    portions to the paths specified via `-u` and `-r`
     ...    respectively.
-    Execute Linux Command    tpm2_createprimary -c primary.ctx    60
-    ${out}=    Execute Linux Command    tpm2_create -C primary.ctx -u obj.pub -r obj.priv
+    Execute Linux Tpm2 Tools Command    tpm2_createprimary -c primary.ctx    60
+    ${out}=    Execute Linux Tpm2 Tools Command    tpm2_create -C primary.ctx -u obj.pub -r obj.priv
     Execute Linux Command    rm -f primary.ctx obj.pub obj.priv
     Should Contain    ${out}    value: sha256
     Should Contain    ${out}    value: fixedtpm|fixedparent|sensitivedataorigin|userwithauth|decrypt|sign
@@ -171,8 +171,8 @@ TPMCMD007.002 CREATELOADED Function (Ubuntu)
     ...    as expected. It will create an object using all the
     ...    default values and store key context to the path
     ...    specified via `-c`.
-    Execute Linux Command    tpm2_createprimary -c primary.ctx    60
-    ${out}=    Execute Linux Command    tpm2_create -C primary.ctx -c obj.key
+    Execute Linux Tpm2 Tools Command    tpm2_createprimary -c primary.ctx    60
+    ${out}=    Execute Linux Tpm2 Tools Command    tpm2_create -C primary.ctx -c obj.key
     Execute Linux Command    rm -f primary.ctx obj.key
     Should Contain    ${out}    value: sha256
     Should Contain    ${out}    value: fixedtpm|fixedparent|sensitivedataorigin|userwithauth|decrypt|sign
@@ -255,7 +255,7 @@ TPM2 Suite Setup
     ...    Check If SHA1 And SHA256 Banks Are Enabled
     IF    not ${passed}
         # Restore default allocations in case any bank was disabled and reboot
-        Execute Linux Command    tpm2_pcrallocate
+        Execute Linux Tpm2 Tools Command    tpm2_pcrallocate
         Execute Reboot Command
         Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
         Login To Linux
