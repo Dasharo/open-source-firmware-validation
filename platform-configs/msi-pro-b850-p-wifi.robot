@@ -9,12 +9,12 @@ Resource    include/default.robot
 
 
 *** Variables ***
-${FW_VERSION}=                                  v0.9.0-rc1
+${FW_VERSION}=                                  v0.9.0-rc2
 ${MANUFACTURER}=                                Micro-Star International Co., Ltd.
 ${DMIDECODE_VENDOR}=                            3mdeb
 ${DMIDECODE_FIRMWARE_VERSION}=                  Dasharo (coreboot+UEFI) ${FW_VERSION}
 ${DMIDECODE_PRODUCT_NAME}=                      MS-7E56
-${DMIDECODE_RELEASE_DATE}=                      07/01/2026
+${DMIDECODE_RELEASE_DATE}=                      07/09/2026
 ${DMIDECODE_TYPE}=                              Desktop
 ${DMIDECODE_MANUFACTURER}=                      Micro-Star International Co., Ltd.
 ${CHECK_POWER_LED_SUPPORT}=                     ${TRUE}
