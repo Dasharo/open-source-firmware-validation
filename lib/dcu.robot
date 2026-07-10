@@ -73,7 +73,7 @@ DCU Variable Flash SMMSTORE
     Send File To DUT    ${fw_file}    ${temp_filename}
     ${out}=    Execute Command In Terminal
     ...    flashrom -p internal -c "${INTERNAL_PROGRAMMER_CHIPNAME}" -w ${temp_filename} --fmap -i SMMSTORE --noverify-all
-    Execute Command In Terminal    rm ${temp_filename}
+    Execute Command In Terminal    rm -f ${temp_filename}
 
 DCU Variable Get UEFI Option From File
     [Documentation]    Read an UEFI option value from FW file.
