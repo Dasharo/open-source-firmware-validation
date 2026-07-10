@@ -32,6 +32,7 @@ ${DUT_HAS_CMOS_RESET}=                          ${TRUE}
 ${FLASH_SIZE}=                                  ${32*1024*1024}
 ${INITIAL_CPU_FREQUENCY}=                       2400
 ${FLASHING_METHOD}=                             external
+${INTERNAL_PROGRAMMER_CHIPNAME}=                MX25U25643G
 
 ${SETUP_MENU_KEY}=                              ${DELETE}
 ${BOOT_MENU_KEY}=                               ${F11}

@@ -137,7 +137,7 @@ Replace Logo In Firmware
     [Documentation]    Swap to custom logo in firmware on DUT using cbfstool according
     ...    to: https://docs.dasharo.com/guides/logo-customization
     [Arguments]    ${logo_file}
-    Execute Command In Terminal    flashrom -p internal -r /tmp/firmware.rom
+    Execute Command In Terminal    flashrom -p internal -c "${INTERNAL_PROGRAMMER_CHIPNAME}" -r /tmp/firmware.rom
     # Remove the existing logo from the firmware image
     ${out}=    Execute Command In Terminal    cbfstool /tmp/firmware.rom remove -r BOOTSPLASH -n logo.bmp
     # Add your desired bootlogo to the firmware image
@@ -149,13 +149,15 @@ Replace Logo In Firmware
 Read FMAP And BOOTSPLASH Regions Internally
     [Documentation]    Read BOOTSPLASH firmware on DUT using flashrom.
     [Arguments]    ${fw_file}
-    ${out}=    Execute Linux Command    flashrom -p internal --fmap -i FMAP -i BOOTSPLASH -r ${fw_file}    180
+    ${out}=    Execute Linux Command
+    ...    flashrom -p internal -c "${INTERNAL_PROGRAMMER_CHIPNAME}" --fmap -i FMAP -i BOOTSPLASH -r ${fw_file}    180
     Should Contain    ${out}    Reading flash... done
 
 Write BOOTSPLASH Region Internally
     [Documentation]    Flash BOOTSPLASH firmware region on DUT using flashrom.
     [Arguments]    ${fw_file}
-    ${out}=    Execute Linux Command    flashrom -p internal --fmap -i BOOTSPLASH -N -w ${fw_file}    180
+    ${out}=    Execute Linux Command
+    ...    flashrom -p internal -c "${INTERNAL_PROGRAMMER_CHIPNAME}" --fmap -i BOOTSPLASH -N -w ${fw_file}    180
     Should Contain Any    ${out}    VERIFIED    Chip content is identical to the requested image
 
 Check Write Protection Availability
@@ -168,9 +170,11 @@ Check Write Protection Availability
 
 Erase Write Protection
     [Documentation]    Erase write protection from the flash chip.
-    ${out}=    Execute Linux Command    ./flashrom -p internal --wp-disable    180
+    ${out}=    Execute Linux Command    ./flashrom -p internal -c "${INTERNAL_PROGRAMMER_CHIPNAME}" --wp-disable    180
     Should Contain    ${out}    Successfully set the requested mode
-    ${out}=    Execute Linux Command    ./flashrom -p internal --wp-range=0,0    180
+    ${out}=    Execute Linux Command
+    ...    ./flashrom -p internal -c "${INTERNAL_PROGRAMMER_CHIPNAME}" --wp-range=0,0
+    ...    180
     Should Contain    ${out}    Successfully set the requested protection range
 
 Set Write Protection
@@ -178,21 +182,23 @@ Set Write Protection
     ...    `${start_adress}` -    protection start address,
     ...    `${length}` - flash protected range length.
     [Arguments]    ${start_adress}    ${length}
-    ${out}=    Execute Linux Command    ./flashrom -p internal --wp-range=${start_adress},${length}    180
+    ${out}=    Execute Linux Command
+    ...    ./flashrom -p internal -c "${INTERNAL_PROGRAMMER_CHIPNAME}" --wp-range=${start_adress},${length}
+    ...    180
     Should Contain    ${out}    Successfully set the requested protection range
-    ${out}=    Execute Linux Command    ./flashrom -p internal --wp-enable    180
+    ${out}=    Execute Linux Command    ./flashrom -p internal -c "${INTERNAL_PROGRAMMER_CHIPNAME}" --wp-enable    180
     Should Contain    ${out}    Successfully set the requested mode
 
 Check Write Protection Status
     [Documentation]    Check whether Write Protection mechanism is active.
-    ${out}=    Execute Linux Command    ./flashrom -p internal --wp-status    180
+    ${out}=    Execute Linux Command    ./flashrom -p internal -c "${INTERNAL_PROGRAMMER_CHIPNAME}" --wp-status    180
     Should Contain    ${out}    Protection mode: hardware
 
 Compare Write Protection Ranges
     [Documentation]    Allows to compare Protection Range: declared and
     ...    currently set.
     [Arguments]    ${start_adress}    ${length}
-    ${out}=    Execute Linux Command    ./flashrom -p internal --wp-status    180
+    ${out}=    Execute Linux Command    ./flashrom -p internal -c "${INTERNAL_PROGRAMMER_CHIPNAME}" --wp-status    180
     ${protection_range}=    Get Lines Containing String    ${out}    Protection range:
     ${protection_range}=    Split String    ${protection_range}
     ${set_start_adress}=    Get From List    ${protection_range}    2
@@ -231,7 +237,8 @@ Read Firmware
     END
 
 Get Flashrom FMAP Regions
-    ${output}=    Execute Command In Terminal    flashrom -p internal -r coreboot.rom    timeout=300s
+    ${output}=    Execute Command In Terminal
+    ...    flashrom -p internal -c "${INTERNAL_PROGRAMMER_CHIPNAME}" -r coreboot.rom    timeout=300s
     ${output}=    Execute Command In Terminal    cbfstool coreboot.rom layout -w
     ${lines}=    Split To Lines    ${output}
     VAR    &{dict}=    &{EMPTY}
@@ -259,7 +266,7 @@ Get Flashrom FMAP Regions
     RETURN    ${dict}
 
 Get Flashrom Regions
-    ${output}=    Execute Command In Terminal    flashrom -p internal
+    ${output}=    Execute Command In Terminal    flashrom -p internal -c "${INTERNAL_PROGRAMMER_CHIPNAME}"
     ${lines}=    Split To Lines    ${output}
     VAR    &{dict}=    &{EMPTY}
     FOR    ${l}    IN    @{lines}
@@ -284,7 +291,7 @@ Get Flashrom Regions
     RETURN    ${dict}
 
 Get Flashrom Readonly Offsets
-    ${output}=    Execute Command In Terminal    flashrom -p internal
+    ${output}=    Execute Command In Terminal    flashrom -p internal -c "${INTERNAL_PROGRAMMER_CHIPNAME}"
     ${lines}=    Split To Lines    ${output}
     VAR    @{list}=    @{EMPTY}
     FOR    ${l}    IN    @{lines}
