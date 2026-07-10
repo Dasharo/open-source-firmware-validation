@@ -41,6 +41,7 @@ AUD001.201 Audio subsystem detection
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    ${TEST_NAME} not supported
     Audio Subsystem Detection Linux    ${ENV_ID_UBUNTU}
     ${out}=    Execute Command In Terminal    pactl list sinks
+    Should Not Be Empty    ${out}
     ${result}=    Run Keyword And Ignore Error
     ...    Should Not Contain    ${out}    device.description = "Dummy Output"
     IF    '${result}[0]' == 'FAIL'
@@ -328,6 +329,7 @@ AUD001.203 Audio subsystem detection (Qubes OS)
     Boot System Or From Connected Disk    ${ENV_ID_QUBES}
     Login To Linux
     ${out}=    Execute Command In Terminal    pactl list sinks
+    Should Not Be Empty    ${out}
     ${result}=    Run Keyword And Ignore Error
     ...    Should Not Contain    ${out}    device.description = "Dummy Output"
     IF    '${result}[0]' == 'FAIL'
@@ -344,6 +346,7 @@ Audio Subsystem Detection Linux
     Boot System Or From Connected Disk    ${os_id}
     Login To Linux
     ${out}=    Execute Command In Terminal    cat /sys/class/sound/card0/hwC0D*/chip_name
+    Should Not Be Empty    ${out}
     Should Not Contain    ${out}    No such file or directory
 
 Get Sound Devices In Windows
@@ -376,6 +379,7 @@ Switch Active Sink Port Using Pactl
     [Arguments]    ${class}
     ${sink}=    Execute Command In Terminal
     ...    pactl list short sinks | awk '{print $1}'
+    Should Not Be Empty    ${sink}
     VAR    ${cmd}=    pactl set-sink-port ${sink}
 
     IF    '${class}' == 'internal'
@@ -398,6 +402,7 @@ Switch Active Source Port Using Pactl
     [Arguments]    ${class}
     ${source}=    Execute Command In Terminal
     ...    pactl list sources | grep alsa_input | awk 'NR==1 {print $2}'
+    Should Not Be Empty    ${source}
     VAR    ${cmd}=    pactl set-source-port ${source}
 
     IF    '${class}' == 'internal'
@@ -446,4 +451,5 @@ Verify External Headset Is Plugged In
     ...    external headset is plugged in.
     ${result}=    Execute Command In Terminal
     ...    pactl list sinks | grep analog-output-headphones | awk 'NR==1'
+    Should Not Be Empty    ${result}
     Should Not Contain    ${result}    not available
