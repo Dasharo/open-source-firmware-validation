@@ -60,7 +60,8 @@ DCU Variable Read SMMSTORE
     [Documentation]    Read the UEFI SMMSTORE to work on the UEFI options in it
     [Arguments]    ${out_file}
     ${temp_filename}=    Temp Filename
-    ${out}=    Execute Command In Terminal    flashrom -p internal -r ${temp_filename} --fmap -i FMAP -i SMMSTORE
+    ${out}=    Execute Command In Terminal
+    ...    flashrom -p internal -c "${INTERNAL_PROGRAMMER_CHIPNAME}" -r ${temp_filename} --fmap -i FMAP -i SMMSTORE
     Execute Command In Terminal    chmod 666 ${temp_filename}
     Get File From DUT    ${temp_filename}    ${out_file}
     Execute Command In Terminal    rm -f ${temp_filename}
@@ -71,8 +72,8 @@ DCU Variable Flash SMMSTORE
     ${temp_filename}=    Temp Filename
     Send File To DUT    ${fw_file}    ${temp_filename}
     ${out}=    Execute Command In Terminal
-    ...    flashrom -p internal -w ${temp_filename} --fmap -i SMMSTORE --noverify-all
-    Execute Command In Terminal    rm -f ${temp_filename}
+    ...    flashrom -p internal -c "${INTERNAL_PROGRAMMER_CHIPNAME}" -w ${temp_filename} --fmap -i SMMSTORE --noverify-all
+    Execute Command In Terminal    rm ${temp_filename}
 
 DCU Variable Get UEFI Option From File
     [Documentation]    Read an UEFI option value from FW file.
