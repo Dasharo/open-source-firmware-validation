@@ -83,7 +83,7 @@ _CONCURRENT_Background Measurements (no load) (Windows)
     ${gather_temps}=    Will Concurrent Test Be Run    ${CPT_NO_LOAD_ID}.301
     ${gather_freqs}=    Will Concurrent Test Be Run    ${CPF_NO_LOAD_ID}.301
     ${gather_stab}=    Will Concurrent Test Be Run    STB001.301
-    Skip If    not (${gather_freqs} or ${gather_stab})    No test depends on this step
+    Skip If    not (${gather_temps} or ${gather_freqs} or ${gather_stab})    No test depends on this step
 
     Power On
     Boot And Login To Windows
@@ -181,7 +181,7 @@ _CONCURRENT_Background Measurements (load) (Windows)
     ${gather_temps}=    Will Concurrent Test Be Run    ${CPT_LOAD_ID}.301
     ${gather_freqs}=    Will Concurrent Test Be Run    ${CPF_LOAD_ID}.301
     ${gather_stab}=    Will Concurrent Test Be Run    STB002.301
-    Skip If    not (${gather_freqs} or ${gather_stab})    No test depends on this step
+    Skip If    not (${gather_temps} or ${gather_freqs} or ${gather_stab})    No test depends on this step
 
     Power On
     Boot And Login To Windows
