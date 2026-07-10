@@ -67,6 +67,7 @@ SUD004.201 USB devices detection after suspension (Ubuntu)
     [Documentation]    Check whether the external USB devices are detected
     ...    correctly after suspension.
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SUD004.201 not supported
+    Skip If    not ${SUSPEND_AND_RESUME_SUPPORT}    SUD004.201 not supported
     Skip If    ${PLATFORM_SLEEP_TYPE_SELECTABLE}    SUD004.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    SUD004.201 not supported
     Power On
@@ -80,6 +81,7 @@ SUD005.201 USB devices detection after suspension (Ubuntu) (S0ix)
     [Documentation]    Check whether the external USB devices are detected
     ...    correctly after suspension.
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SUD005.201 not supported
+    Skip If    not ${SUSPEND_AND_RESUME_SUPPORT}    SUD005.201 not supported
     Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    SUD005.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    SUD005.201 not supported
     Set Platform Sleep Type    S0ix
@@ -94,6 +96,7 @@ SUD006.201 USB devices detection after suspension (Ubuntu) (S3)
     [Documentation]    Check whether the external USB devices are detected
     ...    correctly after suspension.
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SUD006.201 not supported
+    Skip If    not ${SUSPEND_AND_RESUME_SUPPORT}    SUD006.201 not supported
     Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    SUD006.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    SUD006.201 not supported
     Set Platform Sleep Type    S3
@@ -129,6 +132,7 @@ SUD003.202 USB devices detection after reboot (Fedora)
 SUD004.202 USB devices detection after suspension (Fedora)
     [Documentation]    Check whether the external USB devices are detected
     ...    correctly after suspension.
+    Skip If    not ${SUSPEND_AND_RESUME_SUPPORT}    SUD004.202 not supported
     Skip If    ${PLATFORM_SLEEP_TYPE_SELECTABLE}    SUD004.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    SUD004.202 not supported
     Power On
@@ -141,6 +145,7 @@ SUD004.202 USB devices detection after suspension (Fedora)
 SUD005.202 USB devices detection after suspension (Fedora) (S0ix)
     [Documentation]    Check whether the external USB devices are detected
     ...    correctly after suspension.
+    Skip If    not ${SUSPEND_AND_RESUME_SUPPORT}    SUD005.202 not supported
     Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    SUD005.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    SUD005.202 not supported
     Set Platform Sleep Type    S0ix
@@ -154,6 +159,7 @@ SUD005.202 USB devices detection after suspension (Fedora) (S0ix)
 SUD006.202 USB devices detection after suspension (Fedora) (S3)
     [Documentation]    Check whether the external USB devices are detected
     ...    correctly after suspension.
+    Skip If    not ${SUSPEND_AND_RESUME_SUPPORT}    SUD006.202 not supported
     Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    SUD006.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    SUD006.202 not supported
     Set Platform Sleep Type    S3

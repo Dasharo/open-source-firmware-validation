@@ -6140,20 +6140,6 @@
   },
   {
     "doc": {
-      "_id": "STUB001.001",
-      "name": "External flash explicit",
-      "module": "Dasharo Compatibility"
-    }
-  },
-  {
-    "doc": {
-      "_id": "STUB001.002",
-      "name": "External flash implicit",
-      "module": "Dasharo Compatibility"
-    }
-  },
-  {
-    "doc": {
       "_id": "SUD001.201",
       "name": "USB devices detection after cold boot (Ubuntu)",
       "module": "Dasharo Stability"

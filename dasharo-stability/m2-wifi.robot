@@ -80,6 +80,7 @@ SMW004.201 Wi-fi connection after suspension (Ubuntu)
     ...    correctly after performing suspension.
     Skip If    not ${M2_WIFI_SUPPORT}    SMW004.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SMW004.201 not supported
+    Skip If    not ${SUSPEND_AND_RESUME_SUPPORT}    SMW004.201 not supported
     Skip If    ${PLATFORM_SLEEP_TYPE_SELECTABLE}    SMW004.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    SMW004.201 not supported
     Power On
@@ -94,6 +95,7 @@ SMW005.201 Wi-fi connection after suspension (Ubuntu) (S0ix)
     ...    correctly after performing suspension.
     Skip If    not ${M2_WIFI_SUPPORT}    SMW005.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SMW005.201 not supported
+    Skip If    not ${SUSPEND_AND_RESUME_SUPPORT}    SMW005.201 not supported
     Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    SMW005.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    SMW005.201 not supported
     Set Platform Sleep Type    S0ix
@@ -109,6 +111,7 @@ SMW006.201 Wi-fi connection after suspension (Ubuntu) (S3)
     ...    correctly after performing suspension.
     Skip If    not ${M2_WIFI_SUPPORT}    SMW006.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SMW006.201 not supported
+    Skip If    not ${SUSPEND_AND_RESUME_SUPPORT}    SMW006.201 not supported
     Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    SMW006.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    SMW006.201 not supported
     Set Platform Sleep Type    S3
@@ -147,6 +150,7 @@ SMW004.202 Wi-fi connection after suspension (Fedora)
     [Documentation]    Check whether the Wi-Fi card is detected and working
     ...    correctly after performing suspension.
     Skip If    not ${M2_WIFI_SUPPORT}    SMW004.202 not supported
+    Skip If    not ${SUSPEND_AND_RESUME_SUPPORT}    SMW004.202 not supported
     Skip If    ${PLATFORM_SLEEP_TYPE_SELECTABLE}    SMW004.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    SMW004.202 not supported
     Power On
@@ -160,6 +164,7 @@ SMW005.202 Wi-fi connection after suspension (Fedora) (S0ix)
     [Documentation]    Check whether the Wi-Fi card is detected and working
     ...    correctly after performing suspension.
     Skip If    not ${M2_WIFI_SUPPORT}    SMW005.202 not supported
+    Skip If    not ${SUSPEND_AND_RESUME_SUPPORT}    SMW005.202 not supported
     Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    SMW005.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    SMW005.202 not supported
     Set Platform Sleep Type    S0ix
@@ -174,6 +179,7 @@ SMW006.202 Wi-fi connection after suspension (Fedora) (S3)
     [Documentation]    Check whether the Wi-Fi card is detected and working
     ...    correctly after performing suspension.
     Skip If    not ${M2_WIFI_SUPPORT}    SMW006.202 not supported
+    Skip If    not ${SUSPEND_AND_RESUME_SUPPORT}    SMW006.202 not supported
     Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    SMW006.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    SMW006.202 not supported
     Set Platform Sleep Type    S3
@@ -222,6 +228,7 @@ SMW004.203 Wi-fi detection after suspension (Qubes OS)
     ...    correctly after resuming from suspension.
     [Tags]    semiauto
     Skip If    not ${M2_WIFI_SUPPORT}    SMW004.203 not supported
+    Skip If    not ${SUSPEND_AND_RESUME_SUPPORT}    SMW004.203 not supported
     Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    SMW004.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    SMW004.203 not supported
     Execute Manual Step    [1/4] Make sure Qubes OS is booted.
