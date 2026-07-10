@@ -68,16 +68,23 @@ Set Fast Boot State
 
     Execute Linux Command    touch ${new_var_path}
     IF    '${state}' == 'on'
-        Execute Linux Command    printf '\\x07\\x00\\x00\\x00\\x01' \> ${new_var_path}
+        Execute Linux Command    printf '\x07\x00\x00\x00\x01' \> ${new_var_path}
     ELSE IF    '${state}' == 'off'
-        Execute Linux Command    printf '\\x07\\x00\\x00\\x00\\x00' \> ${new_var_path}
+        Execute Linux Command    printf '\x07\x00\x00\x00\x00' \> ${new_var_path}
     END
 
     ${out}=    Execute Linux Command
     ...    dd if=${new_var_path} of=${var_file_path} bs=5
-
-    Should Not Contain    ${out}    Operation Not Permitted
+    Should Be Empty    ${out}
     Execute Linux Command    rm ${new_var_path}
+
+    ${out}=    Execute Linux Command
+    ...    cat ${var_file_path} |tail -c 1 |xxd -ps
+    IF    '${state}' == 'on'
+        Should Be Equal As Strings    ${out}    01
+    ELSE IF    '${state}' == 'off'
+        Should Be Equal As Strings    ${out}    00
+    END
 
 Measure FW Boot Time On Linux
     [Documentation]    Performs a measurement of firmware boot time
