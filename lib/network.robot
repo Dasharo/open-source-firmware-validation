@@ -142,7 +142,7 @@ Scan For Wi-Fi In Linux
     Execute Command In Terminal    nmcli radio wifi on
     Execute Command In Terminal    nmcli device wifi rescan
     Read From Terminal
-    ${out}=    Execute Command In Terminal    nmcli --fields SSID device wifi list | cat
+    ${out}=    Execute Command In Terminal    nmcli --fields SSID device wifi list
     Should Contain    ${out}    ${3_MDEB_WIFI_NETWORK}
 
 Scan For Bluetooth In Linux
