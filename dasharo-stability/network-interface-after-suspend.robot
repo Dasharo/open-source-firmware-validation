@@ -65,6 +65,7 @@ NET004.201 NET controller after suspend (Ubuntu)
     ...    Previous IDs: NET004.001
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    NET004.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    NET004.201 not supported
+    Skip If    not ${SUSPEND_AND_RESUME_SUPPORT}    NET004.201 not supported
     Skip If    ${PLATFORM_SLEEP_TYPE_SELECTABLE}    NET004.201 not supported
     Power On
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
@@ -79,6 +80,7 @@ NET005.201 NET controller after suspend (Ubuntu) (S0ix)
     ...    Previous IDs: NET04.002
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    NET005.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    NET005.201 not supported
+    Skip If    not ${SUSPEND_AND_RESUME_SUPPORT}    NET005.201 not supported
     Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    NET005.201 not supported
     Set Platform Sleep Type    S0ix
     Power On
@@ -93,6 +95,7 @@ NET006.201 NET controller after suspend (Ubuntu) (S3)
     ...    is able to connect to the network after suspend.
     ...    Previous IDs: NET004.003
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    NET006.201 not supported
+    Skip If    not ${SUSPEND_AND_RESUME_SUPPORT}    NET006.201 not supported
     Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    NET006.201 not supported
     Set Platform Sleep Type    S3
     Power On
@@ -133,6 +136,7 @@ NET004.202 NET controller after suspend (Fedora)
     [Documentation]    This test aims to verify that the network controller works and the platform
     ...    is able to connect to the network after suspend.
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    NET004.202 not supported
+    Skip If    not ${SUSPEND_AND_RESUME_SUPPORT}    NET004.202 not supported
     Skip If    ${PLATFORM_SLEEP_TYPE_SELECTABLE}    NET004.202 not supported
     Power On
     Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
@@ -145,6 +149,7 @@ NET005.202 NET controller after suspend (Fedora) (S0ix)
     [Documentation]    This test aims to verify that the network controller works and the platform
     ...    is able to connect to the network after suspend.
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    NET005.202 not supported
+    Skip If    not ${SUSPEND_AND_RESUME_SUPPORT}    NET005.202 not supported
     Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    NET005.202 not supported
     Set Platform Sleep Type    S0ix
     Power On
@@ -158,6 +163,7 @@ NET006.202 NET controller after suspend (Fedora) (S3)
     [Documentation]    This test aims to verify that the network controller works and the platform
     ...    is able to connect to the network after suspend.
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    NET005.202 not supported
+    Skip If    not ${SUSPEND_AND_RESUME_SUPPORT}    NET006.202 not supported
     Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    NET006.202 not supported
     Set Platform Sleep Type    S3
     Power On

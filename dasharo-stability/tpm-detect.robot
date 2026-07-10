@@ -38,6 +38,7 @@ TPD004.201 Detect TPM after platform suspend (Ubuntu)
     ...    correctly after the platform's reboot.
     ...    Previous IDs: TPD004.001
     Skip If    not ${TPM_DETECT_SUPPORT}    TPD004.201 not supported
+    Skip If    not ${SUSPEND_AND_RESUME_SUPPORT}    TPD004.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    TPD004.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    TPD004.201 not supported
     Power On
@@ -63,6 +64,7 @@ TPD004.202 Detect TPM after platform suspend (Fedora)
     [Documentation]    This test aims to verify that the TPM is initialized
     ...    correctly after the platform's reboot.
     Skip If    not ${TPM_DETECT_SUPPORT}    TPD004.202 not supported
+    Skip If    not ${SUSPEND_AND_RESUME_SUPPORT}    TPD004.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    TPD004.202 not supported
     Power On
     Boot System Or From Connected Disk    ${ENV_ID_FEDORA}

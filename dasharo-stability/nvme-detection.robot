@@ -78,6 +78,7 @@ SNV004.201 NVMe detection after suspension (Ubuntu)
     ...    performing suspension.
     ...    Previous IDs: SNV004.001
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SNV004.201 not supported
+    Skip If    not ${SUSPEND_AND_RESUME_SUPPORT}    SNV004.201 not supported
     Skip If    ${PLATFORM_SLEEP_TYPE_SELECTABLE}    SNV004.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    SNV004.201 not supported
     Power On
@@ -92,6 +93,7 @@ SNV005.201 NVMe detection after suspension (Ubuntu) (S0ix)
     ...    performing suspension.
     ...    Previous IDs: SNV004.002
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SNV005.201 not supported
+    Skip If    not ${SUSPEND_AND_RESUME_SUPPORT}    SNV005.201 not supported
     Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    SNV005.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    SNV005.201 not supported
     Set Platform Sleep Type    S0ix
@@ -107,6 +109,7 @@ SNV006.201 NVMe detection after suspension (Ubuntu) (S3)
     ...    performing suspension.
     ...    Previous IDs: SNV004.003
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    SNV006.201 not supported
+    Skip If    not ${SUSPEND_AND_RESUME_SUPPORT}    SNV006.201 not supported
     Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    SNV006.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    SNV006.201 not supported
     Set Platform Sleep Type    S3
@@ -142,6 +145,7 @@ SNV003.202 NVMe detection after reboot (Fedora)
 SNV004.202 NVMe detection after suspension (Fedora)
     [Documentation]    Check whether the NVMe disk is correctly detected after
     ...    performing suspension.
+    Skip If    not ${SUSPEND_AND_RESUME_SUPPORT}    SNV004.202 not supported
     Skip If    ${PLATFORM_SLEEP_TYPE_SELECTABLE}    SNV004.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    SNV004.202 not supported
     Power On
@@ -154,6 +158,7 @@ SNV004.202 NVMe detection after suspension (Fedora)
 SNV005.202 NVMe detection after suspension (Fedora) (S0ix)
     [Documentation]    Check whether the NVMe disk is correctly detected after
     ...    performing suspension.
+    Skip If    not ${SUSPEND_AND_RESUME_SUPPORT}    SNV005.202 not supported
     Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    SNV005.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    SNV005.202 not supported
     Set Platform Sleep Type    S0ix
@@ -167,6 +172,7 @@ SNV005.202 NVMe detection after suspension (Fedora) (S0ix)
 SNV006.202 NVMe detection after suspension (Fedora) (S3)
     [Documentation]    Check whether the NVMe disk is correctly detected after
     ...    performing suspension.
+    Skip If    not ${SUSPEND_AND_RESUME_SUPPORT}    SNV005.202 not supported
     Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    SNV006.202 not supported
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    SNV006.202 not supported
     Set Platform Sleep Type    S3
@@ -217,6 +223,7 @@ SNV004.203 NVMe detection after suspend (Qubes OS)
     [Documentation]    Check whether the NVMe disk is detected and working
     ...    correctly after performing a cold boot.
     [Tags]    semiauto
+    Skip If    not ${SUSPEND_AND_RESUME_SUPPORT}    SNV004.203 not supported
     Skip If    not ${PLATFORM_SLEEP_TYPE_SELECTABLE}    SNV004.203 not supported
     Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}    SNV004.203 not supported
     Pause Execution
