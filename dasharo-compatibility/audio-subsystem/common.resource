@@ -36,6 +36,7 @@ Audio Subsystem Detection Linux
     ...    audio chip was detected.
     [Arguments]    ${os_id}
     ${out}=    Execute Command In Terminal    cat /sys/class/sound/card0/hwC0D*/chip_name
+    Should Not Be Empty    ${out}
     Should Not Contain    ${out}    No such file or directory
 
 Get Sound Devices In Windows
@@ -68,6 +69,7 @@ Switch Active Sink Port Using Pactl
     [Arguments]    ${class}
     ${sink}=    Execute Command In Terminal
     ...    pactl list short sinks | awk '{print $1}'
+    Should Not Be Empty    ${sink}
     VAR    ${cmd}=    pactl set-sink-port ${sink}
 
     IF    '${class}' == 'internal'
@@ -90,6 +92,7 @@ Switch Active Source Port Using Pactl
     [Arguments]    ${class}
     ${source}=    Execute Command In Terminal
     ...    pactl list sources | grep alsa_input | awk 'NR==1 {print $2}'
+    Should Not Be Empty    ${source}
     VAR    ${cmd}=    pactl set-source-port ${source}
 
     IF    '${class}' == 'internal'
@@ -138,4 +141,5 @@ Verify External Headset Is Plugged In
     ...    external headset is plugged in.
     ${result}=    Execute Command In Terminal
     ...    pactl list sinks | grep analog-output-headphones | awk 'NR==1'
+    Should Not Be Empty    ${result}
     Should Not Contain    ${result}    not available

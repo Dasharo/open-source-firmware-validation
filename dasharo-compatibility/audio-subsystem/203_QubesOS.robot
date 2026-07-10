@@ -14,6 +14,7 @@ AUD001.203 Audio subsystem detection (Qubes OS)
     ...    and can be detected in Qubes OS. To do so, we attempt detection
     ...    of the Audio Service, and verify it is in Running state.
     ${out}=    Execute Command In Terminal    pactl list sinks
+    Should Not Be Empty    ${out}
     ${result}=    Run Keyword And Ignore Error
     ...    Should Not Contain    ${out}    device.description = "Dummy Output"
     IF    '${result}[0]' == 'FAIL'
