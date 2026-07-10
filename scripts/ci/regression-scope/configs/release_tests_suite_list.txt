@@ -34,7 +34,6 @@ dasharo-compatibility/esp-scanning.robot
 dasharo-compatibility/ethernet-port-detection.robot
 dasharo-compatibility/ethernet-port-names.robot
 dasharo-compatibility/firmware-bulding-locally.robot
-dasharo-compatibility/flash-test-stub.robot
 dasharo-compatibility/flash-write-protection.robot
 dasharo-compatibility/fwupd-support.robot
 dasharo-compatibility/heads-bootloader-support.robot

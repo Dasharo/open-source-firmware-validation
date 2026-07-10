@@ -1416,7 +1416,7 @@
   {
     "doc": {
       "_id": "CPT002.301",
-      "name": "CPU temperature without load (Windows) (battery)",
+      "name": "CPU temperature without load (Battery) (Windows)",
       "module": "Dasharo Performance"
     }
   },
@@ -1444,7 +1444,7 @@
   {
     "doc": {
       "_id": "CPT003.301",
-      "name": "CPU temperature without load (Windows) (AC)",
+      "name": "CPU temperature without load (AC) (Windows)",
       "module": "Dasharo Performance"
     }
   },
@@ -1472,7 +1472,7 @@
   {
     "doc": {
       "_id": "CPT004.301",
-      "name": "CPU temperature without load (Windows) (USB-PD)",
+      "name": "CPU temperature without load (USB-PD) (Windows)",
       "module": "Dasharo Performance"
     }
   },
@@ -1528,7 +1528,7 @@
   {
     "doc": {
       "_id": "CPT006.301",
-      "name": "CPU temperature after stress test (Windows) (battery)",
+      "name": "CPU temperature after stress test (Battery) (Windows)",
       "module": "Dasharo Performance"
     }
   },
@@ -1556,7 +1556,7 @@
   {
     "doc": {
       "_id": "CPT007.301",
-      "name": "CPU temperature after stress test (Windows) (AC)",
+      "name": "CPU temperature after stress test (AC) (Windows)",
       "module": "Dasharo Performance"
     }
   },
@@ -1584,7 +1584,7 @@
   {
     "doc": {
       "_id": "CPT008.301",
-      "name": "CPU temperature after stress test (Windows) (USB-PD)",
+      "name": "CPU temperature after stress test (USB-PD) (Windows)",
       "module": "Dasharo Performance"
     }
   },
@@ -6059,20 +6059,6 @@
       "_id": "STB002.301",
       "name": "Verify if no reboot occurs in the OS (Windows)",
       "module": "Dasharo Performance"
-    }
-  },
-  {
-    "doc": {
-      "_id": "STUB001.001",
-      "name": "External flash explicit",
-      "module": "Dasharo Compatibility"
-    }
-  },
-  {
-    "doc": {
-      "_id": "STUB001.002",
-      "name": "External flash implicit",
-      "module": "Dasharo Compatibility"
     }
   },
   {
