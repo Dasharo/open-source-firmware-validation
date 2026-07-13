@@ -27,21 +27,15 @@ ${CPU_MIN_FREQUENCY}=                       1211
 ${FLASHING_METHOD}=                         external
 
 # dmidecode.robot
-${MANUFACTURER}=                            ASRock
+${MANUFACTURER}=                            ASRockRack
 ${DMIDECODE_VENDOR}=                        3mdeb
-# TODO: firmware currently reports a placeholder serial; update once coreboot
-# sets a real board serial.
 ${DMIDECODE_SERIAL_NUMBER}=                 123456789
-${DMIDECODE_FIRMWARE_VERSION}=              Dasharo v0.9.0-rc1
-# TODO: firmware currently reports "FIXME" as the SMBIOS product name; update
-# this once the coreboot mainboard sets a proper product name.
-${DMIDECODE_PRODUCT_NAME}=                  FIXME
-${DMIDECODE_RELEASE_DATE}=                  06/25/2026
-# TODO: firmware reports "Not Specified"; update once coreboot sets a family.
+${DMIDECODE_FIRMWARE_VERSION}=              Dasharo v0.9.0-rc2
+${DMIDECODE_PRODUCT_NAME}=                  TURIND8UD-2T/X550
+${DMIDECODE_RELEASE_DATE}=                  07/13/2026
 ${DMIDECODE_FAMILY}=                        Not Specified
 ${DMIDECODE_TYPE}=                          Main Server Chassis
-# NOTE: firmware reports the manufacturer in all-caps ("ASROCK").
-${DMIDECODE_MANUFACTURER}=                  ASROCK
+${DMIDECODE_MANUFACTURER}=                  ASRockRack
 ${CHECK_POWER_LED_SUPPORT}=                 ${FALSE}
 ${FLASH_VERIFY_METHOD}=                     none
 ${TESTS_IN_UBUNTU_SUPPORT}=                 ${TRUE}
