@@ -38,7 +38,7 @@ AUD002.201 Internal speaker audio playback (Ubuntu)
     # TODO: Test playback and waveforms
     # We probably can do it using alsa monitoring device, and capture
     # the sound to check if it was malformed in a way.
-    Log    \Internal speakers detected, check validity of sound playback manually\n
+    Log    \nInternal speakers detected, check validity of sound playback manually\n
 
 AUD003.201 Internal microphone audio capture (Ubuntu)
     [Documentation]    Check whether the audio subsystem is able to capture
@@ -50,7 +50,7 @@ AUD003.201 Internal microphone audio capture (Ubuntu)
     Switch Active Source Port Using Pactl    internal
     Verify Active Source Port Using Pactl    internal
     # TODO: Somehow capture sound and confirm it is not malformed.
-    Log    \Internal microphone detected, check validity of sound capture manually\n
+    Log    \nInternal microphone detected, check validity of sound capture manually\n
 
 AUD004.201 External headset recognition (Ubuntu)
     [Documentation]    Check whether Ubuntu has recognized external headset,
@@ -87,7 +87,7 @@ AUD006.201 External headset audio capture (Ubuntu)
     # TODO: Use pulseaudio to record back the audio and maybe do simple
     # waveform analysis. We could use modified headphones, in which
     # the microphone is physically attached to the speaker.
-    Log    \n Headset microphone detected, check validity of sound capture manually\n
+    Log    \nHeadset microphone detected, check validity of sound capture manually\n
 
 AUD007.201 HDMI audio recognition (Ubuntu)
     [Documentation]    Check whether the HDMI audio is recognized

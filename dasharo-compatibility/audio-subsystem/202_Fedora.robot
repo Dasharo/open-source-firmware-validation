@@ -30,7 +30,7 @@ AUD002.202 Internal Audio playback (Fedora)
     # TODO: Test playback and waveforms
     # We probably can do it using alsa monitoring device, and capture
     # the sound to check if it was malformed in a way.
-    Log    \Internal speakers detected, check validity of sound playback manually\n
+    Log    \nInternal speakers detected, check validity of sound playback manually\n
 
 AUD003.202 Internal Audio capture (Fedora)
     [Documentation]    Check whether the audio subsystem is able to capture
@@ -42,7 +42,7 @@ AUD003.202 Internal Audio capture (Fedora)
     Switch Active Source Port Using Pactl    internal
     Verify Active Source Port Using Pactl    internal
     # TODO: Somehow capture sound and confirm it is not malformed.
-    Log    \Internal microphone detected, check validity of sound capture manually\n
+    Log    \nInternal microphone detected, check validity of sound capture manually\n
 
 AUD004.202 External headset recognition (Fedora)
     [Documentation]    Check whether Fedora has recognized external headset,
@@ -79,7 +79,7 @@ AUD006.202 External headset audio capture (Fedora)
     # TODO: Use pulseaudio to record back the audio and maybe do simple
     # waveform analysis. We could use modified headphones, in which
     # the microphone is physically attached to the speaker.
-    Log    \n Headset microphone detected, check validity of sound capture manually\n
+    Log    \nHeadset microphone detected, check validity of sound capture manually\n
 
 AUD007.202 HDMI audio recognition (Fedora)
     [Documentation]    Check whether the HDMI audio is recognized

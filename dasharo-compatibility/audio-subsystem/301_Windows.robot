@@ -30,7 +30,7 @@ AUD002.301 Internal speaker audio playback (Windows)
 
     # TODO: Somehow verify that sound played is proper, no ideas on how to do it
     # for windows, besides claiming this test as semi-auto.
-    Log    \Internal speakers detected, check validity of sound playback manually\n
+    Log    \nInternal speakers detected, check validity of sound playback manually\n
 
 AUD003.301 Internal microphone audio capture (Windows)
     [Documentation]    Check whether the audio subsystem is able to capture
@@ -43,7 +43,7 @@ AUD003.301 Internal microphone audio capture (Windows)
     Should Contain    ${out}    ${POWERSHELL_STR_INTERNAL_IN}
     Should Contain    ${out}    OK
     # TODO: Somehow capture sound and confirm it is not malformed.
-    Log    \Internal microphone detected, check validity of sound capture manually\n
+    Log    \nInternal microphone detected, check validity of sound capture manually\n
 
 AUD004.301 External headset recognition (Windows)
     [Documentation]    Check whether Windows has recognized external headset,
@@ -78,7 +78,7 @@ AUD006.301 External headset audio capture (Windows)
     Should Contain    ${out}    OK
     # TODO: If possible, use some software to capture sound, and compare
     # waveforms with original audio, to verify it was not malformed.
-    Log    \n Headset microphone detected, check validity of sound capture manually\n
+    Log    \nHeadset microphone detected, check validity of sound capture manually\n
 
 AUD007.301 HDMI audio recognition (Windows)
     [Documentation]    Check whether the HDMI audio is recognized
