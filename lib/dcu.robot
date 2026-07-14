@@ -63,7 +63,7 @@ DCU Variable Read SMMSTORE
     ${out}=    Execute Command In Terminal    flashrom -p internal -r ${temp_filename} --fmap -i FMAP -i SMMSTORE
     Execute Command In Terminal    chmod 666 ${temp_filename}
     Get File From DUT    ${temp_filename}    ${out_file}
-    Execute Command In Terminal    rm ${temp_filename}
+    Execute Command In Terminal    rm -f ${temp_filename}
 
 DCU Variable Flash SMMSTORE
     [Documentation]    Write the UEFI SMMSTORE to commit the changes
@@ -72,7 +72,7 @@ DCU Variable Flash SMMSTORE
     Send File To DUT    ${fw_file}    ${temp_filename}
     ${out}=    Execute Command In Terminal
     ...    flashrom -p internal -w ${temp_filename} --fmap -i SMMSTORE --noverify-all
-    Execute Command In Terminal    rm ${temp_filename}
+    Execute Command In Terminal    rm -f ${temp_filename}
 
 DCU Variable Get UEFI Option From File
     [Documentation]    Read an UEFI option value from FW file.
@@ -107,7 +107,7 @@ DCU Variable Set UEFI Option In DUT
     DCU Variable Read SMMSTORE    ${temp_filename}
     DCU Variable Set UEFI Option In File    ${temp_filename}    ${option_name}    ${value}
     DCU Variable Flash SMMSTORE    ${temp_filename}
-    Execute Command In Terminal    rm ${temp_filename}
+    Execute Command In Terminal    rm -f ${temp_filename}
     Execute Reboot Command
 
 DCU Variable Get UEFI Option From DUT
@@ -117,7 +117,7 @@ DCU Variable Get UEFI Option From DUT
     DCU Variable Read SMMSTORE    ${temp_filename}
     ${value}=    DCU Variable Get UEFI Option From File    ${temp_filename}    ${option_name}
     ${value}=    Convert Option Value From DCU Format    ${value}
-    Execute Command In Terminal    rm ${temp_filename}
+    Execute Command In Terminal    rm -f ${temp_filename}
     RETURN    ${value}
 
 Convert Option Value To DCU Format
