@@ -168,7 +168,7 @@ USB001.301 USB devices detected by OS (Windows)
     ${out}=    Execute Command In Terminal
     ...    Get-PnpDevice -PresentOnly | Where-Object { $_.InstanceId -match '^USB' }
     IF    ${HAS_KEYBOARD}    Should Contain    ${out}    HIDClass
-    IF    ${HAS_USB_STORAGE}    Should Contain    ${out}    DiskDrive
+    IF    ${HAS_USB_STORAGE}    Should Contain    ${out}    Mass Storage
 
 USB002.301 USB keyboard in OS (Windows)
     [Documentation]    Check whether the external USB keyboard is detected
