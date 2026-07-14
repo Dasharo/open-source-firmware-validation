@@ -5146,29 +5146,22 @@
   },
   {
     "doc": {
-      "_id": "RTD006.101",
+      "_id": "RTD007.101",
       "name": "F9 resets Enable network boot to default (EDK2 UEFI)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "RTD007.101",
+      "_id": "RTD008.101",
       "name": "F9 resets Intel ME mode to default (EDK2 UEFI)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
-      "_id": "RTD008.101",
-      "name": "F9 resets Enable PS2 Controller to default (EDK2 UEFI)",
-      "module": "Dasharo Compatibility"
-    }
-  },
-  {
-    "doc": {
       "_id": "RTD009.101",
-      "name": "F9 resets Enable watchdog to default (EDK2 UEFI)",
+      "name": "F9 resets Enable PS2 Controller to default (EDK2 UEFI)",
       "module": "Dasharo Compatibility"
     }
   },

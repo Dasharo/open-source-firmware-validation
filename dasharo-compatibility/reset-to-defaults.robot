@@ -122,19 +122,9 @@ RTD005.101 F9 resets Early boot DMA Protection to default (EDK2 UEFI)
     ${early_dma_state}=    Get Option State    ${security_menu}    Early boot DMA Protection
     Should Not Be True    ${early_dma_state}
 
-RTD006.101 F9 resets Enable network boot to default (EDK2 UEFI)
+RTD007.101 F9 resets Enable network boot to default (EDK2 UEFI)
     [Documentation]    Check whether pressing F9 in the firmware setup menu resets
-    ...    the Enable network boot option to its default value.
-    [Tags]    semiauto
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    RTD006.101 not supported
-    Execute Manual Step    [1/4] Power on the DUT and enter the firmware setup menu
-    Execute Manual Step    [2/4] Navigate to Networking Options and change the Enable network boot setting from default
-    Execute Manual Step    [3/4] Press F9 to reset settings to defaults
-    Execute Manual Step    [4/4] Confirm the Enable network boot option has been reset to the default value
-
-RTD007.101 F9 resets Intel ME mode to default (EDK2 UEFI)
-    [Documentation]    Check whether pressing F9 resets Keep IOMMU enabled when
-    ...    transfer control to OS option to be disabled
+    ...    the Enable network boot option to be disabled.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    RTD007.101 not supported
     Skip If    not ${DASHARO_NETWORKING_MENU_SUPPORT}    RTD007.101 not supported
     Power On
@@ -151,7 +141,7 @@ RTD007.101 F9 resets Intel ME mode to default (EDK2 UEFI)
     ${network_boot_state}=    Get Option State    ${network_menu}    Enable network boot
     Should Not Be True    ${network_boot_state}
 
-RTD008.101 F9 resets Enable PS2 Controller to default (EDK2 UEFI)
+RTD008.101 F9 resets Intel ME mode to default (EDK2 UEFI)
     [Documentation]    Check whether pressing F9 resets Intel ME mode option
     ...    to be enabled
     Skip If    not ${DASHARO_INTEL_ME_MENU_SUPPORT}    RTD008.101 not supported
@@ -170,7 +160,7 @@ RTD008.101 F9 resets Enable PS2 Controller to default (EDK2 UEFI)
     ${me_mode_state}=    Get Option State    ${me_menu}    Intel ME mode
     Should Be Equal    ${me_mode_state}    Enabled
 
-RTD009.101 F9 resets Enable watchdog to default (EDK2 UEFI)
+RTD009.101 F9 resets Enable PS2 Controller to default (EDK2 UEFI)
     [Documentation]    Check whether pressing F9 resets Enable PS2 Controller
     ...    to be enabled
     Skip If    not ${DASHARO_CHIPSET_MENU_SUPPORT}    RTD009.101 not supported
