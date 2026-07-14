@@ -1424,7 +1424,7 @@ ECR017.301 Keyboard (function key: flight mode) in OS (Windows)
     Execute Manual Step    [1/4] Power on the DUT.
     Execute Manual Step    [2/4] Boot into the system.
     Execute Manual Step    [3/4] Log into the system by using the proper login and password.
-    Execute Manual Step    [4/4] Press the camera on/off hotkey twice and note the effect after the key press.
+    Execute Manual Step    [4/4] Press the flight mode on/off hotkey twice and note the effect after the key press.
     VAR    ${result_msg}=
     ...    Pressing the hotkey once should enable airplane mode and cause
     ...    `airplane mode on` notification to appear in the top right part of the screen.
@@ -1473,8 +1473,8 @@ ECR020.301 Buttons (button: lid switch) in OS (Windows)
     Execute Manual Step    [4/5] Wait 30 seconds for the system to load fully.
     Execute Manual Step    [5/5] Close the lid and note the effect on the power LED.
     VAR    ${result_msg}=
-    ...    Pressing the button once should make laptop enter sleep mode.
-    ...    The power LED should be blinking green, indicating the laptop is sleeping.
+	...		The display should turn off just before the lid is completely closed.
+    ...		The power LED should be blinking green, indicating the laptop is sleeping.
     ...    separator=${SPACE}
     Execute Manual Step    [Expected result] ${result_msg}
 
@@ -1652,7 +1652,6 @@ Keyboard Function Key Brightness Down In Linux
 Keyboard Function Key Brightness Up In Linux
     [Documentation]    Check whether function key: brightness up works in
     ...    Linux OS.
-    Turn On ACPI CALL Module In Linux
     Set Brightness In Linux    0
     ${brightness1}=    Get Current Brightness In Linux
     Brightness Up Button In Linux
