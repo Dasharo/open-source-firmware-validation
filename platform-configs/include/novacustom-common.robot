@@ -45,7 +45,7 @@ ${OPTIONS_LIB}=                                     options-lib_dcu
 # Supported test environments
 ${TESTS_IN_FIRMWARE_SUPPORT}=                       ${FALSE}
 ${TESTS_IN_UBUNTU_SUPPORT}=                         ${TRUE}
-${TESTS_IN_WINDOWS_SUPPORT}=                        ${FALSE}
+${TESTS_IN_WINDOWS_SUPPORT}=                        ${TRUE}
 
 # Regression test flags
 ${DASHARO_SECURITY_MENU_SUPPORT}=                   ${TRUE}
