@@ -73,7 +73,7 @@ Measure Coldboot Time
     Log To Console    \n
 
     FOR    ${index}    IN RANGE    0    ${iterations}
-        Execute Manual Step    message=Perform a coldboot
+        Execute Manual Step    Perform a coldboot (power cycle the device).
 
         Boot System Or From Connected Disk    ${os_id}
         Login To Linux
@@ -112,7 +112,7 @@ Measure Warmboot Time
         ELSE
             Execute Shutdown Command
             IF    '${POWER_CTRL}' == 'none'
-                Execute Manual Step    Turn on the device
+                Execute Manual Step    Perform a warmboot (poweroff/shutdown initiated from the OS).
             ELSE
                 Power On
             END
