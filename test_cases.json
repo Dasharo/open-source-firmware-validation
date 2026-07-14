@@ -11447,7 +11447,7 @@
   {
     "doc": {
       "_id": "WBS001.201",
-      "name": "WiFi / BT enable (Ubuntu)",
+      "name": "Wifi and Bluetooth card power switch disabled (Ubuntu)",
       "module": "Dasharo Security"
     }
   },
@@ -11461,7 +11461,7 @@
   {
     "doc": {
       "_id": "WBS002.201",
-      "name": "WiFi / BT disable (Ubuntu)",
+      "name": "Wifi and Bluetooth card power switch enabled (Ubuntu)",
       "module": "Dasharo Security"
     }
   },
