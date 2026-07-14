@@ -14,8 +14,8 @@ ${FW_VERSION}=                          v0.9.0
 ${DMIDECODE_RELEASE_DATE}=              08/27/2025
 ${FLASHROM_FLAGS}=                      ${EMPTY}
 ${EXPECTED_FW_SHA256}=                  7595d57fcec2d315db0b612b9aab6cf680a1151719b7a3b2d3313aea6be97c06
-${DMIDECODE_SERIAL_NUMBER}=		123456789
-${SERIAL_NUMBER_VERIFICATION}=		${TRUE}
+${DMIDECODE_SERIAL_NUMBER}=             123456789
+${SERIAL_NUMBER_VERIFICATION}=          ${TRUE}
 
 ${WIFI_CARD}=                           Intel Corporation Meteor Lake PCH CNVi WiFi
 
