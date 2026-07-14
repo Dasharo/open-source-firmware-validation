@@ -14,12 +14,13 @@ ${FW_VERSION}=                          v0.9.0
 ${DMIDECODE_RELEASE_DATE}=              08/27/2025
 ${FLASHROM_FLAGS}=                      ${EMPTY}
 ${EXPECTED_FW_SHA256}=                  7595d57fcec2d315db0b612b9aab6cf680a1151719b7a3b2d3313aea6be97c06
+${SERIAL_NUMBER_VERIFICATION}=		${TRUE}
 
 ${WIFI_CARD}=                           Intel Corporation Meteor Lake PCH CNVi WiFi
 
 ${DEFAULT_BOOT_OS_ID}=                  ${ENV_ID_UBUNTU}
 @{TESTED_LINUX_DISTROS}=
-...                                     ${ENV_ID_UBUNTU}    # ${ENV_ID_FEDORA}
+...                                     ${ENV_ID_UBUNTU}  ${ENV_ID_FEDORA}  ${ENV_ID_QUBES}
 ${TESTS_IN_WINDOWS_SUPPORT}=            ${TRUE}
 
 ${GPU_PERFORMANCE_TESTS_SUPPORT}=       ${TRUE}

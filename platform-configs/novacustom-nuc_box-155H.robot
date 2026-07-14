@@ -19,7 +19,7 @@ ${CPU_MAX_FREQUENCY}=                   4800
 ${CPU_MIN_FREQUENCY}=                   200
 
 ${DEVICE_NVME_DISK}=                    Non-Volatile memory controller
-${USB_MODEL}=                           ${TBD}
+${USB_MODEL}=                           SanDisk
 ${USB_DEVICE}=                          Linux
 ${EXPECTED_FW_SHA256}=                  7595d57fcec2d315db0b612b9aab6cf680a1151719b7a3b2d3313aea6be97c06
 
