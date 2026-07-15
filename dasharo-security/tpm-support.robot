@@ -62,46 +62,49 @@ TPM003.101 Check TPM Physical Presence Interface (EDK2 UEFI)
     Should Contain    ${out}    PPI: OS response
 
 TPM004.101 Check TPM Clear procedure (EDK2 UEFI)
-    [Documentation]    This test aims to verify whether the TPM Clear procedure works properly, starts
-    ...    with running TPM Clear procedure to ensure correct state of ownership.
+    [Documentation]    Verifies the TPM Clear procedure. Takes ownership of the TPM,
+    ...    confirms ownership is set, clears the TPM via firmware, then confirms
+    ...    ownership was reset. Runs a TPM Clear at the start to ensure a known state.
     [Tags]    semiauto
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}
-    Execute Manual Step    [1/21] Power on the DUT.
-    Execute Manual Step    [2/21] Boot into the BIOS.
-    Execute Manual Step    [3/21] Enter Device Manager.
-    Execute Manual Step    [4/21] Enter TCG2 Configuration.
-    Execute Manual Step    [5/21] Scroll down to TPM2 Operation and press Enter.
-    Execute Manual Step    [6/21] Choose "TPM2 ClearControl(NO) + Clear".
-    Execute Manual Step    [7/21] Save and Reboot.
-    Execute Manual Step    [8/21] When prompted, press F12 to clear the TPM.
-    Execute Manual Step    [9/21] Boot into the system.
-    Execute Manual Step    [10/21] Log into the system by using the proper login and password.
-    VAR    ${msg}=
-    ...    [11/21] Open the terminal and run the following commands to take ownership over TPM2:
+
+    VAR    ${take_ownership}=
+    ...    Open a terminal and run the following to take ownership of the TPM:
     ...    tpm2_changeauth --quiet -c owner pass
     ...    tpm2_changeauth --quiet -c lockout pass
     ...    tpm2_createprimary -Q --hierarchy=o --key-context=/tmp/test --key-auth=pass2 -P pass
     ...    tpm2_evictcontrol -Q -C o -P pass -c /tmp/test 0x81000001
     ...    rm /tmp/test
     ...    separator=\n
-    Execute Manual Step    ${msg}
-    VAR    ${msg}=
-    ...    [12/21] Execute the following commands to check that the ownership is taken:
-    ...    ! tpm2_changeauth --quiet -c owner 2>/dev/null
+
+    VAR    ${check_ownership}=
+    ...    Run the following to test whether ownership is currently set:
+    ...    tpm2_changeauth --quiet -c owner 2>/dev/null
     ...    echo $?
+    ...    Result 1 = ownership IS set
+    ...    Result 0 = ownership is NOT set
     ...    separator=\n
-    Execute Manual Step    ${msg}
-    Execute Manual Step    [13/21] Reboot the DUT and enter BIOS.
-    Execute Manual Step    [14/21] Enter Device Manager.
-    Execute Manual Step    [15/21] Enter TCG2 Configuration.
-    Execute Manual Step    [16/21] Scroll down to TPM2 Operation and press Enter.
-    Execute Manual Step    [17/21] Choose "TPM2 ClearControl(NO) + Clear".
-    Execute Manual Step    [18/21] Save and Reboot.
-    Execute Manual Step    [19/21] When prompted, press F12 to clear the TPM.
-    Execute Manual Step    [20/21] Boot into the system and log in.
-    Execute Manual Step    [21/21] Execute the commands from step 11.
-    Execute Manual Step    [Expected result 1/2] The output in step 11 should be equal 1.
-    Execute Manual Step    [Expected result 2/2] The output in step 21 should be 0.
+
+    VAR    ${clear_tpm}=
+    ...    Reboot and clear the TPM via firmware:
+    ...    1. Enter the BIOS -> Device Manager -> TCG2 Configuration.
+    ...    2. Select "TPM2 Operation", press Enter, choose "TPM2 ClearControl(NO) + Clear".
+    ...    3. Save and reboot. When prompted, press F12 to clear the TPM.
+    ...    separator=\n
+
+    Execute Manual Step    [1/9] Power on the DUT and boot into the BIOS.
+    Execute Manual Step    [2/9] ${clear_tpm}
+    Execute Manual Step    [3/9] Boot into the system and log in.
+    Execute Manual Step    [4/9] ${take_ownership}
+    Execute Manual Step
+    ...    [5/9] ${check_ownership}\nExpected: output is 1, the command fails.
+
+    Execute Manual Step    [6/9] ${clear_tpm}
+    Execute Manual Step    [7/9] Boot into the system and log in.
+    Execute Manual Step    [8/9] ${take_ownership.split('\n')[0]}    # (re-run take-ownership block)
+    Execute Manual Step    ${take_ownership}
+    Execute Manual Step
+    ...    [9/9] ${check_ownership}\nExpected: output is 0, the command succeeds
 
 TPM005.101 Check TPM Hash Algorithm Support SHA1 (EDK2 UEFI)
     [Documentation]    This test aims to verify that the TPM supports needed hash algorithm (SHA1).
