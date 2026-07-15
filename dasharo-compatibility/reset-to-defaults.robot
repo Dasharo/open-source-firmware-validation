@@ -122,11 +122,11 @@ RTD005.101 F9 resets Early boot DMA Protection to default (EDK2 UEFI)
     ${early_dma_state}=    Get Option State    ${security_menu}    Early boot DMA Protection
     Should Not Be True    ${early_dma_state}
 
-RTD007.101 F9 resets Enable network boot to default (EDK2 UEFI)
-    [Documentation]    Check whether pressing F9 in the firmware setup menu resets
-    ...    the Enable network boot option to be disabled.
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    RTD007.101 not supported
-    Skip If    not ${DASHARO_NETWORKING_MENU_SUPPORT}    RTD007.101 not supported
+RTD006.101 F9 resets Enable network boot to default (EDK2 UEFI)
+    [Documentation]    Check whether pressing F9 resets Keep IOMMU enabled when
+    ...    transfer control to OS option to be disabled
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    RTD006.101 not supported
+    Skip If    not ${DASHARO_NETWORKING_MENU_SUPPORT}    RTD006.101 not supported
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
@@ -141,11 +141,11 @@ RTD007.101 F9 resets Enable network boot to default (EDK2 UEFI)
     ${network_boot_state}=    Get Option State    ${network_menu}    Enable network boot
     Should Not Be True    ${network_boot_state}
 
-RTD008.101 F9 resets Intel ME mode to default (EDK2 UEFI)
+RTD007.101 F9 resets Intel ME mode to default (EDK2 UEFI)
     [Documentation]    Check whether pressing F9 resets Intel ME mode option
     ...    to be enabled
-    Skip If    not ${DASHARO_INTEL_ME_MENU_SUPPORT}    RTD008.101 not supported
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    RTD008.101 not supported
+    Skip If    not ${DASHARO_INTEL_ME_MENU_SUPPORT}    RTD007.101 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    RTD007.101 not supported
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
@@ -160,11 +160,11 @@ RTD008.101 F9 resets Intel ME mode to default (EDK2 UEFI)
     ${me_mode_state}=    Get Option State    ${me_menu}    Intel ME mode
     Should Be Equal    ${me_mode_state}    Enabled
 
-RTD009.101 F9 resets Enable PS2 Controller to default (EDK2 UEFI)
+RTD008.101 F9 resets Enable PS2 Controller to default (EDK2 UEFI)
     [Documentation]    Check whether pressing F9 resets Enable PS2 Controller
     ...    to be enabled
-    Skip If    not ${DASHARO_CHIPSET_MENU_SUPPORT}    RTD009.101 not supported
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    RTD009.101 not supported
+    Skip If    not ${DASHARO_CHIPSET_MENU_SUPPORT}    RTD008.101 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    RTD008.101 not supported
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
@@ -179,11 +179,11 @@ RTD009.101 F9 resets Enable PS2 Controller to default (EDK2 UEFI)
     ${ps2_state}=    Get Option State    ${chipset_menu}    Enable PS2 Controller
     Should Be True    ${ps2_state}
 
-RTD010.101 F9 resets Enable watchdog to default (EDK2 UEFI)
+RTD009.101 F9 resets Enable watchdog to default (EDK2 UEFI)
     [Documentation]    Check whether pressing F9 resets Enable watchdog
     ...    to be enabled
-    Skip If    not ${DASHARO_CHIPSET_MENU_SUPPORT}    RTD010.101 not supported
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    RTD010.101 not supported
+    Skip If    not ${DASHARO_CHIPSET_MENU_SUPPORT}    RTD009.101 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    RTD009.101 not supported
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
@@ -197,6 +197,11 @@ RTD010.101 F9 resets Enable watchdog to default (EDK2 UEFI)
     ${chipset_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Chipset Configuration
     ${watchdog_state}=    Get Option State    ${chipset_menu}    Enable watchdog
     Should Be True    ${watchdog_state}
+
+RTD010.101 F9 resets Enable watchdog to default (EDK2 UEFI)
+    [Documentation]    Check whether pressing F9 resets Enable watchdog
+    ...    to be enabled
+    Skip    Deleted
 
 RTD011.101 F9 resets Watchdog timeout value to default (EDK2 UEFI)
     [Documentation]    Check whether pressing F9 resets Watchdog timeout value
