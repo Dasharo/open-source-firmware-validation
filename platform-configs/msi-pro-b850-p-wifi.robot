@@ -99,7 +99,7 @@ ${EXTERNAL_HDMI_DISPLAY_SUPPORT}=               ${TRUE}
 
 # Test module: dasharo-security
 ${TPM_SUPPORTED_VERSION}=                       2
-${TPM_MULTIPLE_BANK_SUPPORT}=                   ${FALSE}
+${TPM_MULTIPLE_BANK_SUPPORT}=                   ${TRUE}
 ${MEASURED_BOOT_SUPPORT}=                       ${TRUE}
 ${SECURE_BOOT_SUPPORT}=                         ${TRUE}
 ${USB_MASS_STORAGE_SUPPORT}=                    ${TRUE}
