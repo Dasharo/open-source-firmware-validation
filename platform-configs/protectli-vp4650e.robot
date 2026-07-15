@@ -31,5 +31,4 @@ ${CPU_MIN_FREQUENCY}=           300
 ${TPM_SUPPORTED_VERSION}=       2
 ${TPM_EXPECTED_CHIP}=           SLB9665
 
-${EMMC_SUPPORT}=                ${FALSE}
 ${E_MMC_NAME}=                  ${NONE}

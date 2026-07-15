@@ -8,9 +8,9 @@ ${FLASHING_METHOD}=                 internal
 
 ${DMIDECODE_SERIAL_NUMBER}=         N/A
 ${DMIDECODE_FIRMWARE_VERSION}=
-...                                 Dasharo (coreboot+UEFI) v1.2.2-rc1
-${DMIDECODE_PRODUCT_NAME}=          VP2420
-${DMIDECODE_RELEASE_DATE}=          1/13/2025
+...                                 Dasharo (coreboot+UEFI) v1.2.2-rc4
+${DMIDECODE_PRODUCT_NAME}=          VP2420e
+${DMIDECODE_RELEASE_DATE}=          06/23/2026
 
 ${CPU_MAX_FREQUENCY}=               2700
 ${CPU_MIN_FREQUENCY}=               300
@@ -42,7 +42,6 @@ ${NVME_DISK_SUPPORT}=               ${FALSE}
 
 ${TPM_EXPECTED_CHIP}=               SLB9670
 
-${EMMC_SUPPORT}=                    ${FALSE}
 ${E_MMC_NAME}=                      ${NONE}
 
 

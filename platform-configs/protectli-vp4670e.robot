@@ -29,5 +29,4 @@ ${CPU_MIN_FREQUENCY}=           300
 ...                             64-62-66-22-93-df
 ...                             64-62-66-22-93-e0
 
-${EMMC_SUPPORT}=                ${FALSE}
 ${E_MMC_NAME}=                  ${NONE}

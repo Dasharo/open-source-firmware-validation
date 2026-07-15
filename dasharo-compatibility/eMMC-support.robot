@@ -35,5 +35,9 @@ MMC001.201 eMMC support (Ubuntu)
     Login To Linux
     Switch To Root User
     ${out}=    Execute Command In Terminal    cat /sys/class/block/mmcblk0/device/name
-    Should Contain    ${out}    ${E_MMC_NAME}
+    IF    $E_MMC_NAME is not ${NONE}
+        Should Contain    ${out}    ${E_MMC_NAME}
+    ELSE
+        Should Contain    ${out}    No such file
+    END
     Exit From Root User
