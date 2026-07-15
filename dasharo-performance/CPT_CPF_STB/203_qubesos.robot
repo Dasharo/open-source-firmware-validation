@@ -1,25 +1,25 @@
 *** Settings ***
-Metadata        ORDER_SENSITIVE
+Metadata            ORDER_SENSITIVE
 
-Resource        ./common.resource
+Resource            ./common.resource
 
-Suite Setup     Run Keywords
-...                 Prepare Test Suite
-...                 AND    Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}
-...                 AND    Check Power Supply
-...                 AND    Prepare Sensors
-...                 AND    Init Concurrent Testing
-...                 AND    Prepare CPT QUBES
-...                 AND    Prepare CPF QUBES
-...                 AND    Prepare STB QUBES
-...                 AND    Print Concurrent Tests Summary
-...                 AND    Power On
-...                 AND    Boot System Or From Connected Disk    ${ENV_ID_QUBES}
-...                 AND    Login To Linux
-Suite Teardown  Run Keyword
-...                 Log Out And Close Connection
+Suite Setup         Run Keywords
+...                     Prepare Test Suite
+...                     AND    Skip If    '${ENV_ID_QUBES}' not in ${TESTED_LINUX_DISTROS}
+...                     AND    Check Power Supply
+...                     AND    Prepare Sensors
+...                     AND    Init Concurrent Testing
+...                     AND    Prepare CPT QUBES
+...                     AND    Prepare CPF QUBES
+...                     AND    Prepare STB QUBES
+...                     AND    Print Concurrent Tests Summary
+...                     AND    Power On
+...                     AND    Boot System Or From Connected Disk    ${ENV_ID_QUBES}
+...                     AND    Login To Linux
+Suite Teardown      Run Keyword
+...                     Log Out And Close Connection
 
-Default Tags    automated
+Default Tags        automated
 
 
 *** Test Cases ***

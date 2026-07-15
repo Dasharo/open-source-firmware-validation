@@ -1,20 +1,20 @@
 *** Settings ***
-Metadata        ORDER_SENSITIVE
+Metadata            ORDER_SENSITIVE
 
-Resource        ./common.resource
+Resource            ./common.resource
 
-Suite Setup     Run Keywords
-...                 Prepare Test Suite
-...                 AND    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}
-...                 AND    Check Power Supply
-...                 AND    Prepare Sensors
-...                 AND    Init Concurrent Testing
-...                 AND    Prepare CPT
-...                 AND    Prepare CPF
-...                 AND    Prepare STB
-...                 AND    Print Concurrent Tests Summary
-Suite Teardown  Run Keyword
-...                 Log Out And Close Connection
+Suite Setup         Run Keywords
+...                     Prepare Test Suite
+...                     AND    Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}
+...                     AND    Check Power Supply
+...                     AND    Prepare Sensors
+...                     AND    Init Concurrent Testing
+...                     AND    Prepare CPT
+...                     AND    Prepare CPF
+...                     AND    Prepare STB
+...                     AND    Print Concurrent Tests Summary
+Suite Teardown      Run Keyword
+...                     Log Out And Close Connection
 
 Default Tags        automated
 
