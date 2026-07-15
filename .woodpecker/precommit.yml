@@ -15,8 +15,8 @@ steps:
   - name: pre-commit
     image: python:3.13-slim
     environment:
-      PRE_COMMIT_HOME: /cache/pre-commit
-      PIP_CACHE_DIR: /cache/pip
+      PRE_COMMIT_HOME: /cache/${CI_REPO}/pre-commit
+      PIP_CACHE_DIR: /cache/${CI_REPO}/pip
     volumes:
       - pre-commit-cache:/cache
     commands:
