@@ -313,6 +313,7 @@ TPM013.301 TPM PPI Prompt (Windows)
     Power On
     Boot And Login To Windows
 
+    TPM2 Prepare For Clear Windows
     ${owner_key}=    TPM2 Get Owner Key Windows
     TPM2 PPI Request Clear TPM Windows
 
@@ -461,11 +462,43 @@ TPM2 PPI Request Clear TPM Windows
     [Documentation]    Clear the TPM using the TPM PPI in Windows
     # 5 - PPI function ClearTPM, PPI Specification, Family “1.2” and “2.0”
     #    Version 1.30 Revision 00.52 table 2
-    Execute Command In Terminal    Clear-Tpm -UsePPI    timeout=300s
+    ${out}=    Execute Command In Terminal    Clear-Tpm -UsePPI    timeout=300s
+    Should Not Contain    ${out}    Error
 
 TPM2 Get Owner Key Windows
     [Documentation]    Check if the owner key password is set for the TPM2
     ${out}=    Execute Command In Terminal    Get-Tpm    timeout=300s
     ${key}=    Get Lines Matching Regexp    ${out}    OwnerAuth    partial_match=True
     ${key}=    Get Regexp Matches    ${key}    OwnerAuth\ +:\ (.*)    1
-    RETURN    ${key}
+    RETURN    ${key}[0]
+
+TPM2 Is Owned Windows
+    [Documentation]    Check if the owner key password is set for the TPM2
+    ${out}=    Execute Command In Terminal    Get-Tpm    timeout=300s
+    ${owned}=    Get Lines Matching Regexp    ${out}    TpmOwned    partial_match=True
+    ${owned}=    Get Regexp Matches    ${owned}    TpmOwned\ +:\ (.*)    1
+    RETURN    ${owned}[0]
+
+TPM2 Is Ready Windows
+    [Documentation]    Check if the owner key password is set for the TPM2
+    ${out}=    Execute Command In Terminal    Get-Tpm    timeout=300s
+    ${ready}=    Get Lines Matching Regexp    ${out}    TpmReady    partial_match=True
+    ${ready}=    Get Regexp Matches    ${ready}    TpmReady\ +:\ (.*)    1
+    RETURN    ${ready}[0]
+
+TPM2 Prepare For Clear Windows
+    ${ready}=    TPM2 Is Ready Windows
+    IF    ${ready} == False
+        Execute Command In Terminal    Initialize-Tpm    timeout=300s
+        ${ready}=    TPM2 Is Ready Windows
+        Should Be Equal As Strings    ${ready}    True
+    END
+    ${owned}=    TPM2 Is Owned Windows
+    IF    ${owned} == False
+        # Sample from https://learn.microsoft.com/en-us/powershell/module/trustedplatformmodule/set-tpmownerauth
+        Execute Command In Terminal
+        ...    Set-TpmOwnerAuth -NewOwnerAuthorization \"h4FCmNeWVNp5IMHxRfFL9QEq4vM\=\"
+        ...    timeout=300s
+        ${owned}=    TPM2 Is Owned Windows
+        Should Be Equal As Strings    ${owned}    True
+    END
