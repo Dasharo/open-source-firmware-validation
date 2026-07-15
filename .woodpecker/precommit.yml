@@ -1,0 +1,38 @@
+# SPDX-FileCopyrightText: 2026 3mdeb <contact@3mdeb.com>
+#
+# SPDX-License-Identifier: Apache-2.0
+when:
+  - branch: [develop, main]
+    event: [pull_request, push, manual]
+
+clone:
+  git:
+    image: woodpeckerci/plugin-git
+    settings:
+      recursive: false
+
+steps:
+  - name: pre-commit
+    image: python:3.13-slim
+    environment:
+      PRE_COMMIT_HOME: /cache/pre-commit
+      PIP_CACHE_DIR: /cache/pip
+    volumes:
+      - pre-commit-cache:/cache
+    commands:
+      - apt-get update && apt-get install -q -y --no-install-recommends git curl ca-certificates gcc libc6-dev pkg-config > /dev/null 2>&1
+      - pip install --root-user-action ignore pre-commit -q
+      - |
+        case "$CI_PIPELINE_EVENT" in
+          pull_request)
+            git fetch origin "$CI_COMMIT_TARGET_BRANCH"
+            pre-commit run --from-ref "origin/$CI_COMMIT_TARGET_BRANCH" --to-ref HEAD
+            ;;
+          push)
+            git fetch origin "$CI_PREV_COMMIT_SHA"
+            pre-commit run --from-ref "$CI_PREV_COMMIT_SHA" --to-ref "$CI_COMMIT_SHA"
+            ;;
+          *)
+            pre-commit run --all-files
+            ;;
+        esac
