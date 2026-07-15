@@ -30,4 +30,31 @@ ${EC_NO_SYNC_DOWNLOAD_LINK}=
 ${FW_NO_EC_SYNC_VERSION}=           v1.5.1
 ${EC_NO_SYNC_VERSION}=              2023-10-31_f148431
 
+@{TESTED_LINUX_DISTROS}=            ${ENV_ID_UBUNTU}    ${ENV_ID_FEDORA}
+${DEFAULT_BOOT_OS_ID}=              ${ENV_ID_UBUNTU}
+
+# cpu performance Windows
+# https://openbenchmarking.org/vs/Processor/Intel+Core+i7-1185G7
+# https://openbenchmarking.org/vs/Processor/Intel+Core+i7-1165G7
+# https://openbenchmarking.org/test/pts/smallpt-1.2.1&search
+&{UPP_SMALLPT_BENCHMARK}=           name=smallpt    score=21    scale=lower_is_better    dev=0.2    type=singlecore
+&{UPP_CRAFTY_BENCHMARK}=
+...                                 name=crafty
+...                                 score=8767896
+...                                 scale=higher_is_better
+...                                 dev=0.2
+...                                 type=singlecore
+&{UPP_CACHEBENCH_BENCHMARK}=
+...                                 name=cachebench
+...                                 score=101627.1
+...                                 scale=higher_is_better
+...                                 dev=0.2
+...                                 type=multicore
+&{UPP_BLAKE2_BENCHMARK}=            name=blake2    score=3.65    scale=lower_is_better    dev=0.2    type=multicore
+@{UPP_BENCHMARKS}=
+...                                 &{UPP_SMALLPT_BENCHMARK}
+...                                 &{UPP_CRAFTY_BENCHMARK}
+...                                 &{UPP_CACHEBENCH_BENCHMARK}
+...                                 &{UPP_BLAKE2_BENCHMARK}
+
 # DTS E2E variables

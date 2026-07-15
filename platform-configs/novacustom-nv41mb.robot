@@ -24,25 +24,23 @@ ${NVIDIA_GRAPHICS_CARD_SUPPORT}=        ${TRUE}
 ${OPTIONS_LIB}=                         options-lib_dcu
 
 # cpu performance Windows
-&{UPP_SMALLPT_BENCHMARK}=
-...                                     name=smallpt
-...                                     score=35.376
-...                                     scale=lower_is_better
-...                                     dev=0.2
-...                                     type=singlecore
+# https://openbenchmarking.org/vs/Processor/Intel+Core+i7-1185G7
+# https://openbenchmarking.org/vs/Processor/Intel+Core+i7-1165G7
+# https://openbenchmarking.org/test/pts/smallpt-1.2.1&search
+&{UPP_SMALLPT_BENCHMARK}=               name=smallpt    score=21    scale=lower_is_better    dev=0.2    type=singlecore
 &{UPP_CRAFTY_BENCHMARK}=
 ...                                     name=crafty
-...                                     score=9224291
+...                                     score=8767896
 ...                                     scale=higher_is_better
 ...                                     dev=0.2
 ...                                     type=singlecore
 &{UPP_CACHEBENCH_BENCHMARK}=
 ...                                     name=cachebench
-...                                     score=104565.1
+...                                     score=101627.1
 ...                                     scale=higher_is_better
 ...                                     dev=0.2
 ...                                     type=multicore
-&{UPP_BLAKE2_BENCHMARK}=                name=blake2    score=3.64    scale=lower_is_better    dev=0.2    type=multicore
+&{UPP_BLAKE2_BENCHMARK}=                name=blake2    score=3.65    scale=lower_is_better    dev=0.2    type=multicore
 @{UPP_BENCHMARKS}=
 ...                                     &{UPP_SMALLPT_BENCHMARK}
 ...                                     &{UPP_CRAFTY_BENCHMARK}
