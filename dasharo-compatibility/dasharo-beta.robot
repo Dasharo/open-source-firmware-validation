@@ -61,14 +61,6 @@ DBETA002.201 Dasharo Beta LVFS Downgrade (Ubuntu)
     ...    via ${STABLE_CABINET_ENVVAR}, it is sent to the DUT and used as a
     ...    `fwupdmgr local-install` fallback in case `fwupdmgr downgrade`
     ...    finds no candidate on the stable remote.
-    ...    `fwupdmgr downgrade` reboots the DUT on its own as soon as it's
-    ...    confirmed. That may cut the connection before the success message
-    ...    can be read back, or the connection may survive long enough to see
-    ...    it before the DUT actually goes down - either way is tolerated,
-    ...    and no extra reboot is triggered since one is already under way.
-    ...    The local-install fallback, unlike that, does NOT reboot on its
-    ...    own and needs an explicit reboot afterwards, same as the upgrade
-    ...    test.
     ...    Assumes the device is currently running a Dasharo Beta release
     ...    (i.e. DBETA001.201 was run first).
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    DBETA002.201 (Ubuntu) not supported
@@ -90,6 +82,9 @@ DBETA002.201 Dasharo Beta LVFS Downgrade (Ubuntu)
         VAR    ${cabinet}=    ~/dasharo_stable.cab
         Send File To DUT    ${stable_cabinet}    target_path=${cabinet}
     END
+    # fwupdmgr downgrade may reboot the DUT on its own (see Fwupd Run
+    # Downgrade Linux), cutting this connection before or after the success
+    # message - either is fine, we just don't Fail on the lost connection.
     ${status}    ${out}=    Run Keyword And Ignore Error
     ...    Run Fwupd Update With Battery Check Workaround    Fwupd Run Downgrade Linux    ${cabinet}
     IF    '${status}' == 'PASS'
@@ -143,14 +138,6 @@ DBETA002.202 Dasharo Beta LVFS Downgrade (Fedora)
     ...    via ${STABLE_CABINET_ENVVAR}, it is sent to the DUT and used as a
     ...    `fwupdmgr local-install` fallback in case `fwupdmgr downgrade`
     ...    finds no candidate on the stable remote.
-    ...    `fwupdmgr downgrade` reboots the DUT on its own as soon as it's
-    ...    confirmed. That may cut the connection before the success message
-    ...    can be read back, or the connection may survive long enough to see
-    ...    it before the DUT actually goes down - either way is tolerated,
-    ...    and no extra reboot is triggered since one is already under way.
-    ...    The local-install fallback, unlike that, does NOT reboot on its
-    ...    own and needs an explicit reboot afterwards, same as the upgrade
-    ...    test.
     ...    Assumes the device is currently running a Dasharo Beta release
     ...    (i.e. DBETA001.202 was run first).
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    DBETA002.202 (Fedora) not supported
@@ -171,6 +158,9 @@ DBETA002.202 Dasharo Beta LVFS Downgrade (Fedora)
         VAR    ${cabinet}=    ~/dasharo_stable.cab
         Send File To DUT    ${stable_cabinet}    target_path=${cabinet}
     END
+    # fwupdmgr downgrade may reboot the DUT on its own (see Fwupd Run
+    # Downgrade Linux), cutting this connection before or after the success
+    # message - either is fine, we just don't Fail on the lost connection.
     ${status}    ${out}=    Run Keyword And Ignore Error
     ...    Run Fwupd Update With Battery Check Workaround    Fwupd Run Downgrade Linux    ${cabinet}
     IF    '${status}' == 'PASS'

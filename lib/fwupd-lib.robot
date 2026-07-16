@@ -69,31 +69,20 @@ Fwupd Run Upgrade Linux
     RETURN    ${out}
 
 Fwupd Run Downgrade Linux
-    [Documentation]    Downgrade firmware to the previous stable release using
-    ...    `fwupdmgr downgrade`, which resolves the candidate from the stable
-    ...    LVFS remote's release history (that remote, unlike lvfs-testing,
-    ...    retains prior stable releases). `--no-safety-check` is passed
-    ...    because the safety check can report the ESP/disk as busy on
-    ...    Qubes-managed DUTs even when the downgrade is otherwise safe to
-    ...    perform. The interactive device selection menu, version selection
-    ...    menu, and reboot confirmation prompt are answered by piping "1",
-    ...    "1", "y". fwupdmgr refuses to prompt at all (fails with "can't
-    ...    prompt for devices") if its stdin isn't a real TTY, so the command
-    ...    is wrapped in `script` to give it a pseudo-terminal while still
-    ...    allowing the piped answers to reach it.
-    ...    Unlike the upgrade flow, answering "y" to the reboot confirmation
-    ...    makes the DUT reboot on its own, which may cut the current
-    ...    SSH/Telnet session mid-command - callers must tolerate that
-    ...    connection loss instead of treating it as a failure. Sets the test
-    ...    variable ${DOWNGRADE_ALREADY_REBOOTED} to ${TRUE} in that case, so
-    ...    callers know not to trigger another reboot themselves.
-    ...    If no downgrade candidate is found (e.g. the stable remote hasn't
-    ...    indexed a previous release for this platform yet) and a stable
-    ...    cabinet path is given, falls back to `fwupdmgr local-install` with
-    ...    that cabinet, which does NOT reboot on its own - in that case
-    ...    ${DOWNGRADE_ALREADY_REBOOTED} is set to ${FALSE}.
+    [Documentation]    Downgrade firmware to the previous stable release via
+    ...    `fwupdmgr downgrade`, falling back to `fwupdmgr local-install`
+    ...    with ${cabinet} if no downgrade candidate is found. Sets
+    ...    ${DOWNGRADE_ALREADY_REBOOTED} so callers know whether the DUT
+    ...    already rebooted itself.
     [Arguments]    ${cabinet}=${EMPTY}
     VAR    ${DOWNGRADE_ALREADY_REBOOTED}=    ${TRUE}    scope=TEST
+    # --no-safety-check: that check can report the ESP/disk busy on
+    # Qubes-managed DUTs even when the downgrade is safe.
+    # Wrapped in `script` because downgrade always prompts for device and
+    # version, and fwupdmgr refuses to prompt at all without a real TTY.
+    # That TTY also lets its reboot-confirmation prompt fire (update runs
+    # over a plain pipe and never gets asked), so the piped "y" reboots the
+    # DUT immediately - may cut this connection mid-command, tolerate it.
     ${out}=    Execute Command In Terminal
     ...    printf '1\\n1\\ny\\n' | script -qec 'fwupdmgr downgrade --no-safety-check' /dev/null
     ...    timeout=300s
@@ -108,6 +97,8 @@ Fwupd Run Downgrade Linux
         ...    fwupdmgr downgrade found no candidate on the stable remote, falling back to local-install with ${cabinet}
         ...    WARN
         VAR    ${DOWNGRADE_ALREADY_REBOOTED}=    ${FALSE}    scope=TEST
+        # Plain pipe, no TTY needed (cabinet + FWUPD_DEVICE_ID_ANY fully pick
+        # device/version) - so this does NOT reboot on its own.
         ${out}=    Execute Command In Terminal
         ...    yes Y | fwupdmgr local-install ${cabinet} --allow-reinstall --allow-older --assume-yes --force
         ...    timeout=300s
