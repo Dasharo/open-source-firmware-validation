@@ -300,6 +300,14 @@ FW_FILE=$FW_FILE DEVICE_IP=$DEVICE_IP RTE_IP=$RTE_IP CONFIG=$CONFIG ./scripts/re
 Running regression tests without snipeit works the same way as
 [running regular tests](#running-tests-via-wrapper).
 
+QEMU regression tests are run through the same wrapper. The QEMU path does not
+require `FW_FILE` or `DEVICE_IP`; `RTE_IP` defaults to `127.0.0.1`, and SnipeIT
+is disabled automatically when `SNIPEIT_NO` is not already set.
+
+```bash
+CONFIG=qemu ./scripts/regression.sh
+```
+
 ### Running regression tests with additional arguments
 
 Giving additional arguments to `robot` can be done in the same way as in `run.sh`.
