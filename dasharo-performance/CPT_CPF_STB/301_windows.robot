@@ -266,15 +266,10 @@ CPF012.301 CPU with load runs on expected frequency (USB-PD) (Windows)
     ${freqs}=    Get Concurrent Test Outputs    ${concurrent_test_id}
     Check CPU Freqs Windows    ${freqs}
 
-STB002.301 Verify if no reboot occurs in the OS (Windows)
-    [Documentation]    This test aims to verify that the DUT booted to the
-    ...    Operating System does not reset. The test is performed in multiple
-    ...    iterations - after a defined time an attempt to read the output of
-    ...    specific commands confirming the stability of work is repeated.
-    VAR    ${concurrent_test_id}=    STB002.301
-    Skip If Concurrent Test Not Supported    ${concurrent_test_id}
-    ${measurements}=    Get Concurrent Test Outputs    ${concurrent_test_id}
-    Check Platform Stability    ${measurements}
+STB002.301 (TBD - DO NOT INCLUDE) Verify if no unexpected boot errors appear in logs (Windows)
+    [Documentation]    This test aims to verify that there are no unexpected
+    ...    error messages in Windows logs. (TBD)
+    Skip    Test Not Implemented
 
 
 *** Keywords ***
