@@ -73,3 +73,28 @@ CBP006.001 Resource allocator v4 - allocating resources
     Power On
     Set DUT Response Timeout    120s
     Read From Terminal Until    Pass 2 (allocating resources)
+
+CBP007.201 No unexpected warnings or errors in coreboot boot log (Ubuntu)
+    [Documentation]    Check whether the coreboot boot log does not contain
+    ...    unexpected diagnostics that may point to base port misconfiguration.
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CBP007.201 not supported
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
+    Login To Linux
+    ${diagnostics}=    Get Coreboot Boot Log Diagnostics
+    Should Be Empty
+    ...    ${diagnostics}
+    ...    msg=Unexpected diagnostics found in coreboot boot log:\n${diagnostics}
+
+
+*** Keywords ***
+Get Coreboot Boot Log Diagnostics
+    [Documentation]    Returns coreboot boot log lines that contain common
+    ...    warning or error markers. The grep pattern is assembled in shell so
+    ...    the echoed command itself does not trigger a false positive.
+    ${diagnostics}=    Execute Command In Terminal
+    ...    p='w''arn(ing)?|e''rror|f''ail(ed|ure)?|e''xception|p''anic|a''ssert|i''nvalid'; cbmem -1 | grep -Eini "$p" || true
+    ${diagnostics}=    Remove String Using Regexp
+    ...    ${diagnostics}
+    ...    (?m)^.*cbmem -1.*grep -Eini.*\\n?
+    ${diagnostics}=    Strip String    ${diagnostics}
+    RETURN    ${diagnostics}
