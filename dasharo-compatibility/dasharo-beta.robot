@@ -9,7 +9,6 @@ Library             Telnet    timeout=20 seconds    connection_timeout=120 secon
 Library             SSHLibrary    timeout=90 seconds
 Library             RequestsLibrary
 Resource            ../keywords.robot
-Resource            ../lib/fwupd-lib.robot
 Resource            ../lib/fwupd.resource
 
 Suite Setup         Run Keywords

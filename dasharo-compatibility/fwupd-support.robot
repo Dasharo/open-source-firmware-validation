@@ -183,13 +183,6 @@ Fwupd Devices Detected Linux
     IF    ${TPM_SUPPORTED_VERSION} != ${NONE}    Should Contain    ${out}    TPM
     Should Contain    ${out}    UEFI dbx
 
-Run Fwupd Local Update
-    [Arguments]    ${cabinet}
-    ${out}=    Execute Command In Terminal
-    ...    yes Y | fwupdmgr local-install ${cabinet} --allow-reinstall --allow-older --assume-yes --force
-    ...    timeout=300s
-    RETURN    ${out}
-
 Fwupd Local Firmware Update Linux
     ${cabinet_given}=    Run Keyword And Return Status
     ...    Get Environment Variable    ${CABINET_ENVVAR}
@@ -203,7 +196,7 @@ Fwupd Local Firmware Update Linux
     Send File To DUT    ${fwupd_cabinet}    target_path=${cabinet}
     Execute Command In Terminal    printf '[fwupd]\\nOnlyTrusted=false\\n' | sudo tee /etc/fwupd/fwupd.conf
 
-    ${out}=    Run Fwupd Update With Battery Check Workaround    Run Fwupd Local Update    ${cabinet}
+    ${out}=    Run Fwupd Update With Battery Check Workaround    Run Fwupd Local Install    ${cabinet}
     Should Contain    ${out}    Successfully installed firmware
     IF    "${POWER_CTRL}"=="none"
         Execute Manual Step    The laptop might stay powered off after update. Power it back on.
@@ -234,7 +227,4 @@ Fwupd Check Update Results Linux
     ...    awk '{print $NF}'
     ...    separator= |
     ${firmware_id}=    Execute Command In Terminal    ${id_extract_command}
-    ${out}=    Execute Command In Terminal    fwupdmgr get-results ${firmware_id}
-
-    ${state_line}=    Get Lines Containing String    ${out}    Update State:
-    Should Contain    ${state_line}    Success
+    Fwupd Verify Update Results Linux    ${firmware_id}
