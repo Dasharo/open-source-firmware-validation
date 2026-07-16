@@ -20,7 +20,7 @@ steps:
     volumes:
       - pre-commit-cache:/cache
     commands:
-      - apt-get update && apt-get install -q -y --no-install-recommends git curl ca-certificates gcc libc6-dev pkg-config > /dev/null 2>&1
+      - apt-get update && apt-get install -q -y --no-install-recommends git curl ca-certificates gcc libc6-dev pkg-config jq > /dev/null 2>&1
       - pip install --root-user-action ignore pre-commit -q
       - |
         case "$CI_PIPELINE_EVENT" in
