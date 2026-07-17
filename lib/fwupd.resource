@@ -122,36 +122,23 @@ Fwupd Run Upgrade Linux
 
 Fwupd Run Downgrade Linux
     [Documentation]    Downgrade firmware to the previous stable release via
-    ...    `fwupdmgr downgrade`, falling back to `fwupdmgr local-install`
-    ...    with ${cabinet} if no downgrade candidate is found. Sets
-    ...    ${DOWNGRADE_ALREADY_REBOOTED} so callers know whether the DUT
-    ...    already rebooted itself.
-    [Arguments]    ${cabinet}=${EMPTY}
-    VAR    ${DOWNGRADE_ALREADY_REBOOTED}=    ${TRUE}    scope=TEST
+    ...    `fwupdmgr downgrade`. Skips the test if no downgrade candidate is
+    ...    found on the stable remote. Reboots the DUT itself once the
+    ...    downgrade completes, which may cut the connection.
     # --no-safety-check: that check can report the ESP/disk busy on
     # Qubes-managed DUTs even when the downgrade is safe.
     # Wrapped in `script` because downgrade always prompts for device and
     # version, and fwupdmgr refuses to prompt at all without a real TTY.
-    # That TTY also lets its reboot-confirmation prompt fire (update runs
-    # over a plain pipe and never gets asked), so the piped "y" reboots the
-    # DUT immediately - may cut this connection mid-command, tolerate it.
+    # That TTY also lets its reboot-confirmation prompt fire, so the piped
+    # "y" reboots the DUT immediately - may cut this connection mid-command,
+    # tolerate it.
     ${out}=    Execute Command In Terminal
     ...    printf '1\\n1\\ny\\n' | script -qec 'fwupdmgr downgrade --no-safety-check' /dev/null
     ...    timeout=300s
     ${no_downgrade}=    Run Keyword And Return Status
     ...    Should Contain Any    ${out}    No downgrades for    No downgrade available
     IF    ${no_downgrade}
-        IF    '${cabinet}' == '${EMPTY}'
-            Skip
-            ...    No downgrade candidate found via fwupdmgr downgrade, and no stable cabinet fallback provided
-        END
-        Log
-        ...    fwupdmgr downgrade found no candidate on the stable remote, falling back to local-install with ${cabinet}
-        ...    WARN
-        VAR    ${DOWNGRADE_ALREADY_REBOOTED}=    ${FALSE}    scope=TEST
-        # Plain pipe, no TTY needed (cabinet + FWUPD_DEVICE_ID_ANY fully pick
-        # device/version) - so this does NOT reboot on its own.
-        ${out}=    Run Fwupd Local Install    ${cabinet}
+        Skip    No downgrade candidate found via fwupdmgr downgrade
     END
     RETURN    ${out}
 

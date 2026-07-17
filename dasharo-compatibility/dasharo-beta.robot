@@ -19,10 +19,6 @@ Suite Teardown      Run Keyword
 Default Tags        automated    semiauto
 
 
-*** Variables ***
-${STABLE_CABINET_ENVVAR}=       DASHARO_STABLE_CABINET_FILE
-
-
 *** Test Cases ***
 DBETA001.201 Dasharo Beta LVFS Upgrade (Ubuntu)
     [Documentation]    Check whether Dasharo Beta firmware can be updated from
@@ -56,10 +52,8 @@ DBETA001.201 Dasharo Beta LVFS Upgrade (Ubuntu)
 DBETA002.201 Dasharo Beta LVFS Downgrade (Ubuntu)
     [Documentation]    Check whether Dasharo Beta firmware can be downgraded
     ...    back to the stable version on Ubuntu, using `fwupdmgr downgrade
-    ...    --no-safety-check`. If a known-good stable cabinet file is provided
-    ...    via ${STABLE_CABINET_ENVVAR}, it is sent to the DUT and used as a
-    ...    `fwupdmgr local-install` fallback in case `fwupdmgr downgrade`
-    ...    finds no candidate on the stable remote.
+    ...    --no-safety-check`. Skips if `fwupdmgr downgrade` finds no
+    ...    candidate on the stable remote.
     ...    Assumes the device is currently running a Dasharo Beta release
     ...    (i.e. DBETA001.201 was run first).
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    DBETA002.201 (Ubuntu) not supported
@@ -67,25 +61,17 @@ DBETA002.201 Dasharo Beta LVFS Downgrade (Ubuntu)
     Skip If
     ...    '${POWER_CTRL}'=='none' and ${INCLUDE_TAGS} and 'semiauto' not in ${INCLUDE_TAGS}
     ...    Semiauto tag not in scope (-i flag)
-    ${cabinet_given}=    Run Keyword And Return Status
-    ...    Get Environment Variable    ${STABLE_CABINET_ENVVAR}
     Power On
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
     Fwupd Get Version Linux
     Fwupd Get FW DeviceID Linux
-    VAR    ${cabinet}=    ${EMPTY}
-    IF    ${cabinet_given}
-        ${stable_cabinet}=    Get Environment Variable    ${STABLE_CABINET_ENVVAR}
-        VAR    ${cabinet}=    ~/dasharo_stable.cab
-        Send File To DUT    ${stable_cabinet}    target_path=${cabinet}
-    END
-    # fwupdmgr downgrade may reboot the DUT on its own (see Fwupd Run
-    # Downgrade Linux), cutting this connection before or after the success
-    # message - either is fine, we just don't Fail on the lost connection.
+    # fwupdmgr downgrade reboots the DUT on its own (see Fwupd Run Downgrade
+    # Linux), cutting this connection before or after the success message -
+    # either is fine, we just don't Fail on the lost connection.
     ${status}    ${out}=    Run Keyword And Ignore Error
-    ...    Run Fwupd Update With Battery Check Workaround    Fwupd Run Downgrade Linux    ${cabinet}
+    ...    Run Fwupd Update With Battery Check Workaround    Fwupd Run Downgrade Linux
     IF    '${status}' == 'PASS'
         Should Contain    ${out}    Successfully installed firmware    ignore_case=${True}
     ELSE
@@ -96,7 +82,6 @@ DBETA002.201 Dasharo Beta LVFS Downgrade (Ubuntu)
     IF    "${POWER_CTRL}"=="none"
         Execute Manual Step    The laptop might stay powered off after downgrade. Power it back on.
     END
-    IF    not ${DOWNGRADE_ALREADY_REBOOTED}    Write Bare    systemctl reboot\n
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
@@ -133,35 +118,25 @@ DBETA001.202 Dasharo Beta LVFS Upgrade (Fedora)
 DBETA002.202 Dasharo Beta LVFS Downgrade (Fedora)
     [Documentation]    Check whether Dasharo Beta firmware can be downgraded
     ...    back to the stable version on Fedora, using `fwupdmgr downgrade
-    ...    --no-safety-check`. If a known-good stable cabinet file is provided
-    ...    via ${STABLE_CABINET_ENVVAR}, it is sent to the DUT and used as a
-    ...    `fwupdmgr local-install` fallback in case `fwupdmgr downgrade`
-    ...    finds no candidate on the stable remote.
+    ...    --no-safety-check`. Skips if `fwupdmgr downgrade` finds no
+    ...    candidate on the stable remote.
     ...    Assumes the device is currently running a Dasharo Beta release
     ...    (i.e. DBETA001.202 was run first).
     Skip If    '${ENV_ID_FEDORA}' not in ${TESTED_LINUX_DISTROS}    DBETA002.202 (Fedora) not supported
     Skip If
     ...    '${POWER_CTRL}'=='none' and ${INCLUDE_TAGS} and 'semiauto' not in ${INCLUDE_TAGS}
     ...    Semiauto tag not in scope (-i flag)
-    ${cabinet_given}=    Run Keyword And Return Status
-    ...    Get Environment Variable    ${STABLE_CABINET_ENVVAR}
     Power On
     Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
     Login To Linux
     Switch To Root User
     Fwupd Get Version Linux
     Fwupd Get FW DeviceID Linux
-    VAR    ${cabinet}=    ${EMPTY}
-    IF    ${cabinet_given}
-        ${stable_cabinet}=    Get Environment Variable    ${STABLE_CABINET_ENVVAR}
-        VAR    ${cabinet}=    ~/dasharo_stable.cab
-        Send File To DUT    ${stable_cabinet}    target_path=${cabinet}
-    END
-    # fwupdmgr downgrade may reboot the DUT on its own (see Fwupd Run
-    # Downgrade Linux), cutting this connection before or after the success
-    # message - either is fine, we just don't Fail on the lost connection.
+    # fwupdmgr downgrade reboots the DUT on its own (see Fwupd Run Downgrade
+    # Linux), cutting this connection before or after the success message -
+    # either is fine, we just don't Fail on the lost connection.
     ${status}    ${out}=    Run Keyword And Ignore Error
-    ...    Run Fwupd Update With Battery Check Workaround    Fwupd Run Downgrade Linux    ${cabinet}
+    ...    Run Fwupd Update With Battery Check Workaround    Fwupd Run Downgrade Linux
     IF    '${status}' == 'PASS'
         Should Contain    ${out}    Successfully installed firmware    ignore_case=${True}
     ELSE
@@ -172,7 +147,6 @@ DBETA002.202 Dasharo Beta LVFS Downgrade (Fedora)
     IF    "${POWER_CTRL}"=="none"
         Execute Manual Step    The laptop might stay powered off after downgrade. Power it back on.
     END
-    IF    not ${DOWNGRADE_ALREADY_REBOOTED}    Write Bare    systemctl reboot\n
     Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
     Login To Linux
     Switch To Root User
