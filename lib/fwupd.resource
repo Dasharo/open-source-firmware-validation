@@ -125,15 +125,19 @@ Fwupd Run Downgrade Linux
     ...    `fwupdmgr downgrade`. Skips the test if no downgrade candidate is
     ...    found on the stable remote. Reboots the DUT itself once the
     ...    downgrade completes, which may cut the connection.
+    Depends On Variable    ${FWUPDMGR_DEVICE_ID}
     # --no-safety-check: that check can report the ESP/disk busy on
     # Qubes-managed DUTs even when the downgrade is safe.
-    # Wrapped in `script` because downgrade always prompts for device and
-    # version, and fwupdmgr refuses to prompt at all without a real TTY.
-    # That TTY also lets its reboot-confirmation prompt fire, so the piped
-    # "y" reboots the DUT immediately - may cut this connection mid-command,
+    # ${FWUPDMGR_DEVICE_ID} is passed explicitly so downgrade targets that
+    # device directly instead of prompting to choose one - fwupdmgr's device
+    # list order isn't guaranteed to put the right device first.
+    # Wrapped in `script` because downgrade still prompts for the release
+    # version, and fwupdmgr refuses to prompt at all without a real TTY. That
+    # TTY also lets its reboot-confirmation prompt fire, so the piped "y"
+    # reboots the DUT immediately - may cut this connection mid-command,
     # tolerate it.
     ${out}=    Execute Command In Terminal
-    ...    printf '1\\n1\\ny\\n' | script -qec 'fwupdmgr downgrade --no-safety-check' /dev/null
+    ...    printf '1\\ny\\n' | script -qec 'fwupdmgr downgrade ${FWUPDMGR_DEVICE_ID} --no-safety-check' /dev/null
     ...    timeout=300s
     ${no_downgrade}=    Run Keyword And Return Status
     ...    Should Contain Any    ${out}    No downgrades for    No downgrade available
