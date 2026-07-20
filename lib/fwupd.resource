@@ -78,7 +78,7 @@ Fwupd Get FW DeviceID Linux
     [Documentation]    Retrieve System Firmware Device ID. Initial version,
     ...    may need different regexes in different stages and/or fwupdmgr
     ...    versions.
-    Depends On Variable    ${FWUPDMGR_VERSION}
+    Depends On Variable    \${FWUPDMGR_VERSION}
     ${get_devices_out}=    Execute Command In Terminal    fwupdmgr get-devices --no-unreported-check
     ${device_id}=    Get Regexp Matches
     ...    ${get_devices_out}
@@ -125,7 +125,7 @@ Fwupd Run Downgrade Linux
     ...    `fwupdmgr downgrade`. Skips the test if no downgrade candidate is
     ...    found on the stable remote. Reboots the DUT itself once the
     ...    downgrade completes, which may cut the connection.
-    Depends On Variable    ${FWUPDMGR_DEVICE_ID}
+    Depends On Variable    \${FWUPDMGR_DEVICE_ID}
     # --no-safety-check: that check can report the ESP/disk busy on
     # Qubes-managed DUTs even when the downgrade is safe.
     # ${FWUPDMGR_DEVICE_ID} is passed explicitly so downgrade targets that
@@ -152,7 +152,7 @@ Fwupd Verify Update Results Linux
     ...    or for ${FWUPDMGR_DEVICE_ID} if ${device_id} is not given.
     [Arguments]    ${device_id}=${EMPTY}
     IF    '${device_id}' == '${EMPTY}'
-        Depends On Variable    ${FWUPDMGR_DEVICE_ID}
+        Depends On Variable    \${FWUPDMGR_DEVICE_ID}
         VAR    ${device_id}=    ${FWUPDMGR_DEVICE_ID}
     END
     ${out}=    Execute Command In Terminal    fwupdmgr get-results ${device_id} --no-unreported-check
