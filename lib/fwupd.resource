@@ -68,7 +68,7 @@ Fwupd Get Version Linux
     ${fwupdmgr_out}=    Execute Command In Terminal    fwupdmgr --version | grep org.freedesktop.fwupd-efi
     ${fwupdmgr_ver}=    Get Regexp Matches
     ...    ${fwupdmgr_out}
-    ...    runtime\\s+org.freedesktop.fwupd-efi\\s+(\\d+.\\d+)
+    ...    runtime\\s+org.freedesktop.fwupd-efi\\s+(\\d+\\.\\d+)
     ...    1
     Should Not Be Empty    ${fwupdmgr_ver}    fwupdmgr version can't be retrieved.
     VAR    ${FWUPDMGR_VERSION}=    ${fwupdmgr_ver[0]}    scope=TEST
