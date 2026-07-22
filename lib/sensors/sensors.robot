@@ -31,9 +31,11 @@ Sensors Measure
     [Arguments]    ${measurement}
     ${gather}=    Get From Dictionary    ${measurement}    gather
     ${filter}=    Get From Dictionary    ${measurement}    filter    default=${EMPTY}
-    IF    not $filter    VAR    ${filter}=    cat
+    IF    not $filter or $filter=='None'    VAR    ${filter}=    cat
     ${postprocess}=    Get From Dictionary    ${measurement}    postprocess    default=${EMPTY}
-    IF    not $postprocess    VAR    ${process}=    cat
+    IF    not $postprocess or $postprocess=='None'
+        VAR    ${postprocess}=    cat
+    END
     ${value}=    Execute Command In Terminal
     ...    set -o pipefail; ${gather} | tee /tmp/sensors.gather | ${filter} | tee /tmp/sensors.filter | ${postprocess}
     # For debugging in the future save the intermediate values

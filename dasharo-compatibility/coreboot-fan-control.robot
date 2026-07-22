@@ -65,7 +65,9 @@ CFN002.201 CPU fan speed increases if the temperature rises (Ubuntu)
     END
     ${rpm_1}=    Get Fan RPM
     ${temperature_1}=    Get CPU Temperature
-    Execute Command In Terminal    stress-ng --cpu 16 --io 8 --vm 4 --vm-bytes 4G --timeout 60s --metrics
+    Execute Command In Terminal
+    ...    stress-ng --cpu 16 --io 8 --vm 4 --vm-bytes 4G --timeout 60s --metrics
+    ...    timeout=120s
     # Due to the stress test CPU temperature should increase.
     ${rpm_2}=    Get Fan RPM
     ${temperature_2}=    Get CPU Temperature
