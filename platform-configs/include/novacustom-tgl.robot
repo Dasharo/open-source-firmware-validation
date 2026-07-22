@@ -21,9 +21,9 @@ ${WEBCAM_UBUNTU}=                       Chicony Electronics Co., Ltd Chicony USB
 ${IR_CAMERA_SUPPORT}=                   ${TRUE}
 
 # DMI
-${DMIDECODE_FIRMWARE_VERSION}=          Dasharo (coreboot+UEFI) v1.6.0-rc3
-
-${DMIDECODE_RELEASE_DATE}=              05/22/2026
+${DMIDECODE_FIRMWARE_VERSION}=          Dasharo (coreboot+UEFI) v1.6.0-rc5
+${EXPECTED_FW_SHA256}=                  5c844bbed65b1c8fe0f50dfa0545147f230114f747e81c1b055db56733ae9d08
+${DMIDECODE_RELEASE_DATE}=              07/22/2026
 ${TESTS_IN_WINDOWS_SUPPORT}=            ${TRUE}
 
 ${L3_CACHE_SUPPORT}=                    ${TRUE}
