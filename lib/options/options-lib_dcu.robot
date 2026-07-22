@@ -187,7 +187,7 @@ Boot And Login To Windows
 
 Boot System Or From Connected Disk
     [Documentation]    Keyword makes the DUT to reboot in chosen OS.
-    [Arguments]    ${env_id}
+    [Arguments]    ${env_id}    ${boot_menu}=NOT_SET
     Load OS Credentials    ${BOOTED_OS_ID}
     Restore Initial DUT Connection Method
 
