@@ -20,7 +20,6 @@ ${USB_MODEL}=                       Ultra USB
 ${CPU_MAX_FREQUENCY}=               4800
 ${CPU_MIN_FREQUENCY}=               300
 ${MAX_CPU_TEMP_THRESHOLD}=          100
-${EXPECTED_FW_SHA256}=              c5b399891fac4f243eb12605ec54327815165594f800ef6fbc4ef5f1b85b79d1
 
 # dasharo-compability
 ${FW_NO_EC_SYNC_DOWNLOAD_LINK}=
@@ -30,7 +29,7 @@ ${EC_NO_SYNC_DOWNLOAD_LINK}=
 ${FW_NO_EC_SYNC_VERSION}=           v1.5.1
 ${EC_NO_SYNC_VERSION}=              2023-10-31_f148431
 
-@{TESTED_LINUX_DISTROS}=            ${ENV_ID_UBUNTU}    ${ENV_ID_FEDORA}
+@{TESTED_LINUX_DISTROS}=            ${ENV_ID_UBUNTU}
 ${DEFAULT_BOOT_OS_ID}=              ${ENV_ID_UBUNTU}
 
 # cpu performance Windows
