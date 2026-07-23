@@ -55,10 +55,11 @@ Run Fwupd Update With Battery Check Workaround
 Run Fwupd Local Install
     [Documentation]    Install firmware from a local cabinet file using
     ...    fwupdmgr local-install, allowing reinstall of the same or an
-    ...    older version.
+    ...    older version. Does not reboot on its own the caller reboots
+    ...    explicitly to apply it.
     [Arguments]    ${cabinet}
     ${out}=    Execute Command In Terminal
-    ...    yes Y | fwupdmgr local-install ${cabinet} --allow-reinstall --allow-older --assume-yes --force
+    ...    yes Y | fwupdmgr local-install ${cabinet} --allow-reinstall --allow-older --no-reboot-check --force
     ...    timeout=300s
     RETURN    ${out}
 
@@ -104,9 +105,10 @@ Fwupd Refresh Metadata Linux
 Fwupd Run Upgrade Linux
     [Documentation]    Upgrade firmware to the latest available version using
     ...    fwupdmgr update. Intended for use with the LVFS Testing remote
-    ...    enabled to install Dasharo Beta releases.
+    ...    enabled to install Dasharo Beta releases. Does not reboot on its
+    ...    own the caller reboots explicitly to apply it.
     ${out}=    Execute Command In Terminal
-    ...    yes Y | fwupdmgr update --assume-yes    timeout=300s
+    ...    yes Y | fwupdmgr update --assume-yes --no-reboot-check    timeout=300s
     ${efivarfs_error}=    Run Keyword And Return Status
     ...    Should Contain    ${out}    failed to write data to efivarfs
     IF    ${efivarfs_error}
@@ -123,21 +125,22 @@ Fwupd Run Upgrade Linux
 Fwupd Run Downgrade Linux
     [Documentation]    Downgrade firmware to the previous stable release via
     ...    `fwupdmgr downgrade`. Skips the test if no downgrade candidate is
-    ...    found on the stable remote. Reboots the DUT itself once the
-    ...    downgrade completes, which may cut the connection.
+    ...    found on the stable remote. Does not reboot on its own the caller
+    ...    reboots explicitly to apply it.
     Depends On Variable    \${FWUPDMGR_DEVICE_ID}
     # --no-safety-check: that check can report the ESP/disk busy on
     # Qubes-managed DUTs even when the downgrade is safe.
     # ${FWUPDMGR_DEVICE_ID} is passed explicitly so downgrade targets that
     # device directly instead of prompting to choose one - fwupdmgr's device
     # list order isn't guaranteed to put the right device first.
+    # --no-reboot-check: don't let fwupd reboot on its own - the caller reboots
+    # explicitly so we keep control of the connection.
     # Wrapped in `script` because downgrade still prompts for the release
-    # version, and fwupdmgr refuses to prompt at all without a real TTY. That
-    # TTY also lets its reboot-confirmation prompt fire, so the piped "y"
-    # reboots the DUT immediately - may cut this connection mid-command,
-    # tolerate it.
+    # version, and fwupdmgr refuses to prompt at all without a real TTY. The
+    # piped "1" picks the release; the trailing "y" answers any remaining
+    # confirmation prompt.
     ${out}=    Execute Command In Terminal
-    ...    printf '1\\ny\\n' | script -qec 'fwupdmgr downgrade ${FWUPDMGR_DEVICE_ID} --no-safety-check' /dev/null
+    ...    printf '1\\ny\\n' | script -qec 'fwupdmgr downgrade ${FWUPDMGR_DEVICE_ID} --no-safety-check --no-reboot-check' /dev/null
     ...    timeout=300s
     ${no_downgrade}=    Run Keyword And Return Status
     ...    Should Contain Any    ${out}    No downgrades for    No downgrade available

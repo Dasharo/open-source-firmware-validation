@@ -198,11 +198,7 @@ Fwupd Local Firmware Update Linux
 
     ${out}=    Run Fwupd Update With Battery Check Workaround    Run Fwupd Local Install    ${cabinet}
     Should Contain    ${out}    Successfully installed firmware
-    IF    "${POWER_CTRL}"=="none"
-        Execute Manual Step    The laptop might stay powered off after update. Power it back on.
-    END
-
-    Power On
+    Execute Reboot Command
     Boot System Or From Connected Disk    ${BOOTED_OS_ID}
     Login To Linux
 

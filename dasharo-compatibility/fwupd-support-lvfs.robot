@@ -64,16 +64,15 @@ FWUPD003.203 Fwupd LVFS Firmware Update (Qubes OS)
 Run Fwupd LVFS Update
     [Arguments]    ${firmware_id}
     ${out}=    Execute Command In Terminal
-    ...    yes Y | fwupdmgr install ${firmware_id} --allow-reinstall --allow-older --assume-yes
+    ...    yes Y | fwupdmgr install ${firmware_id} --allow-reinstall --allow-older --no-reboot-check
     ...    timeout=300s
     RETURN    ${out}
 
 Qubes Run Fwupd LVFS Update
     [Arguments]    ${firmware_id}
     ${out}=    Execute Command In Terminal
-    ...    yes y | qubes-fwupdmgr install ${firmware_id} --allow-reinstall --allow-older --assume-yes
+    ...    yes y | qubes-fwupdmgr install ${firmware_id} --allow-reinstall --allow-older
     ...    timeout=300s
-    Execute Reboot Command
     RETURN    ${out}
 
 LVFS Refresh And Install Qubes
@@ -88,9 +87,8 @@ LVFS Refresh And Install Qubes
     ...    separator= |
     ${firmware_id}=    Execute Command In Terminal    ${id_extract_command}
     ${out}=    Run Fwupd Update With Battery Check Workaround    Qubes Run Fwupd LVFS Update    ${firmware_id}
-    IF    "${POWER_CTRL}"=="none"
-        Execute Manual Step    The laptop might stay powered off after update. Power it back on.
-    END
+    # fwupd is not allowed to reboot on its own, so reboot explicitly to apply the update.
+    Execute Reboot Command
     Set DUT Response Timeout    300s
     Boot System Or From Connected Disk    ${BOOTED_OS_ID}
     Login To Linux
@@ -107,9 +105,7 @@ LVFS Refresh And Install
     ...    separator= |
     ${firmware_id}=    Execute Command In Terminal    ${id_extract_command}
     ${out}=    Run Fwupd Update With Battery Check Workaround    Run Fwupd LVFS Update    ${firmware_id}
-    IF    "${POWER_CTRL}"=="none"
-        Execute Manual Step    The laptop might stay powered off after update. Power it back on.
-    END
+    Execute Reboot Command
     Set DUT Response Timeout    300s
     Boot System Or From Connected Disk    ${BOOTED_OS_ID}
     Login To Linux

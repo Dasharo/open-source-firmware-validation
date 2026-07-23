@@ -40,10 +40,7 @@ DBETA001.201 Dasharo Beta LVFS Upgrade (Ubuntu)
     Fwupd Get FW DeviceID Linux
     ${out}=    Run Fwupd Update With Battery Check Workaround    Fwupd Run Upgrade Linux
     Should Contain    ${out}    Successfully installed firmware    ignore_case=${True}
-    IF    "${POWER_CTRL}"=="none"
-        Execute Manual Step    The laptop might stay powered off after update. Power it back on.
-    END
-    Write Bare    systemctl reboot\n
+    Execute Reboot Command
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
@@ -67,21 +64,9 @@ DBETA002.201 Dasharo Beta LVFS Downgrade (Ubuntu)
     Switch To Root User
     Fwupd Get Version Linux
     Fwupd Get FW DeviceID Linux
-    # fwupdmgr downgrade reboots the DUT on its own (see Fwupd Run Downgrade
-    # Linux), cutting this connection before or after the success message -
-    # either is fine, we just don't Fail on the lost connection.
-    ${status}    ${out}=    Run Keyword And Ignore Error
-    ...    Run Fwupd Update With Battery Check Workaround    Fwupd Run Downgrade Linux
-    IF    '${status}' == 'PASS'
-        Should Contain    ${out}    Successfully installed firmware    ignore_case=${True}
-    ELSE
-        Log
-        ...    fwupdmgr downgrade lost the connection, assuming it triggered its own reboot: ${out}
-        ...    WARN
-    END
-    IF    "${POWER_CTRL}"=="none"
-        Execute Manual Step    The laptop might stay powered off after downgrade. Power it back on.
-    END
+    ${out}=    Run Fwupd Update With Battery Check Workaround    Fwupd Run Downgrade Linux
+    Should Contain    ${out}    Successfully installed firmware    ignore_case=${True}
+    Execute Reboot Command
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
     Login To Linux
     Switch To Root User
@@ -106,10 +91,7 @@ DBETA001.202 Dasharo Beta LVFS Upgrade (Fedora)
     Fwupd Get FW DeviceID Linux
     ${out}=    Run Fwupd Update With Battery Check Workaround    Fwupd Run Upgrade Linux
     Should Contain    ${out}    Successfully installed firmware    ignore_case=${True}
-    IF    "${POWER_CTRL}"=="none"
-        Execute Manual Step    The laptop might stay powered off after update. Power it back on.
-    END
-    Write Bare    systemctl reboot\n
+    Execute Reboot Command
     Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
     Login To Linux
     Switch To Root User
@@ -132,21 +114,9 @@ DBETA002.202 Dasharo Beta LVFS Downgrade (Fedora)
     Switch To Root User
     Fwupd Get Version Linux
     Fwupd Get FW DeviceID Linux
-    # fwupdmgr downgrade reboots the DUT on its own (see Fwupd Run Downgrade
-    # Linux), cutting this connection before or after the success message -
-    # either is fine, we just don't Fail on the lost connection.
-    ${status}    ${out}=    Run Keyword And Ignore Error
-    ...    Run Fwupd Update With Battery Check Workaround    Fwupd Run Downgrade Linux
-    IF    '${status}' == 'PASS'
-        Should Contain    ${out}    Successfully installed firmware    ignore_case=${True}
-    ELSE
-        Log
-        ...    fwupdmgr downgrade lost the connection, assuming it triggered its own reboot: ${out}
-        ...    WARN
-    END
-    IF    "${POWER_CTRL}"=="none"
-        Execute Manual Step    The laptop might stay powered off after downgrade. Power it back on.
-    END
+    ${out}=    Run Fwupd Update With Battery Check Workaround    Fwupd Run Downgrade Linux
+    Should Contain    ${out}    Successfully installed firmware    ignore_case=${True}
+    Execute Reboot Command
     Boot System Or From Connected Disk    ${ENV_ID_FEDORA}
     Login To Linux
     Switch To Root User
