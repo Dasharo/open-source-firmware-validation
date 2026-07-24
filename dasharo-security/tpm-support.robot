@@ -470,7 +470,8 @@ TPM2 Get Owner Key Windows
     ${out}=    Execute Command In Terminal    Get-Tpm    timeout=300s
     ${key}=    Get Lines Matching Regexp    ${out}    OwnerAuth    partial_match=True
     ${key}=    Get Regexp Matches    ${key}    OwnerAuth\ +:\ (.*)    1
-    RETURN    ${key}[0]
+    ${keylen}=    Get Length    ${key}
+    IF    ${keylen} > 0    RETURN    ${key}[0]    ELSE    RETURN    ${key}
 
 TPM2 Is Owned Windows
     [Documentation]    Check if the owner key password is set for the TPM2
