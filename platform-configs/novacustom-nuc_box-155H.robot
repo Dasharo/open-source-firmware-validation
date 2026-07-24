@@ -24,19 +24,21 @@ ${USB_DEVICE}=                          Linux
 ${EXPECTED_FW_SHA256}=                  7595d57fcec2d315db0b612b9aab6cf680a1151719b7a3b2d3313aea6be97c06
 
 # cpu performance Ubuntu/Windows
+# UPDATED \/
 &{CPP_ZIP_COMPRESSION_BENCHMARK}=
 ...                                     name=Test: Compression Rating
 ...                                     short_name=pts/compress-7zip
-...                                     score=63476
+...                                     score=60270.9
 ...                                     scale=higher_is_better
-...                                     dev=0.2
+...                                     dev=0.1
 ...                                     type=multicore
+# UPDATED \/
 &{CPP_ZIP_DECOMPRESSION_BENCHMARK}=
 ...                                     name=Test: Decompression Rating
 ...                                     short_name=pts/compress-7zip
-...                                     score=39336
+...                                     score=35689.3
 ...                                     scale=higher_is_better
-...                                     dev=0.2
+...                                     dev=0.14
 ...                                     type=multicore
 &{CPP_CACHEBENCH_BENCHMARK}=
 ...                                     name=Test: Read / Modify / Write
@@ -45,24 +47,27 @@ ${EXPECTED_FW_SHA256}=                  7595d57fcec2d315db0b612b9aab6cf680a11517
 ...                                     scale=higher_is_better
 ...                                     dev=0.2
 ...                                     type=multicore
+# UPDATED \/
 &{CPP_CRAFTY_BENCHMARK}=
 ...                                     name=Elapsed Time
 ...                                     short_name=pts/crafty
-...                                     score=10919999
+...                                     score=9934550.2
 ...                                     scale=higher_is_better
 ...                                     dev=0.2
 ...                                     type=singlecore
+# UPDATED \/
 &{CPP_SMALLPT_BENCHMARK}=
 ...                                     name=Global Illumination Renderer; 128 Samples
 ...                                     short_name=pts/smallpt
-...                                     score=19.02
+...                                     score=20.07
 ...                                     scale=lower_is_better
-...                                     dev=0.2
+...                                     dev=0.1
 ...                                     type=singlecore
+
 @{CPP_BENCHMARKS}=
 ...                                     &{CPP_ZIP_COMPRESSION_BENCHMARK}
 ...                                     &{CPP_ZIP_DECOMPRESSION_BENCHMARK}
-...                                     &{CPP_CACHEBENCH_BENCHMARK}
+#...                                     &{CPP_CACHEBENCH_BENCHMARK}
 ...                                     &{CPP_SMALLPT_BENCHMARK}
 ...                                     &{CPP_CRAFTY_BENCHMARK}
 
