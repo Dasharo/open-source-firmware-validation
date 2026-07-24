@@ -20,6 +20,7 @@ ${USB_MODEL}=                       Ultra USB
 ${CPU_MAX_FREQUENCY}=               4800
 ${CPU_MIN_FREQUENCY}=               300
 ${MAX_CPU_TEMP_THRESHOLD}=          100
+${EXPECTED_FW_SHA256}=              8cd3661e56c6674bc5c78a249cd08a8e2a1baed54e10837c5a0bac9ad48e8280
 
 # dasharo-compability
 ${FW_NO_EC_SYNC_DOWNLOAD_LINK}=
@@ -29,27 +30,26 @@ ${EC_NO_SYNC_DOWNLOAD_LINK}=
 ${FW_NO_EC_SYNC_VERSION}=           v1.5.1
 ${EC_NO_SYNC_VERSION}=              2023-10-31_f148431
 
-@{TESTED_LINUX_DISTROS}=            ${ENV_ID_UBUNTU}
-${DEFAULT_BOOT_OS_ID}=              ${ENV_ID_UBUNTU}
-
 # cpu performance Windows
-# https://openbenchmarking.org/vs/Processor/Intel+Core+i7-1185G7
-# https://openbenchmarking.org/vs/Processor/Intel+Core+i7-1165G7
-# https://openbenchmarking.org/test/pts/smallpt-1.2.1&search
-&{UPP_SMALLPT_BENCHMARK}=           name=smallpt    score=21    scale=lower_is_better    dev=0.2    type=singlecore
+&{UPP_SMALLPT_BENCHMARK}=
+...                                 name=smallpt
+...                                 score=38.263
+...                                 scale=lower_is_better
+...                                 dev=0.2
+...                                 type=singlecore
 &{UPP_CRAFTY_BENCHMARK}=
 ...                                 name=crafty
-...                                 score=8767896
+...                                 score=8494085
 ...                                 scale=higher_is_better
 ...                                 dev=0.2
 ...                                 type=singlecore
 &{UPP_CACHEBENCH_BENCHMARK}=
 ...                                 name=cachebench
-...                                 score=101627.1
+...                                 score=97428.4
 ...                                 scale=higher_is_better
 ...                                 dev=0.2
 ...                                 type=multicore
-&{UPP_BLAKE2_BENCHMARK}=            name=blake2    score=3.65    scale=lower_is_better    dev=0.2    type=multicore
+&{UPP_BLAKE2_BENCHMARK}=            name=blake2    score=3.51    scale=lower_is_better    dev=0.2    type=multicore
 @{UPP_BENCHMARKS}=
 ...                                 &{UPP_SMALLPT_BENCHMARK}
 ...                                 &{UPP_CRAFTY_BENCHMARK}

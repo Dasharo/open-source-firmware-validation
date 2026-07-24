@@ -13,15 +13,14 @@ ${CLEVO_BATTERY_CAPACITY}=              3250000
 ${DEVICE_NVME_DISK}=                    Non-Volatile memory controller
 ${DEVICE_USB_KEYBOARD}=                 Logitech, Inc. Keyboard K120
 ${DMIDECODE_PRODUCT_NAME}=              NV4XMB,ME,MZ
+${EXPECTED_FW_SHA256}=                  62cd9a0dfc102a488601c8ab558f7f8c7a865416ad4138f38b76d3f73f20e65d
 
 ${USB_DEVICE}=                          SanDisk
 ${USB_MODEL}=                           USB Flash Memory
 ${CPU_MAX_FREQUENCY}=                   4800
 ${CPU_MIN_FREQUENCY}=                   300
 
-${EXPECTED_FW_SHA256}=                  c5b399891fac4f243eb12605ec54327815165594f800ef6fbc4ef5f1b85b79d1
 ${NVIDIA_GRAPHICS_CARD_SUPPORT}=        ${TRUE}
-${OPTIONS_LIB}=                         options-lib_dcu
 
 # cpu performance Windows
 # https://openbenchmarking.org/vs/Processor/Intel+Core+i7-1185G7
