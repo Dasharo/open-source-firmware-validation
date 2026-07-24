@@ -64,19 +64,11 @@ Set Fast Boot State
     VAR    ${var_file_path}=    /sys/firmware/efi/efivars/    ${var_file_name}    separator=${EMPTY}
     Execute Linux Command    chattr -i ${var_file_path}
 
-    VAR    ${new_var_path}=    /tmp/${var_file_name}
-
-    Execute Linux Command    touch ${new_var_path}
     IF    '${state}' == 'on'
-        Execute Linux Command    printf '\x07\x00\x00\x00\x01' \> ${new_var_path}
+        Execute Linux Command    printf '\\x07\\x00\\x00\\x00\\x01' > ${var_file_path}
     ELSE IF    '${state}' == 'off'
-        Execute Linux Command    printf '\x07\x00\x00\x00\x00' \> ${new_var_path}
+        Execute Linux Command    printf '\\x07\\x00\\x00\\x00\\x00' > ${var_file_path}
     END
-
-    ${out}=    Execute Linux Command
-    ...    dd if=${new_var_path} of=${var_file_path} bs=5
-    Should Be Empty    ${out}
-    Execute Linux Command    rm ${new_var_path}
 
     ${out}=    Execute Linux Command
     ...    cat ${var_file_path} |tail -c 1 |xxd -ps
