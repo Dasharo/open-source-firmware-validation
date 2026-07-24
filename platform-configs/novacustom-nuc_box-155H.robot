@@ -23,47 +23,48 @@ ${USB_MODEL}=                           SanDisk
 ${USB_DEVICE}=                          Linux
 ${EXPECTED_FW_SHA256}=                  7595d57fcec2d315db0b612b9aab6cf680a1151719b7a3b2d3313aea6be97c06
 
-# cpu performance Ubuntu
-&{CPP_CRAY_1080_P_BENCHMARK}=
-...                                     name=Resolution: 1080p - Rays Per Pixel: 16
-...                                     score=90.8
-...                                     scale=lower_is_better
-...                                     dev=0.2
-...                                     type=singlecore
-&{CPP_CRAY_4_K_BENCHMARK}=
-...                                     name=Resolution: 4K - Rays Per Pixel: 16
-...                                     score=356.9
-...                                     scale=lower_is_better
-...                                     dev=0.2
-...                                     type=singlecore
-&{CPP_CRAY_5_K_BENCHMARK}=
-...                                     name=Resolution: 5K - Rays Per Pixel: 16
-...                                     score=654.5
-...                                     scale=lower_is_better
-...                                     dev=0.2
-...                                     type=singlecore
-&{CPP_COREMARK_BENCHMARK}=
-...                                     name=CoreMark Size 666 - Iterations Per Second
-...                                     score=400079.5
-...                                     scale=higher_is_better
-...                                     dev=0.2
-...                                     type=singlecore
+# cpu performance Ubuntu/Windows
 &{CPP_ZIP_COMPRESSION_BENCHMARK}=
 ...                                     name=Test: Compression Rating
+...                                     short_name=pts/compress-7zip
 ...                                     score=63476
 ...                                     scale=higher_is_better
 ...                                     dev=0.2
 ...                                     type=multicore
 &{CPP_ZIP_DECOMPRESSION_BENCHMARK}=
 ...                                     name=Test: Decompression Rating
+...                                     short_name=pts/compress-7zip
 ...                                     score=39336
 ...                                     scale=higher_is_better
 ...                                     dev=0.2
 ...                                     type=multicore
+&{CPP_CACHEBENCH_BENCHMARK}=
+...                                     name=Test: Read / Modify / Write
+...                                     short_name=pts/cachebench
+...                                     score=106987
+...                                     scale=higher_is_better
+...                                     dev=0.2
+...                                     type=multicore
+&{CPP_CRAFTY_BENCHMARK}=
+...                                     name=Elapsed Time
+...                                     short_name=pts/crafty
+...                                     score=10919999
+...                                     scale=higher_is_better
+...                                     dev=0.2
+...                                     type=singlecore
+&{CPP_SMALLPT_BENCHMARK}=
+...                                     name=Global Illumination Renderer; 128 Samples
+...                                     short_name=pts/smallpt
+...                                     score=19.02
+...                                     scale=lower_is_better
+...                                     dev=0.2
+...                                     type=singlecore
 @{CPP_BENCHMARKS}=
-...                                     &{CPP_COREMARK_BENCHMARK}
 ...                                     &{CPP_ZIP_COMPRESSION_BENCHMARK}
 ...                                     &{CPP_ZIP_DECOMPRESSION_BENCHMARK}
+...                                     &{CPP_CACHEBENCH_BENCHMARK}
+...                                     &{CPP_SMALLPT_BENCHMARK}
+...                                     &{CPP_CRAFTY_BENCHMARK}
 
 # cpu performance Windows
 # reference score for 155H from https://openbenchmarking.org/result/2508216-NE-SKIBIDI6461

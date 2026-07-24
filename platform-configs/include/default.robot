@@ -298,6 +298,9 @@ ${FAST_AND_QUIET_BOOT_SUPPORT}=                     ${FALSE}
 &{CPP_COREMARK_BENCHMARK}=                          &{EMPTY}
 &{CPP_ZIP_COMPRESSION_BENCHMARK}=                   &{EMPTY}
 &{CPP_ZIP_DECOMPRESSION_BENCHMARK}=                 &{EMPTY}
+&{CPP_CACHEBENCH_BENCHMARK}=                        &{EMPTY}
+&{CPP_CRAFTY_BENCHMARK}=                            &{EMPTY}
+&{CPP_SMALLPT_BENCHMARK}=                           &{EMPTY}
 
 # Test module: dasharo-stab
 ${M2_WIFI_SUPPORT}=                                 ${FALSE}

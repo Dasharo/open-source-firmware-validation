@@ -1345,8 +1345,22 @@
   },
   {
     "doc": {
+      "_id": "CPP001.301",
+      "name": "Single Threaded CPU Benchmark (Windows) (AC)",
+      "module": "Dasharo Performance"
+    }
+  },
+  {
+    "doc": {
       "_id": "CPP002.201",
       "name": "Multi Threaded CPU Benchmark (Ubuntu) (AC)",
+      "module": "Dasharo Performance"
+    }
+  },
+  {
+    "doc": {
+      "_id": "CPP002.301",
+      "name": "Multi Threaded CPU Benchmark (Windows) (AC)",
       "module": "Dasharo Performance"
     }
   },
@@ -1359,8 +1373,22 @@
   },
   {
     "doc": {
+      "_id": "CPP003.301",
+      "name": "Single Threaded CPU Benchmark (Windows) (Battery)",
+      "module": "Dasharo Performance"
+    }
+  },
+  {
+    "doc": {
       "_id": "CPP004.201",
       "name": "Multi Threaded CPU Benchmark (Ubuntu) (Battery)",
+      "module": "Dasharo Performance"
+    }
+  },
+  {
+    "doc": {
+      "_id": "CPP004.301",
+      "name": "Multi Threaded CPU Benchmark (Windows) (Battery)",
       "module": "Dasharo Performance"
     }
   },

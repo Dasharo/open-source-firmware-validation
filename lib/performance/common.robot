@@ -21,7 +21,7 @@ ${PTS_LATEST_URL}=
 ${PTS_DOWNLOAD_PATH}=               C:\pts\pts.zip
 ${PTS_EXTRACT_PATH}=                C:\pts-extracted\
 # Phoronix Test Suite test results
-${PTS_RESULTS_DIR_WINDOWS}=         C:\pts\test-results\
+${PTS_RESULTS_DIR_WINDOWS}=         C:\\Users\\user\\.phoronix-test-suite\\test-results
 ${PTS_RESULTS_DIR_LINUX}=           ~/.phoronix-test-suite/test-results
 ${PTS_RESULTS_DIR_LINUX_ROOT}=      /var/lib/phoronix-test-suite/test-results
 
@@ -47,21 +47,40 @@ Detect Or Install Phoronix Test Suite On Ubuntu
     END
     IF    '${curr_user}' != 'root'    Exit From Root User
 
+Install Phoronix On Windows
+    [Documentation]    Installing Phoronix On Windows
+    Set Prompt For Terminal    PS C:\\>
+    Execute Command In Terminal    cd C:\\
+    Write Into Terminal    \$ProgressPreference = 'SilentlyContinue'
+    Execute Command In Terminal    Invoke-WebRequest -Uri ${PTS_LATEST_URL}
+    ...    timeout=300
+    Execute Command In Terminal    Expand-Archive -Path "phoronix-master.zip" -DestinationPath "phoronix-master" -Force
+    Directory
+    Set Prompt For Terminal    PS C:\\phoronix-master\\phoronix-test-suite-master>
+    Execute Command In Terminal    cd C:\\phoronix-master\\phoronix-test-suite-master
+    Execute Command In Terminal    .\\install.bat
+    ...    timeout=300
+    Set Prompt For Terminal    PS C:\\>
+    Execute Command In Terminal    cd C:\\
+    Execute Command In Terminal    .\\phoronix-test-suite\\phoronix-test-suite
+
 Detect Or Install Phoronix Test Suite On Windows
-    [Documentation]    Detects and installs PTS for Windows 11 via powershell.
-    ${out}=    Execute Command In Terminal    Test-Path -Path C:\phoronix-test-suite
-    IF    '${out}' != 'True'
-        Execute Command In Terminal
-        ...    Invoke-WebRequest -Uri ${PTS_LATEST_URL} -OutFile ${PTS_DOWNLOAD_PATH}    60
-        Execute Command In Terminal
-        ...    Expand-Archive -Path ${PTS_DOWNLOAD_PATH} -DestinationPath ${PTS_EXTRACT_PATH} -Force    60
-        Execute Command In Terminal
-        ...    Start-Process -FilePath ${PTS_EXTRACT_PATH}\install.bat -NoNewWindow -Wait    300
-        Execute Command In Terminal
-        ...    Remove-Item -Path ${PTS_DOWNLOAD_PATH} -Force
-        Execute Command In Terminal
-        ...    Remove-Item -Path ${PTS_EXTRACT_PATH} -Force
+    [Documentation]    Detecting Or Installing Phoronix Test Suite On Windows
+    VAR    ${is_installed}=    ${TRUE}
+    ${out}=    Execute Command In Terminal
+    ...    Test-Path "C:\\phoronix-test-suite\\phoronix-test-suite"
+    ${out}=    Fetch From Right    ${out}    \r\n
+    IF    ${out} == "False"
+        VAR    ${is_installed}=    ${FALSE}
     END
+    ${out}=    Execute Command In Terminal
+    ...    Test-Path "C:\\phoronix-test-suite\\phoronix-test-suite.bat"
+    ${out}=    Fetch From Right    ${out}    \r\n
+    IF    '${out}' == 'False'
+        VAR    ${is_installed}=    ${FALSE}
+    END
+
+    IF    '${is_installed}' == '${FALSE}'    Install Phoronix On Windows
 
 Setup Phoronix Batch Mode
     [Documentation]    Configure batch mode required for more automated tests.
