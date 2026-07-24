@@ -250,12 +250,17 @@ CUP151.101 Capsule Update Production Keys (EDK2 UEFI)
     ...    Please note that the test number is high on purpose. This test will flash FW! In future
     ...    if additional test cases will be created - when running the whole suite - It will be good
     ...    to keep the number of actual FW updates to minimum to prevent chip degradation.
+    [Tags]    automated    semiauto
     Skip If
     ...    not ${CAPSULE_UPDATE_V2_SUPPORT}
     ...    CAPSULE_UPDATE_V2_SUPPORT==False, Production Capsule Update keys only supported in V2 capsules
     Skip If
     ...    ${V2_CAP_HAS_TEST_KEYS}
     ...    CAPSULE_FW_FILE contains testing keys, provide production capsule to test Capsule Update with Production keys
+    ${manual_gui}=    Evaluate    ${CAPSULE_UPDATE_V2_SUPPORT} and ${SHOULD_RUN_SEMIAUTO_TESTS}
+    IF    ${manual_gui}
+        Manual UI Verification Prompt    ${CUP_280_MESSAGE}    prepare=${TRUE}
+    END
     IF    ${SHOULD_RUN_SEMIAUTO_TESTS}
         VAR    @{manual_gui_messages}=    ${CUP_250_MESSAGE}
         IF    ${CAPSULE_UPDATE_V2_SUPPORT}
@@ -269,7 +274,7 @@ CUP151.101 Capsule Update Production Keys (EDK2 UEFI)
     ${verify_results_screen}=    Evaluate    ${CAPSULE_UPDATE_V2_SUPPORT} and ${SHOULD_RUN_SEMIAUTO_TESTS}
     ${status}    ${version_changed}=    Perform Capsule Update And Return Status
     ...    valid_capsule.cap
-    ...    manual_v2_results_screen=${MANUAL_GUI}
+    ...    manual_v2_results_screen=${manual_gui}
     Should Be True    ${version_changed}
     Should Contain    ${status}    CapsuleMax
     Should Not Contain    ${status}    CapsuleLast

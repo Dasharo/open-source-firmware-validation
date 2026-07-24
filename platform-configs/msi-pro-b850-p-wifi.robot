@@ -116,6 +116,7 @@ ${TPM_DETECT_SUPPORT}=                          ${TRUE}
 ${NVME_DETECTION_SUPPORT}=                      ${TRUE}
 ${USB_TYPE_A_DEVICES_DETECTION_SUPPORT}=        ${TRUE}
 ${CAPSULE_UPDATE_SUPPORT}=                      ${TRUE}
+${CAPSULE_UPDATE_V2_SUPPORT}=                   ${TRUE}
 ${FUM_BOOT_IPXE_FOR_AUTO_UPDATE}=               ${FALSE}
 ${CAPSULE_DOES_NOT_PERSIST_ACROSS_RESET}=       ${TRUE}
 ${CAPSULE_ON_DISK_SUPPORT}=                     ${TRUE}
