@@ -315,6 +315,7 @@ TPM013.301 TPM PPI Prompt (Windows)
 
     TPM2 Prepare For Clear Windows
     ${owner_key}=    TPM2 Get Owner Key Windows
+
     TPM2 PPI Request Clear TPM Windows
 
     # Deny changes
@@ -495,11 +496,21 @@ TPM2 Prepare For Clear Windows
         Should Be Equal As Strings    ${ready}    True
     END
     ${owned}=    TPM2 Is Owned Windows
-    IF    ${owned} == False
-        # Sample from https://learn.microsoft.com/en-us/powershell/module/trustedplatformmodule/set-tpmownerauth
+    ${owner_key}=    TPM2 Get Owner Key Windows
+    # To avoid ambiguous results of TPM2 Get Owner Key Windows returning empty list
+    # or empty string, ensure there always is an non-empty owner key
+    ${keylen}=    Get Length    ${owner_key}
+    IF    ${owned} == False or ${keylen} == 0
+        # Sample from
+        # https://learn.microsoft.com/en-us/powershell/module/trustedplatformmodule/convertto-tpmownerauth
+        # https://learn.microsoft.com/en-us/powershell/module/trustedplatformmodule/set-tpmownerauth
+        ${auth}=    Execute Command In Terminal
+        ...    ConvertTo-TpmOwnerAuth -PassPhrase "RobotFramework TPM Support tests"
         Execute Command In Terminal
-        ...    Set-TpmOwnerAuth -NewOwnerAuthorization \"h4FCmNeWVNp5IMHxRfFL9QEq4vM\=\"
+        ...    Set-TpmOwnerAuth -NewOwnerAuthorization \"${auth}\"
         ...    timeout=300s
         ${owned}=    TPM2 Is Owned Windows
         Should Be Equal As Strings    ${owned}    True
+        Execute Reboot Command    os=windows
+        Boot And Login To Windows
     END
