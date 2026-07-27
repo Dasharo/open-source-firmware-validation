@@ -12,9 +12,9 @@ Default Tags        automated
 
 
 *** Variables ***
-${RUNS_AMOUNT}=                 4
+${RUNS_AMOUNT}=                 3
 ${BASELINE_RUNS_AMOUNT}=        10
-${CPP_TESTS_INTERVAL}=          5
+${CPP_TESTS_INTERVAL}=          20
 ${CPP_TESTS_TIMEOUT}=           3600
 ${CPP_TEST_FOR_BASELINE}=       ${FALSE}
 
@@ -125,6 +125,11 @@ Skip If Battery Level Below 30 Percent In Windows
 CPP Suite Setup
     Prepare Test Suite
     Skip If    not ${CPU_PERFORMANCE_TESTS_SUPPORT}
+    ${baseline_env}=    Get Environment Variable    CPP_BASELINE    ${FALSE}
+    Set Global Variable    ${CPP_TEST_FOR_BASELINE}    ${baseline_env}
+    IF    '${CPP_TEST_FOR_BASELINE}' == '${TRUE}'
+        Log To Console    -- Testing for baseline --
+    END
     Check Power Supply
     Power On
     Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
@@ -222,6 +227,8 @@ Run Supported Benchmarks
     IF    '${CPP_TEST_FOR_BASELINE}' == '${TRUE}'
         VAR    ${runs}=    ${BASELINE_RUNS_AMOUNT}
     END
+    # Sleeping before first test
+    Sleep    ${CPP_TESTS_INTERVAL}
     FOR    ${test}    IN    @{CPP_BENCHMARKS}
         ${type}=    Get From Dictionary    ${test}    type
         ${test_name_short}=    Get From Dictionary    ${test}    short_name
@@ -351,10 +358,8 @@ Read The Results Windows
     ...    [xml]\$xml = Get-Content '${perf_results_path_windows}\\${test_name_to_path}\\composite.xml';
     ...    (\$xml.PhoronixTestSuite.Result | Where-Object \{\$_.Description -eq '${test_description}'\}).Data.Entry.RawString
     ${test_result_values}=    Execute Command In Terminal    ${read_command}
-    Log To Console    ${test_result_values} - ${test_description} - ${read_command}
     ${test_result_values}=    Fetch From Right    ${test_result_values}    >> \r\n
     RETURN    ${test_result_values}
-    # RETURN    123456
 
 Generate Test Baseline Config
     [Arguments]    ${baseline_scores}    ${benchmark_dict}

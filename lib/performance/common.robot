@@ -18,8 +18,8 @@ Resource            ../../keys.robot
 # Phoronix Test Suite download variables
 ${PTS_LATEST_URL}=
 ...                                 https://github.com/phoronix-test-suite/phoronix-test-suite/archive/refs/tags/v10.8.4.zip
-${PTS_DOWNLOAD_PATH}=               C:\pts\pts.zip
-${PTS_EXTRACT_PATH}=                C:\pts-extracted\
+${PTS_DOWNLOAD_PATH}=               C:\\Users\\user\\phoronix-master.zip
+${PTS_EXTRACT_PATH}=                C:\\phoronix-master
 # Phoronix Test Suite test results
 ${PTS_RESULTS_DIR_WINDOWS}=         C:\\Users\\user\\.phoronix-test-suite\\test-results
 ${PTS_RESULTS_DIR_LINUX}=           ~/.phoronix-test-suite/test-results
@@ -52,17 +52,20 @@ Install Phoronix On Windows
     Set Prompt For Terminal    PS C:\\>
     Execute Command In Terminal    cd C:\\
     Write Into Terminal    \$ProgressPreference = 'SilentlyContinue'
-    Execute Command In Terminal    Invoke-WebRequest -Uri ${PTS_LATEST_URL}
-    ...    timeout=300
-    Execute Command In Terminal    Expand-Archive -Path "phoronix-master.zip" -DestinationPath "phoronix-master" -Force
-    Directory
-    Set Prompt For Terminal    PS C:\\phoronix-master\\phoronix-test-suite-master>
-    Execute Command In Terminal    cd C:\\phoronix-master\\phoronix-test-suite-master
-    Execute Command In Terminal    .\\install.bat
-    ...    timeout=300
+    Execute Command In Terminal
+    ...    Invoke-WebRequest -Uri ${PTS_LATEST_URL} -OutFile ${PTS_DOWNLOAD_PATH}    60
+    Execute Command In Terminal
+    ...    Expand-Archive -Path ${PTS_DOWNLOAD_PATH} -DestinationPath ${PTS_EXTRACT_PATH} -Force    60
+    Set Prompt For Terminal    PS ${PTS_EXTRACT_PATH}\\phoronix-test-suite-10.8.4>
+    Execute Command In Terminal    cd ${PTS_EXTRACT_PATH}\\phoronix-test-suite-10.8.4
+    Execute Command In Terminal
+    ...    .\\install.bat    300
     Set Prompt For Terminal    PS C:\\>
     Execute Command In Terminal    cd C:\\
-    Execute Command In Terminal    .\\phoronix-test-suite\\phoronix-test-suite
+    Execute Command In Terminal
+    ...    Remove-Item -Path ${PTS_DOWNLOAD_PATH} -Force
+    Execute Command In Terminal
+    ...    Remove-Item -Path ${PTS_EXTRACT_PATH} -Recurse -Force
 
 Detect Or Install Phoronix Test Suite On Windows
     [Documentation]    Detecting Or Installing Phoronix Test Suite On Windows
