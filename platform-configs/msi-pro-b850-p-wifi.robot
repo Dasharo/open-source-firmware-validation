@@ -97,6 +97,7 @@ ${NETWORK_BOOT_NEEDS_OPTION_ROMS}=              ${FALSE}
 ${SMM_WRITE_PROTECTION_SUPPORT}=                ${TRUE}
 ${EXTERNAL_HDMI_DISPLAY_SUPPORT}=               ${TRUE}
 ${HDMI_AUDIO_SUPPORT}=                          ${TRUE}
+${WIRELESS_CARD_SUPPORT}=                       ${TRUE}
 
 # Test module: dasharo-security
 ${TPM_SUPPORTED_VERSION}=                       2
