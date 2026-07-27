@@ -276,8 +276,12 @@ CUP151.101 Capsule Update Production Keys (EDK2 UEFI)
     ...    valid_capsule.cap
     ...    manual_v2_results_screen=${manual_gui}
     Should Be True    ${version_changed}
-    Should Contain    ${status}    CapsuleMax
-    Should Not Contain    ${status}    CapsuleLast
+    IF    ${CAPSULE_DOES_NOT_PERSIST_ACROSS_RESET} and ${CAPSULE_ON_DISK_SUPPORT}
+        Should Contain    ${status}    Firmware Update Succeeded
+    ELSE
+        Should Contain    ${status}    CapsuleMax
+        Should Not Contain    ${status}    CapsuleLast
+    END
 
 CUP250.101 Capsule Update Progress Bar - Default Logo (EDK2 UEFI)
     [Documentation]    Verify that the Capsule Update screen looks as expected
