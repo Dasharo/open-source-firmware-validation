@@ -96,6 +96,7 @@ ${AUTO_BOOT_TIME_OUT_DEFAULT_VALUE}=            3
 ${NETWORK_BOOT_NEEDS_OPTION_ROMS}=              ${FALSE}
 ${SMM_WRITE_PROTECTION_SUPPORT}=                ${TRUE}
 ${EXTERNAL_HDMI_DISPLAY_SUPPORT}=               ${TRUE}
+${HDMI_AUDIO_SUPPORT}=                          ${TRUE}
 
 # Test module: dasharo-security
 ${TPM_SUPPORTED_VERSION}=                       2
