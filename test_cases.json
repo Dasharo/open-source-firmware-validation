@@ -5447,6 +5447,27 @@
   },
   {
     "doc": {
+      "_id": "SBOM001.201",
+      "name": "Each component from coreboot config appears in the SBOM (Ubuntu)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "SBOM002.201",
+      "name": "SBOM CRA compliance (Ubuntu)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "SBOM003.201",
+      "name": "Generated SBOM is the same as supplied SBOM (Ubuntu)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
       "_id": "SDC001.201",
       "name": "SD Card reader detection (Ubuntu)",
       "module": "Dasharo Compatibility"
