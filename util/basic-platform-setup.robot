@@ -167,9 +167,11 @@ BPS008.001 RTE CMOS clear
     ${out}=    Execute Command In Terminal
     ...    cbmem -1 | grep -i rtc
 
+    # "RTCext data lost" is in openSIL
     Should Contain Any    ${out}
     ...    RTC: Clear requested
     ...    rtc_failed \= 0x1
+    ...    RTCext data lost
     ...    ignore_case=True
 
     Execute Reboot Command
