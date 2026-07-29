@@ -137,13 +137,19 @@ Check Internet Connection On Windows
     ${out}=    Execute Command In Terminal    ping google-public-dns-a.google.com
     Should Contain    ${out}    (0% loss)
 
+Get Wi-Fi Networks In Linux
+    [Documentation]    Check the list of WiFi networks in search of company network.
+    Read From Terminal
+    ${out}=    Execute Command In Terminal
+    ...    nmcli --fields SSID device wifi list |grep ${3_MDEB_WIFI_NETWORK}
+    Should Contain    ${out}    ${3_MDEB_WIFI_NETWORK}
+
 Scan For Wi-Fi In Linux
     [Documentation]    Turn on Wi-Fi then scan in search of company network.
     Execute Command In Terminal    nmcli radio wifi on
     Execute Command In Terminal    nmcli device wifi rescan
-    Read From Terminal
-    ${out}=    Execute Command In Terminal    nmcli --fields SSID device wifi list
-    Should Contain    ${out}    ${3_MDEB_WIFI_NETWORK}
+    Wait Until Keyword Succeeds    5x    2s
+    ...    Get Wi-Fi Networks In Linux
 
 Scan For Bluetooth In Linux
     [Documentation]    Turn on Bluetooth then scan in search of company network.
