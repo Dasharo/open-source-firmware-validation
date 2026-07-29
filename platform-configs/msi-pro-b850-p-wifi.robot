@@ -98,6 +98,10 @@ ${SMM_WRITE_PROTECTION_SUPPORT}=                ${TRUE}
 ${EXTERNAL_HDMI_DISPLAY_SUPPORT}=               ${TRUE}
 ${HDMI_AUDIO_SUPPORT}=                          ${TRUE}
 ${WIRELESS_CARD_SUPPORT}=                       ${TRUE}
+${WIRELESS_CARD_WIFI_SUPPORT}=                  ${TRUE}
+${WIRELESS_CARD_BLUETOOTH_SUPPORT}=             ${TRUE}
+${WIFI_CARD}=                                   Qualcomm FastConnect 7800 Wi-Fi 7
+${WIFI_CARD_UBUNTU}=                            Qualcomm Technologies, Inc WCN785x Wi-Fi 7
 
 # Test module: dasharo-security
 ${TPM_SUPPORTED_VERSION}=                       2
@@ -138,7 +142,6 @@ ${USB_STACK_SUPPORT}=                           ${TRUE}
 ${PLATFORM_STABILITY_CHECKING}=                 ${TRUE}
 ${FAST_AND_QUIET_BOOT_SUPPORT}=                 ${TRUE}
 ${M2_WIFI_SUPPORT}=                             ${TRUE}
-${WIFI_CARD_UBUNTU}=                            Qualcomm Technologies, Inc WCN785x Wi-Fi 7
 
 
 *** Keywords ***
