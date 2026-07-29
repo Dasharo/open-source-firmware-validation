@@ -1075,6 +1075,11 @@ Check Battery Percentage In Linux
     ${percentage}=    Execute Command In Terminal    cat /sys/class/power_supply/BAT0/capacity
     RETURN    ${percentage}
 
+Check Battery Percentage In Windows
+    [Documentation]    Keyword check the battery percentage in Windows OS.
+    ${percentage}=    Execute Command In Terminal    (Get-WmiObject win32_battery).estimatedChargeRemaining
+    RETURN    ${percentage}
+
 Charge Battery Until Target Level In Linux
     [Documentation]    Keyword periodically checks battery charge level until it
     ...    reaches defined target in Linux OS.
@@ -1088,7 +1093,11 @@ Charge Battery Until Target Level In Linux
     Log    Could not charge battery to specified level within timeout.
 
 Skip If Battery Level Below 30 Percent
-    ${battery_percentage}=    Check Battery Percentage In Linux
+    IF    ${BOOTED_OS_ID} == ${ENV_ID_WINDOWS}
+        ${battery_percentage}=    Check Battery Percentage In Windows
+    ELSE
+        ${battery_percentage}=    Check Battery Percentage In Linux
+    END
     IF    ${battery_percentage} < 30
         Log To Console    \nSkipping the test - Battery is to low.
         Skip
