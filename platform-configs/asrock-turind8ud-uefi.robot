@@ -16,7 +16,7 @@ ${DUT_HAS_CMOS_RESET}=                          ${FALSE}
 ${FLASH_SIZE}=                                  ${32*1024*1024}
 ${INITIAL_CPU_FREQUENCY}=                       3600
 # FIXME: external flashing with RTE is unreliable (SPI VCC voltage drop)
-${FLASHING_METHOD}=                             internal
+${FLASHING_METHOD}=                             external
 ${INTERNAL_PROGRAMMER_CHIPNAME}=                MX25L25635F/MX25L25645G
 
 # dmidecode.robot
