@@ -29,6 +29,10 @@ Check Power Supply
         VAR    ${BATTERY_PRESENT}=    ${bat0_present}    scope=SUITE
         VAR    ${AC_CONNECTED}=    ${ac_online}    scope=SUITE
         VAR    ${USB_PD_CONNECTED}=    ${usb_pd_online}    scope=SUITE
+    ELSE
+        # If platform is not a laptop then it always has no battery and ac connected
+        VAR    ${BATTERY_PRESENT}=    ${FALSE}    scope=SUITE
+        VAR    ${AC_CONNECTED}=    ${TRUE}    scope=SUITE
     END
 
 Check The Platform Is A Laptop

@@ -69,11 +69,11 @@ ${EXPECTED_FW_SHA256}=                  7595d57fcec2d315db0b612b9aab6cf680a11517
 ...                                     type=multicore
 
 @{CPP_BENCHMARKS}=
-# ...                                     &{CPP_ZIP_COMPRESSION_BENCHMARK}
-# ...                                     &{CPP_ZIP_DECOMPRESSION_BENCHMARK}
-# ...                                     &{CPP_CACHEBENCH_BENCHMARK}
+# ...                                   &{CPP_ZIP_COMPRESSION_BENCHMARK}
+# ...                                   &{CPP_ZIP_DECOMPRESSION_BENCHMARK}
+# ...                                   &{CPP_CACHEBENCH_BENCHMARK}
 ...                                     &{CPP_STOCKFISH_BENCHMARK}
-# ...                                     &{CPP_SMALLPT_BENCHMARK}
+# ...                                   &{CPP_SMALLPT_BENCHMARK}
 ...                                     &{CPP_CRAFTY_BENCHMARK}
 
 # cpu performance Windows - deprecated

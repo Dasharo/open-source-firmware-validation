@@ -1473,8 +1473,8 @@ ECR020.301 Buttons (button: lid switch) in OS (Windows)
     Execute Manual Step    [4/5] Wait 30 seconds for the system to load fully.
     Execute Manual Step    [5/5] Close the lid and note the effect on the power LED.
     VAR    ${result_msg}=
-	...		The display should turn off just before the lid is completely closed.
-    ...		The power LED should be blinking green, indicating the laptop is sleeping.
+    ...    The display should turn off just before the lid is completely closed.
+    ...    The power LED should be blinking green, indicating the laptop is sleeping.
     ...    separator=${SPACE}
     Execute Manual Step    [Expected result] ${result_msg}
 
