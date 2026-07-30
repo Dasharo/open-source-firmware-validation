@@ -36,6 +36,7 @@ ${TESTS_IN_FIRMWARE_SUPPORT}=                   ${TRUE}
 ${TESTS_IN_WINDOWS_SUPPORT}=                    ${TRUE}
 ${DEVICE_NVME_DISK}=                            Non-Volatile memory controller
 ${DEVICE_USB_KEYBOARD}=                         KB216 Wired Keyboard
+${BOOT_MENU_KEY}=                               ${F10}
 
 ${DEFAULT_BOOT_OS_ID}=                          ${ENV_ID_UBUNTU}
 @{TESTED_LINUX_DISTROS}=
