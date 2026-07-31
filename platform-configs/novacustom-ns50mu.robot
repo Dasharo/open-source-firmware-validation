@@ -30,7 +30,28 @@ ${EC_NO_SYNC_DOWNLOAD_LINK}=
 ${FW_NO_EC_SYNC_VERSION}=           v1.5.1
 ${EC_NO_SYNC_VERSION}=              2023-10-31_f148431
 
-# cpu performance Windows
+# cpu performance Ubuntu/Windows
+&{CPP_CRAFTY_BENCHMARK}=
+...                                 name=Elapsed Time
+...                                 short_name=pts/crafty
+...                                 score=6382485.3
+...                                 scale=higher_is_better
+...                                 dev=0.15
+...                                 type=singlecore
+
+&{CPP_STOCKFISH_BENCHMARK}=
+...                                 name=Chess Benchmark
+...                                 short_name=pts/stockfish
+...                                 score=3337424
+...                                 scale=higher_is_better
+...                                 dev=0.15
+...                                 type=multicore
+
+@{CPP_BENCHMARKS}=
+...                                 &{CPP_STOCKFISH_BENCHMARK}
+...                                 &{CPP_CRAFTY_BENCHMARK}
+
+# cpu performance Windows - deprecated
 &{UPP_SMALLPT_BENCHMARK}=
 ...                                 name=smallpt
 ...                                 score=38.263
