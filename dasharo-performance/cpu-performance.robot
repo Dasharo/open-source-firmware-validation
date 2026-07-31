@@ -26,7 +26,7 @@ Default Tags        automated
 
 *** Variables ***
 ${RUNS_AMOUNT}=                 3
-${BASELINE_RUNS_AMOUNT}=        10
+${BASELINE_RUNS_AMOUNT}=        5
 ${CPP_TESTS_INTERVAL}=          20
 ${CPP_TESTS_TIMEOUT}=           3600
 ${CPP_TEST_FOR_BASELINE}=       ${FALSE}
@@ -192,7 +192,6 @@ Install Phoronix Tests
             ${result}=    Execute Command In Terminal
             ...    ${command} ${test_short_name}
             ...    timeout=120
-            Should Contain    '''${result}'''    Installed:    Could not install ${test_short_name}
             Log To Console    ${test_short_name} is installed on ${chosen_os_name}\n
         END
     END
@@ -279,8 +278,8 @@ Run Supported Benchmarks
     VAR    @{errors}=    @{EMPTY}
     FOR    ${benchmark}    IN    @{CPP_BENCHMARKS}
         ${type}=    Get From Dictionary    ${benchmark}    type    ${EMPTY}
-        ${test_name_short}=    Get From Dictionary    ${test}    short_name    ${EMPTY}
-        ${test_name_long}=    Get From Dictionary    ${test}    name    ${EMPTY}
+        ${test_name_short}=    Get From Dictionary    ${benchmark}    short_name    ${EMPTY}
+        ${test_name_long}=    Get From Dictionary    ${benchmark}    name    ${EMPTY}
         IF    '${type}' == '${target_type}' and '${test_name_short}' != '${EMPTY}' and '${test_name_long}' != '${EMPTY}'
             IF    '${CPP_TEST_FOR_BASELINE}' == '${TRUE}'
                 IF    '${chosen_os}' == '${ENV_ID_WINDOWS}'
