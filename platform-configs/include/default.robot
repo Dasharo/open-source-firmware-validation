@@ -220,7 +220,7 @@ ${EXTRA_1_TB_DISK}=                                 ${FALSE}
 ${PS2_SUPPORT}=                                     ${FALSE}
 # The same is not a guarantee for Windows
 ${POWERSHELL_STR_INTERNAL_OUT}=                     Speakers (Realtek(R) Audio)
-${POWERSHELL_STR_INTERNAL_IN}=                      Microphone Array (Realtek(R) Audio)
+${POWERSHELL_STR_INTERNAL_IN}=                      Microphone( Array)? \\(Realtek\\(R\\) Audio\\)
 # Since Realtek driver shows the same device for Headset and Internal audio
 # for now we just copy the value, and will need better solution in future.
 ${POWERSHELL_STR_HEADSET_OUT}=                      ${POWERSHELL_STR_INTERNAL_OUT}

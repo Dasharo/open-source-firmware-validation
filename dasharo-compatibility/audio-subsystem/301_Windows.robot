@@ -40,7 +40,7 @@ AUD003.301 Internal microphone audio capture (Windows)
     Skip If    not ${INTERNAL_AUDIO_SUPPORT}    ${TEST_NAME} requires internal Microphone
     ${out}=    Get Sound Devices In Windows    microphone
     Should Not Be Empty    ${out}
-    Should Contain    ${out}    ${POWERSHELL_STR_INTERNAL_IN}
+    Should Match Regexp    ${out}    ${POWERSHELL_STR_INTERNAL_IN}
     Should Contain    ${out}    OK
     # TODO: Somehow capture sound and confirm it is not malformed.
     Log    \Internal microphone detected, check validity of sound capture manually\n
