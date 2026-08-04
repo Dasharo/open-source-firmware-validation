@@ -6637,6 +6637,20 @@
   },
   {
     "doc": {
+      "_id": "TPM015.101",
+      "name": "Check if platform is vulnerable to TPM GPIO reset (EDK2 UEFI)",
+      "module": "Dasharo Security"
+    }
+  },
+  {
+    "doc": {
+      "_id": "TPM015.201",
+      "name": "Check if platform is vulnerable to TPM GPIO reset (Ubuntu)",
+      "module": "Dasharo Security"
+    }
+  },
+  {
+    "doc": {
       "_id": "TPMCMD001.201",
       "name": "Check if both SHA1 and SHA256 PCRs are enabled (Ubuntu)",
       "module": "Dasharo Security"
