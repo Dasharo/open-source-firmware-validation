@@ -1078,6 +1078,8 @@ Check Battery Percentage In Linux
 Check Battery Percentage In Windows
     [Documentation]    Keyword check the battery percentage in Windows OS.
     ${percentage}=    Execute Command In Terminal    (Get-WmiObject win32_battery).estimatedChargeRemaining
+    ${percentage}=    Fetch From Right    ${percentage}    \r\n
+    Log To Console    ${percentage}
     RETURN    ${percentage}
 
 Charge Battery Until Target Level In Linux

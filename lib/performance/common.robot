@@ -55,7 +55,7 @@ Install Phoronix On Windows
     Execute Command In Terminal
     ...    Invoke-WebRequest -Uri ${PTS_LATEST_URL} -OutFile ${PTS_DOWNLOAD_PATH}    60
     Execute Command In Terminal
-    ...    Expand-Archive -Path ${PTS_DOWNLOAD_PATH} -DestinationPath ${PTS_EXTRACT_PATH} -Force    60
+    ...    Expand-Archive -Path ${PTS_DOWNLOAD_PATH} -DestinationPath ${PTS_EXTRACT_PATH} -Force    180
     Set Prompt For Terminal    PS ${PTS_EXTRACT_PATH}\\phoronix-test-suite-10.8.4>
     Execute Command In Terminal    cd ${PTS_EXTRACT_PATH}\\phoronix-test-suite-10.8.4
     Execute Command In Terminal

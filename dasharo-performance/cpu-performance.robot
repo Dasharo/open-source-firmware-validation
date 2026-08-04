@@ -191,7 +191,7 @@ Install Phoronix Tests
             Append To List    ${unique_tests}    ${test_short_name}
             ${result}=    Execute Command In Terminal
             ...    ${command} ${test_short_name}
-            ...    timeout=120
+            ...    timeout=300
             Log To Console    ${test_short_name} is installed on ${chosen_os_name}\n
         END
     END
