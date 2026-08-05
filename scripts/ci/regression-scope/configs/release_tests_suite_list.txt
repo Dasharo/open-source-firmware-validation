@@ -8,7 +8,7 @@ util/basic-platform-setup.robot
 dasharo-compatibility/acpi-driver.robot
 dasharo-compatibility/acpi-tables.robot
 dasharo-compatibility/apu-configuration-menu.robot
-dasharo-compatibility/audio-subsystem
+dasharo-compatibility/audio-subsystem	# HW: speakers/headset/mic on audio jack
 dasharo-compatibility/auto-boot-time-out.robot
 dasharo-compatibility/boot-blocking.robot
 dasharo-compatibility/check-ethernet-ports-order.robot
@@ -24,7 +24,7 @@ dasharo-compatibility/custom-network-boot-entries.robot
 dasharo-compatibility/dasharo-tools-suite.robot
 dasharo-compatibility/dcu.robot
 dasharo-compatibility/device-detection.robot
-dasharo-compatibility/display-ports-and-lcd-support.robot
+# dasharo-compatibility/display-ports-and-lcd-support.robot	# HW: external HDMI/DisplayPort/VGA monitors
 dasharo-compatibility/dmidecode.robot
 dasharo-compatibility/ec-and-super-IO.robot
 dasharo-compatibility/efibootmgr.robot
@@ -33,40 +33,41 @@ dasharo-compatibility/eMMC-support.robot
 dasharo-compatibility/esp-scanning.robot
 dasharo-compatibility/ethernet-port-detection.robot
 dasharo-compatibility/ethernet-port-names.robot
-dasharo-compatibility/firmware-bulding-locally.robot
-dasharo-compatibility/flash-test-stub.robot
+# dasharo-compatibility/firmware-building-locally.robot #
+# dasharo-compatibility/flash-test-stub.robot # deprecated debug test
 dasharo-compatibility/flash-write-protection.robot
-dasharo-compatibility/fwupd-support.robot
-dasharo-compatibility/heads-bootloader-support.robot
-dasharo-compatibility/heads-device-tree.robot
+# dasharo-compatibility/fwupd-support.robot # depends on LVFS
+# dasharo-compatibility/heads-bootloader-support.robot # requires dedicated Heads binary
+# dasharo-compatibility/heads-device-tree.robot
 dasharo-compatibility/memory-ibecc.robot
 dasharo-compatibility/memory-profile.robot
-dasharo-compatibility/miniPCIe-slot-verification.robot
+
+# mutually exclusive with dasharo-stability/m2-wifi. Platform configs should handle
+# deciding whether an M2 or miniPCIE card is attached
+dasharo-compatibility/miniPCIe-slot-verification.robot	# HW: mini PCIe Wi-Fi/BT/LTE card installed
 dasharo-compatibility/network-boot.robot
 dasharo-compatibility/network-boot-utilities.robot
 dasharo-compatibility/network-speed.robot
 dasharo-compatibility/nvidia.robot
 dasharo-compatibility/nvme-support.robot
-dasharo-compatibility/os-openwrt.robot
-dasharo-compatibility/os-opnsense.robot
-dasharo-compatibility/os-pfsense.robot
-dasharo-compatibility/petitboot-payload-support.robot
+# dasharo-compatibility/os-openwrt.robot # No preseed available, will likely not be installed
+# dasharo-compatibility/os-opnsense.robot # No preseed available, will likely not be installed
+# dasharo-compatibility/os-pfsense.robot # No preseed available, will likely not be installed
 dasharo-compatibility/platform-hibernation-and-resume.robot
 dasharo-compatibility/platform-suspend-and-resume.robot
 dasharo-compatibility/power-after-fail.robot
 dasharo-compatibility/ram-detection.robot
 dasharo-compatibility/reset-to-defaults.robot
 dasharo-compatibility/sata-detect.robot
-dasharo-compatibility/sd-card-reader.robot
+dasharo-compatibility/sd-card-reader.robot	# HW: SD card inserted in the reader
 dasharo-compatibility/setup-menu-information.robot
 dasharo-compatibility/uefi-shell.robot
-dasharo-compatibility/usb-always-on.robot
-dasharo-compatibility/usb-boot.robot
+# dasharo-compatibility/usb-always-on.robot # manual only
+dasharo-compatibility/usb-boot.robot	# HW: bootable USB stick
 dasharo-compatibility/usb-camera.robot
-dasharo-compatibility/usb-detect.robot
-dasharo-compatibility/usb-hid-and-msc-support.robot
-dasharo-compatibility/usb-type-c.robot
-dasharo-compatibility/watchdog.robot
+dasharo-compatibility/usb-detect.robot	# HW: USB stick
+dasharo-compatibility/usb-hid-and-msc-support.robot	# HW: USB stick, optionally a USB keyboard
+# dasharo-compatibility/usb-type-c.robot	# NOT 100%-AUTOMATABLE
 dasharo-compatibility/wifi-bluetooth-support.robot
 
 dasharo-security/bios-lock.robot
@@ -83,29 +84,31 @@ dasharo-security/rebar.robot
 dasharo-security/secure-boot.robot
 dasharo-security/smm-bios-write-protection.robot
 dasharo-security/tcg-opal-disk-password.robot
-dasharo-security/tpm2-commands.robot
+# unreliable and likely not fixable
+# often randomly fails due to tpm lockout,
+# dasharo-security/tpm2-commands.robot
 dasharo-security/tpm-support.robot
 dasharo-security/uefi-password.robot
-dasharo-security/usb-stack.robot
+dasharo-security/usb-stack.robot	# HW: USB stick, optionally a USB keyboard
 dasharo-security/verified-boot.robot
 dasharo-security/wifi-bluetooth-switch.robot
 
 dasharo-stability/capsule-update.robot
 dasharo-stability/coreboot-redundant-boot.robot
-dasharo-stability/m2-wifi.robot
+dasharo-stability/m2-wifi.robot	# HW: M.2 Wi-Fi/BT card installed
 dasharo-stability/network-interface-after-suspend.robot
 dasharo-stability/nvme-detection.robot
 dasharo-stability/tpm-detect-heads.robot
 dasharo-stability/tpm-detect.robot
-dasharo-stability/usb-type-a-devices-detection.robot
+dasharo-stability/usb-type-a-devices-detection.robot # HW: external USB-A device connected to the DUT
 
 dasharo-performance/boot-time-measure.robot
 dasharo-performance/CPT_CPF_STB
 dasharo-performance/cpu-performance.robot
 dasharo-performance/custom-fan-curve.robot
-dasharo-performance/data-transfer-stability.robot
+dasharo-performance/data-transfer-stability.robot # HW: USB storage device attached
 dasharo-performance/disk-io.robot
 dasharo-performance/fast-boot.robot
 dasharo-performance/gpu-performance.robot
 dasharo-performance/graphics-configuration.robot
-dasharo-performance/manual_cpu_performance.robot
+# dasharo-performance/manual_cpu_performance.robot # manual
