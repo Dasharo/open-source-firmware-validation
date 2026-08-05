@@ -92,19 +92,17 @@ TPM004.101 Check TPM Clear procedure (EDK2 UEFI)
     ...    3. Save and reboot. When prompted, press F12 to clear the TPM.
     ...    separator=\n
 
-    Execute Manual Step    [1/9] Power on the DUT and boot into the BIOS.
-    Execute Manual Step    [2/9] ${clear_tpm}
-    Execute Manual Step    [3/9] Boot into the system and log in.
-    Execute Manual Step    [4/9] ${take_ownership}
+    Execute Manual Step    [1/8] Power on the DUT and boot into the BIOS.
+    Execute Manual Step    [2/8] ${clear_tpm}
+    Execute Manual Step    [3/8] Boot into the system and log in.
+    Execute Manual Step    [4/8] ${take_ownership}
     Execute Manual Step
-    ...    [5/9] ${check_ownership}\nExpected: output is 1, the command fails.
+    ...    [5/8] ${check_ownership}\nExpected: output is 1, the command fails.
 
-    Execute Manual Step    [6/9] ${clear_tpm}
-    Execute Manual Step    [7/9] Boot into the system and log in.
-    Execute Manual Step    [8/9] ${take_ownership.split('\n')[0]}    # (re-run take-ownership block)
-    Execute Manual Step    ${take_ownership}
+    Execute Manual Step    [6/8] ${clear_tpm}
+    Execute Manual Step    [7/8] Boot into the system and log in.
     Execute Manual Step
-    ...    [9/9] ${check_ownership}\nExpected: output is 0, the command succeeds
+    ...    [8/8] ${check_ownership}\nExpected: output is 0, the command succeeds
 
 TPM005.101 Check TPM Hash Algorithm Support SHA1 (EDK2 UEFI)
     [Documentation]    This test aims to verify that the TPM supports needed hash algorithm (SHA1).
