@@ -10,8 +10,6 @@ default_install_hook_types: [pre-commit, commit-msg]
 ci:
   autoupdate_commit_msg: 'pre-commit: autoupdate hooks'
   autofix_prs: false
-  # shellcheck requires docker, which is not available on pre-commit.ci
-  skip: [shellcheck]
 
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
@@ -46,8 +44,8 @@ repos:
       - id: markdownlint-fix
         exclude: CHANGELOG.md
 
-  - repo: https://github.com/koalaman/shellcheck-precommit
-    rev: v0.10.0
+  - repo: https://github.com/shellcheck-py/shellcheck-py
+    rev: v0.11.0.1
     hooks:
       - id: shellcheck
         exclude: ^scripts/freebsd/
