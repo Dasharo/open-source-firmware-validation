@@ -1,0 +1,49 @@
+# SPDX-FileCopyrightText: 2026 3mdeb <contact@3mdeb.com>
+#
+# SPDX-License-Identifier: Apache-2.0
+
+version: '3'
+
+includes:
+  docker:
+    taskfile: https://raw.githubusercontent.com/3mdeb/taskfiles/main/docker.yml
+
+vars:
+  IMAGE: ghcr.io/dasharo/osfv-ci:latest
+  REPO_ROOT:
+    sh: git rev-parse --show-toplevel
+
+tasks:
+  ci:pre-commit:
+    desc: Run pre-commit (in-container when already in CI, otherwise wrapped)
+    dir: '{{.REPO_ROOT}}'
+    cmds:
+      - cmd: |
+          if [ -n "${CI:-}" ]; then
+            task --taskfile .ci/Taskfile.yml pre-commit:run
+          else
+            task --taskfile .ci/Taskfile.yml pre-commit:docker
+          fi
+
+  pre-commit:run:
+    desc: Run pre-commit in the current environment, no container
+    dir: '{{.REPO_ROOT}}'
+    cmds:
+      - sh .ci/pre-commit.sh
+
+  pre-commit:docker:
+    desc: Run pre-commit inside {{.IMAGE}}
+    dir: '{{.REPO_ROOT}}'
+    cmds:
+      - task: docker:run
+        vars:
+          IMAGE: '{{.IMAGE}}'
+          VOLUMES: '{{.REPO_ROOT}}:/workspace'
+          WORKDIR: /workspace
+          COMMAND: sh .ci/pre-commit.sh
+
+  ci:image:build:
+    desc: Build the CI image with the repository root as build context
+    dir: '{{.REPO_ROOT}}'
+    cmds:
+      - docker build -f .ci/Dockerfile -t {{.IMAGE}} .

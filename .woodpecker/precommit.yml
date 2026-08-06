@@ -1,6 +1,7 @@
 # SPDX-FileCopyrightText: 2026 3mdeb <contact@3mdeb.com>
 #
 # SPDX-License-Identifier: Apache-2.0
+
 when:
   - branch: [develop, main]
     event: [pull_request, push, manual]
@@ -10,29 +11,11 @@ clone:
     image: woodpeckerci/plugin-git
     settings:
       recursive: false
+      partial: false
+      depth: 0
 
 steps:
   - name: pre-commit
-    image: python:3.13-slim
-    environment:
-      PRE_COMMIT_HOME: /cache/${CI_REPO}/pre-commit
-      PIP_CACHE_DIR: /cache/${CI_REPO}/pip
-    volumes:
-      - pre-commit-cache:/cache
+    image: ghcr.io/dasharo/osfv-ci:latest
     commands:
-      - apt-get update && apt-get install -q -y --no-install-recommends git curl ca-certificates gcc libc6-dev pkg-config jq > /dev/null 2>&1
-      - pip install --root-user-action ignore pre-commit -q
-      - |
-        case "$CI_PIPELINE_EVENT" in
-          pull_request)
-            git fetch origin "$CI_COMMIT_TARGET_BRANCH"
-            pre-commit run --from-ref "origin/$CI_COMMIT_TARGET_BRANCH" --to-ref HEAD
-            ;;
-          push)
-            git fetch origin "$CI_PREV_COMMIT_SHA"
-            pre-commit run --from-ref "$CI_PREV_COMMIT_SHA" --to-ref "$CI_COMMIT_SHA"
-            ;;
-          *)
-            pre-commit run --all-files
-            ;;
-        esac
+      - TASK_X_REMOTE_TASKFILES=1 task --yes --taskfile .ci/Taskfile.yml ci:pre-commit

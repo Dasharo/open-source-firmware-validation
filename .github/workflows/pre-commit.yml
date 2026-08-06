@@ -1,28 +1,24 @@
-# SPDX-FileCopyrightText: 2025 3mdeb <contact@3mdeb.com>
+# SPDX-FileCopyrightText: 2026 3mdeb <contact@3mdeb.com>
 #
 # SPDX-License-Identifier: Apache-2.0
 
-name: Pre-commit checks
+name: pre-commit
 
-on: pull_request
+on:
+  pull_request:
+    branches: [develop, main]
+  push:
+    branches: [develop, main]
+  workflow_dispatch:
 
 jobs:
   pre-commit:
     runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/dasharo/osfv-ci:latest
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v2
-
-      - name: Fetch base branch
-        run: git fetch origin ${{ github.event.pull_request.base.sha }}
-
-      - name: Setup python
-        uses: actions/setup-python@v5
+      - uses: actions/checkout@v4
         with:
           python-version:  3.14
-
-      - name: Run pre-commit
-        uses: pre-commit/action@v3.0.1
-        with:
-          extra_args:
-            --all-files
+          fetch-depth: 0
+      - run: TASK_X_REMOTE_TASKFILES=1 task --yes --taskfile .ci/Taskfile.yml ci:pre-commit
