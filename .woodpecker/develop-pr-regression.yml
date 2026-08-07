@@ -1,0 +1,50 @@
+# SPDX-FileCopyrightText: 2026 3mdeb <contact@3mdeb.com>
+#
+# SPDX-License-Identifier: Apache-2.0
+
+# Only try to run if a robot file or a lib was modified in the PR
+when:
+  - branch: develop
+    event: [pull_request, manual]
+    path:
+      include:
+        - '*.robot'
+        - '**/*.robot'
+        - lib/**
+        - .ci/develop-pr-regression.sh
+        - .ci/Dockerfile.qemu
+        - .woodpecker/develop-pr-regression.yml
+
+# One workflow per device, so that every device reports its own status and a
+# device failing does not hide the results of the others. Keep in sync with
+# scripts/ci/regression-scope/configs/devices/.
+matrix:
+  DEVICE:
+    - msi-pro-z690-a-wifi-ddr4_00039
+    - novacustom-nuc_box-125H_00245
+    - novacustom-nuc_box-155H_00254
+    - novacustom-v540tnd_00266
+    - novacustom-v540tu_00191
+    - pcengines-apu3_00252
+    - protectli-vp2410_00052
+    - protectli-vp6650_00002
+
+clone:
+  git:
+    image: woodpeckerci/plugin-git
+    settings:
+      recursive: false
+      # The regression scope is a diff against the base branch
+      partial: false
+      depth: 0
+
+steps:
+  - name: regression
+    image: ghcr.io/dasharo/osfv-qemu-ci:latest
+    pull: true
+    environment:
+      SNIPEIT_CONFIG:
+        from_secret: snipeit_config
+      BASE_BRANCH: ${CI_COMMIT_TARGET_BRANCH}
+    commands:
+      - TASK_X_REMOTE_TASKFILES=1 task --yes --taskfile .ci/Taskfile.yml ci:develop-pr-regression DEVICE="$DEVICE"

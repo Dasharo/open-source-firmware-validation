@@ -168,7 +168,7 @@ if [ $# -ne 2 ]; then
   exit 1
 fi
 
-QEMU_PARAMS_BASE="-machine q35,smm=on -cpu Skylake-Client \
+QEMU_PARAMS_BASE="-machine q35,smm=on -cpu Skylake-Client-noTSX-IBRS \
   -global driver=cfi.pflash01,property=secure,value=off \
   -drive if=pflash,format=raw,unit=0,file=${QEMU_FW_FILE} \
   -global ICH9-LPC.disable_s3=1 \
@@ -181,8 +181,11 @@ QEMU_PARAMS_BASE="-machine q35,smm=on -cpu Skylake-Client \
   -tpmdev emulator,id=tpm0,chardev=chrtpm \
   -device tpm-tis,tpmdev=tpm0 \
   -smp 2 \
-  -enable-kvm \
   -mem-prealloc"
+
+if [[ -f /dev/kvm ]]; then
+  QEMU_PARAMS_BASE+=" -enable-kvm"
+fi
 
 QEMU_PARAMS_OS="-object rng-random,id=rng0,filename=/dev/urandom \
   -device virtio-rng-pci,max-bytes=1024,period=1000 \

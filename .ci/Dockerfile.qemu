@@ -1,0 +1,30 @@
+# SPDX-FileCopyrightText: 2026 3mdeb <contact@3mdeb.com>
+#
+# SPDX-License-Identifier: Apache-2.0
+
+FROM ghcr.io/dasharo/osfv-ci:latest
+
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+        bash \
+        binutils \
+        iputils-ping \
+        git-annex \
+        qemu-system-x86 \
+        swtpm \
+        wget \
+    && rm -rf /var/lib/apt/lists/*
+
+ARG TASK_VERSION=3.45.4
+RUN curl -fsSL "https://github.com/go-task/task/releases/download/v${TASK_VERSION}/task_linux_amd64.tar.gz" \
+      | tar -xz -C /usr/local/bin task
+
+RUN git config --system --add safe.directory '*'
+
+ENV UV_SYSTEM_PYTHON=1
+COPY requirements.txt /tmp/requirements.txt
+RUN pip install --no-cache-dir --root-user-action ignore uv \
+    && uv pip install --system --break-system-packages -r /tmp/requirements.txt \
+    && rm /tmp/requirements.txt
+
+WORKDIR /workspace

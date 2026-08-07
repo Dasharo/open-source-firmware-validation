@@ -10,6 +10,7 @@ includes:
 
 vars:
   IMAGE: ghcr.io/dasharo/osfv-ci:latest
+  QEMU_IMAGE: ghcr.io/dasharo/osfv-qemu-ci:latest
   REPO_ROOT:
     sh: git rev-parse --show-toplevel
 
@@ -18,12 +19,12 @@ tasks:
     desc: Run pre-commit (in-container when already in CI, otherwise wrapped)
     dir: '{{.REPO_ROOT}}'
     cmds:
-      - cmd: |
-          if [ -n "${CI:-}" ]; then
-            task --taskfile .ci/Taskfile.yml pre-commit:run
-          else
-            task --taskfile .ci/Taskfile.yml pre-commit:docker
-          fi
+      - |
+        if [ -n "${CI:-}" ]; then
+          task --taskfile .ci/Taskfile.yml pre-commit:run
+        else
+          task --taskfile .ci/Taskfile.yml pre-commit:docker
+        fi
 
   pre-commit:run:
     desc: Run pre-commit in the current environment, no container
@@ -42,8 +43,80 @@ tasks:
           WORKDIR: /workspace
           COMMAND: sh .ci/pre-commit.sh
 
-  ci:image:build:
-    desc: Build the CI image with the repository root as build context
+  ci:qemu-self-test:
+    desc: Run keywords self-tests with QEMU
     dir: '{{.REPO_ROOT}}'
     cmds:
-      - docker build -f .ci/Dockerfile -t {{.IMAGE}} .
+      - task --taskfile .ci/Taskfile.yml qemu-self-test:run
+
+
+  qemu-self-test:run:
+    desc: Run the QEMU self-tests inside {{.QEMU_IMAGE}}
+    dir: '{{.REPO_ROOT}}'
+    cmds:
+      - |
+        docker run --rm --device /dev/kvm \
+        -v {{.REPO_ROOT}}:/workspace \
+        -v /workspace/.venv \
+        --device /dev/kvm \
+        -w /workspace \
+        {{.QEMU_IMAGE}} bash .ci/qemu-self-test.sh
+
+  ci:image:build:
+    desc: Build the CI image, tagged with a UTC timestamp and latest
+    dir: '{{.REPO_ROOT}}'
+    cmds:
+      - |
+        docker build -f .ci/Dockerfile \
+          -t {{.IMAGE_NAME}}:{{.BUILD_TAG}} \
+          -t {{.IMAGE_NAME}}:latest \
+          .
+      - echo "Built {{.IMAGE_NAME}}:{{.BUILD_TAG}}"
+
+  ci:image:release:
+    desc: Build and push the CI image
+    dir: '{{.REPO_ROOT}}'
+    vars:
+      TAG:
+        sh: echo "$(date -u +%Y%m%d-%H%M%S)-$(git rev-parse --short HEAD)"
+    cmds:
+      - task: ci:image:build
+        vars: {BUILD_TAG: '{{.TAG}}'}
+      - task: ci:image:push
+        vars: {BUILD_TAG: '{{.TAG}}'}
+
+  ci:image:push:
+    desc: Push both tags of the CI image
+    cmds:
+      - docker push {{.IMAGE_NAME}}:{{.BUILD_TAG}}
+      - docker push {{.IMAGE_NAME}}:latest
+
+
+  ci:image:qemu:build:
+    desc: Build the QEMU CI image, tagged with a UTC timestamp and latest
+    dir: '{{.REPO_ROOT}}'
+    cmds:
+      - |
+        docker build -f .ci/Dockerfile.qemu \
+          -t {{.QEMU_IMAGE_NAME}}:{{.BUILD_TAG}} \
+          -t {{.QEMU_IMAGE_NAME}}:latest \
+          .
+      - echo "Built {{.QEMU_IMAGE_NAME}}:{{.BUILD_TAG}}"
+
+  ci:image:qemu:release:
+    desc: Build and push the QEMU CI image
+    dir: '{{.REPO_ROOT}}'
+    vars:
+      TAG:
+        sh: echo "$(date -u +%Y%m%d-%H%M%S)-$(git rev-parse --short HEAD)"
+    cmds:
+      - task: ci:image:qemu:build
+        vars: {BUILD_TAG: '{{.TAG}}'}
+      - task: ci:image:qemu:push
+        vars: {BUILD_TAG: '{{.TAG}}'}
+
+  ci:image:qemu:push:
+    desc: Push both tags of the QEMU CI image
+    cmds:
+      - docker push {{.QEMU_IMAGE_NAME}}:{{.BUILD_TAG}}
+      - docker push {{.QEMU_IMAGE_NAME}}:latest
