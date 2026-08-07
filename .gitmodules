@@ -17,6 +17,3 @@
 [submodule "osfv-test-data"]
 	path = osfv-test-data
 	url = https://github.com/Dasharo/osfv-test-data.git
-[submodule "benchctl"]
-	path = benchctl
-	url = ssh://git@git.3mdeb.com:2222/zarhus/benchctl.git
