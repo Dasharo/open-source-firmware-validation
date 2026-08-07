@@ -26,7 +26,7 @@ Default Tags        automated
 
 *** Variables ***
 ${RUNS_AMOUNT}=                 3
-${BASELINE_RUNS_AMOUNT}=        5
+${BASELINE_RUNS_AMOUNT}=        10
 ${CPP_TESTS_INTERVAL}=          20
 ${CPP_TESTS_TIMEOUT}=           3600
 ${CPP_TEST_FOR_BASELINE}=       ${FALSE}
