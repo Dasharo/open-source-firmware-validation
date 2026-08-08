@@ -46,6 +46,8 @@ ${CUSTOM_LOGO_SUPPORT}=                     ${TRUE}
 ${USB_DISKS_DETECTION_SUPPORT}=             ${TRUE}
 ${USB_KEYBOARD_DETECTION_SUPPORT}=          ${TRUE}
 ${IPXE_BOOT_SUPPORT}=                       ${TRUE}
+# Requires firmware built with dasharo-blobs containing the nightly DTS entry
+${IPXE_NIGHTLY_DTS_SUPPORT}=                ${TRUE}
 ${AUDIO_SUBSYSTEM_SUPPORT}=                 ${TRUE}
 ${FIRMWARE_NUMBER_VERIFICATION}=            ${TRUE}
 ${PRODUCT_NAME_VERIFICATION}=               ${TRUE}

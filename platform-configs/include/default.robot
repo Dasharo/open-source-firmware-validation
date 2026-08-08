@@ -138,6 +138,9 @@ ${USB_CAMERA_DETECTION_SUPPORT}=                    ${FALSE}
 ${USB_TYPE_C_DISPLAY_SUPPORT}=                      ${FALSE}
 ${UEFI_COMPATIBLE_INTERFACE_SUPPORT}=               ${FALSE}
 ${IPXE_BOOT_SUPPORT}=                               ${FALSE}
+# Whether the firmware ships the "Dasharo Tools Suite (Nightly)" iPXE menu
+# entry. Enable on platforms whose firmware contains it.
+${IPXE_NIGHTLY_DTS_SUPPORT}=                        ${FALSE}
 ${NVME_DISK_SUPPORT}=                               ${FALSE}
 ${NVME_X2_SLOT_SUPPORT}=                            ${FALSE}
 ${NVME_SATA_DISABLING_SUPPORT}=                     ${FALSE}
@@ -339,6 +342,8 @@ ${USB_DETECTION_ITERATIONS_NUMBER}=                 0
 # DTS
 # Default DTS link for iPXE boot, can be overwritten by CMD:
 ${DTS_IPXE_LINK}=                                   http://boot.dasharo.com/dts/dts.ipxe
+# Nightly DTS builds from the develop branch, can be overwritten by CMD:
+${DTS_NIGHTLY_IPXE_LINK}=                           https://boot.dasharo.com/dts/nightly.ipxe
 ${BOOT_DTS_FROM_IPXE_SHELL}=                        ${FALSE}
 
 # Other platform flags and counters
