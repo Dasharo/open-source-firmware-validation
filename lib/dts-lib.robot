@@ -84,6 +84,11 @@ Boot Dasharo Tools Suite Via IPXE Shell
 
 Boot Dasharo Tools Suite Via IPXE Menu
     [Documentation]    Boots DTS via option available in Dasharo iPXE menu.
+    ...
+    ...    === Arguments ===
+    ...    - ``${menu_entry}``: ``string`` - the iPXE menu entry to boot. Use
+    ...    \ ``Dasharo Tools Suite (Nightly)`` to boot the nightly build.
+    [Arguments]    ${menu_entry}=Dasharo Tools Suite
     # 1) Check and enable network boot, it is disabled by default:
     Make Sure That Network Boot Is Enabled
 
@@ -93,7 +98,7 @@ Boot Dasharo Tools Suite Via IPXE Menu
     ${ipxe_menu}=    Get IPXE Boot Menu Construction
 
     # 3) Boot DTS:
-    Enter Submenu From Snapshot    ${ipxe_menu}    Dasharo Tools Suite
+    Enter Submenu From Snapshot    ${ipxe_menu}    ${menu_entry}
     Set DUT Response Timeout    5m
     Read From Terminal Until Regexp    \.cpio\.gz\.\.\.|[0-9]\.efi
     Read From Terminal Until    ok
