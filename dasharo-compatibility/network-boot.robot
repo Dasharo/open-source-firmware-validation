@@ -51,8 +51,15 @@ PXE002.101 Dasharo network boot menu boot options order is correct (EDK2 UEFI)
     ${ipxe_menu}=    Get IPXE Boot Menu Construction
     Should Contain    ${ipxe_menu}[0]    Autoboot (DHCP)
     Should Contain    ${ipxe_menu}[1]    Dasharo Tools Suite
-    Should Contain    ${ipxe_menu}[2]    OS installation (netboot.xyz official server)
-    Should Contain    ${ipxe_menu}[3]    iPXE Shell
+    Should Not Contain    ${ipxe_menu}[1]    Nightly
+    IF    ${IPXE_NIGHTLY_DTS_SUPPORT}
+        Should Contain    ${ipxe_menu}[2]    Dasharo Tools Suite (Nightly)
+        Should Contain    ${ipxe_menu}[3]    OS installation (netboot.xyz official server)
+        Should Contain    ${ipxe_menu}[4]    iPXE Shell
+    ELSE
+        Should Contain    ${ipxe_menu}[2]    OS installation (netboot.xyz official server)
+        Should Contain    ${ipxe_menu}[3]    iPXE Shell
+    END
 
 PXE003.101 Autoboot option is available and works correctly (EDK2 UEFI)
     [Documentation]    This test aims to verify that the Autoboot option in
@@ -142,3 +149,23 @@ PXE008.101 Firmware Update Mode (EDK2 UEFI)
     Execute Manual Step    [8/8] Press the requested number on the keyboard when prompted.
     Execute Manual Step
     ...    [Expected result] DTS is booted automatically when Firmware Update Mode is entered. DTS automatically begins to check for a firmware update.
+
+PXE009.101 DTS Nightly option is available and works correctly (EDK2 UEFI)
+    [Documentation]    This test aims to verify that the Dasharo Tools Suite
+    ...    (Nightly) option in Dasharo Network Boot Menu allows booting into
+    ...    the nightly DTS build, which is built from the develop branch.
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    PXE009.101 not supported
+    Skip If    not ${IPXE_NIGHTLY_DTS_SUPPORT}    PXE009.101 not supported
+    Power On
+    ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
+    Enter Submenu From Snapshot    ${boot_menu}    ${IPXE_BOOT_ENTRY}
+    ${ipxe_menu}=    Get IPXE Boot Menu Construction
+    Enter Submenu From Snapshot    ${ipxe_menu}    Dasharo Tools Suite (Nightly)
+    Set DUT Response Timeout    5m
+    ${out}=    Read From Terminal Until    Enter an option
+    Should Contain    ${out}    Dasharo HCL report
+    Should Contain    ${out}    Load your DPP keys
+    Should Contain    ${out}    launch SSH server
+    Should Contain    ${out}    enter shell
+    Should Contain    ${out}    poweroff
+    Should Contain    ${out}    reboot
