@@ -4,11 +4,11 @@ Resource    include/msi-z690-z790-common.robot
 
 
 *** Variables ***
-${FW_VERSION}=                          v0.9.5-rc4
+${FW_VERSION}=                          v0.9.5-rc5
 ${DMIDECODE_SERIAL_NUMBER}=             N/A
 ${DMIDECODE_FIRMWARE_VERSION}=          Dasharo (coreboot+UEFI) ${FW_VERSION}
 ${DMIDECODE_PRODUCT_NAME}=              MS-7E06
-${DMIDECODE_RELEASE_DATE}=              08/09/2026
+${DMIDECODE_RELEASE_DATE}=              08/10/2026
 
 ${WIFI_CARD}=                           Intel(R) Wi-Fi 6 AX201 160MHz
 ${WIFI_CARD_UBUNTU}=                    Intel Corporation Alder Lake-S PCH CNVi WiFi
