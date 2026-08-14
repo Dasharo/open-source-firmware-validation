@@ -12,6 +12,8 @@ ${DMIDECODE_RELEASE_DATE}=                  05/30/2026
 
 ${EXPECTED_FW_SHA256}=                      a115ae254a2054d8fec6988ba89f251bc77dbaf74eb44e0069631d2b36433932
 
+${TPM_MULTIPLE_BANK_SUPPORT}=               ${FALSE}
+
 # DTS E2E variables
 ${DTS_TEST_BOARD_MODEL}=                    PRO Z690-A WIFI (MS-7D25)
 &{DTS_TEST_VERSIONS}=

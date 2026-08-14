@@ -17,6 +17,8 @@ ${EXPECTED_FW_SHA256}=                      a115ae254a2054d8fec6988ba89f251bc77d
 ${WIFI_CARD}=                               Intel(R) Wi-Fi 6 AX201 160MHz
 ${WIFI_CARD_UBUNTU}=                        Intel Corporation Alder Lake-S PCH CNVi WiFi (rev 11)
 
+${TPM_MULTIPLE_BANK_SUPPORT}=               ${FALSE}
+
 ${WIRELESS_CARD_SUPPORT}=                   ${TRUE}
 ${WIRELESS_CARD_WIFI_SUPPORT}=              ${TRUE}
 ${WIRELESS_CARD_BLUETOOTH_SUPPORT}=         ${TRUE}
