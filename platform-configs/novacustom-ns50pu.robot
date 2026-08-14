@@ -36,8 +36,8 @@ ${EXPECTED_FW_SHA256}=                      6e797fdb32f0bdd31e284b352a9ac6cec88c
 ...                                         ${{ ("UEFI Update", "DCR") }}=${{ { "TEST_ME_DISABLED": "true", "TEST_ME_OP_MODE": "3", "TEST_DIFFERENT_FMAP": "true" } }}
 ...                                         ${{ ("Fuse Platform", "DCR") }}=${{ { "TEST_ME_HAP_DISABLED": "true", "TEST_ME_OP_MODE": "2", "TEST_IS_COREBOOT": "true" } }}
 
-# cpu performance Ubuntu
-# https://openbenchmarking.org/result/2511237-NE-TEST1811909&export=html
+# cpu performance Ubuntu/Windows
+
 &{CPP_CRAY_1080_P_BENCHMARK}=
 ...                                         name=Resolution: 1080p - Rays Per Pixel: 16
 ...                                         score=118
@@ -76,13 +76,24 @@ ${EXPECTED_FW_SHA256}=                      6e797fdb32f0bdd31e284b352a9ac6cec88c
 ...                                         scale=higher_is_better
 ...                                         dev=0.2
 ...                                         type=multicore
+&{CPP_CRAFTY_BENCHMARK}=
+...                                         name=Elapsed Time
+...                                         short_name=pts/crafty
+...                                         score=8077508.1
+...                                         scale=higher_is_better
+...                                         dev=0.14
+...                                         type=singlecore
+&{CPP_STOCKFISH_BENCHMARK}=
+...                                         name=Chess Benchmark
+...                                         short_name=pts/stockfish
+...                                         score=2544764.1
+...                                         scale=higher_is_better
+...                                         dev=0.13
+...                                         type=multicore
+
 @{CPP_BENCHMARKS}=
-# ...                                       &{CPP_CRAY_1080_P_BENCHMARK}
-# ...                                       &{CPP_CRAY_4_K_BENCHMARK}
-# ...                                       &{CPP_CRAY_5_K_BENCHMARK}
-...                                         &{CPP_COREMARK_BENCHMARK}
-...                                         &{CPP_ZIP_COMPRESSION_BENCHMARK}
-...                                         &{CPP_ZIP_DECOMPRESSION_BENCHMARK}
+...                                         &{CPP_STOCKFISH_BENCHMARK}
+...                                         &{CPP_CRAFTY_BENCHMARK}
 
 # disk i-o
 ${DISK_IO_REFERENCE_DISK_NAME}=             Samsung SSD 990 PRO

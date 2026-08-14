@@ -77,10 +77,26 @@ ${PLATFORM_RAM_SIZE}=                       16384
 ...                                         scale=higher_is_better
 ...                                         dev=0.2
 ...                                         type=multicore
+
+# cpu performance Ubuntu/Windows
+
+&{CPP_CRAFTY_BENCHMARK}=
+...                                         name=Elapsed Time
+...                                         short_name=pts/crafty
+...                                         score=3644560.7
+...                                         scale=higher_is_better
+...                                         dev=0.11
+...                                         type=singlecore
+&{CPP_STOCKFISH_BENCHMARK}=
+...                                         name=Chess Benchmark
+...                                         short_name=pts/stockfish
+...                                         score=1793686.8
+...                                         scale=higher_is_better
+...                                         dev=0.06
+...                                         type=multicore
 @{CPP_BENCHMARKS}=
-...                                         &{CPP_COREMARK_BENCHMARK}
-...                                         &{CPP_ZIP_COMPRESSION_BENCHMARK}
-...                                         &{CPP_ZIP_DECOMPRESSION_BENCHMARK}
+...                                         &{CPP_STOCKFISH_BENCHMARK}
+...                                         &{CPP_CRAFTY_BENCHMARK}
 
 # cpu performance Windows
 &{UPP_SMALLPT_BENCHMARK}=

@@ -15,11 +15,11 @@ ${CPU_MAX_FREQUENCY}=                   4800
 ${CPU_MIN_FREQUENCY}=                   200
 ${PLATFORM_CPU_SPEED}=                  3.0
 
-${INITIAL_DUT_CONNECTION_METHOD}=       Telnet
-${DUT_CONNECTION_METHOD}=               Telnet
+${INITIAL_DUT_CONNECTION_METHOD}=       SSH
+${DUT_CONNECTION_METHOD}=               SSH
 ${TESTS_IN_FIRMWARE_SUPPORT}=           ${TRUE}
-${OPTIONS_LIB}=                         options-lib_uefi-setup-menu
-${POWER_CTRL}=                          sonoff
+${OPTIONS_LIB}=                         options-lib_dcu
+${POWER_CTRL}=                          none
 ${CHECK_POWER_LED_SUPPORT}=             ${FALSE}
 ${DTS_SUPPORT}=                         ${TRUE}
 
@@ -33,7 +33,7 @@ ${EXPECTED_FW_SHA256}=                  ef5c7ff15e4ad04943da7d62b3ffea218fa0a98a
 
 ${DEFAULT_BOOT_OS_ID}=                  ${ENV_ID_UBUNTU}
 @{TESTED_LINUX_DISTROS}=                ${ENV_ID_UBUNTU}    # ${ENV_ID_FEDORA}
-${TESTS_IN_WINDOWS_SUPPORT}=            ${FALSE}    # change windows/ubuntu support depending
+${TESTS_IN_WINDOWS_SUPPORT}=            ${TRUE}    # change windows/ubuntu support depending
 ${TESTS_IN_UBUNTU_SUPPORT}=             ${TRUE}    # on which OS is first in the boot order
 ${WAKE_ON_LAN_SUPPORT}=                 ${TRUE}
 ${TESTS_IN_FEDORA_SUPPORT}=             ${FALSE}
@@ -53,49 +53,27 @@ ${DGPU_ONLY_SUPPORT}=                   ${TRUE}
 
 ${DISK_IO_PERFORMANCE_TESTS}=           ${TRUE}
 
-# cpu performance Ubuntu
-&{CPP_CRAY_1080_P_BENCHMARK}=
-...                                     name=Resolution: 1080p - Rays Per Pixel: 16
-...                                     score=80.547
-...                                     scale=lower_is_better
-...                                     dev=0.2
-...                                     type=singlecore
-&{CPP_CRAY_4_K_BENCHMARK}=
-...                                     name=Resolution: 4K - Rays Per Pixel: 16
-...                                     score=326.895
-...                                     scale=lower_is_better
-...                                     dev=0.2
-...                                     type=singlecore
-&{CPP_CRAY_5_K_BENCHMARK}=
-...                                     name=Resolution: 5K - Rays Per Pixel: 16
-...                                     score=585.333
-...                                     scale=lower_is_better
-...                                     dev=0.2
-...                                     type=singlecore
-&{CPP_COREMARK_BENCHMARK}=
-...                                     name=CoreMark Size 666 - Iterations Per Second
-...                                     score=407451.446
+&{CPP_CRAFTY_BENCHMARK}=
+...                                     name=Elapsed Time
+...                                     short_name=pts/crafty
+...                                     score=9217926.5
 ...                                     scale=higher_is_better
-...                                     dev=0.2
+...                                     dev=0.08
 ...                                     type=singlecore
-&{CPP_ZIP_COMPRESSION_BENCHMARK}=
-...                                     name=Test: Compression Rating
-...                                     score=79729
-...                                     scale=higher_is_better
-...                                     dev=0.2
-...                                     type=multicore
-&{CPP_ZIP_DECOMPRESSION_BENCHMARK}=
-...                                     name=Test: Decompression Rating
-...                                     score=52410
-...                                     scale=higher_is_better
-...                                     dev=0.2
-...                                     type=multicore
-@{CPP_BENCHMARKS}=
-...                                     &{CPP_COREMARK_BENCHMARK}
-...                                     &{CPP_ZIP_COMPRESSION_BENCHMARK}
-...                                     &{CPP_ZIP_DECOMPRESSION_BENCHMARK}
 
-# cpu performance Windows
+&{CPP_STOCKFISH_BENCHMARK}=
+...                                     name=Chess Benchmark
+...                                     short_name=pts/stockfish
+...                                     score=7629226.5
+...                                     scale=higher_is_better
+...                                     dev=0.06
+...                                     type=multicore
+
+@{CPP_BENCHMARKS}=
+...                                     &{CPP_STOCKFISH_BENCHMARK}
+...                                     &{CPP_CRAFTY_BENCHMARK}
+
+# cpu performance Windows - deprecated
 # reference score for 155H from https://openbenchmarking.org/result/2508216-NE-SKIBIDI6461
 &{UPP_SMALLPT_BENCHMARK}=
 ...                                     name=smallpt

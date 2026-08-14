@@ -22,6 +22,28 @@ ${CPU_MIN_FREQUENCY}=                       300
 
 ${OPTIONS_LIB}=                             options-lib_dcu
 ${EXPECTED_FW_SHA256}=                      6e797fdb32f0bdd31e284b352a9ac6cec88cd8897ef9779020f2e2c781ab6ad5
+
+# cpu performance Ubuntu/Windows
+&{CPP_CRAFTY_BENCHMARK}=
+...                                         name=Elapsed Time
+...                                         short_name=pts/crafty
+...                                         score=3730519.5
+...                                         scale=higher_is_better
+...                                         dev=0.07
+...                                         type=singlecore
+
+&{CPP_STOCKFISH_BENCHMARK}=
+...                                         name=Chess Benchmark
+...                                         short_name=pts/stockfish
+...                                         score=1782394.6
+...                                         scale=higher_is_better
+...                                         dev=0.05
+...                                         type=multicore
+
+@{CPP_BENCHMARKS}=
+...                                         &{CPP_STOCKFISH_BENCHMARK}
+...                                         &{CPP_CRAFTY_BENCHMARK}
+
 # DTS E2E variables
 &{DTS_TEST_VERSIONS}=
 ...                                         &{DTS_TEST_VERSIONS_BASE}
