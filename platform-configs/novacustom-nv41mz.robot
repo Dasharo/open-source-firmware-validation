@@ -44,3 +44,22 @@ ${DISK_IO_REFERENCE_DISK_NAME}=         Samsung SSD 980 Pro
 ...                                     RAND_WRITE_QUEUED=1200
 ...                                     RAND_READ_NONQUE=1100
 ...                                     RAND_WRITE_NONQUE=1000
+
+# cpu performance Ubuntu/Windows
+&{CPP_CRAFTY_BENCHMARK}=
+...									name=Elapsed Time
+...									short_name=pts/crafty
+...									score=5879755.4
+...									scale=higher_is_better
+...									dev=0.13
+...									type=singlecore
+&{CPP_STOCKFISH_BENCHMARK}=
+...									name=Chess Benchmark
+...									short_name=pts/stockfish
+...									score=3738927.6
+...									scale=higher_is_better
+...									dev=0.07
+...									type=multicore
+@{CPP_BENCHMARKS}=
+...                                 &{CPP_STOCKFISH_BENCHMARK}
+...                                 &{CPP_CRAFTY_BENCHMARK}
