@@ -24,24 +24,24 @@ ${NVIDIA_GRAPHICS_CARD_SUPPORT}=        ${TRUE}
 
 # cpu performance Ubuntu/Windows
 &{CPP_CRAFTY_BENCHMARK}=
-...                                 name=Elapsed Time
-...                                 short_name=pts/crafty
-...                                 score=8486045.4
-...                                 scale=higher_is_better
-...                                 dev=0.15
-...                                 type=singlecore
+...                                     name=Elapsed Time
+...                                     short_name=pts/crafty
+...                                     score=8486045.4
+...                                     scale=higher_is_better
+...                                     dev=0.15
+...                                     type=singlecore
 
 &{CPP_STOCKFISH_BENCHMARK}=
-...                                 name=Chess Benchmark
-...                                 short_name=pts/stockfish
-...                                 score=2824505.6
-...                                 scale=higher_is_better
-...                                 dev=0.13
-...                                 type=multicore
+...                                     name=Chess Benchmark
+...                                     short_name=pts/stockfish
+...                                     score=2824505.6
+...                                     scale=higher_is_better
+...                                     dev=0.13
+...                                     type=multicore
 
 @{CPP_BENCHMARKS}=
-...                                 &{CPP_STOCKFISH_BENCHMARK}
-...                                 &{CPP_CRAFTY_BENCHMARK}
+...                                     &{CPP_STOCKFISH_BENCHMARK}
+...                                     &{CPP_CRAFTY_BENCHMARK}
 
 # cpu performance Windows - deprecated
 &{UPP_SMALLPT_BENCHMARK}=               name=smallpt    score=21    scale=lower_is_better    dev=0.2    type=singlecore

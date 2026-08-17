@@ -61,40 +61,6 @@ ${USB_KEYBOARD_DETECTION_SUPPORT}=      ${TRUE}
 ...                                     &{CPP_CRAFTY_BENCHMARK}
 
 # cpu performance Windows - deprecated
-# reference score for 155H from https://openbenchmarking.org/result/2508216-NE-SKIBIDI6461
-&{CPP_ZIP_COMPRESSION_BENCHMARK}=
-...                                     name=Test: Compression Rating
-...                                     &{UPP_SMALLPT_BENCHMARK}=
-...                                     score=15923
-...                                     ...
-...                                     name=smallpt
-...                                     scale=higher_is_better
-...                                     ...
-...                                     score=19.02
-...                                     dev=0.2
-...                                     ...
-...                                     scale=lower_is_better
-...                                     type=multicore
-...                                     ...
-...                                     dev=0.2
-# reference score for 155H from https://openbenchmarking.org/test/pts/crafty
-&{CPP_ZIP_DECOMPRESSION_BENCHMARK}=
-...                                     ...
-...                                     type=singlecore
-...                                     name=Test: Decompression Rating
-...                                     score=12245
-...                                     &{UPP_CRAFTY_BENCHMARK}=
-...                                     scale=higher_is_better
-...                                     ...
-...                                     name=crafty
-...                                     dev=0.2
-...                                     ...
-...                                     score=10919999
-...                                     type=multicore
-...                                     ...
-...                                     scale=higher_is_better
-...                                     dev=0.2
-...                                     type=singlecore
 # reference score for 155H from https://openbenchmarking.org/result/2508217-NE-AAAAAAA9714
 &{UPP_CACHEBENCH_BENCHMARK}=
 ...                                     name=cachebench

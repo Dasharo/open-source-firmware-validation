@@ -17,7 +17,7 @@ ${PLATFORM_CPU_SPEED}=                  3.0
 
 ${INITIAL_DUT_CONNECTION_METHOD}=       SSH
 ${DUT_CONNECTION_METHOD}=               SSH
-${TESTS_IN_FIRMWARE_SUPPORT}=           ${TRUE}
+${TESTS_IN_FIRMWARE_SUPPORT}=           ${FALSE}
 ${OPTIONS_LIB}=                         options-lib_dcu
 ${POWER_CTRL}=                          none
 ${CHECK_POWER_LED_SUPPORT}=             ${FALSE}
