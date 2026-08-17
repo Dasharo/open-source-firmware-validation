@@ -53,47 +53,26 @@ ${USB_MODEL}=                                   SanDisk
 ${USB_DEVICE}=                                  SanDisk
 @{ATTACHED_USB}=                                SanDisk
 
-# performance
-&{CPP_CRAY_1080_P_BENCHMARK}=
-...                                             name=Resolution: 1080p - Rays Per Pixel: 16
-...                                             score=80.547
-...                                             scale=lower_is_better
-...                                             dev=0.2
-...                                             type=singlecore
-&{CPP_CRAY_4_K_BENCHMARK}=
-...                                             name=Resolution: 4K - Rays Per Pixel: 16
-...                                             score=326.895
-...                                             scale=lower_is_better
-...                                             dev=0.2
-...                                             type=singlecore
-&{CPP_CRAY_5_K_BENCHMARK}=
-...                                             name=Resolution: 5K - Rays Per Pixel: 16
-...                                             score=585.333
-...                                             scale=lower_is_better
-...                                             dev=0.2
-...                                             type=singlecore
-&{CPP_COREMARK_BENCHMARK}=
-...                                             name=CoreMark Size 666 - Iterations Per Second
-...                                             score=407451.446
+# cpu performance Ubuntu/Windows
+&{CPP_CRAFTY_BENCHMARK}=
+...                                             name=Elapsed Time
+...                                             short_name=pts/crafty
+...                                             score=9985532.5
 ...                                             scale=higher_is_better
-...                                             dev=0.2
+...                                             dev=0.11
 ...                                             type=singlecore
-&{CPP_ZIP_COMPRESSION_BENCHMARK}=
-...                                             name=Test: Compression Rating
-...                                             score=79729
+
+&{CPP_STOCKFISH_BENCHMARK}=
+...                                             name=Chess Benchmark
+...                                             short_name=pts/stockfish
+...                                             score=7210236.4
 ...                                             scale=higher_is_better
-...                                             dev=0.2
-...                                             type=multicore
-&{CPP_ZIP_DECOMPRESSION_BENCHMARK}=
-...                                             name=Test: Decompression Rating
-...                                             score=52410
-...                                             scale=higher_is_better
-...                                             dev=0.2
-...                                             type=multicore
+...                                             dev=0.25
+...                                             type=singlecore
+
 @{CPP_BENCHMARKS}=
-...                                             &{CPP_COREMARK_BENCHMARK}
-...                                             &{CPP_ZIP_COMPRESSION_BENCHMARK}
-...                                             &{CPP_ZIP_DECOMPRESSION_BENCHMARK}
+...                                             &{CPP_STOCKFISH_BENCHMARK}
+...                                             &{CPP_CRAFTY_BENCHMARK}
 
 # disk i-o
 ${DISK_IO_REFERENCE_DISK_NAME}=                 SSDPR-PX700
@@ -117,7 +96,7 @@ ${NVIDIA_GRAPHICS_CARD_SUPPORT}=                ${TRUE}
 ${UNIGINE_SUPERPOSITION_RESULT_AC}=             114    # FPS
 ${UNIGINE_SUPERPOSITION_RESULT_BAT}=            26.2    # FPS
 
-# cpu performance Windows
+# cpu performance Windows - deprecated
 # reference score for 155H from https://openbenchmarking.org/result/2508216-NE-SKIBIDI6461
 &{UPP_SMALLPT_BENCHMARK}=
 ...                                             name=smallpt

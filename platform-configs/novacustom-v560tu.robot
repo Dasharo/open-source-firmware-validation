@@ -39,60 +39,59 @@ ${USB_DEVICE}=                          SanDisk
 ${USB_DISKS_DETECTION_SUPPORT}=         ${TRUE}
 ${USB_KEYBOARD_DETECTION_SUPPORT}=      ${TRUE}
 
-# cpu performance Ubuntu for processor ultra 5 125H
-&{CPP_CRAY_1080_P_BENCHMARK}=
-...                                     name=Resolution: 1080p - Rays Per Pixel: 16
-...                                     score=308.289
-...                                     scale=lower_is_better
-...                                     dev=0.2
-...                                     type=singlecore
-&{CPP_CRAY_4_K_BENCHMARK}=
-...                                     name=Resolution: 4K - Rays Per Pixel: 16
-...                                     score=1349.461
-...                                     scale=lower_is_better
-...                                     dev=0.2
-...                                     type=singlecore
-&{CPP_CRAY_5_K_BENCHMARK}=
-...                                     name=Resolution: 5K - Rays Per Pixel: 16
-...                                     score=2210.755
-...                                     scale=lower_is_better
-...                                     dev=0.2
-...                                     type=singlecore
-&{CPP_COREMARK_BENCHMARK}=
-...                                     name=CoreMark Size 666 - Iterations Per Second
-...                                     score=92891.774
+# cpu performance Ubuntu/Windows
+&{CPP_CRAFTY_BENCHMARK}=
+...                                     name=Elapsed Time
+...                                     short_name=pts/crafty
+...                                     score=9041398.4
 ...                                     scale=higher_is_better
 ...                                     dev=0.2
 ...                                     type=singlecore
+
+&{CPP_STOCKFISH_BENCHMARK}=
+...                                     name=Chess Benchmark
+...                                     short_name=pts/stockfish
+...                                     score=5912494.8
+...                                     scale=higher_is_better
+...                                     dev=0.13
+...                                     type=multicore
+
+@{CPP_BENCHMARKS}=
+...                                     &{CPP_STOCKFISH_BENCHMARK}
+...                                     &{CPP_CRAFTY_BENCHMARK}
+
+# cpu performance Windows - deprecated
+# reference score for 155H from https://openbenchmarking.org/result/2508216-NE-SKIBIDI6461
 &{CPP_ZIP_COMPRESSION_BENCHMARK}=
 ...                                     name=Test: Compression Rating
+...                                     &{UPP_SMALLPT_BENCHMARK}=
 ...                                     score=15923
+...                                     ...
+...                                     name=smallpt
 ...                                     scale=higher_is_better
+...                                     ...
+...                                     score=19.02
 ...                                     dev=0.2
+...                                     ...
+...                                     scale=lower_is_better
 ...                                     type=multicore
+...                                     ...
+...                                     dev=0.2
+# reference score for 155H from https://openbenchmarking.org/test/pts/crafty
 &{CPP_ZIP_DECOMPRESSION_BENCHMARK}=
+...                                     ...
+...                                     type=singlecore
 ...                                     name=Test: Decompression Rating
 ...                                     score=12245
+...                                     &{UPP_CRAFTY_BENCHMARK}=
 ...                                     scale=higher_is_better
-...                                     dev=0.2
-...                                     type=multicore
-@{CPP_BENCHMARKS}=
-...                                     &{CPP_COREMARK_BENCHMARK}
-...                                     &{CPP_ZIP_COMPRESSION_BENCHMARK}
-...                                     &{CPP_ZIP_DECOMPRESSION_BENCHMARK}
-
-# cpu performance Windows
-# reference score for 155H from https://openbenchmarking.org/result/2508216-NE-SKIBIDI6461
-&{UPP_SMALLPT_BENCHMARK}=
-...                                     name=smallpt
-...                                     score=19.02
-...                                     scale=lower_is_better
-...                                     dev=0.2
-...                                     type=singlecore
-# reference score for 155H from https://openbenchmarking.org/test/pts/crafty
-&{UPP_CRAFTY_BENCHMARK}=
+...                                     ...
 ...                                     name=crafty
+...                                     dev=0.2
+...                                     ...
 ...                                     score=10919999
+...                                     type=multicore
+...                                     ...
 ...                                     scale=higher_is_better
 ...                                     dev=0.2
 ...                                     type=singlecore

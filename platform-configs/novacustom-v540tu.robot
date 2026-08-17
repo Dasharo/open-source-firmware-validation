@@ -78,12 +78,27 @@ ${MAX_CPU_TEMP_THRESHOLD}=              110
 ...                                     scale=higher_is_better
 ...                                     dev=0.2
 ...                                     type=multicore
-@{CPP_BENCHMARKS}=
-...                                     &{CPP_COREMARK_BENCHMARK}
-...                                     &{CPP_ZIP_COMPRESSION_BENCHMARK}
-...                                     &{CPP_ZIP_DECOMPRESSION_BENCHMARK}
 
-# cpu performance Windows
+&{CPP_CRAFTY_BENCHMARK}=
+...                                     name=Elapsed Time
+...                                     short_name=pts/crafty
+...                                     score=8133915.8
+...                                     scale=higher_is_better
+...                                     dev=0.07
+...                                     type=singlecore
+&{CPP_STOCKFISH_BENCHMARK}=
+...                                     name=Chess Benchmark
+...                                     short_name=pts/stockfish
+...                                     score=5520152.2
+...                                     scale=higher_is_better
+...                                     dev=0.07
+...                                     type=multicore
+
+@{CPP_BENCHMARKS}=
+...                                     &{CPP_STOCKFISH_BENCHMARK}
+...                                     &{CPP_CRAFTY_BENCHMARK}
+
+# cpu performance Windows - deprecated
 # reference score for 155H from https://openbenchmarking.org/result/2508216-NE-SKIBIDI6461
 &{UPP_SMALLPT_BENCHMARK}=
 ...                                     name=smallpt

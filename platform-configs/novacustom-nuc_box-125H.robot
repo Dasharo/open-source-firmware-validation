@@ -32,7 +32,7 @@ ${DEFAULT_BOOT_OS_ID}=                  ${ENV_ID_UBUNTU}
 # ${ENV_ID_FEDORA}
 @{TESTED_LINUX_DISTROS}=
 ...                                     ${ENV_ID_UBUNTU}
-${TESTS_IN_WINDOWS_SUPPORT}=            ${FALSE}
+${TESTS_IN_WINDOWS_SUPPORT}=            ${TRUE}
 
 # cpu performance Ubuntu
 &{CPP_CRAY_1080_P_BENCHMARK}=
@@ -71,12 +71,26 @@ ${TESTS_IN_WINDOWS_SUPPORT}=            ${FALSE}
 ...                                     scale=higher_is_better
 ...                                     dev=0.2
 ...                                     type=multicore
-@{CPP_BENCHMARKS}=
-...                                     &{CPP_COREMARK_BENCHMARK}
-...                                     &{CPP_ZIP_COMPRESSION_BENCHMARK}
-...                                     &{CPP_ZIP_DECOMPRESSION_BENCHMARK}
 
-# cpu performance Windows
+&{CPP_CRAFTY_BENCHMARK}=
+...                                     name=Elapsed Time
+...                                     short_name=pts/crafty
+...                                     score=8356624.0
+...                                     scale=higher_is_better
+...                                     dev=0.06
+...                                     type=singlecore
+&{CPP_STOCKFISH_BENCHMARK}=
+...                                     name=Chess Benchmark
+...                                     short_name=pts/stockfish
+...                                     score=4213695.7
+...                                     scale=higher_is_better
+...                                     dev=0.08
+...                                     type=multicore
+@{CPP_BENCHMARKS}=
+...                                     &{CPP_STOCKFISH_BENCHMARK}
+...                                     &{CPP_CRAFTY_BENCHMARK}
+
+# cpu performance Windows - deprecated
 &{UPP_SMALLPT_BENCHMARK}=
 ...                                     name=smallpt
 ...                                     score=17
