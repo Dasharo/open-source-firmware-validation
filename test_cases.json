@@ -960,6 +960,13 @@
   },
   {
     "doc": {
+      "_id": "CMOS001.101",
+      "name": "Check whether clearing CMOS resets firmware settings (EDK2 UEFI)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
       "_id": "CNB001.201",
       "name": "Only one iPXE in boot menu (Ubuntu)",
       "module": "Dasharo Compatibility"
