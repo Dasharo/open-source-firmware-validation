@@ -961,7 +961,7 @@
   {
     "doc": {
       "_id": "CMOS001.101",
-      "name": "Check whether clearing CMOS resets firmware settings (EDK2 UEFI)",
+      "name": "Clearing CMOS resets firmware settings (EDK2 UEFI)",
       "module": "Dasharo Compatibility"
     }
   },

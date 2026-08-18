@@ -20,35 +20,38 @@ Default Tags        automated    semiauto
 
 *** Test Cases ***
 CMOS001.101 Clearing CMOS resets firmware settings (EDK2 UEFI)
-    [Tags]    automated    semiauto
     [Documentation]    Check whether clearing CMOS resets firmware settings
-#    Skip If Not ${TESTS_IN_FIRMWARE_SUPPORT} CMOS001.101 Not Supported
+    [Tags]    automated    semiauto
     Power On
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
-    ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
-    ${usb_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    USB Configuration
-    Set Option State    ${usb_menu}    Enable USB stack    ${FALSE}
-    Save Changes And Reset
+    Boot System Or From Connected Disk    ${DEFAULT_BOOT_OS_ID}
+    Set UEFI Option    UsbDriverStack    ${FALSE}
 
+    Power On
+    Boot System Or From Connected Disk    ${DEFAULT_BOOT_OS_ID}
+    ${before}=    Get UEFI Option    UsbDriverStack
+    Should Not Be True    ${before}
+
+    Clear Cmos With Fallback
+
+    Power On
+
+    Boot System Or From Connected Disk    ${DEFAULT_BOOT_OS_ID}
+    ${after}=    Get UEFI Option    UsbDriverStack
+    Should Be True    ${after}
+
+
+*** Keywords ***
+Clear Cmos With Fallback
+    [Documentation]    Clears CMOS via RTE, otherwise instructs
+    ...    tester to manually disconnect battery
     IF    ${DUT_HAS_CMOS_RESET}
-        Rte Psu Off
         Rte Clear Cmos
     ELSE
         Log    RTE CMOS clear not supported. Test becomes semiauto.    level=WARN
         Skip If    'semiauto' not in ${INCLUDE_TAGS}    `semiauto` tag not selected
-
-        Execute Manual Step    Disconnect the CMOS battery
-        Sleep    5s
-        Execute Manual Step    Connect the CMOS battery and assemble back the device completely
-        IF    ${POWER_CTRL} == 'none'
-            Execute Manual Step    Make sure the device is plugged in
+        Execute Manual Step    Power off the device, disconnect the CMOS battery and wait 20 seconds
+        Execute Manual Step    Reconnect the CMOS battery
+        IF    $POWER_CTRL == 'none'
+            Execute Manual Step    Power the device back on manually
         END
     END
-
-    Power On
-
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
-    ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
-    ${usb_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    USB Configuration
-    ${usb_stack_state}=    Get Option State    ${usb_menu}    Enable USB stack
-    Should Be True    ${usb_stack_state}
