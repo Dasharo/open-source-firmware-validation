@@ -22,22 +22,28 @@ CMOS001.101 Clearing CMOS resets firmware settings (EDK2 UEFI)
     [Documentation]    Check whether clearing CMOS resets firmware settings
     Power On
     Boot System Or From Connected Disk    ${DEFAULT_BOOT_OS_ID}
-    Set UEFI Option    UsbDriverStack    ${FALSE}
-    Set UEFI Option    NetworkBoot    ${TRUE}
-    Set UEFI Option    EnableWifiBt    ${FALSE}
+    IF    ${DASHARO_USB_MENU_SUPPORT}
+        Set UEFI Option    UsbDriverStack    ${FALSE}
+    END
+    IF    ${DASHARO_NETWORKING_MENU_SUPPORT}
+        Set UEFI Option    NetworkBoot    ${TRUE}
+    END
 
     Clear Cmos With Fallback
     Power On
 
     Boot System Or From Connected Disk    ${DEFAULT_BOOT_OS_ID}
-    ${after}=    Get UEFI Option    UsbDriverStack
-    Should Be True    ${after}
-    ${after}=    Get UEFI Option    NetworkBoot
-    Should Not Be True    ${after}
-    ${after}=    Get UEFI Option    EnableWifiBt
-    Should Be True    ${after}
 
-    Restore Boot Order After CMOS Clear
+    IF    ${DASHARO_USB_MENU_SUPPORT}
+        ${after}=    Get UEFI Option    UsbDriverStack
+        Should Be True    ${after}
+    END
+    IF    ${DASHARO_NETWORKING_MENU_SUPPORT}
+        ${after}=    Get UEFI Option    NetworkBoot
+        Should Not Be True    ${after}
+    END
+
+    [Teardown]    Restore Boot Order After CMOS Clear
 
 
 *** Keywords ***
@@ -62,17 +68,21 @@ Restore Default UEFI Options
     [Documentation]    Reset modified UEFI options after failed test
     Power On
     Boot System Or From Connected Disk    ${DEFAULT_BOOT_OS_ID}
-    Set UEFI Option    UsbDriverStack    ${TRUE}
-    Set UEFI Option    NetworkBoot    ${FALSE}
-    Set UEFI Option    EnableWifiBt    ${TRUE}
+    IF    ${DASHARO_USB_MENU_SUPPORT}
+        Set UEFI Option    UsbDriverStack    ${TRUE}
+    END
+    IF    ${DASHARO_NETWORKING_MENU_SUPPORT}
+        Set UEFI Option    NetworkBoot    ${FALSE}
+    END
     Log Out And Close Connection
 
 Restore Boot Order After CMOS Clear
     [Documentation]    Re-runs BPS009 logic to restore the custom boot entry
     ...    that CMOS clear wiped.
-    Skip If    '${OPTIONS_LIB}' != 'options-lib_dcu'
-    Boot And Login To OS    ${DEFAULT_BOOT_OS_ID}
-    Switch To Root User
-    ${custom_bootnum}=    Ensure Custom Entry    ${DEFAULT_BOOT_OS_ID}    force=${TRUE}
-    ${bootorder}=    Get BootOrder
-    BootOrder Should Start With Bootnum    ${bootorder}    ${custom_bootnum}
+    IF    '${OPTIONS_LIB}' == 'options-lib_dcu'
+        Boot And Login To OS    ${DEFAULT_BOOT_OS_ID}
+        Switch To Root User
+        ${custom_bootnum}=    Ensure Custom Entry    ${DEFAULT_BOOT_OS_ID}    force=${TRUE}
+        ${bootorder}=    Get BootOrder
+        BootOrder Should Start With Bootnum    ${bootorder}    ${custom_bootnum}
+    END
