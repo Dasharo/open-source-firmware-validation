@@ -1,6 +1,5 @@
 *** Settings ***
 Library             DateTime
-Library             Dialogs
 Resource            ../variables.robot
 Resource            ../keywords.robot
 Resource            ../keys.robot

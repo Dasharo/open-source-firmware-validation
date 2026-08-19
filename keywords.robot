@@ -1,7 +1,7 @@
 *** Settings ***
 Library     Collections
-Library     Dialogs
 Library     OperatingSystem
+Library     ConsoleDialogs
 Resource    lib/bios/menus.robot
 Resource    lib/secure-boot-lib.robot
 Resource    lib/usb-hid-msc-lib.robot
