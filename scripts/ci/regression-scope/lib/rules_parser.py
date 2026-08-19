@@ -51,7 +51,8 @@ class RuleParser:
                     if file.split(".")[-1] == "robot":
                         path = os.path.join(root, file)
                         test_files.append(path)
-        return test_files
+        # os.walk yields whatever order the filesystem has
+        return sorted(test_files)
 
     def get_files_choice(self, files_choice):
         """

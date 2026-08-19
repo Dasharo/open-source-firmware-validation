@@ -24,32 +24,29 @@ def run_command(cmd, env=os.environ.copy()):
     return out
 
 
-def _load_device_env_vars(device_names, devices_dir):
-    envs = []
-    for name in device_names:
-        candidates = []
-        if os.path.isfile(name):
-            candidates = [name]
+def _load_device_env_vars(name, devices_dir):
+    candidates = []
+    if os.path.isfile(name):
+        candidates = [name]
+    else:
+        exact = os.path.join(devices_dir, f"{name}.json")
+        if os.path.isfile(exact):
+            candidates = [exact]
         else:
-            exact = os.path.join(devices_dir, f"{name}.json")
-            if os.path.isfile(exact):
-                candidates = [exact]
-            else:
-                candidates = glob.glob(os.path.join(devices_dir, f"{name}_*.json"))
+            candidates = glob.glob(os.path.join(devices_dir, f"{name}_*.json"))
 
-        if len(candidates) != 1:
-            raise ValueError(
-                f"Device '{name}' matched {len(candidates)} files: {candidates}"
-            )
+    if len(candidates) != 1:
+        raise ValueError(
+            f"Device '{name}' matched {len(candidates)} files: {candidates}"
+        )
 
-        with open(candidates[0]) as f:
-            device_cfg = json.load(f)
-        if "env_vars" not in device_cfg or not isinstance(device_cfg["env_vars"], dict):
-            raise ValueError(
-                f"Device file '{candidates[0]}' must contain an 'env_vars' dict"
-            )
-        envs.append(device_cfg["env_vars"])
-    return envs
+    with open(candidates[0]) as f:
+        device_cfg = json.load(f)
+    if "env_vars" not in device_cfg or not isinstance(device_cfg["env_vars"], dict):
+        raise ValueError(
+            f"Device file '{candidates[0]}' must contain an 'env_vars' dict"
+        )
+    return device_cfg["env_vars"]
 
 
 def get_changed_files(compare_to):
@@ -101,24 +98,24 @@ class CLI:
             self.get_changed_files = lambda: get_files_from_list(override_tests_list)
 
     def _prepare_parser(self, device_name):
-        device_envs = (
-            _load_device_env_vars(device_name, self.devices_dir) if device_name else []
+        device_env = (
+            _load_device_env_vars(device_name, self.devices_dir) if device_name else {}
         )
         with open(self.rules_file) as rules_file:
             rules = json.load(rules_file)["rules"]
         changed_files = self.get_changed_files()
-        parser = ParserManager(rules, changed_files, device_envs=device_envs)
+        parser = ParserManager(rules, changed_files, device_env=device_env)
         parser.parse()
         return parser
 
-    def filenames(self, *device_name):
+    def filenames(self, device_name=None):
         """
         Print the filenames of test suites that are affected by the changes
         """
         parser = self._prepare_parser(device_name)
         print(" ".join(parser.files()))
 
-    def commands(self, *device_name):
+    def commands(self, device_name=None):
         """
         Print the commands that should be executed to test the changes
         """
@@ -126,7 +123,7 @@ class CLI:
         for command in parser.commands():
             print(" ".join(command))
 
-    def robot_args(self, *device_name):
+    def robot_args(self, device_name=None):
         """
         Print the arguments that should be passed to the run.sh robot wrapper.
         """

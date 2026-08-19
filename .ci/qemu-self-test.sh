@@ -72,4 +72,8 @@ setup_test_data
 ./scripts/ci/qemu-run.sh nographic firmware &
 wait_for_qemu
 
+<<<<<<< HEAD
 ./scripts/ci/qemu-self-test.sh
+=======
+uv run ./scripts/ci/qemu-self-test.sh
+>>>>>>> 00b6db2ffa24 (.ci: Add develop pr regression)

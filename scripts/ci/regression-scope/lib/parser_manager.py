@@ -4,7 +4,6 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 from collections import defaultdict
-from copy import deepcopy
 
 from lib.rules_parser import RuleParser
 
@@ -14,10 +13,10 @@ class ParserManager:
     Runs rule parsers on the rules file and presents the parsing results.
     """
 
-    def __init__(self, rules, changed_files, device_envs=None):
+    def __init__(self, rules, changed_files, device_env=None):
         self.rules = rules
         self.changed_files = changed_files
-        self.device_envs = device_envs or []
+        self.device_env = device_env or {}
         self.runs_data = None
         self.parse()
 
@@ -114,16 +113,11 @@ class ParserManager:
         Parse the rules file. Call before any other method
         """
         self.runs_data = []
+        env_commands = self._env_dict_to_commands(self.device_env)
         for rule in self.rules:
             parser = RuleParser(rule, self.changed_files)
             if not parser.match_rule():
                 continue
-            if self.device_envs:
-                for env_vars in self.device_envs:
-                    env_commands = self._env_dict_to_commands(env_vars)
-                    for run_data in parser.runs_data:
-                        run_copy = deepcopy(run_data)
-                        run_copy["env"] = run_copy.get("env", []) + env_commands
-                        self.runs_data.append(run_copy)
-            else:
-                self.runs_data.extend(parser.runs_data)
+            for run_data in parser.runs_data:
+                run_data["env"] = run_data.get("env", []) + env_commands
+                self.runs_data.append(run_data)

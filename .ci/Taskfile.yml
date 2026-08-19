@@ -11,6 +11,7 @@ includes:
 vars:
   IMAGE: ghcr.io/dasharo/osfv-ci:latest
   QEMU_IMAGE: ghcr.io/dasharo/osfv-qemu-ci:latest
+  REGRESSION_IMAGE: ghcr.io/dasharo/osfv-qemu-ci:latest
   REPO_ROOT:
     sh: git rev-parse --show-toplevel
 
@@ -47,20 +48,61 @@ tasks:
     desc: Run keywords self-tests with QEMU
     dir: '{{.REPO_ROOT}}'
     cmds:
-      - task --taskfile .ci/Taskfile.yml qemu-self-test:run
-
+      - |
+        if [ -n "${CI:-}" ]; then
+          task --taskfile .ci/Taskfile.yml qemu-self-test:run
+        else
+          task --taskfile .ci/Taskfile.yml qemu-self-test:docker
+        fi
 
   qemu-self-test:run:
+    desc: Run the QEMU self-tests in the current environment, no container
+    dir: '{{.REPO_ROOT}}'
+    cmds:
+      - bash .ci/qemu-self-test.sh
+
+  qemu-self-test:docker:
     desc: Run the QEMU self-tests inside {{.QEMU_IMAGE}}
     dir: '{{.REPO_ROOT}}'
     cmds:
       - |
-        docker run --rm --device /dev/kvm \
+        docker run --rm \
+        --device /dev/kvm \
         -v {{.REPO_ROOT}}:/workspace \
         -v /workspace/.venv \
-        --device /dev/kvm \
         -w /workspace \
         {{.QEMU_IMAGE}} bash .ci/qemu-self-test.sh
+
+  ci:develop-pr-regression:
+    desc: Run the scoped PR regression on $DEVICE (in-container when already in CI, otherwise wrapped)
+    dir: '{{.REPO_ROOT}}'
+    cmds:
+      - task: 'develop-pr-regression:{{if .CI}}run{{else}}docker{{end}}'
+        vars:
+          DEVICE: '{{.DEVICE}}'
+
+  develop-pr-regression:run:
+    desc: Run the PR regression on $DEVICE in the current environment, no container
+    dir: '{{.REPO_ROOT}}'
+    cmds:
+      - DEVICE='{{.DEVICE}}' bash .ci/develop-pr-regression.sh
+
+  develop-pr-regression:docker:
+    desc: Run the PR regression on $DEVICE inside {{.REGRESSION_IMAGE}}
+    dir: '{{.REPO_ROOT}}'
+    cmds:
+      # passing ssh agent because develop-pr-regression pulls the remote
+      - |
+        docker run --rm --network host \
+        -e DEVICE='{{.DEVICE}}' -e BASE_BRANCH \
+        -e SSH_AUTH_SOCK=/ssh-agent \
+        -v "${SSH_AUTH_SOCK}":/ssh-agent \
+        -v "${HOME}/.ssh/known_hosts":/root/.ssh/known_hosts:ro \
+        -v {{.REPO_ROOT}}:/workspace \
+        -v /workspace/.venv \
+        -v "${HOME}/.osfv":/root/.osfv:ro \
+        -w /workspace \
+        {{.REGRESSION_IMAGE}} bash .ci/develop-pr-regression.sh
 
   ci:image:build:
     desc: Build the CI image, tagged with a UTC timestamp and latest
