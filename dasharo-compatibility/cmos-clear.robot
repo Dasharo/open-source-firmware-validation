@@ -1,20 +1,21 @@
 *** Settings ***
-Library             Collections
-Library             OperatingSystem
-Library             Process
-Library             String
-Library             Telnet    timeout=30 seconds    connection_timeout=120 seconds
-Library             SSHLibrary    timeout=90 seconds
-Library             RequestsLibrary
-Resource            ../variables.robot
-Resource            ../keywords.robot
-Resource            ../keys.robot
+Library         Collections
+Library         OperatingSystem
+Library         Process
+Library         String
+Library         Telnet    timeout=30 seconds    connection_timeout=120 seconds
+Library         SSHLibrary    timeout=90 seconds
+Library         RequestsLibrary
+Resource        ../variables.robot
+Resource        ../keywords.robot
+Resource        ../keys.robot
 
-Suite Setup         Run Keyword
-...                     Prepare Test Suite
-Test Teardown       Restore Boot Order After CMOS Clear
+Suite Setup     Run Keywords
+...                 Prepare Test Suite
+...                 AND
+...                 Skip If    not ${CMOS_CLEAR_SUPPORT}    CMOS clear tests not supported
 
-Default Tags        automated
+Default Tags    automated
 
 
 *** Variables ***
@@ -24,7 +25,6 @@ Default Tags        automated
 *** Test Cases ***
 CMOS001.101 Clearing CMOS resets firmware settings (EDK2 UEFI)
     [Documentation]    Check whether clearing CMOS resets firmware settings.
-
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CMOS001.101 not supported
     Power On
     Boot System Or From Connected Disk    ${DEFAULT_BOOT_OS_ID}
@@ -49,50 +49,131 @@ CMOS001.101 Clearing CMOS resets firmware settings (EDK2 UEFI)
         Should Not Be True    ${after}
     END
 
-    [Teardown]    Restore Default UEFI Options
+    [Teardown]    Run Keywords
+    ...    Restore Default UEFI Options
+    ...    AND
+    ...    Run Keyword If    '${TEST_STATUS}' != 'SKIP'    Restore Boot Order After CMOS Clear
 
-CMOS002.101 Clearing CMOS resets setup password (EDK2 UEFI)
-    [Documentation]    This test attempts to verify whether there is a possibility
-    ...    to reset the Setup Password functionality by resetting CMOS.
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    CMOS002.101 not supported
+CMOS002.101 Clearing CMOS resets Bios Lock firmware option (EDK2 UEFI)
+    [Documentation]    Check whether clearing CMOS resets Bios Lock option.
+
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CMOS002.101 not supported
-    Skip If    not ${UEFI_PASSWORD_SUPPORT}    CMOS002.101 not supported
     Power On
-
-    Set Password 5 Times
-    Save Changes And Reset
+    Boot System Or From Connected Disk    ${DEFAULT_BOOT_OS_ID}
+    Set UEFI Option    LockBios    ${FALSE}
 
     Clear Cmos With Fallback
     Power On
 
-    Enter Setup Menu Tianocore
-    Sleep    1s
-    ${output}=    Read From Terminal
-    Should Not Contain    ${output}    Please input admin password
+    Boot System Or From Connected Disk    ${DEFAULT_BOOT_OS_ID}
 
-    [Teardown]    Turn Off Password Functionality
+    ${after}=    Get UEFI Option    LockBios
+    Should Be True    ${after}
 
-CMOS003.101 Clearing CMOS resets Hybrid Graphics Mode UEFI option (EDK2 UEFI)
+    [Teardown]    Run Keywords
+    ...    Restore Default UEFI Options
+    ...    AND
+    ...    Run Keyword If    '${TEST_STATUS}' != 'SKIP'    Restore Boot Order After CMOS Clear
+
+CMOS003.101 Clearing CMOS does not reset setup password (EDK2 UEFI)
+    [Documentation]    This test attempts to ensure that the Setup Password
+    ...    isn't cleared by resetting CMOS.
+    [Tags]    not_semiauto
+
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CMOS003.101 not supported
+    Skip If    not ${UEFI_PASSWORD_SUPPORT}    CMOS003.101 not supported
+
+    IF    ${TESTS_IN_FIRMWARE_SUPPORT}
+        Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    CMOS003.101 requires firmware support
+        Power On
+
+        Set Password 5 Times
+        Save Changes And Reset
+
+        Clear Cmos With Fallback
+        Power On
+
+        Enter Setup Menu Tianocore
+        Sleep    1s
+        ${output}=    Read From Terminal
+        Should Contain    ${output}    Please input admin password
+
+        [Teardown]    Run Keywords
+        ...    Run Keyword If    '${TEST_STATUS}' != 'SKIP'    Turn Off Password Functionality
+        ...    AND
+        ...    Run Keyword If    '${TEST_STATUS}' != 'SKIP'    Restore Boot Order After CMOS Clear
+    ELSE
+        Log    Tests in firmware not supported. This test becomes semiauto.    level=WARN
+        Skip If    'semiauto' not in ${INCLUDE_TAGS}    `semiauto` tag not selected
+        Execute Manual Step    [1/10] Power on DUT
+        Execute Manual Step
+        ...    [2/10] Wait for "${TIANOCORE_STRING}" string on the screen and press SETUP_MENU_KEY to enter setup menu
+        Execute Manual Step    [3/10] Enter User Password Management
+        Execute Manual Step    [4/10] Change admin password to a new one
+        Execute Manual Step    [5/10] Save setup configuration with F10 key, confirm with Y key
+        Execute Manual Step    [6/10] Power off DUT
+        Execute Manual Step
+        ...    [7/10] Unplug the AC, disconnect battery, disconnect the CMOS battery and wait ~30 seconds
+        Execute Manual Step    [8/10] Power on DUT, and check whether the screen works correctly
+        Execute Manual Step
+        ...    [9/10] Wait for "${TIANOCORE_STRING}" string on the screen and press SETUP_MENU_KEY to enter setup menu
+        Execute Manual Step
+        ...    [10/10] Verify that after the CMOS reset, UEFI Menu still requires entering password to enter
+    END
+    [Teardown]    Run Keyword If    '${TEST_STATUS}' != 'SKIP'    CMOS002 Teardown
+
+CMOS004.101 Clearing CMOS resets Hybrid Graphics Mode UEFI option (EDK2 UEFI)
     [Documentation]    This test attempts to verify whether there is a possibility to reset
     ...    the Hybrid Graphic Mode firmware option to default by resetting CMOS.
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    CMOS003.101 not supported
-    Skip If    not ${NVIDIA_GRAPHICS_CARD_SUPPORT}    CMOS003.101 not supported
-    Power On
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
-    ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
-    ${pwr_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Power Management Options
-    Set Option State    ${pwr_menu}    Hybrid Graphics Mode    iGPU Only
-    Save Changes And Reset
+    [Tags]    not_semiauto
+    Skip If    not ${NVIDIA_GRAPHICS_CARD_SUPPORT}    CMOS004.101 not supported
 
-    Clear Cmos With Fallback
-    Power On
+    IF    ${TESTS_IN_FIRMWARE_SUPPORT}
+        Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    CMOS004.101 requires firmware support
+        Power On
+        ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+        ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
+        ${pwr_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Power Management Options
+        Set Option State    ${pwr_menu}    Hybrid Graphics Mode    iGPU Only
+        Save Changes And Reset
 
-    ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
-    ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
-    ${pwr_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Power Management Options
-    ${gpu_mode}=    Get Option State    ${pwr_menu}    Hybrid Graphics Mode
+        Clear Cmos With Fallback
+        Power On
 
-    Should Be Equal    ${gpu_mode}    NVIDIA Optimus
+        ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
+        ${dasharo_menu}=    Enter Dasharo System Features    ${setup_menu}
+        ${pwr_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Power Management Options
+        ${gpu_mode}=    Get Option State    ${pwr_menu}    Hybrid Graphics Mode
+
+        Should Be Equal    ${gpu_mode}    NVIDIA Optimus
+        [Teardown]    Run Keyword If    '${TEST_STATUS}' != 'SKIP'    Restore Boot Order After CMOS Clear
+    ELSE
+        Log    Tests in firmware not supported. This test becomes semiauto.    level=WARN
+        Skip If    'semiauto' not in ${INCLUDE_TAGS}    `semiauto` tag not selected
+        Pause Execution
+        ...    This is a semiauto test.
+        Execute Manual Step    [1/14] Power on DUT
+        Execute Manual Step
+        ...    [2/14] Wait for "${TIANOCORE_STRING}" string on the screen and press SETUP_MENU_KEY to enter setup menu
+        Execute Manual Step    [3/14] Enter Dasharo System Features submenu
+        Execute Manual Step    [4/14] Enter Power Management Options submenu
+        Execute Manual Step    [5/14] Set value of "Hybrid Graphics Mode" to "iGPU Only"
+        Execute Manual Step    [6/14] Save setup configuration with F10 key, confirm with Y key
+        Execute Manual Step    [7/14] Power off DUT
+        Execute Manual Step
+        ...    [8/14] Unplug the AC, disconnect battery, disconnect the CMOS battery and wait ~30 seconds
+        Execute Manual Step    [9/14] Power on DUT, and check whether the screen works correctly
+        Execute Manual Step
+        ...    [10/14] Wait for "${TIANOCORE_STRING}" string on the screen and press SETUP_MENU_KEY to enter setup menu
+        Execute Manual Step    [12/14] Enter Dasharo System Features submenu
+        Execute Manual Step    [13/14] Enter Power Management Options submenu
+        Execute Manual Step
+        ...    [14/14] Verify that the "Hybrid Graphics Mode" option is set to "NVIDIA Optimus", and boot into Ubuntu
+    END
+
+    [Teardown]    Run Keyword If    '${TEST_STATUS}' != 'SKIP'
+    ...    Run Keyword If    ${TESTS_IN_FIRMWARE_SUPPORT}
+    ...    Restore Boot Order After CMOS Clear
 
 
 *** Keywords ***
@@ -123,7 +204,7 @@ Restore Default UEFI Options
     IF    ${DASHARO_NETWORKING_MENU_SUPPORT}
         Set UEFI Option    NetworkBoot    ${FALSE}
     END
-    Log Out And Close Connection
+    Set UEFI Option    LockBios    ${TRUE}
 
 Restore Boot Order After CMOS Clear
     [Documentation]    Re-runs BPS009 logic to restore the custom boot entry.
@@ -201,4 +282,19 @@ Turn Off Password Functionality
         Sleep    1s
         ${output}=    Read From Terminal
         Should Not Contain    ${output}    Please input admin password
+    END
+
+CMOS003 Teardown
+    [Documentation]    Cleans up password state in UEFI menu
+    IF    ${TESTS_IN_FIRMWARE_SUPPORT}
+        Turn Off Password Functionality
+    ELSE
+        Execute Manual Step    Power on DUT
+        Execute Manual Step
+        ...    Wait for "${TIANOCORE_STRING}" string on the screen and press SETUP_MENU_KEY to enter setup menu
+        Execute Manual Step    Enter the admin password you set earlier in this test
+        Execute Manual Step    Enter User Password Management
+        Execute Manual Step    Change admin password to blank, to remove password protection
+        Execute Manual Step    Save setup configuration with F10 key, confirm with Y key
+        Execute Manual Step    Boot into Ubuntu
     END

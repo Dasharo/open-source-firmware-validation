@@ -968,13 +968,20 @@
   {
     "doc": {
       "_id": "CMOS002.101",
-      "name": "Clearing CMOS resets setup password (EDK2 UEFI)",
+      "name": "Clearing CMOS resets Bios Lock firmware option (EDK2 UEFI)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
       "_id": "CMOS003.101",
+      "name": "Clearing CMOS does not reset setup password (EDK2 UEFI)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "CMOS004.101",
       "name": "Clearing CMOS resets Hybrid Graphics Mode UEFI option (EDK2 UEFI)",
       "module": "Dasharo Compatibility"
     }
