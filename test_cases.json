@@ -967,6 +967,20 @@
   },
   {
     "doc": {
+      "_id": "CMOS002.101",
+      "name": "Clearing CMOS resets setup password (EDK2 UEFI)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "CMOS003.101",
+      "name": "Clearing CMOS resets Hybrid Graphics Mode UEFI option (EDK2 UEFI)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
       "_id": "CNB001.201",
       "name": "Only one iPXE in boot menu (Ubuntu)",
       "module": "Dasharo Compatibility"
