@@ -12,7 +12,6 @@ Resource            ../keys.robot
 
 Suite Setup         Run Keyword
 ...                     Prepare Test Suite
-Suite Teardown      Restore Default UEFI Options
 Test Teardown       Restore Boot Order After CMOS Clear
 
 Default Tags        automated
@@ -24,7 +23,7 @@ Default Tags        automated
 
 *** Test Cases ***
 CMOS001.101 Clearing CMOS resets firmware settings (EDK2 UEFI)
-    [Documentation]    Check whether clearing CMOS resets firmware settings
+    [Documentation]    Check whether clearing CMOS resets firmware settings.
 
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CMOS001.101 not supported
     Power On
@@ -50,8 +49,11 @@ CMOS001.101 Clearing CMOS resets firmware settings (EDK2 UEFI)
         Should Not Be True    ${after}
     END
 
+    [Teardown]    Restore Default UEFI Options
+
 CMOS002.101 Clearing CMOS resets setup password (EDK2 UEFI)
-    [Documentation]    Check whether clearing CMOS resets setup password
+    [Documentation]    This test attempts to verify whether there is a possibility
+    ...    to reset the Setup Password functionality by resetting CMOS.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    CMOS002.101 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CMOS002.101 not supported
     Skip If    not ${UEFI_PASSWORD_SUPPORT}    CMOS002.101 not supported
@@ -71,7 +73,8 @@ CMOS002.101 Clearing CMOS resets setup password (EDK2 UEFI)
     [Teardown]    Turn Off Password Functionality
 
 CMOS003.101 Clearing CMOS resets Hybrid Graphics Mode UEFI option (EDK2 UEFI)
-    [Documentation]    Check whether clearing CMOS resets Hybrid Graphics Mode UEFI option
+    [Documentation]    This test attempts to verify whether there is a possibility to reset
+    ...    the Hybrid Graphic Mode firmware option to default by resetting CMOS.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    CMOS003.101 not supported
     Skip If    not ${NVIDIA_GRAPHICS_CARD_SUPPORT}    CMOS003.101 not supported
     Power On
@@ -89,13 +92,13 @@ CMOS003.101 Clearing CMOS resets Hybrid Graphics Mode UEFI option (EDK2 UEFI)
     ${pwr_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Power Management Options
     ${gpu_mode}=    Get Option State    ${pwr_menu}    Hybrid Graphics Mode
 
-    Should Be Equal    ${HYBRID_MODE}    NVIDIA Optimus
+    Should Be Equal    ${gpu_mode}    NVIDIA Optimus
 
 
 *** Keywords ***
 Clear Cmos With Fallback
     [Documentation]    Clears CMOS via RTE, otherwise instructs
-    ...    tester to manually disconnect battery
+    ...    tester to manually disconnect the battery
     IF    ${DUT_HAS_CMOS_RESET}
         Rte Psu Off
         Rte Clear Cmos
@@ -111,7 +114,7 @@ Clear Cmos With Fallback
     END
 
 Restore Default UEFI Options
-    [Documentation]    Reset modified UEFI options after failed test
+    [Documentation]    Reset modified UEFI options after failed test.
     Power On
     Boot System Or From Connected Disk    ${DEFAULT_BOOT_OS_ID}
     IF    ${DASHARO_USB_MENU_SUPPORT}
@@ -123,7 +126,7 @@ Restore Default UEFI Options
     Log Out And Close Connection
 
 Restore Boot Order After CMOS Clear
-    [Documentation]    Re-runs BPS009 logic to restore the custom boot entry
+    [Documentation]    Re-runs BPS009 logic to restore the custom boot entry.
     ...    that CMOS clear wiped.
     IF    '${OPTIONS_LIB}' == 'options-lib_dcu'
         Boot And Login To OS    ${DEFAULT_BOOT_OS_ID}
@@ -134,8 +137,8 @@ Restore Boot Order After CMOS Clear
     END
 
 Set Password 5 Times
-    [Documentation]    Sets the password 5 times to reset the same password
-    ...    counter
+    [Documentation]    Sets the password 5 times to reset the password counter
+    ...    and set a default password.
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
     ${pass_mgr_menu}=    Enter Submenu From Snapshot And Return Construction
     ...    ${setup_menu}
@@ -171,6 +174,7 @@ Set Password 5 Times
     Press Key N Times    1    ${ENTER}
 
 Turn Off Password Functionality
+    [Documentation]    Resets the Setup Password if it's set.
     Power On
     Enter Setup Menu Tianocore
     Sleep    1s
