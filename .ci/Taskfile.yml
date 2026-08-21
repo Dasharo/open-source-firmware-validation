@@ -34,7 +34,12 @@ tasks:
   ci:stability:
     desc: Run the release test scope REPEATS times on every device of DEVICES
     cmds:
-      - task: stability:run
+      - task: stability:main
+
+  ci:stability-device:
+    desc: Run the release test scope REPEATS times on $DEVICE
+    cmds:
+      - task: stability:device
 
   ci:image:precommit:build:
     desc: Build the CI image, tagged with a UTC timestamp and latest

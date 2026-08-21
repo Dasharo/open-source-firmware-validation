@@ -468,27 +468,49 @@ regression tests of most OSFV test suites on multiple supported devices
 will be run to verify how many tests pass "Out of the box", and without any
 kind of maintenance.
 
-### osfv_stability_run.py
+### stability:run
 
-`scripts/ci/osfv_stability_run.py` is used to run the test scope defined in
+```bash
+task --taskfile .ci/Taskfile.yml stability:run
+```
+
+runs the test scope defined in
 `scripts/ci/regression-scope/configs/release_tests_suite_list_minimal.txt` on devices
 from `scripts/ci/regression-scope/configs/release_tests_devices.txt`, more
-precisely defined in `scripts/ci/regression-scope/devices/`.
-It reuses the system used for automatic CI runs on PRs.
+precisely defined in `scripts/ci/regression-scope/configs/devices/`.
+It reuses the system used for automatic CI runs on PRs, which tests one device
+per run, so the task starts one run per device and waits for all of them before
+it starts the next repeat.
 
-The `osfv_stability_run.py` script will try to run the whole test scope on
-all supported devices 2 times and wait until they're free for check-out on
-Snipe-IT. It can easily take multiple hours, so always make sure to run it
-on a stable device that always has the connection to the lab network.
+The task will try to run the whole test scope on all supported devices 2 times
+and wait until they're free for check-out on Snipe-IT. It can easily take
+multiple hours, so always make sure to run it on a stable device that always
+has the connection to the lab network.
 
-Use `LOGS_DIR` env variable to redirect logs to NFS for future reference:
-`export LOGS_DIR=/srv/nfs/logs/osfv_stability/ci_logs`
+The output of the run of a device lands in `<device>.log`, next to the logs of
+its tests in
+`LOGS_DIR/<branch>_<commit>/<run date>/run<repeat>/`, which is the layout
+`osfv_stability_reports.py` expects.
 
-Use `MANUAL_TESTS_LIST` env var to select a list of tests to run, e.g. whole OSFV:
-`export MANUAL_TESTS_LIST="scripts/ci/regression-scope/configs/release_tests_suite_list_minimal.txt"`
+Every default can be overridden on the command line:
 
-Use `DEVICES` env var to configure list of devices to run on:
-`export DEVICES="scripts/ci/regression-scope/configs/release_tests_devices.txt"`
+```bash
+# where to keep the logs, the NFS by default, for future reference
+task --taskfile .ci/Taskfile.yml stability:run LOGS_DIR=/srv/nfs/logs/osfv_stability/ci_logs
+# a list of tests to run, e.g. whole OSFV
+task --taskfile .ci/Taskfile.yml stability:run \
+  MANUAL_TESTS_LIST=scripts/ci/regression-scope/configs/release_tests_suite_list.txt
+# a list of devices to run on, and how many times to repeat the scope
+task --taskfile .ci/Taskfile.yml stability:run DEVICES=my-devices.txt REPEATS=1
+```
+
+A single device is `stability:device`, which is what a repeat runs for each of
+them:
+
+```bash
+task --taskfile .ci/Taskfile.yml stability:device \
+  DEVICE=pcengines-apu3_00252 RUN_LOGS_DIR=/tmp/logs
+```
 
 ### osfv_stability_reports.py
 

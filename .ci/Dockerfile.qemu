@@ -13,6 +13,7 @@ RUN apt-get update \
         qemu-system-x86 \
         swtpm \
         wget \
+        nfs-common \
     && rm -rf /var/lib/apt/lists/*
 
 ARG TASK_VERSION=3.45.4

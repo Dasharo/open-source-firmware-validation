@@ -11,6 +11,8 @@ includes:
 vars:
   REPO_ROOT:
     sh: git rev-parse --show-toplevel
+  REGRESSION_IMAGE_NAME: ghcr.io/dasharo/osfv-qemu-ci
+  REGRESSION_IMAGE: '{{.REGRESSION_IMAGE_NAME}}:latest'
   REPEATS: 2
   DEVICES: scripts/ci/regression-scope/configs/release_tests_devices.txt
   DEVICE_NAMES:
@@ -18,38 +20,46 @@ vars:
   MANUAL_TESTS_LIST: scripts/ci/regression-scope/configs/release_tests_suite_list_minimal.txt
   RULES_FILE: scripts/ci/regression-scope/configs/release_tests_rules.json
   LOGS_DIR: /srv/nfs/logs/osfv_stability/ci_logs
+  # Identifies one stability run, shared by all its devices. CI overrides it so
+  # that the matrix jobs, which each compute their own, land in one directory.
+  RUN_ID:
+    sh: echo "$(git rev-parse --abbrev-ref HEAD)_$(git rev-parse HEAD)/$(date '+%Y_%m_%d_%H_%M_%S')"
 
 tasks:
-  run:
+  main:
     desc: Run the release test scope REPEATS times on every device of DEVICES
     dir: '{{.REPO_ROOT}}'
+    deps:
+      - for: {var: DEVICE_NAMES}
+        task: device
+        vars:
+          DEVICE: '{{.ITEM}}'
+
+  device:
+    desc: Run the release test scope REPEATS times on DEVICE
+    dir: '{{.REPO_ROOT}}'
     vars:
-      BRANCH:
-        sh: git branch --show-current
-      COMMIT:
-        sh: git rev-parse HEAD
-      RUN_DATE:
-        sh: date '+%Y_%m_%d_%H_%M_%S'
       RUNS:
         sh: seq 0 $(( {{.REPEATS}} - 1 ))
     cmds:
       - for: {var: RUNS}
-        task: stability:repeat
+        task: device:repeat
         vars:
-          RUN_LOGS_DIR: '{{.LOGS_DIR}}/{{.BRANCH}}_{{.COMMIT}}/{{.RUN_DATE}}/run{{.ITEM}}'
+          DEVICE: '{{.DEVICE}}'
+          RUN_LOGS_DIR: '{{.LOGS_DIR}}/{{.RUN_ID}}/run{{.ITEM}}'
 
-  repeat:
-    desc: One repeat of the stability run, all the devices at once
+  device:repeat:
+    desc: One repeat of the release test scope on DEVICE
     dir: '{{.REPO_ROOT}}'
-    deps:
-      - for: {var: DEVICE_NAMES}
-        task: stability:device
+    cmds:
+      - mkdir -p '{{.RUN_LOGS_DIR}}'
+      - task: '{{if .CI}}device:local{{else}}device:container{{end}}'
         vars:
-          DEVICE: '{{.ITEM}}'
+          DEVICE: '{{.DEVICE}}'
           RUN_LOGS_DIR: '{{.RUN_LOGS_DIR}}'
 
-  device:
-    desc: Run the release test scope on DEVICE, logging to RUN_LOGS_DIR/DEVICE.log
+  device:local:
+    desc: Run the release test scope on DEVICE in the current environment, no container
     dir: '{{.REPO_ROOT}}'
     env:
       DEVICE: '{{.DEVICE}}'
@@ -58,5 +68,24 @@ tasks:
       RULES_FILE: '{{.RULES_FILE}}'
       ALLOW_DIRTY: '1'
     cmds:
-      - mkdir -p '{{.RUN_LOGS_DIR}}'
-      - scripts/ci/develop_pr_auto_regression.py > '{{.RUN_LOGS_DIR}}/{{.DEVICE}}.log' 2>&1
+      - scripts/ci/develop_pr_auto_regression.py |& tee '{{.RUN_LOGS_DIR}}/{{.DEVICE}}.log'
+
+  device:container:
+    desc: Run the release test scope on DEVICE inside {{.REGRESSION_IMAGE}}
+    dir: '{{.REPO_ROOT}}'
+    cmds:
+      # network host for the lab devices (RTE, PiKVM, Sonoff), ~/.osfv for the
+      # Snipe-IT credentials, the NFS share for the logs
+      - |
+        docker run --rm --network host \
+        -e DEVICE='{{.DEVICE}}' \
+        -e LOGS_DIR='{{.RUN_LOGS_DIR}}' \
+        -e MANUAL_TESTS_LIST='{{.MANUAL_TESTS_LIST}}' \
+        -e RULES_FILE='{{.RULES_FILE}}' \
+        -e ALLOW_DIRTY=1 \
+        -v {{.REPO_ROOT}}:/workspace \
+        -v /srv/nfs/logs:/srv/nfs/logs \
+        -v "${HOME}/.osfv":/root/.osfv:ro \
+        -w /workspace \
+        {{.REGRESSION_IMAGE}} \
+        scripts/ci/develop_pr_auto_regression.py |& tee '{{.RUN_LOGS_DIR}}/{{.DEVICE}}.log'

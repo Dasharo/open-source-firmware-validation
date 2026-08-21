@@ -1,0 +1,70 @@
+# SPDX-FileCopyrightText: 2026 3mdeb <contact@3mdeb.com>
+#
+# SPDX-License-Identifier: Apache-2.0
+
+when:
+  - event: cron
+    cron: osfv-stability-regression
+  - event: manual
+
+labels:
+  network: office
+
+matrix:
+  DEVICE:
+    - msi-pro-z690-a-wifi-ddr4_00039
+    - novacustom-nuc_box-125H_00245
+    - novacustom-nuc_box-155H_00254
+    - novacustom-v540tnd_00266
+    - novacustom-v540tu_00191
+    - pcengines-apu3_00252
+    - protectli-vp2410_00052
+    - protectli-vp6650_00002
+
+concurrency:
+  limit: 1
+  group: device-${DEVICE}
+
+clone:
+  git:
+    image: woodpeckerci/plugin-git
+    settings:
+      recursive: false
+
+steps:
+  - name: stability
+    image: ghcr.io/dasharo/osfv-qemu-ci:latest
+    pull: true
+    environment:
+      STABILITY_LOGS_DIR: /srv/nfs/logs/osfv_stability/ci_logs
+      NFS_IP:
+        from_secret: OSFV_NFS_IP
+      SNIPEIT_CONFIG:
+        from_secret: SNIPEIT_YAML_CONFIG_FILE
+    privileged: true
+    commands:
+      # Installing snipeit creds
+      - mkdir -p "/root/.osfv"
+      - printf '%s\n' "$${SNIPEIT_CONFIG}" > "/root/.osfv/snipeit.yml"
+      # The mount lives in this container's mount namespace only, so it has to
+      # be done in the same step as the run. It disappears with the container.
+      - mkdir -p /srv/nfs/logs
+      - mount -t nfs -o nolock "$${NFS_IP}":/srv/nfs/logs /srv/nfs/logs
+      - mountpoint -q /srv/nfs/logs
+      - ls /srv/nfs/logs
+      - RUN_ID="${CI_COMMIT_BRANCH}_${CI_COMMIT_SHA}/$(date -u -d @${CI_PIPELINE_CREATED} '+%Y_%m_%d_%H_%M_%S')"
+      - |
+        TASK_X_REMOTE_TASKFILES=1 task --yes --taskfile .ci/Taskfile.yml \
+        ci:stability-device DEVICE="$${DEVICE}" LOGS_DIR="$${STABILITY_LOGS_DIR}" RUN_ID="$${RUN_ID}"
+
+  - name: check-in # make sure its checked in even if the task fails
+    image: ghcr.io/dasharo/osfv-qemu-ci:latest
+    environment:
+      SNIPEIT_CONFIG:
+        from_secret: SNIPEIT_YAML_CONFIG_FILE
+    commands:
+      - mkdir -p "/root/.osfv"
+      - printf '%s\n' "$${SNIPEIT_CONFIG}" > "/root/.osfv/snipeit.yml"
+      - osfv_cli snipeit check_in --asset_id "$${DEVICE##*_}" || true
+    when:
+      - status: [success, failure]
