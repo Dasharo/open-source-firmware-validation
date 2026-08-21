@@ -1,0 +1,28 @@
+# SPDX-FileCopyrightText: 2026 3mdeb <contact@3mdeb.com>
+#
+# SPDX-License-Identifier: Apache-2.0
+
+when:
+  # Nightly run, the cron entry itself is defined in the repository settings
+  - event: cron
+    cron: qemu-stress-test
+    branch: develop
+
+labels:
+  kvm: true
+
+clone:
+  git:
+    image: woodpeckerci/plugin-git
+    settings:
+      recursive: false
+
+steps:
+  - name: qemu-stress-test
+    image: ghcr.io/dasharo/osfv-qemu-ci:latest
+    pull: true
+    # QEMU is run with KVM acceleration, which needs /dev/kvm. Requires the
+    # repository to be marked as trusted in the Woodpecker settings.
+    privileged: true
+    commands:
+      - TASK_X_REMOTE_TASKFILES=1 task --yes --taskfile .ci/Taskfile.yml ci:qemu-stress-test

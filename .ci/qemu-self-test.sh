@@ -16,6 +16,9 @@ TPM_PID_FILE="/tmp/osfv/tpm/pid"
 SERIAL_PORT=1234
 STARTUP_TIMEOUT=120
 
+# toggle self-test / stress test
+STRESS=${STRESS:-}
+
 cleanup() {
   set +e
   local _rc=$?
@@ -72,8 +75,10 @@ setup_test_data
 ./scripts/ci/qemu-run.sh nographic firmware &
 wait_for_qemu
 
-<<<<<<< HEAD
-./scripts/ci/qemu-self-test.sh
-=======
-uv run ./scripts/ci/qemu-self-test.sh
->>>>>>> 00b6db2ffa24 (.ci: Add develop pr regression)
+if [ -n "$STRESS" ]; then
+  echo "Running ./scripts/ci/qemu-stress-tests.sh"
+  ./scripts/ci/qemu-stress-tests.sh
+else
+  echo "Running ./scripts/ci/qemu-self-test.sh"
+  ./scripts/ci/qemu-self-test.sh
+fi

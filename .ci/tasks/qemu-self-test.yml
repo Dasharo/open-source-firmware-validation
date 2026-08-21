@@ -33,3 +33,29 @@ tasks:
         -v {{.REPO_ROOT}}:/workspace \
         -w /workspace \
         {{.QEMU_IMAGE}} bash .ci/qemu-self-test.sh
+
+  stress:main:
+    desc: Run keywords stress-tests with QEMU
+    dir: '{{.REPO_ROOT}}'
+    cmds:
+      - task: '{{if .CI}}stress:run:local{{else}}stress:run:container{{end}}'
+
+  stress:run:local:
+    desc: Run the QEMU stress-tests in the current environment, no container
+    dir: '{{.REPO_ROOT}}'
+    env:
+      STRESS: 1
+    cmds:
+      - bash .ci/qemu-self-test.sh
+
+  stress:run:container:
+    desc: Run the QEMU stress-tests inside {{.QEMU_IMAGE}}
+    dir: '{{.REPO_ROOT}}'
+    cmds:
+      - |
+        docker run --rm \
+        --device /dev/kvm \
+        -e STRESS=1 \
+        -v {{.REPO_ROOT}}:/workspace \
+        -w /workspace \
+        {{.QEMU_IMAGE}} bash .ci/qemu-self-test.sh

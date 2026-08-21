@@ -21,6 +21,10 @@ tasks:
     desc: Run keywords self-tests with QEMU
     cmds:
       - task: qemu-self-test:main
+  ci:qemu-stress-test:
+    desc: Run keyword stress-tests with QEMU
+    cmds:
+      - task: qemu-self-test:stress:main
 
   ci:develop-pr-regression:
     desc: Run the scoped PR regression on $DEVICE (in-container when already in CI, otherwise wrapped)
