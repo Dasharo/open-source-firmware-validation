@@ -1,0 +1,42 @@
+# SPDX-FileCopyrightText: 2026 3mdeb <contact@3mdeb.com>
+#
+# SPDX-License-Identifier: Apache-2.0
+
+version: '3'
+
+vars:
+  REPO_ROOT:
+    sh: git rev-parse --show-toplevel
+  REGRESSION_IMAGE_NAME: ghcr.io/dasharo/osfv-qemu-ci
+  REGRESSION_IMAGE: '{{.QEMU_IMAGE_NAME}}:latest'
+
+tasks:
+  main:
+    desc: Run the scoped PR regression on $DEVICE (in-container when already in CI, otherwise wrapped)
+    dir: '{{.REPO_ROOT}}'
+    cmds:
+      - task: '{{if .CI}}run:local{{else}}run:container{{end}}'
+        vars:
+          DEVICE: '{{.DEVICE}}'
+
+  run:local:
+    desc: Run the PR regression on $DEVICE in the current environment, no container
+    dir: '{{.REPO_ROOT}}'
+    cmds:
+      - DEVICE='{{.DEVICE}}' bash .ci/develop-pr-regression.sh
+
+  run:container:
+    desc: Run the PR regression on $DEVICE inside {{.REGRESSION_IMAGE}}
+    dir: '{{.REPO_ROOT}}'
+    cmds:
+      # passing ssh agent because develop-pr-regression pulls the remote
+      - |
+        docker run --rm --network host \
+        -e DEVICE='{{.DEVICE}}' -e BASE_BRANCH \
+        -e SSH_AUTH_SOCK=/ssh-agent \
+        -v "${SSH_AUTH_SOCK}":/ssh-agent \
+        -v "${HOME}/.ssh/known_hosts":/root/.ssh/known_hosts:ro \
+        -v {{.REPO_ROOT}}:/workspace \
+        -v "${HOME}/.osfv":/root/.osfv:ro \
+        -w /workspace \
+        {{.REGRESSION_IMAGE}} bash .ci/develop-pr-regression.sh

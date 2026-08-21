@@ -1,0 +1,74 @@
+# SPDX-FileCopyrightText: 2026 3mdeb <contact@3mdeb.com>
+#
+# SPDX-License-Identifier: Apache-2.0
+
+version: 3
+
+vars:
+  PRECOMMIT_IMAGE_NAME: ghcr.io/dasharo/osfv-ci
+  QEMU_IMAGE_NAME: ghcr.io/dasharo/osfv-qemu-ci
+  REGRESSION_IMAGE_NAME: ghcr.io/dasharo/osfv-qemu-ci
+  BUILD_TAG:
+    sh: date -u +%Y%m%d-%H%M%S
+  PRECOMMIT_IMAGE: '{{.PRECOMMIT_IMAGE_NAME}}:latest'
+  QEMU_IMAGE: '{{.QEMU_IMAGE_NAME}}:latest'
+  REGRESSION_IMAGE: '{{.QEMU_IMAGE_NAME}}:latest'
+
+tasks:
+  precommit:build:
+    desc: Build the CI image, tagged with a UTC timestamp and latest
+    dir: '{{.REPO_ROOT}}'
+    cmds:
+      - |
+        docker build -f .ci/Dockerfile \
+          -t {{.PRECOMMIT_IMAGE_NAME}}:{{.BUILD_TAG}} \
+          -t {{.PRECOMMIT_IMAGE_NAME}}:latest \
+          .
+      - echo "Built {{.PRECOMMIT_IMAGE_NAME}}:{{.BUILD_TAG}}"
+
+  precommit:release:
+    desc: Build and push the CI image
+    dir: '{{.REPO_ROOT}}'
+    vars:
+      TAG:
+        sh: echo "$(date -u +%Y%m%d-%H%M%S)-$(git rev-parse --short HEAD)"
+    cmds:
+      - task: precommit:build
+        vars: {BUILD_TAG: '{{.TAG}}'}
+      - task: precommit:push
+        vars: {BUILD_TAG: '{{.TAG}}'}
+
+  precommit:push:
+    desc: Push both tags of the CI image
+    cmds:
+      - docker push {{.PRECOMMIT_IMAGE_NAME}}:{{.BUILD_TAG}}
+      - docker push {{.PRECOMMIT_IMAGE_NAME}}:latest
+
+  qemu:build:
+    desc: Build the QEMU CI image, tagged with a UTC timestamp and latest
+    dir: '{{.REPO_ROOT}}'
+    cmds:
+      - |
+        docker build -f .ci/Dockerfile.qemu \
+          -t {{.QEMU_IMAGE_NAME}}:{{.BUILD_TAG}} \
+          -t {{.QEMU_IMAGE_NAME}}:latest \
+          .
+      - echo "Built {{.QEMU_IMAGE_NAME}}:{{.BUILD_TAG}}"
+
+  qemu:release:
+    desc: Build and push the QEMU CI image
+    dir: '{{.REPO_ROOT}}'
+    vars:
+      TAG:
+        sh: echo "$(date -u +%Y%m%d-%H%M%S)-$(git rev-parse --short HEAD)"
+    cmds:
+      - task: qemu:build
+        vars: {BUILD_TAG: '{{.TAG}}'}
+      - task: qemu:push
+        vars: {BUILD_TAG: '{{.TAG}}'}
+
+  qemu:push:
+    desc: Push both tags of the QEMU CI image
+    cmds:
+      - docker push {{.QEMU_IMAGE_NAME}}:{{.BUILD_TAG}}
+      - docker push {{.QEMU_IMAGE_NAME}}:latest

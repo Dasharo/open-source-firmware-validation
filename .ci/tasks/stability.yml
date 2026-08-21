@@ -1,0 +1,62 @@
+# SPDX-FileCopyrightText: 2026 3mdeb <contact@3mdeb.com>
+#
+# SPDX-License-Identifier: Apache-2.0
+
+version: '3'
+
+includes:
+  docker:
+    taskfile: https://raw.githubusercontent.com/3mdeb/taskfiles/main/docker.yml
+
+vars:
+  REPO_ROOT:
+    sh: git rev-parse --show-toplevel
+  REPEATS: 2
+  DEVICES: scripts/ci/regression-scope/configs/release_tests_devices.txt
+  DEVICE_NAMES:
+    sh: "cd {{.REPO_ROOT}} && grep -v '^#' {{.DEVICES}}"
+  MANUAL_TESTS_LIST: scripts/ci/regression-scope/configs/release_tests_suite_list_minimal.txt
+  RULES_FILE: scripts/ci/regression-scope/configs/release_tests_rules.json
+  LOGS_DIR: /srv/nfs/logs/osfv_stability/ci_logs
+
+tasks:
+  run:
+    desc: Run the release test scope REPEATS times on every device of DEVICES
+    dir: '{{.REPO_ROOT}}'
+    vars:
+      BRANCH:
+        sh: git branch --show-current
+      COMMIT:
+        sh: git rev-parse HEAD
+      RUN_DATE:
+        sh: date '+%Y_%m_%d_%H_%M_%S'
+      RUNS:
+        sh: seq 0 $(( {{.REPEATS}} - 1 ))
+    cmds:
+      - for: {var: RUNS}
+        task: stability:repeat
+        vars:
+          RUN_LOGS_DIR: '{{.LOGS_DIR}}/{{.BRANCH}}_{{.COMMIT}}/{{.RUN_DATE}}/run{{.ITEM}}'
+
+  repeat:
+    desc: One repeat of the stability run, all the devices at once
+    dir: '{{.REPO_ROOT}}'
+    deps:
+      - for: {var: DEVICE_NAMES}
+        task: stability:device
+        vars:
+          DEVICE: '{{.ITEM}}'
+          RUN_LOGS_DIR: '{{.RUN_LOGS_DIR}}'
+
+  device:
+    desc: Run the release test scope on DEVICE, logging to RUN_LOGS_DIR/DEVICE.log
+    dir: '{{.REPO_ROOT}}'
+    env:
+      DEVICE: '{{.DEVICE}}'
+      LOGS_DIR: '{{.RUN_LOGS_DIR}}'
+      MANUAL_TESTS_LIST: '{{.MANUAL_TESTS_LIST}}'
+      RULES_FILE: '{{.RULES_FILE}}'
+      ALLOW_DIRTY: '1'
+    cmds:
+      - mkdir -p '{{.RUN_LOGS_DIR}}'
+      - scripts/ci/develop_pr_auto_regression.py > '{{.RUN_LOGS_DIR}}/{{.DEVICE}}.log' 2>&1

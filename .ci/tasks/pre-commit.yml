@@ -1,0 +1,36 @@
+# SPDX-FileCopyrightText: 2026 3mdeb <contact@3mdeb.com>
+#
+# SPDX-License-Identifier: Apache-2.0
+
+version: '3'
+
+includes:
+  docker:
+    taskfile: https://raw.githubusercontent.com/3mdeb/taskfiles/main/docker.yml
+
+vars:
+  REPO_ROOT:
+    sh: git rev-parse --show-toplevel
+  PRECOMMIT_IMAGE_NAME: ghcr.io/dasharo/osfv-ci
+  PRECOMMIT_IMAGE: '{{.PRECOMMIT_IMAGE_NAME}}:latest'
+
+tasks:
+  main:
+    dir: '{{.REPO_ROOT}}'
+    cmds:
+      - task: '{{if .CI}}run:local{{else}}run:container{{end}}'
+
+  run:local:
+    dir: '{{.REPO_ROOT}}'
+    cmds:
+      - sh .ci/pre-commit.sh
+
+  run:container:
+    dir: '{{.REPO_ROOT}}'
+    cmds:
+      - task: docker:run
+        vars:
+          IMAGE: '{{.PRECOMMIT_IMAGE}}'
+          VOLUMES: '{{.REPO_ROOT}}:/workspace'
+          WORKDIR: /workspace
+          COMMAND: sh .ci/pre-commit.sh
