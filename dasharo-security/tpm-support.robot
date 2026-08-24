@@ -256,55 +256,6 @@ TPM014.101 TPM single bank detection (EDK2 UEFI)
     ...    ${active_bank}    ${bank_to_set}
     Dictionaries Should Be Equal    ${expected_state}    ${banks_state_after}    PCR Bank state not as expected.
 
-TPM015.101 Check if platform is vulnerable to TPM GPIO reset (EDK2 UEFI)
-    [Documentation]    This test aims to verify that the platform
-    ...    is not vulnerable to a TPM GPIO reset attack.
-    ...    This test requires a writable USB drive to be available for the DUT!
-    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    TPM015.101 not supported
-    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    TPM015.101 not supported
-    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    TPM015.101 not supported
-    Power On
-    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
-    Login To Linux
-    Switch To Root User
-    Verify Presence Of TPM Via Sysfs
-    Prepare TPM GPIO Reset Utility
-
-    # Checking if platform config present in tpm-gpio-fail
-    ${detect_output}=    Execute Command In Terminal    /home/ubuntu/tpm-gpio-fail/detect/tpm-gpio-detect
-    Skip If    'unknown platform' in '''${detect_output}'''    Test for platform not implemented
-
-    # Booting into DTS to perform TPM GPIO reset test
-    ${ubuntu_partition}=    Execute Command In Terminal    df -P . | sed -n '\$s/[[:blank:]].*//p'
-    ${usb_partition}=    Get First USB Stick In Linux
-    Sleep    5
-    Log To Console    Booting into DTS...
-    Power On
-    Boot Dasharo Tools Suite Via IPXE Shell    https://boot.dasharo.com/dts/dts.ipxe
-    Wait For DTS To Boot
-    Enter Shell In DTS
-    Execute Command In Terminal    mkdir /mnt/test
-    Execute Command In Terminal    mkdir /mnt/usb
-    Execute Command In Terminal    mount ${ubuntu_partition} /mnt/test
-    Execute Command In Terminal    mount /dev/${usb_partition} /mnt/usb
-    Log To Console    Running TPM reset test...
-
-    # Running test (will cause serial to cut off) and waiting for it to finish
-    Write Into Terminal
-    ...    /mnt/test/home/ubuntu/tpm-gpio-fail/reset/tpm-gpio-assert > /mnt/usb/tpm-gpio-assert.log && sync
-    Sleep    30
-
-    # Restarting after test and checking the results
-    Log To Console    Restarting after trying TPM reset...
-    Power On
-    Boot Dasharo Tools Suite Via IPXE Shell    https://boot.dasharo.com/dts/dts.ipxe
-    Wait For DTS To Boot
-    Enter Shell In DTS
-    Execute Command In Terminal    mkdir /mnt/usb
-    Execute Command In Terminal    mount /dev/${usb_partition} /mnt/usb
-    ${assert_output}=    Execute Command In Terminal    cat /mnt/usb/tpm-gpio-assert.log
-    Should Not Contain    ${assert_output}    RESULT: DW0 write verified
-
 TPM001.201 TPM Support (Ubuntu)
     [Documentation]    Check whether the TPM is initialized correctly and the
     ...    PCRs can be accessed from the Linux OS.
@@ -509,7 +460,54 @@ TPM013.201 TPM PPI Prompt (Ubuntu)
     ${set}=    TPM2 Check Owner Key Password Set
     Should Not Be True    ${set}
 
-TPM015.201 Check if platform is vulnerable to TPM GPIO reset (Ubuntu)
+TPM014.201 Check if platform is vulnerable to TPM GPIO reset (Ubuntu)
+    [Documentation]    This test aims to verify that the platform
+    ...    is not vulnerable to a TPM GPIO reset attack.
+    ...    This test requires a writable USB drive matching USB_MODEL to be available for the DUT!
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    TPM014.201 not supported
+    Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    TPM014.201 not supported
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    TPM014.201 not supported
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
+    Login To Linux
+    Switch To Root User
+    Verify Presence Of TPM Via Sysfs
+    Prepare TPM GPIO Reset Utility
+
+    # Checking if platform config present in tpm-gpio-fail
+    ${detect_output}=    Execute Command In Terminal    /home/ubuntu/tpm-gpio-fail/detect/tpm-gpio-detect
+    Skip If    'unknown platform' in '''${detect_output}'''    Test for platform not implemented
+
+    # Booting into DTS to perform TPM GPIO reset test
+    ${ubuntu_partition}=    Execute Command In Terminal    df -P . | sed -n '\$s/[[:blank:]].*//p'
+    ${usb_partition}=    Identify Path To USB
+
+    # Wait for the USB to become available
+    Sleep    5
+    Execute Command In Terminal    mkdir /mnt/usb
+    Execute Command In Terminal    mount ${usb_partition} /mnt/usb
+
+    # Removing old log file (if present)
+    Execute Command In Terminal    rm -f /mnt/usb/tpm-gpio-assert.log
+
+    # Running test (will cause serial to cut off) and waiting for it to finish
+    Log To Console    Running TPM reset test...
+    Write Into Terminal
+    ...    /home/ubuntu/tpm-gpio-fail/reset/tpm-gpio-assert > /mnt/usb/tpm-gpio-assert.log && sync
+    Sleep    30
+
+    # Restarting after test and checking the results
+    Log To Console    Restarting after trying TPM reset...
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
+    Login To Linux
+    Switch To Root User
+    Execute Command In Terminal    mkdir /mnt/usb
+    Execute Command In Terminal    mount ${usb_partition} /mnt/usb
+    ${assert_output}=    Execute Command In Terminal    cat /mnt/usb/tpm-gpio-assert.log
+    Should Not Contain    ${assert_output}    0 : 0x0000000000000000000000000000000000000000000000000000000000000000
+
+TPM015.201 Manual check if platform is vulnerable to TPM GPIO reset (Ubuntu)
     [Documentation]    This test aims to verify that the platform
     ...    is not vulnerable to a TPM GPIO reset attack
     [Tags]    semiauto

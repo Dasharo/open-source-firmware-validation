@@ -6777,15 +6777,15 @@
   },
   {
     "doc": {
-      "_id": "TPM015.101",
-      "name": "Check if platform is vulnerable to TPM GPIO reset (EDK2 UEFI)",
+      "_id": "TPM014.201",
+      "name": "Check if platform is vulnerable to TPM GPIO reset (Ubuntu)",
       "module": "Dasharo Security"
     }
   },
   {
     "doc": {
       "_id": "TPM015.201",
-      "name": "Check if platform is vulnerable to TPM GPIO reset (Ubuntu)",
+      "name": "Manual check if platform is vulnerable to TPM GPIO reset (Ubuntu)",
       "module": "Dasharo Security"
     }
   },
