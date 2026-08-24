@@ -6,10 +6,10 @@ Resource    include/protectli-vp66xx.robot
 ${INITIAL_DUT_CONNECTION_METHOD}=       Telnet
 ${DUT_CONNECTION_METHOD}=               ${INITIAL_DUT_CONNECTION_METHOD}
 ${INITIAL_CPU_FREQUENCY}=               1100
-${DEF_CORES_PER_SOCKET}=                2
+${DEF_CORES_PER_SOCKET}=                10
 ${DEF_THREADS_PER_CORE}=                2
-${DEF_THREADS_TOTAL}=                   4
-${DEF_ONLINE_CPU}=                      0-3
+${DEF_THREADS_TOTAL}=                   12
+${DEF_ONLINE_CPU}=                      0-11
 ${DEF_SOCKETS}=                         1
 
 ${POWER_CTRL}=                          sonoff
@@ -37,7 +37,7 @@ ${PLATFORM_RAM_SIZE}=                   4209492
 ${SATA_SUPPORT}=                        ${True}
 ${TESTS_IN_XCP_NG_SUPPORT}=             ${True}
 @{TESTED_LINUX_DISTROS}=                ${ENV_ID_UBUNTU}    ${ENV_ID_XCP_NG}
-
+${CAPSULE_UPDATE_SUPPORT}=              ${FALSE}
 
 *** Keywords ***
 Power On

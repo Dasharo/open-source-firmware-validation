@@ -5,13 +5,13 @@ ${POWER_CTRL}=                              none
 ${TESTS_IN_FIRMWARE_SUPPORT}=               ${FALSE}
 ${OPTIONS_LIB}=                             options-lib_dcu
 
-${DMIDECODE_FIRMWARE_VERSION}=              Dasharo (coreboot+UEFI) v0.9.0
+${DMIDECODE_FIRMWARE_VERSION}=              Dasharo (coreboot+UEFI) v0.9.2
 ${DMIDECODE_PRODUCT_NAME}=                  NUC_BOX
 ${DMIDECODE_MANUFACTURER}=                  NovaCustom
 ${DMIDECODE_TYPE}=                          Desktop
 ${FLASH_LENGTH}=                            ${TBD}
-${FW_VERSION}=                              v0.9.0
-${DMIDECODE_RELEASE_DATE}=                  08/27/2025
+${FW_VERSION}=                              v0.9.2
+${DMIDECODE_RELEASE_DATE}=                  07/16/2026
 ${FLASHROM_FLAGS}=                          ${EMPTY}
 ${EXPECTED_FW_SHA256}=                      7595d57fcec2d315db0b612b9aab6cf680a1151719b7a3b2d3313aea6be97c06
 ${DMIDECODE_SERIAL_NUMBER}=                 123456789

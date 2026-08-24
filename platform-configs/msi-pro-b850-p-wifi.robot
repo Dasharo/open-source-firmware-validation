@@ -9,12 +9,12 @@ Resource    include/default.robot
 
 
 *** Variables ***
-${FW_VERSION}=                                  v0.9.0-rc2
+${FW_VERSION}=                                  v0.9.0
 ${MANUFACTURER}=                                Micro-Star International Co., Ltd.
 ${DMIDECODE_VENDOR}=                            3mdeb
 ${DMIDECODE_FIRMWARE_VERSION}=                  Dasharo (coreboot+UEFI) ${FW_VERSION}
 ${DMIDECODE_PRODUCT_NAME}=                      MS-7E56
-${DMIDECODE_RELEASE_DATE}=                      07/09/2026
+${DMIDECODE_RELEASE_DATE}=                      07/30/2026
 ${DMIDECODE_TYPE}=                              Desktop
 ${DMIDECODE_MANUFACTURER}=                      Micro-Star International Co., Ltd.
 ${CHECK_POWER_LED_SUPPORT}=                     ${TRUE}
@@ -115,7 +115,8 @@ ${CPU_FREQUENCY_MEASURE}=                       ${TRUE}
 ${TPM_DETECT_SUPPORT}=                          ${TRUE}
 ${NVME_DETECTION_SUPPORT}=                      ${TRUE}
 ${USB_TYPE_A_DEVICES_DETECTION_SUPPORT}=        ${TRUE}
-${CAPSULE_UPDATE_SUPPORT}=                      ${TRUE}
+# Changed for osfv-release - only capsule on disk supported
+${CAPSULE_UPDATE_SUPPORT}=                      ${FALSE}
 ${FUM_BOOT_IPXE_FOR_AUTO_UPDATE}=               ${FALSE}
 ${CAPSULE_DOES_NOT_PERSIST_ACROSS_RESET}=       ${TRUE}
 ${CAPSULE_ON_DISK_SUPPORT}=                     ${TRUE}
@@ -143,3 +144,4 @@ ${WIFI_CARD_UBUNTU}=                            Qualcomm Technologies, Inc WCN78
 Power On
     [Documentation]    Implementation of keywords.Power On
     Power On Default
+ 
