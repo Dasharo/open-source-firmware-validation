@@ -33,7 +33,8 @@ dasharo-compatibility/eMMC-support.robot
 dasharo-compatibility/esp-scanning.robot
 dasharo-compatibility/ethernet-port-detection.robot
 dasharo-compatibility/ethernet-port-names.robot
-dasharo-compatibility/firmware-bulding-locally.robot
+# dasharo-compatibility/firmware-building-locally.robot #
+# dasharo-compatibility/flash-test-stub.robot # deprecated debug test
 dasharo-compatibility/flash-write-protection.robot
 # dasharo-compatibility/fwupd-support.robot # depends on LVFS
 # dasharo-compatibility/heads-bootloader-support.robot # requires dedicated Heads binary

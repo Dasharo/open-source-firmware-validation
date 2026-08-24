@@ -1,0 +1,11 @@
+{
+    "env_vars": {
+        "ASSET_ID": "00283",
+        "RTE_IP": "192.168.10.107",
+        "CONFIG": "msi-pro-b850-p-wifi",
+        "SONOFF_IP": "192.168.10.47",
+        "PIKVM_IP": "192.168.10.132",
+        "DEVICE_IP": "192.168.10.97",
+        "FW_FILE": "_roms/msi_ms7e56_v0.9.0.rom"
+    }
+}

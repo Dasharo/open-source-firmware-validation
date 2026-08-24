@@ -4,12 +4,12 @@
 
 msi-pro-z690-a-wifi-ddr4_00039
 
-novacustom-nuc_box-125H_00145
+novacustom-nuc_box-125H_00265
 
 # desk setup
 # novacustom-nuc_box-155H_00254
 
-novacustom-v540tu_00191
+##novacustom-v540tu_00191
 
 # desk setup
 # novacustom-v540tnd_00266
@@ -17,3 +17,5 @@ novacustom-v540tu_00191
 pcengines-apu3_00252
 
 protectli-vp6650_00002
+
+msi-pro-b850-p-wifi_00283
