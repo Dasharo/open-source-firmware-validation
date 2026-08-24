@@ -71,10 +71,19 @@ Boot Dasharo Tools Suite Via IPXE Shell
     Enter IPXE
 
     # 3) Set up net card:
-    Write Into Terminal    dhcp net0
-    ${out}=    Read From Terminal Until Prompt
-    Should Contain    ${out}    ok
-    Set DUT Response Timeout    60s
+    FOR    ${netif_num}    IN RANGE    0    8    1
+        Write Into Terminal    dhcp net${netif_num}
+        ${out}=    Read From Terminal Until Prompt
+        ${out}=    Fetch From Right    ${out}    Configuring
+        IF    'ok' in '''${out}'''
+            Should Contain    ${out}    ok
+            Set DUT Response Timeout    60s
+            BREAK
+        END
+        IF    ${netif_num} == 7
+            Fail    Could not set up network card in iPXE shell.
+        END
+    END
 
     # 4) Try to boot via the link:
     Write Bare Into Terminal    chain ${dts_chain_link}\n    interval=0.2
