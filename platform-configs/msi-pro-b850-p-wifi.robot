@@ -114,7 +114,7 @@ ${CPU_FREQUENCY_MEASURE}=                       ${TRUE}
 ${TPM_DETECT_SUPPORT}=                          ${TRUE}
 ${NVME_DETECTION_SUPPORT}=                      ${TRUE}
 ${USB_TYPE_A_DEVICES_DETECTION_SUPPORT}=        ${TRUE}
-# Changed for osfv-release - only capsule on disk supported
+# Only capsule on disk supported
 ${CAPSULE_UPDATE_SUPPORT}=                      ${FALSE}
 ${FUM_BOOT_IPXE_FOR_AUTO_UPDATE}=               ${FALSE}
 ${CAPSULE_DOES_NOT_PERSIST_ACROSS_RESET}=       ${TRUE}
