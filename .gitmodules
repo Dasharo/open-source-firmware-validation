@@ -17,3 +17,6 @@
 [submodule "osfv-test-data"]
 	path = osfv-test-data
 	url = https://github.com/Dasharo/osfv-test-data.git
+[submodule "taskfile-templates"]
+	path = taskfile-templates
+	url = ./taskfile-templates
