@@ -4,6 +4,11 @@
 
 version: '3'
 
+includes:
+  docker:
+    taskfile: ../../taskfile-templates/templates/common/docker-run.yml
+    optional: true
+
 vars:
   REPO_ROOT:
     sh: git rev-parse --show-toplevel
@@ -27,12 +32,13 @@ tasks:
     desc: Run the QEMU self-tests inside {{.QEMU_IMAGE}}
     dir: '{{.REPO_ROOT}}'
     cmds:
-      - |
-        docker run --rm \
-        --device /dev/kvm \
-        -v {{.REPO_ROOT}}:/workspace \
-        -w /workspace \
-        {{.QEMU_IMAGE}} bash .ci/qemu-self-test.sh
+      - task: docker:run
+        vars:
+          IMAGE: '{{.QEMU_IMAGE}}'
+          DOCKER_ARGS: --device /dev/kvm
+          VOLUMES: '{{.REPO_ROOT}}:/workspace'
+          WORKDIR: /workspace
+          COMMAND: bash .ci/qemu-self-test.sh
 
   stress:main:
     desc: Run keywords stress-tests with QEMU
@@ -52,10 +58,11 @@ tasks:
     desc: Run the QEMU stress-tests inside {{.QEMU_IMAGE}}
     dir: '{{.REPO_ROOT}}'
     cmds:
-      - |
-        docker run --rm \
-        --device /dev/kvm \
-        -e STRESS=1 \
-        -v {{.REPO_ROOT}}:/workspace \
-        -w /workspace \
-        {{.QEMU_IMAGE}} bash .ci/qemu-self-test.sh
+      - task: docker:run
+        vars:
+          IMAGE: '{{.QEMU_IMAGE}}'
+          DOCKER_ARGS: --device /dev/kvm
+          ENV: STRESS=1
+          VOLUMES: '{{.REPO_ROOT}}:/workspace'
+          WORKDIR: /workspace
+          COMMAND: bash .ci/qemu-self-test.sh

@@ -6,7 +6,8 @@ version: '3'
 
 includes:
   docker:
-    taskfile: https://raw.githubusercontent.com/3mdeb/taskfiles/main/docker.yml
+    taskfile: ../../taskfile-templates/templates/common/docker-run.yml
+    optional: true
 
 vars:
   REPO_ROOT:
@@ -76,16 +77,11 @@ tasks:
     cmds:
       # network host for the lab devices (RTE, PiKVM, Sonoff), ~/.osfv for the
       # Snipe-IT credentials, the NFS share for the logs
-      - |
-        docker run --rm --network host \
-        -e DEVICE='{{.DEVICE}}' \
-        -e LOGS_DIR='{{.RUN_LOGS_DIR}}' \
-        -e MANUAL_TESTS_LIST='{{.MANUAL_TESTS_LIST}}' \
-        -e RULES_FILE='{{.RULES_FILE}}' \
-        -e ALLOW_DIRTY=1 \
-        -v {{.REPO_ROOT}}:/workspace \
-        -v /srv/nfs/logs:/srv/nfs/logs \
-        -v "${HOME}/.osfv":/root/.osfv:ro \
-        -w /workspace \
-        {{.REGRESSION_IMAGE}} \
-        scripts/ci/develop_pr_auto_regression.py |& tee '{{.RUN_LOGS_DIR}}/{{.DEVICE}}.log'
+      - task: docker:run
+        vars:
+          IMAGE: '{{.REGRESSION_IMAGE}}'
+          DOCKER_ARGS: --network host
+          ENV: 'DEVICE={{.DEVICE}},LOGS_DIR={{.RUN_LOGS_DIR}},MANUAL_TESTS_LIST={{.MANUAL_TESTS_LIST}},RULES_FILE={{.RULES_FILE}},ALLOW_DIRTY=1'
+          VOLUMES: '{{.REPO_ROOT}}:/workspace,/srv/nfs/logs:/srv/nfs/logs,$HOME/.osfv:/root/.osfv:ro'
+          WORKDIR: /workspace
+          COMMAND: 'scripts/ci/develop_pr_auto_regression.py 2>&1 | tee "{{.RUN_LOGS_DIR}}/{{.DEVICE}}.log"'

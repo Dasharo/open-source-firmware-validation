@@ -4,11 +4,16 @@
 
 version: '3'
 
+includes:
+  docker:
+    taskfile: ../../taskfile-templates/templates/common/docker-run.yml
+    optional: true
+
 vars:
   REPO_ROOT:
     sh: git rev-parse --show-toplevel
   REGRESSION_IMAGE_NAME: ghcr.io/dasharo/osfv-qemu-ci
-  REGRESSION_IMAGE: '{{.QEMU_IMAGE_NAME}}:latest'
+  REGRESSION_IMAGE: '{{.REGRESSION_IMAGE_NAME}}:latest'
 
 tasks:
   main:
@@ -30,13 +35,11 @@ tasks:
     dir: '{{.REPO_ROOT}}'
     cmds:
       # passing ssh agent because develop-pr-regression pulls the remote
-      - |
-        docker run --rm --network host \
-        -e DEVICE='{{.DEVICE}}' -e BASE_BRANCH \
-        -e SSH_AUTH_SOCK=/ssh-agent \
-        -v "${SSH_AUTH_SOCK}":/ssh-agent \
-        -v "${HOME}/.ssh/known_hosts":/root/.ssh/known_hosts:ro \
-        -v {{.REPO_ROOT}}:/workspace \
-        -v "${HOME}/.osfv":/root/.osfv:ro \
-        -w /workspace \
-        {{.REGRESSION_IMAGE}} bash .ci/develop-pr-regression.sh
+      - task: docker:run
+        vars:
+          IMAGE: '{{.REGRESSION_IMAGE}}'
+          DOCKER_ARGS: --network host
+          ENV: 'DEVICE={{.DEVICE}},BASE_BRANCH,SSH_AUTH_SOCK=/ssh-agent'
+          VOLUMES: '$SSH_AUTH_SOCK:/ssh-agent,$HOME/.ssh/known_hosts:/root/.ssh/known_hosts:ro,{{.REPO_ROOT}}:/workspace,$HOME/.osfv:/root/.osfv:ro'
+          WORKDIR: /workspace
+          COMMAND: bash .ci/develop-pr-regression.sh

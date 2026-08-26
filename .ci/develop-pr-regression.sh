@@ -21,8 +21,8 @@ export ALLOW_DIRTY=1
 setup_snipeit_config() {
   local _config
 
-  if [ -n "${SNIPEIT_CONFIG:-}" ]; then
-    echo "The snipeit config file: ${SNIPEIT_CONFIG} does not exist!"
+  if [ -z "${SNIPEIT_CONFIG:-}" ]; then
+    echo "SNIPEIT_CONFIG is not set, it has to hold the snipeit.yml contents!"
     exit 1
   fi
 

@@ -6,7 +6,12 @@ version: '3'
 
 includes:
   docker:
-    taskfile: https://raw.githubusercontent.com/3mdeb/taskfiles/main/docker.yml
+    taskfile: ../../taskfile-templates/templates/common/docker-run.yml
+    optional: true
+  lint:
+    taskfile: ../../taskfile-templates/templates/lint/pre-commit.yml
+    optional: true
+    dir: ../..
 
 vars:
   REPO_ROOT:
@@ -23,7 +28,7 @@ tasks:
   run:local:
     dir: '{{.REPO_ROOT}}'
     cmds:
-      - sh .ci/pre-commit.sh
+      - task: lint:run:changed
 
   run:container:
     dir: '{{.REPO_ROOT}}'
@@ -33,4 +38,4 @@ tasks:
           IMAGE: '{{.PRECOMMIT_IMAGE}}'
           VOLUMES: '{{.REPO_ROOT}}:/workspace'
           WORKDIR: /workspace
-          COMMAND: sh .ci/pre-commit.sh
+          COMMAND: task --taskfile .ci/Taskfile.yml pre-commit:run:local

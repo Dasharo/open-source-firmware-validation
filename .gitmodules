@@ -19,4 +19,4 @@
 	url = https://github.com/Dasharo/osfv-test-data.git
 [submodule "taskfile-templates"]
 	path = taskfile-templates
-	url = ./taskfile-templates
+	url = https://git.3mdeb.com/3mdeb/taskfile-templates.git
