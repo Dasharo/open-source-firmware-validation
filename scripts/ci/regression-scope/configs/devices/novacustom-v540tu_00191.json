@@ -1,9 +1,7 @@
 {
     "env_vars": {
         "ASSET_ID": "00191",
-        "RTE_IP": "192.168.10.247",
-        "CONFIG": "novacustom-v540tu",
-        "DEVICE_IP": "192.168.10.166"
+        "CONFIG": "novacustom-v540tu"
     },
     "fw_files": {
         "FW_FILE": "novacustom_v54x_mtl_igpu_v1.0.1_btg_prod.rom",

@@ -1,10 +1,7 @@
 {
     "env_vars": {
         "ASSET_ID": "00002",
-        "RTE_IP": "192.168.10.14",
-        "CONFIG": "protectli-vp6650",
-        "DEVICE_IP": "192.168.10.98",
-        "SONOFF_IP": "192.168.10.119"
+        "CONFIG": "protectli-vp6650"
     },
     "fw_files": {
         "FW_FILE": "protectli_vp66xx_v0.9.2_dev_signed.rom"

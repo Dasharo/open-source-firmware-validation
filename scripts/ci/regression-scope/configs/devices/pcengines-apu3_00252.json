@@ -1,9 +1,7 @@
 {
     "env_vars": {
         "ASSET_ID": "00252",
-        "RTE_IP": "192.168.10.171",
-        "CONFIG": "pcengines-apu3",
-        "DEVICE_IP": "192.168.10.215"
+        "CONFIG": "pcengines-apu3"
     },
     "fw_files": {
         "FW_FILE": "pcengines_apu3_v0.9.1_dev_signed.rom"

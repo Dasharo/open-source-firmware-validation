@@ -11,8 +11,16 @@ import subprocess
 import sys
 
 import fire
+from osfv.libs.snipeit_api import SnipeIT
 
 from lib.parser_manager import ParserManager
+
+SNIPEIT_CUSTOM_FIELDS = {
+    "RTE_IP": "RTE IP",
+    "DEVICE_IP": "IP",
+    "SONOFF_IP": "Sonoff IP",
+    "PIKVM_IP": "PiKVM IP",
+}
 
 
 def run_command(cmd, env=os.environ.copy()):
@@ -22,6 +30,22 @@ def run_command(cmd, env=os.environ.copy()):
     out = subprocess.run(cmd, capture_output=True, env=env)
     out = out.stdout.decode("utf-8").splitlines()
     return out
+
+
+def _snipeit_env_vars(asset_id):
+    """
+    Return the addresses SnipeIT holds for an asset
+    """
+    status, asset = SnipeIT().get_asset(asset_id)
+    if not status:
+        raise ValueError(f"SnipeIT has no asset '{asset_id}'")
+
+    custom_fields = asset.get("custom_fields", {})
+    return {
+        var: custom_fields[field]["value"]
+        for var, field in SNIPEIT_CUSTOM_FIELDS.items()
+        if custom_fields.get(field, {}).get("value")
+    }
 
 
 def _load_device_env_vars(name, devices_dir):
@@ -47,6 +71,11 @@ def _load_device_env_vars(name, devices_dir):
             f"Device file '{candidates[0]}' must contain an 'env_vars' dict"
         )
     env_vars = dict(device_cfg["env_vars"])
+    asset_id = env_vars.get("ASSET_ID")
+    if asset_id and env_vars.get("SNIPEIT_NO") != "true":
+        # whatever the config spells out wins over SnipeIT
+        env_vars = {**_snipeit_env_vars(asset_id), **env_vars}
+
     # CI points OSFV_ROMS_DIR at the NFS share, developers get their local _roms
     roms_dir = os.getenv("OSFV_ROMS_DIR") or "_roms"
     for key, filename in (device_cfg.get("fw_files") or {}).items():

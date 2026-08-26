@@ -1,11 +1,7 @@
 {
     "env_vars": {
         "ASSET_ID": "00245",
-        "RTE_IP": "192.168.10.73",
-        "CONFIG": "novacustom-nuc_box-125H",
-        "SONOFF_IP": "192.168.10.130",
-        "PIKVM_IP": "192.168.10.75",
-        "DEVICE_IP": "192.168.10.204"
+        "CONFIG": "novacustom-nuc_box-125H"
     },
     "fw_files": {
         "FW_FILE": "novacustom_nuc_box_mtl_v0.9.0_dev_signed.rom"
