@@ -29,7 +29,7 @@ tasks:
   ci:develop-pr-regression:
     desc: Run the scoped PR regression on $DEVICE (in-container when already in CI, otherwise wrapped)
     cmds:
-      - task: develop_pr_auto_regression:main
+      - task: develop-pr-regression:main
 
   ci:stability:
     desc: Run the release test scope REPEATS times on every device of DEVICES
