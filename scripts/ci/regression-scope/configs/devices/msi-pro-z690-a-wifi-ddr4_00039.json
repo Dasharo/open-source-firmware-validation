@@ -5,9 +5,11 @@
         "CONFIG": "msi-pro-z690-a-wifi-ddr4",
         "SONOFF_IP": "192.168.10.169",
         "PIKVM_IP": "192.168.10.120",
-        "DEVICE_IP": "192.168.10.81",
-        "FW_FILE": "_roms/msi_ms7d25_v1.1.7_ddr4_dev_signed.rom",
-        "CAPSULE_FW_FILE": "_roms/msi_ms7d25_v1.1.7_ddr4_dev_signed.cap",
-        "CAPSULE_UPDATE_RC0_FW_FILE": "_roms/msi_ms7d25_v1.1.6_ddr4_dev_signed.rom"
+        "DEVICE_IP": "192.168.10.81"
+    },
+    "fw_files": {
+        "FW_FILE": "msi_ms7d25_v1.1.7_ddr4_dev_signed.rom",
+        "CAPSULE_FW_FILE": "msi_ms7d25_v1.1.7_ddr4_dev_signed.cap",
+        "CAPSULE_UPDATE_RC0_FW_FILE": "msi_ms7d25_v1.1.6_ddr4_dev_signed.rom"
     }
 }

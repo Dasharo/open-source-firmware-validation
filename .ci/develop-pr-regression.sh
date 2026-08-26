@@ -6,18 +6,14 @@
 set -euo pipefail
 
 # One run tests one device, so that every device is scheduled, reported and
-# retried on its own. DEVICE names one of the
+# retried on its own. DEVICE is one of the
 # scripts/ci/regression-scope/configs/devices/*.json entries.
+
 export DEVICE="${DEVICE:?DEVICE is not set, it has to name the device to test}"
 BASE_BRANCH="${BASE_BRANCH:-develop}"
 
-# The tests run straight from the pull request checkout, there is nothing to
-# keep reproducible by a clean tree.
 export ALLOW_DIRTY=1
 
-# osfv_cli reserves the device in SnipeIT and the tests query it for the asset
-# data. Both read a config file, while CI hands the credentials over as an
-# environment variable.
 setup_snipeit_config() {
   local _config
 

@@ -3,7 +3,9 @@
         "ASSET_ID": "00252",
         "RTE_IP": "192.168.10.171",
         "CONFIG": "pcengines-apu3",
-        "DEVICE_IP": "192.168.10.52",
-        "FW_FILE": "_roms/pcengines_apu3_v0.9.1_dev_signed.rom"
+        "DEVICE_IP": "192.168.10.215"
+    },
+    "fw_files": {
+        "FW_FILE": "pcengines_apu3_v0.9.1_dev_signed.rom"
     }
 }

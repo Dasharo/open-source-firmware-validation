@@ -41,6 +41,7 @@ steps:
         from_secret: OSFV_NFS_IP
       SNIPEIT_CONFIG:
         from_secret: SNIPEIT_YAML_CONFIG_FILE
+      OSFV_ROMS_DIR: /srv/nfs/roms
     privileged: true
     commands:
       # Installing snipeit creds
@@ -52,6 +53,9 @@ steps:
       - mount -t nfs -o nolock "$${NFS_IP}":/srv/nfs/logs /srv/nfs/logs
       - mountpoint -q /srv/nfs/logs
       - ls /srv/nfs/logs
+      - mkdir -p /srv/nfs/roms
+      - mount -t nfs -o nolock,ro "$${NFS_IP}":/srv/nfs/roms /srv/nfs/roms
+      - mountpoint -q /srv/nfs/roms
       - RUN_ID="${CI_COMMIT_BRANCH}_${CI_COMMIT_SHA}/$(date -u -d @${CI_PIPELINE_CREATED} '+%Y_%m_%d_%H_%M_%S')"
       - |
         TASK_X_REMOTE_TASKFILES=1 task --yes --taskfile .ci/Taskfile.yml \

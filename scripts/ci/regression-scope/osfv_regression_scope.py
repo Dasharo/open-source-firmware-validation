@@ -46,7 +46,12 @@ def _load_device_env_vars(name, devices_dir):
         raise ValueError(
             f"Device file '{candidates[0]}' must contain an 'env_vars' dict"
         )
-    return device_cfg["env_vars"]
+    env_vars = dict(device_cfg["env_vars"])
+    # CI points OSFV_ROMS_DIR at the NFS share, developers get their local _roms
+    roms_dir = os.getenv("OSFV_ROMS_DIR") or "_roms"
+    for key, filename in (device_cfg.get("fw_files") or {}).items():
+        env_vars[key] = os.path.join(roms_dir, filename)
+    return env_vars
 
 
 def get_changed_files(compare_to):

@@ -19,8 +19,7 @@ labels:
   network: office
 
 # One workflow per device, so that every device reports its own status and a
-# device failing does not hide the results of the others. Keep in sync with
-# scripts/ci/regression-scope/configs/devices/.
+# device failing does not hide the results of the others
 matrix:
   DEVICE:
     - msi-pro-z690-a-wifi-ddr4_00039
@@ -53,7 +52,14 @@ steps:
       SNIPEIT_CONFIG:
         from_secret: SNIPEIT_YAML_CONFIG_FILE
       BASE_BRANCH: ${CI_COMMIT_TARGET_BRANCH}
+      NFS_IP:
+        from_secret: OSFV_NFS_IP
+      OSFV_ROMS_DIR: /srv/nfs/roms
+    privileged: true
     commands:
+      - mkdir -p /srv/nfs/roms
+      - mount -t nfs -o nolock,ro "$${NFS_IP}":/srv/nfs/roms /srv/nfs/roms
+      - mountpoint -q /srv/nfs/roms
       - TASK_X_REMOTE_TASKFILES=1 task --yes --taskfile .ci/Taskfile.yml ci:develop-pr-regression DEVICE="$DEVICE"
 
   - name: check-in # make sure its checked in even if the task fails
