@@ -80,6 +80,14 @@ def _load_device_env_vars(name, devices_dir):
     roms_dir = os.getenv("OSFV_ROMS_DIR") or "_roms"
     for key, filename in (device_cfg.get("fw_files") or {}).items():
         env_vars[key] = os.path.join(roms_dir, filename)
+
+    # on stderr, stdout carries the commands the caller parses
+    print(
+        f"Device '{name}' resolved from {candidates[0]}:",
+        json.dumps(env_vars, indent=4, sort_keys=True),
+        sep="\n",
+        file=sys.stderr,
+    )
     return env_vars
 
 
