@@ -737,10 +737,10 @@ Prepare TPM GPIO Reset Utility
     Detect Or Install Package    gcc
     Detect Or Install Package    git
     Detect Or Install Package    libpci-dev
-    Clone Git Repository    https://github.com/tlaurion/tpm-gpio-fail.git
+    Clone Git Repository    https://github.com/Kondix10/tpm-gpio-fail.git
     Set Prompt For Terminal    root@3mdeb:/home/ubuntu
     Execute Command In Terminal    cd tpm-gpio-fail
-    Execute Command In Terminal    git checkout minimal-platform-fork
+    Execute Command In Terminal    git checkout platform-extension
     Sleep    10
     Execute Command In Terminal    rm reset/tpm-gpio-assert
     Execute Command In Terminal    rm detect/tpm-gpio-detect
