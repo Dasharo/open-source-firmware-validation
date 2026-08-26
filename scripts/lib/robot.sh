@@ -100,15 +100,15 @@ test_matches_pattern() {
   # normalize pattern the same way
   norm_pat=$(echo "$pattern" | tr '[:upper:]' '[:lower:]' | tr -d ' ' | tr -d '"')
   # treat robot pattern as shell glob - [], *, ? work identically in POSIX
-  if [[ "$norm_name" == "$norm_pat" ]]; then
+  if [[ $norm_name == "$norm_pat" ]]; then
     return 0
   fi
   return 1
 }
 
 get_matched_test_cases() {
-  test_name=$1 # file or directory
-  IFS='-' read -ra robot_args <<< "$2" # like '-v 123 -t "*test1*" -i basic'
+  IFS='-' read -ra robot_args <<< "$1"
+  shift
   t_args=()
   all_test_cases=()
   test_cases_to_execute=()
@@ -123,20 +123,22 @@ get_matched_test_cases() {
   done
 
   # Find all test cases to run according to given module/suite file
-  if [ -d "$test_name" ]; then
-    while IFS= read -r file; do
+  for test_name in "$@"; do
+    if [ -d "$test_name" ]; then
+      while IFS= read -r file; do
+        while IFS= read -r line; do
+          all_test_cases+=("$line")
+        done < <(grep -hE '^[A-Z]{3,8}[0-9]{3}\.[0-9]{3}' "$file")
+      done < <(find "$test_name" -type f -name "*.robot")
+    elif [ -f "$test_name" ]; then
       while IFS= read -r line; do
         all_test_cases+=("$line")
-      done < <(grep -hE '^[A-Z]{3,8}[0-9]{3}\.[0-9]{3}' "$file")
-    done < <(find "$test_name" -type f -name "*.robot")
-  elif [ -f "$test_name" ]; then
-    while IFS= read -r line; do
-      all_test_cases+=("$line")
-    done < <(grep -hE '^[A-Z]{3,8}[0-9]{3}\.[0-9]{3}' "$test_name")
-  else
-    echo "Error invalid file or directory $test_name" >&2
-    return 1
-  fi
+      done < <(grep -hE '^[A-Z]{3,8}[0-9]{3}\.[0-9]{3}' "$test_name")
+    else
+      echo "Error invalid file or directory $test_name" >&2
+      return 1
+    fi
+  done
 
   # filter test cases using -t parameter
   if [ ${#t_args[@]} -gt 0 ]; then
@@ -153,9 +155,11 @@ get_matched_test_cases() {
   fi
 
   # leave only test IDs of matched test cases
-  mapfile -t test_cases_to_execute < <(
-    printf "%s\n" "${test_cases_to_execute[@]}" | awk '{print $1}'
-  )
+  if ((${#test_cases_to_execute[@]} > 0)); then
+    mapfile -t test_cases_to_execute < <(
+      printf "%s\n" "${test_cases_to_execute[@]}" | awk '{print $1}'
+    )
+  fi
 
   echo "$(bash_list_to_python_list_string "${test_cases_to_execute[@]}")"
 }
@@ -307,10 +311,21 @@ execute_robot() {
   echo "Logs will be saved at ${_merged_logs_dir}"
   echo "Watch \"${_debug}\" to monitor the progress of the test"
 
-  _test_cases=$(get_matched_test_cases "${_test_path[*]}" "${_robot_args[*]}")
+  _test_cases=$(get_matched_test_cases "${_robot_args[*]}" "${_test_path[@]}") || return 1
   [[ -n $_test_cases ]] && _test_cases="-v TEST_CASES:'$_test_cases'"
   _test_tags=$(get_test_tags "${_robot_args[*]}")
   [[ -n $_test_tags ]] && _test_tags="-v INCLUDE_TAGS:'$_test_tags'"
+
+  local _suites=()
+  for _p in "${_test_path[@]}"; do
+    if [[ -d $_p || $_p == *.robot ]]; then
+      _suites+=("$_p")
+    fi
+  done
+  if ((${#_suites[@]} == 0)); then
+    echo "Error: no .robot suites in: ${_test_path[*]}" >&2
+    return 1
+  fi
 
   command="
         robot -L TRACE \
@@ -330,10 +345,9 @@ execute_robot() {
               ${_robot_args[*]} \
               ${_test_cases} \
               ${_test_tags} \
-              ${_test_path[*]} \
+              ${_suites[*]} \
               "
 
-  robot_pid=""
   interrupted=0
   logs_split=0
 
@@ -348,21 +362,12 @@ execute_robot() {
 
   on_int() {
     interrupted=1
-    if [[ -n "$robot_pid" ]]; then
-      # Send SIGINT to the whole process group (closest to real Ctrl+C)
-      kill -INT -"${robot_pid}" 2>/dev/null || true
-    fi
     cleanup_and_split
   }
 
   trap on_int INT SIGINT
 
-  # Start robot in its own process group so kill -INT -$pid works
-  set -m
-  eval "${command}" &
-  robot_pid=$!
-
-  fg %1
+  eval "${command}"
   robot_rc=$?
 
   if [[ $interrupted -eq 1 && $robot_rc -eq 130 ]]; then

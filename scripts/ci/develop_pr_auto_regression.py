@@ -24,8 +24,6 @@ except ValueError:
     )
     sys.exit(1)
 CHECKED_OUT_ASSET = None
-PROC = None
-SIGKILL_GRACE_S = 30
 debug = True
 
 
@@ -89,62 +87,6 @@ def snipeit_cleanup():
         time.sleep(5)
 
 
-def _iter_descendants(pid):
-    """Yield all descendant PIDs of pid by walking /proc (Linux)."""
-    try:
-        children = Path(f"/proc/{pid}/task/{pid}/children").read_text().split()
-    except (FileNotFoundError, OSError):
-        return
-    for child_str in children:
-        try:
-            child_pid = int(child_str)
-        except ValueError:
-            continue
-        yield child_pid
-        yield from _iter_descendants(child_pid)
-
-
-def _cleanup_handler(*_):
-    p = PROC
-    if p is not None and p.poll() is None:
-        # Step 1: SIGINT so bash's on_int trap fires and signals robot's process
-        # group.
-        dprint(f"Sending SIGINT to {p.pid}")
-        try:
-            p.send_signal(signal.SIGINT)
-        except OSError:
-            pass
-
-        # Step 2: Wait for graceful exit.
-        try:
-            p.wait(timeout=SIGKILL_GRACE_S)
-        except subprocess.TimeoutExpired:
-            pass
-
-        # Step 3: Force-kill a survivor and all its descendants (e.g. robot
-        # started in its own process group by run.sh via "set -m").
-        if p.poll() is None:
-            dprint(f"Force-killing {p.pid} and its descendants")
-            for desc_pid in list(_iter_descendants(p.pid)):
-                try:
-                    os.kill(desc_pid, signal.SIGKILL)
-                except ProcessLookupError:
-                    pass
-            try:
-                p.kill()
-            except OSError:
-                pass
-
-        # Step 4: Reap the zombie so nothing is left.
-        try:
-            p.wait(timeout=5)
-        except (subprocess.TimeoutExpired, OSError):
-            pass
-
-    snipeit_cleanup()
-    sys.exit(1)
-
-
 def collect_commands(script_dir, device, tests, rules):
     res = run(
         [
@@ -184,7 +126,6 @@ def execute_commands(commands):
     Execute the commands for the device one after another, letting the tests
     print straight to stdout. Returns 0 only if all of them succeeded.
     """
-    global PROC
     exit_code = 0
 
     for idx, cmd in enumerate(commands, 1):
@@ -196,8 +137,7 @@ def execute_commands(commands):
             return 1
 
         dprint(f'Run {idx} executing: "{actual}"')
-        PROC = subprocess.Popen(shlex.split(actual), env=env)
-        rc = PROC.wait()
+        rc = run(shlex.split(actual), env=env).returncode
         if rc != 0:
             dprint(f"Run {idx} failed with exit code {rc}.")
             exit_code = 1
@@ -251,8 +191,11 @@ def main():
 
 
 atexit.register(snipeit_cleanup)
-for s in (signal.SIGINT, signal.SIGTERM, signal.SIGHUP):
-    signal.signal(s, _cleanup_handler)
+for s in (signal.SIGTERM, signal.SIGHUP):
+    signal.signal(s, lambda *_: sys.exit(1))
 
 if __name__ == "__main__":
-    sys.exit(main())
+    try:
+        sys.exit(main())
+    except KeyboardInterrupt:
+        sys.exit(1)
