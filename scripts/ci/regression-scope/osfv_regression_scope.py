@@ -162,7 +162,13 @@ class CLI:
         Print the commands that should be executed to test the changes
         """
         parser = self._prepare_parser(device_name)
-        for command in parser.commands():
+        commands = parser.commands()
+        if not commands:
+            return
+
+        prepare = parser._env_dict_to_commands(parser.device_env)
+        prepare += ["scripts/run.sh", "util/prepare-platform.robot"]
+        for command in [prepare] + commands:
             print(" ".join(command))
 
     def robot_args(self, device_name=None):
