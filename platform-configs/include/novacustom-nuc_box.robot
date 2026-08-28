@@ -56,3 +56,4 @@ ${DTS_TEST_SYSTEM_VENDOR}=                  NovaCustom
 
 ${CAPSULE_UPDATE_SUPPORT}=                  ${TRUE}
 ${WIFI_BLUETOOTH_CARD_SWITCH_SUPPORT}=      ${FALSE}
+${EC_AND_SUPER_IO_SUPPORT}=                 ${FALSE}
