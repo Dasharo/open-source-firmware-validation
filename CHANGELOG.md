@@ -2,9 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
-## [26.08] - 2026-08-24
+## [26.08] - 2026-08-28
 
-a1a542f...c079195
+a1a542f...7553715
 
 ### Added
 
@@ -392,6 +392,12 @@ a1a542f...c079195
 - Remove incorrect cat command from wifi listing (0e1f09d)
 - Guard suspension tests with SUSPEND_AND_RESUME_SUPPORT (500578d)
 - Avoid false positives (c079195)
+- Bump for 26.08 (3309a07)
+- Add release devices (f272503)
+- Change me region flash to happen after smmstore (2a281fa)
+- Change unsupported option (080920d)
+- Update ip (74ee03d)
+- Update osfv version (7553715)
 
 ### Fixed
 
@@ -1194,7 +1200,7 @@ cc5340c...a1a542f
 - Replace flash keywords (#484) (0b674a6)
 - Suggest Ubuntu 22.04.4 (334f153)
 - Extract out of keywords.robot (36d4740)
-- Make Get Hostname Ip handle 10.0.*.* (19eadfa)
+- Make Get Hostname Ip handle 10.0._._ (19eadfa)
 - Check for QEMU via ${MANUFACTURER} (ffe6d87)
 - Rename to qemu-selftests.robot (fc2826a)
 - Changed default download folder (503f5a9)
@@ -2090,7 +2096,7 @@ cc5340c...a1a542f
 - Bump version to v1.1.6 (10c5421)
 - Bump version to v0.9.4 (9f48807)
 - Increase timeout for serial output (5019ad3)
-- Restore	initial	DUT connection during suite setup (a0a1f5a)
+- Restore initial DUT connection during suite setup (a0a1f5a)
 - Add instructions to install ansible deps (a25aafc)
 - Add PLATFORM_STABILITY_CHECKING (7f45bc4)
 - Add UEFI update profiles for APU2/3/4/6 - DPP (1c74bd7)
