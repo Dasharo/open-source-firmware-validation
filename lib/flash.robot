@@ -28,6 +28,14 @@ Flash Via Internal Programmer With Args
         ...    flashrom -p internal -c "${INTERNAL_PROGRAMMER_CHIPNAME}" -w ${fw_file_path} --ifd -i fd
         ...    timeout=${timeout}
     END
+
+    # Checking for me region flash to flash it separately so boot order is preserved
+    # ME region flashing causes DUT restart so SMMSTORE needs to be flashed before ME
+    VAR    ${me_flash}=    ${FALSE}
+    IF    '-i me' in '${args}'
+        ${args}=    Remove String    ${args}    -i me
+        VAR    ${me_flash}=    ${TRUE}
+    END
     ${out_flash}=    Execute Command In Terminal
     ...    flashrom -p internal -c "${INTERNAL_PROGRAMMER_CHIPNAME}" -w ${fw_file_path} ${args}
     ...    timeout=${timeout}
@@ -40,6 +48,18 @@ Flash Via Internal Programmer With Args
         ${out_flash}=    Execute Command In Terminal
         ...    flashrom -p internal -c "${INTERNAL_PROGRAMMER_CHIPNAME}" -w ${smm_file} --fmap -i FMAP -i SMMSTORE
         ...    timeout=${timeout}
+    END
+    IF    '${me_flash}' == '${TRUE}'
+        # Flash ME region only AFTER smmstore is flashed to preserve bootorder after unconditional reboot.
+        # Cannot check VERIFIED because reboot happens before it is printed to the output.
+        Write Into Terminal
+        ...    flashrom -p internal -c "${INTERNAL_PROGRAMMER_CHIPNAME}" -w ${fw_file_path} -N --ifd -i me
+        ${prev_timeout}=    Set DUT Response Timeout    ${timeout}
+        Read From Terminal Until    Verifying flash...
+        Set DUT Response Timeout    ${prev_timeout}
+        Sleep    60
+        Login To Linux
+        Switch To Root User
     END
 
 Flash Via Internal Programmer
