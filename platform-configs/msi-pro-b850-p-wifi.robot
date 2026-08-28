@@ -144,4 +144,3 @@ ${WIFI_CARD_UBUNTU}=                            Qualcomm Technologies, Inc WCN78
 Power On
     [Documentation]    Implementation of keywords.Power On
     Power On Default
- 

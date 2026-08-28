@@ -39,6 +39,7 @@ ${TESTS_IN_XCP_NG_SUPPORT}=             ${True}
 @{TESTED_LINUX_DISTROS}=                ${ENV_ID_UBUNTU}    ${ENV_ID_XCP_NG}
 ${CAPSULE_UPDATE_SUPPORT}=              ${FALSE}
 
+
 *** Keywords ***
 Power On
     Protectli-common.Power On
