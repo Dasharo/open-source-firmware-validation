@@ -36,12 +36,15 @@ repos:
     rev: v2.4.1
     hooks:
       - id: codespell
+        exclude: CHANGELOG.md
 
   - repo: https://github.com/igorshubovych/markdownlint-cli
     rev: v0.45.0
     hooks:
       - id: markdownlint
+        exclude: CHANGELOG.md
       - id: markdownlint-fix
+        exclude: CHANGELOG.md
 
   - repo: https://github.com/koalaman/shellcheck-precommit
     rev: v0.10.0
@@ -71,7 +74,7 @@ repos:
     rev: v5.0.2
     hooks:
       - id: reuse-lint-file
-        exclude: ^dts/profiles
+        exclude: (^dts/profiles)|(^CHANGELOG.md)
 
   - repo: local
     hooks:

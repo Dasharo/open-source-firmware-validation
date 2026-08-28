@@ -24,7 +24,6 @@ ${TESTS_IN_FIRMWARE_SUPPORT}=                   ${TRUE}
 ${TESTS_IN_WINDOWS_SUPPORT}=                    ${TRUE}
 ${DEVICE_NVME_DISK}=                            Non-Volatile memory controller
 ${DEVICE_USB_KEYBOARD}=                         Linux Foundation Multifunction Composite Gadget
-${BOOT_MENU_KEY}=                               ${F10}
 ${INITIAL_DUT_CONNECTION_METHOD}=               Telnet
 ${DUT_CONNECTION_METHOD}=                       Telnet
 ${POWER_CTRL}=                                  sonoff
