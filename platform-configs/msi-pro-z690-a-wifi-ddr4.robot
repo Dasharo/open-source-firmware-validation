@@ -48,3 +48,5 @@ ${DTS_TEST_BOARD_MODEL}=                    PRO Z690-A WIFI DDR4(MS-7D25)
 
 ${PLATFORM_RAM_SPEED}=                      2400
 ${PLATFORM_RAM_SIZE}=                       32768
+${MEMORY_PROFILE_SUPPORT}=                  ${FALSE}
+${CPU_THROTTLING_SUPPORT}=                  ${FALSE}
