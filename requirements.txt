@@ -24,7 +24,7 @@ filelock==3.18.0
 fire==0.7.0
 fonttools==4.59.0
 fuzzysearch @ git+https://github.com/Dasharo/fuzzysearch@5262ef339a857c42e8e035b40e73a6e31f7ad402
-git-cliff==2.9.1
+git-cliff==2.13.1
 greenlet==3.2.3
 gspread==6.2.1
 httplib2==0.22.0
@@ -41,7 +41,7 @@ mdurl==0.1.2
 nodeenv==1.9.1
 numpy==2.3.2
 oauth2client==4.1.3
-osfv @ git+https://github.com/Dasharo/osfv-scripts.git#subdirectory=osfv_cli
+osfv @ git+https://github.com/Dasharo/osfv-scripts.git@c2dbe99b5bbbebc2e5345625b733315ad8dc73a5#subdirectory=osfv_cli
 packaging==25.0
 pandas==2.3.1
 paramiko==3.5.1
