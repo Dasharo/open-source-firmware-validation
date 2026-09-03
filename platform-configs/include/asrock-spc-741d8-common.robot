@@ -5,7 +5,7 @@
 
 
 *** Settings ***
-Resource    include/default.robot
+Resource    default.robot
 
 
 *** Variables ***
@@ -14,19 +14,18 @@ ${DUT_CONNECTION_METHOD}=                       Telnet
 ${POWER_CTRL}=                                  sonoff
 ${FLASH_SIZE}=                                  ${64*1024*1024}
 
-${INITIAL_CPU_FREQUENCY}=                       2000
 ${FLASHING_METHOD}=                             external
 
 # dmidecode.robot
-${MANUFACTURER}=                                ASROCK
+${DMIDECODE_MANUFACTURER}=                      ASROCK
 ${DMIDECODE_VENDOR}=                            3mdeb
-${DMIDECODE_SERIAL_NUMBER}=                     123456789
-${DMIDECODE_FIRMWARE_VERSION}=                  Dasharo (coreboot+UEFI) v0.9.0-rc3
+# ${DMIDECODE_SERIAL_NUMBER}=    123456789
+${DMIDECODE_FIRMWARE_VERSION}=                  Dasharo (coreboot+UEFI) v0.9.0
 ${DMIDECODE_PRODUCT_NAME}=                      SPC741D8-2L2T/BCM
 ${DMIDECODE_RELEASE_DATE}=                      09/12/2025
 ${DMIDECODE_TYPE}=                              Desktop
 ${CHECK_POWER_LED_SUPPORT}=                     ${FALSE}
-${FLASH_VERIFY_METHOD}=                         iPXE-boot
+${FLASH_VERIFY_METHOD}=                         none
 ${TESTS_IN_UBUNTU_SUPPORT}=                     ${TRUE}
 ${TESTS_IN_FIRMWARE_SUPPORT}=                   ${TRUE}
 ${DEVICE_NVME_DISK}=                            Non-Volatile memory controller
@@ -36,26 +35,6 @@ ${DEFAULT_BOOT_OS_ID}=                          ${ENV_ID_UBUNTU}
 @{TESTED_LINUX_DISTROS}=
 ...                                             ${ENV_ID_UBUNTU}    # ${ENV_ID_FEDORA}
 
-# CPF
-${CPU_MAX_FREQUENCY}=                           3999
-${CPU_MIN_FREQUENCY}=                           700
-${MAX_CPU_TEMP}=                                80
-
-${WATCHDOG_SUPPORT}=                            ${FALSE}
-
-${DEF_THREADS_TOTAL}=                           24
-${DEF_THREADS_PER_CORE}=                        2
-${DEF_CORES_PER_SOCKET}=                        12
-${DEF_SOCKETS}=                                 1
-${DEF_ONLINE_CPU}=                              0-23
-
-# get-robot-variables suggests 3,40, but 0,80 is what setup menu shows
-${PLATFORM_CPU_SPEED}=                          2.0
-${PLATFORM_RAM_SPEED}=                          4000
-${PLATFORM_RAM_SIZE}=                           16384
-${MAX_CPU_TEMP_THRESHOLD}=                      93
-${CPU}=                                         Intel(R) Xeon(R) Silver 4410Y
-
 ${USB_MODEL}=                                   SanDisk
 ${USB_DEVICE}=                                  SanDisk
 @{ATTACHED_USB}=                                SanDisk
@@ -63,8 +42,8 @@ ${USB_DEVICE}=                                  SanDisk
 ${DASHARO_SECURITY_MENU_SUPPORT}=               ${TRUE}
 ${DASHARO_USB_MENU_SUPPORT}=                    ${TRUE}
 ${DASHARO_NETWORKING_MENU_SUPPORT}=             ${TRUE}
-${DASHARO_INTEL_ME_MENU_SUPPORT}=               ${TRUE}
-${DASHARO_POWER_MGMT_MENU_SUPPORT}=             ${TRUE}
+${DASHARO_INTEL_ME_MENU_SUPPORT}=               ${FALSE}
+${DASHARO_POWER_MGMT_MENU_SUPPORT}=             ${FALSE}
 ${DASHARO_MEMORY_MENU_SUPPORT}=                 ${TRUE}
 # Test module: dasharo-compatibility
 ${CUSTOM_BOOT_MENU_KEY_SUPPORT}=                ${TRUE}
@@ -76,6 +55,7 @@ ${UEFI_COMPATIBLE_INTERFACE_SUPPORT}=           ${TRUE}
 ${IPXE_BOOT_SUPPORT}=                           ${TRUE}
 ${NVME_DISK_SUPPORT}=                           ${TRUE}
 ${SUSPEND_AND_RESUME_SUPPORT}=                  ${TRUE}
+${SERIAL_NUMBER_VERIFICATION}=                  ${FALSE}
 ${FIRMWARE_NUMBER_VERIFICATION}=                ${TRUE}
 ${PRODUCT_NAME_VERIFICATION}=                   ${TRUE}
 ${RELEASE_DATE_VERIFICATION}=                   ${TRUE}
@@ -87,7 +67,7 @@ ${UPLOAD_ON_USB_SUPPORT}=                       ${TRUE}
 ${CPU_TESTS_SUPPORT}=                           ${TRUE}
 ${L2_CACHE_SUPPORT}=                            ${TRUE}
 ${L3_CACHE_SUPPORT}=                            ${TRUE}
-${INTEL_HYBRID_ARCH_SUPPORT}=                   ${TRUE}
+${INTEL_HYBRID_ARCH_SUPPORT}=                   ${FALSE}
 ${HYPER_THREADING_SUPPORT}=                     ${TRUE}
 ${MEMORY_PROFILE_SUPPORT}=                      ${TRUE}
 ${ESP_SCANNING_SUPPORT}=                        ${TRUE}
@@ -137,7 +117,7 @@ ${DASHARO_PCIE_REBAR_SUPPORT}=                  ${TRUE}
 ${CUSTOM_NETWORK_BOOT_ENTRIES_SUPPORT}=         ${TRUE}
 ${HDMI_AUDIO_SUPPORT}=                          ${TRUE}
 ${SERIAL_NUMBER_VERIFICATION}=                  ${TRUE}
-${FAMILY_VERIFICATION}=                         ${TRUE}
+${FAMILY_VERIFICATION}=                         ${FALSE}
 ${ME_STATICALLY_DISABLED}=                      ${TRUE}
 ${TPM_EXPECTED_CHIP}=                           ${TBD}    # Can't read it as TPM doesn't work as of today
 ${USB_STACK_SUPPORT}=                           ${TRUE}
