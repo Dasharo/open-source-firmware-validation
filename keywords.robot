@@ -438,6 +438,12 @@ Get Firmware Version From Dmidecode
     ${version}=    Fetch From Right    ${version_string}    ${SPACE}
     RETURN    ${version}
 
+Get EC Firmware Version From Dmidecode
+    ${output}=    Execute Linux Command    dmidecode --oem-string 2
+    ${version_string}=    Get Lines Containing String    ${output}    EC firmware version:
+    ${version}=    Fetch From Right    ${version_string}    ${SPACE}
+    RETURN    ${version}
+
 Get Firmware Version
     [Documentation]    Return firmware version via method supported by the
     ...    platform.

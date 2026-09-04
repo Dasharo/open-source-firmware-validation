@@ -236,7 +236,9 @@ CUP150.101 Capsule Update (EDK2 UEFI)
     ${verify_results_screen}=    Evaluate    ${CAPSULE_UPDATE_V2_SUPPORT} and ${SHOULD_RUN_SEMIAUTO_TESTS}
     ${status}    ${version_changed}=    Perform Capsule Update And Return Status
     ...    valid_capsule.cap
+    ...    ec_capsule.cap
     ...    manual_v2_results_screen=${verify_results_screen}
+    Log To Console    ${status}
     Should Be True    ${version_changed}
     IF    ${CAPSULE_DOES_NOT_PERSIST_ACROSS_RESET} and ${CAPSULE_ON_DISK_SUPPORT}
         Should Contain    ${status}    Firmware Update Succeeded
@@ -565,14 +567,18 @@ Check Platform Fused
     Exit From Root User
 
 Perform Capsule Update And Return Status
-    [Arguments]    ${capsule_file}    ${ondisk}=${FALSE}    ${manual_v2_results_screen}=${FALSE}
+    [Arguments]    ${capsule_file}    ${capsule_file_ec}    ${ondisk}=${FALSE}    ${manual_v2_results_screen}=${FALSE}
     Power On
     Boot System Or From Connected Disk    ${DEFAULT_BOOT_OS_ID}
     Login To Linux With Root Privileges
     ${original_bios_version}=    Get BIOS Version Linux    Before update
+    IF    '${EC_CAPSULE_UPDATE_SUPPORT}' == '${TRUE}'
+        ${original_ec_version}=    Get EC Version Linux    Before update
+    END
     Deploy Uefi Shell    os_logged_in=${TRUE}
     Perform Capsule Update
     ...    ${capsule_file}
+    ...    ${capsule_file_ec}
     ...    ondisk=${ondisk}
     ...    manual_v2_results_screen=${manual_v2_results_screen}
 
@@ -610,6 +616,14 @@ Perform Capsule Update And Return Status
     ...    Should Not Be Equal
     ...    ${original_bios_version}
     ...    ${updated_bios_version}
+
+    IF    '${EC_CAPSULE_UPDATE_SUPPORT}' == '${TRUE}'
+        ${updated_ec_version}=    Get EC Version Linux    After update
+        ${version_changed}=    Run Keyword And Return Status
+        ...    Should Not Be Equal
+        ...    ${original_ec_version}
+        ...    ${updated_ec_version}
+    END
 
     IF    ${CAPSULE_DOES_NOT_PERSIST_ACROSS_RESET} and ${CAPSULE_ON_DISK_SUPPORT}
         RETURN    ${logs}    ${version_changed}
@@ -676,6 +690,12 @@ Get BIOS Version Linux
     Log To Console    \n[${label}] ${bios_version}
     RETURN    ${bios_version}
 
+Get EC Version Linux
+    [Arguments]    ${label}
+    ${ec_version}=    Get EC Firmware Version From Dmidecode
+    Log To Console    \n[${label}] ${ec_version}
+    RETURN    ${ec_version}
+
 Prepare Capsule Shell Workspace
     Execute Command In Terminal    rm -rf ${CAPSULE_UPDATE_SHELL_DIR}
     Execute Command In Terminal    mkdir -p ${CAPSULE_UPDATE_SHELL_DIR}
@@ -695,6 +715,8 @@ Copy Capsule Files To Shell Workspace
     ...    ${CAPSULE_UPDATE_SHELL_DIR}/variable_capsule_file.nsh
     Send File To DUT    dasharo-stability/capsule-update-files/variable_step.nsh
     ...    ${CAPSULE_UPDATE_SHELL_DIR}/variable_step.nsh
+    Send File To DUT    dasharo-stability/capsule-update-files/variable_ec_update.nsh
+        ...    ${CAPSULE_UPDATE_SHELL_DIR}/variable_ec_update.nsh
 
     # Capsules
     Send File To DUT    ${CAPSULE_FW_FILE}    ${CAPSULE_UPDATE_SHELL_DIR}/valid_capsule.cap
@@ -706,14 +728,29 @@ Copy Capsule Files To Shell Workspace
         ...    ./dl-cache/edk2/${BTG_CAPSULE_FW_FILE}
         ...    ${CAPSULE_UPDATE_SHELL_DIR}/invalid_btg_signature.cap
     END
+    IF    '${EC_CAPSULE_UPDATE_SUPPORT}' == '${TRUE}'
+        Send File To DUT    dasharo-stability/capsule-update-files/variable_capsule_file_ec.nsh
+        ...    ${CAPSULE_UPDATE_SHELL_DIR}/variable_capsule_file_ec.nsh
+        # TBD Read path to EC capsule from env variable
+        Send File To DUT    ${CAPSULE_FW_FILE}    ${CAPSULE_UPDATE_SHELL_DIR}/ec_capsule.cap
+    END
 
 Perform Capsule Update
-    [Arguments]    ${capsule_file}    ${ondisk}=${FALSE}    ${manual_v2_results_screen}=${FALSE}
+    [Arguments]    ${capsule_file}    ${capsule_file_ec}    ${ondisk}=${FALSE}    ${manual_v2_results_screen}=${FALSE}
     # Submit capsule to firmware without an automatic reset and verify that it
     # was accepted without error
     VAR    ${capsule_fs_path}=    ${capsule_file}
+    VAR    ${capsule_ec_fs_path}=    ${capsule_file_ec}
     Set Startup Nsh Variable    capsule_file    ${capsule_fs_path}
+    Set Startup Nsh Variable    capsule_file_ec    ${capsule_ec_fs_path}
     Set Startup Nsh Variable    step    0
+
+    IF    '${EC_CAPSULE_UPDATE_SUPPORT}' == '${TRUE}'
+        Set Startup Nsh Variable    capsule_file_ec    ${capsule_ec_fs_path}
+        Set Startup Nsh Variable    ec_update    1
+    ELSE
+        Set Startup Nsh Variable    ec_update    0
+    END
     # Use capsule on disk when explicitly requested, or when capsules do not
     # survive resets and on-disk is supported (otherwise the capsule will likely
     # fail, which is the desired outcome on such platforms).
@@ -752,6 +789,23 @@ Perform Capsule Update
             IF    ${post_screen_counter} == 2    BREAK
         END
     END
+
+#ADDED FOR EC
+Patch EC Capsule Version String
+    [Documentation]    asdad
+    [Arguments]    ${capsule_file_ec}
+    ${ec_capsule_ver}=    Execute Command In Terminal
+    ...    strings ${capsule_file_ec} | grep 76EC_VERSION | tail -1
+    ${ec_capsule_ver}=    Fetch From Right    ${ec_capsule_ver}    \=
+    ${ec_capsule_ver_patch}=    Fetch From Left    ${ec_capsule_ver}    _
+    ${ec_capsule_ver_patch}=    Catenate    SEPARATOR=    ${ec_capsule_ver_patch}    _dasharo
+    Execute Command In Terminal    cp ${capsule_file_ec} ${capsule_file_ec}.patch.cap
+    Execute Command In Terminal
+    ...    sed -i 's/${ec_capsule_ver}/${ec_capsule_ver_patch}/' ${capsule_file_ec}.patch.cap
+
+#==============
+
+
 
 Handle Capsule Update Screens
     [Arguments]    ${expect_fum}=${FALSE}    ${manual_v2_results_screen}=${FALSE}
@@ -835,6 +889,14 @@ Ensure Capsule Files Are Present
 
     IF    ${CAPSULE_UPDATE_V2_SUPPORT}
         Ensure V2 Capsule Key Variables Are Set
+    END
+
+    IF    '${EC_CAPSULE_UPDATE_SUPPORT}' == '${TRUE}'
+        ${ec_capsule}=    Get Environment Variable    name=CAPSULE_UPDATE_EC_FW_FILE
+        VAR    ${CAPSULE_UPDATE_EC_FW_FILE}=    ${ec_capsule}    scope=SUITE
+        OperatingSystem.File Should Exist
+        ...    ${CAPSULE_UPDATE_EC_FW_FILE}
+        ...    CAPSULE_UPDATE_EC_FW_FILE env variable does not point to a file! CAPSULE_UPDATE_EC_FW_FILE="${CAPSULE_UPDATE_EC_FW_FILE}"
     END
 
     Ensure Derived Capsule Files Are Present    ${CAPSULE_FW_FILE}    ${CAPSULE_UPDATE_RC0_FW_FILE}

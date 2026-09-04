@@ -29,19 +29,35 @@ set LOG_FILE %CAPSULE_WORKSPACE%\logs.txt
 # load variables to allow saving state between runs
 
 %CAPSULE_WORKSPACE%\variable_capsule_file.nsh
+%CAPSULE_WORKSPACE%\variable_ec_update.nsh
 %CAPSULE_WORKSPACE%\variable_step.nsh
 %CAPSULE_WORKSPACE%\variable_ondisk.nsh
+
+if "%EC_UPDATE%" == "1" then
+    %CAPSULE_WORKSPACE%\variable_capsule_file_ec.nsh
+endif
+
 
 # Variables expected to be loaded:
 # - STEP - integer flag for choosing operation mode
 # - CAPSULE_FILE - path to the capsule file
+# - CAPSULE_FILE_EC - path to the ec capsule file
 
 # Step 0 - launch capsule update
 if "%STEP%" == "0" then
-    if "%ONDISK%" == "1" then
-        %CAPSULE_FS%:CapsuleApp.efi "%CAPSULE_WORKSPACE%\%CAPSULE_FILE%" -NR -OD
+    if "%EC_UPDATE%" == "1" then
+        %CAPSULE_FS%:CapsuleApp.efi "%CAPSULE_WORKSPACE%\%CAPSULE_FILE%" "%CAPSULE_WORKSPACE%\%CAPSULE_FILE_EC%" -NR
+#        if "%ONDISK%" == "1" then
+#            %CAPSULE_FS%:CapsuleApp.efi "%CAPSULE_WORKSPACE%\%CAPSULE_FILE%" "%CAPSULE_WORKSPACE%\%CAPSULE_FILE_EC%" -NR -OD
+#        else
+#            %CAPSULE_FS%:CapsuleApp.efi "%CAPSULE_WORKSPACE%\%CAPSULE_FILE%" "%CAPSULE_WORKSPACE%\%CAPSULE_FILE_EC%" -NR
+#        endif
     else
-        %CAPSULE_FS%:CapsuleApp.efi "%CAPSULE_WORKSPACE%\%CAPSULE_FILE%" -NR
+        if "%ONDISK%" == "1" then
+            %CAPSULE_FS%:CapsuleApp.efi "%CAPSULE_WORKSPACE%\%CAPSULE_FILE%" -NR -OD
+        else
+            %CAPSULE_FS%:CapsuleApp.efi "%CAPSULE_WORKSPACE%\%CAPSULE_FILE%" -NR
+        endif
     endif
 
     stall 5000000
