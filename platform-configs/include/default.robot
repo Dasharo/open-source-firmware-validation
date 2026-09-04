@@ -186,6 +186,10 @@ ${L4_CACHE_SUPPORT}=                                ${FALSE}
 ${MEMORY_PROFILE_SUPPORT}=                          ${FALSE}
 ${MEMORY_IBECC_SUPPORT}=                            ${FALSE}
 ${DEFAULT_POWER_STATE_AFTER_FAIL}=                  Powered Off
+# Delay between restoring the power supply and pressing the power button in
+# Power Cycle On. Platforms whose host races ahead of a slower-booting BMC
+# should raise this.
+${POWER_ON_DELAY}=                                  2s
 ${ESP_SCANNING_SUPPORT}=                            ${FALSE}
 ${DTS_FIRMWARE_FLASHING_SUPPORT}=                   ${FALSE}
 ${DTS_EC_FLASHING_SUPPORT}=                         ${FALSE}

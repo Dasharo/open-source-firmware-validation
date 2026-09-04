@@ -133,6 +133,12 @@ ${TPM_EXPECTED_CHIP}=                           SLB9672
 ${USB_STACK_SUPPORT}=                           ${TRUE}
 ${PLATFORM_STABILITY_CHECKING}=                 ${TRUE}
 ${FAST_AND_QUIET_BOOT_SUPPORT}=                 ${TRUE}
+# The platform powers on the host as soon as AC is applied, racing ahead of
+# the BMC. Observed BMC boot timeline on this board: heartbeat LED at ~28s,
+# responds to ping at ~1:30, web UI up at ~2:00. 30s is a rough first pass,
+# not the full boot time. A more correct fix would poll for BMC readiness
+# (e.g. ping the BMC's IP) instead of a fixed delay.
+${POWER_ON_DELAY}=                              30s
 
 
 *** Keywords ***

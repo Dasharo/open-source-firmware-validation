@@ -812,7 +812,7 @@ Power Cycle On
         Rte Psu On
     END
     IF    '${POWER_STATE_AFTER_FAIL}' == 'Powered Off'
-        Sleep    2s
+        Sleep    ${POWER_ON_DELAY}
         Rte Power On
     END
 
