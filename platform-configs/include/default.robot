@@ -397,6 +397,9 @@ ${TESTS_IN_ESXI_SUPPORT}=                           ${FALSE}
 @{ETH_PORTS}=                                       @{EMPTY}
 @{ETH_SFP_PORTS}=                                   @{EMPTY}
 
+# Extra UART devices to check, besides the one used for the DUT connection.
+@{UART_DEVICES}=                                    @{EMPTY}
+
 ${AUTO_BOOT_TIME_OUT_DEFAULT_VALUE}=                3
 
 @{MICROCODE_REVISIONS}=                             @{EMPTY}

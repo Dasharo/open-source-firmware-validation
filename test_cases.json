@@ -6903,6 +6903,13 @@
   },
   {
     "doc": {
+      "_id": "UART001.201",
+      "name": "UART devices transmit without blocking (Ubuntu)",
+      "module": "Dasharo Stability"
+    }
+  },
+  {
+    "doc": {
       "_id": "UBT001.211",
       "name": "USB detect and boot after coldboot (DTS)",
       "module": "Dasharo Compatibility"

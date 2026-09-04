@@ -97,6 +97,9 @@ ${NVME_DETECTION_SUPPORT}=                  ${TRUE}
 ${USB_TYPE_A_DEVICES_DETECTION_SUPPORT}=    ${TRUE}
 ${USB_DETECTION_ITERATIONS_NUMBER}=         5
 ${BOOT_FROM_USB_ITERATIONS_NUMBER}=         5
+# ttyS2 is a dedicated UART header, separate from the ttyS0 console used for
+# the DUT connection
+@{UART_DEVICES}=                            /dev/ttyS2
 
 ${SERIAL_NUMBER_VERIFICATION}=              ${TRUE}
 ${FAMILY_VERIFICATION}=                     ${TRUE}

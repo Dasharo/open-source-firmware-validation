@@ -116,6 +116,9 @@ ${CAPSULE_DOES_NOT_PERSIST_ACROSS_RESET}=       ${TRUE}
 ${CAPSULE_ON_DISK_SUPPORT}=                     ${TRUE}
 ${USB_DETECTION_ITERATIONS_NUMBER}=             5
 ${BOOT_FROM_USB_ITERATIONS_NUMBER}=             5
+# ttyS2 is a dedicated UART header, separate from the ttyS0 console used for
+# the DUT connection
+@{UART_DEVICES}=                                /dev/ttyS2
 
 ${DCU_UUID_SUPPORT}=                            ${TRUE}
 ${DCU_SERIAL_SUPPORT}=                          ${TRUE}
