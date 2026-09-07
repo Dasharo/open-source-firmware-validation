@@ -3,7 +3,7 @@ Library             Collections
 Library             OperatingSystem
 Library             Process
 Library             String
-Library             Telnet    timeout=20 seconds    connection_timeout=120 seconds
+Library             TelnetLibrary    timeout=20 seconds    connection_timeout=120 seconds
 Library             SSHLibrary    timeout=90 seconds
 Library             RequestsLibrary
 # TODO: maybe have a single file to include if we need to include the same
@@ -39,7 +39,7 @@ MPS001.101 Switching to XMP profile (EDK2 UEFI)
     ...    the system operational and change memory speed to a higher one.
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    MPS001.101 not supported
     # Training 32 GiB of DDR5 takes longer than 3 minutes
-    Telnet.Set Timeout    5 min
+    TelnetLibrary.Set Timeout    5 min
     # Boot and remember current memory speed
     Power On
     Enter Setup Menu Tianocore

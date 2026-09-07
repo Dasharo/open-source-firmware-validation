@@ -1,7 +1,7 @@
 *** Settings ***
 Library             Collections
 Library             String
-Library             Telnet    timeout=20 seconds    connection_timeout=120 seconds
+Library             TelnetLibrary    timeout=20 seconds    connection_timeout=120 seconds
 Library             SSHLibrary    timeout=90 seconds
 Library             RequestsLibrary
 Resource            ../../variables.robot
@@ -29,18 +29,18 @@ Y003.2 Basic Packages are installed
 Y003.3 USB devices are visible
     [Documentation]    check whether we can see a USB stick that's plugged in.
     ...    Also checks whether we mount/umount it and write/read.
-    ${partition}=    Telnet.Execute Command
+    ${partition}=    TelnetLibrary.Execute Command
     ...    dmesg | grep -F "USB Mass Storage device detected" --context=10 | grep 'sd[^[:space:]]' | tail -1 | awk '{gsub(/[\\[\\]]/, "", $5); print $5}'
     ${partition}=    Get Line    ${partition}    0
-    Telnet.Execute Command    mount /dev/${partition}1 /mnt
-    Telnet.Execute Command    echo hi > /mnt/something.txt
-    Telnet.Execute Command    umount /dev/${partition}*
-    Telnet.Execute Command    mount /dev/${partition}1 /mnt
-    ${output}=    Telnet.Execute Command    cat /mnt/something.txt
+    TelnetLibrary.Execute Command    mount /dev/${partition}1 /mnt
+    TelnetLibrary.Execute Command    echo hi > /mnt/something.txt
+    TelnetLibrary.Execute Command    umount /dev/${partition}*
+    TelnetLibrary.Execute Command    mount /dev/${partition}1 /mnt
+    ${output}=    TelnetLibrary.Execute Command    cat /mnt/something.txt
     ${output}=    Get Line    ${output}    0
     Should Be Equal As Strings    ${output}    hi
-    Telnet.Execute Command    rm /mnt/something.txt
-    Telnet.Execute Command    umount /dev/${partition}*
+    TelnetLibrary.Execute Command    rm /mnt/something.txt
+    TelnetLibrary.Execute Command    umount /dev/${partition}*
 
 Y003.4 Ethernet connection is supported
     [Documentation]    tests whether we have an internet connection

@@ -13,7 +13,7 @@ Documentation       For a test to be run it needs to be declared in the platform
 ...                 It is recommended to run tests on AC when generating a baseline.
 
 Library             Collections
-Library             Telnet    timeout=20 seconds    connection_timeout=120 seconds
+Library             TelnetLibrary    timeout=20 seconds    connection_timeout=120 seconds
 Library             SSHLibrary    timeout=90 seconds
 Resource            ../lib/performance/common.robot
 Resource            ../lib/performance/cpu.robot

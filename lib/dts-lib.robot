@@ -527,7 +527,7 @@ Execute Manual Step While Freeing Serial Connection
     [Documentation]    In case you need to connect to DUT via serial to do
     ...    manual steps. Arguments are the same as for 'Execute Manual Step'
     [Arguments]    ${msg}
-    Telnet.Close All Connections
+    TelnetLibrary.Close All Connections
     Execute Manual Step
     ...    ${msg}. Make sure to close serial connection before continuing
     Serial Setup    ${RTE_IP}    ${RTE_S2_N_PORT}

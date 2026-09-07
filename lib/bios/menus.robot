@@ -1389,7 +1389,7 @@ Tianocore Reset System
     IF    '${DUT_CONNECTION_METHOD}' == 'SSH'
         FAIL    SSH not supported for interfacing with TianoCore
     ELSE IF    '${DUT_CONNECTION_METHOD}' == 'Telnet'
-        Telnet.Write Bare    \x1bR\x1br\x1bR
+        TelnetLibrary.Write Bare    \x1bR\x1br\x1bR
     ELSE IF    '${DUT_CONNECTION_METHOD}' == 'open-bmc'
         FAIL    OpenBMC not yet supported for interfacing with TianoCore
     ELSE IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'

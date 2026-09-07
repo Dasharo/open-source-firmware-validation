@@ -1,6 +1,6 @@
 *** Settings ***
 Library             Collections
-Library             Telnet    timeout=30 seconds    connection_timeout=120 seconds
+Library             TelnetLibrary    timeout=30 seconds    connection_timeout=120 seconds
 Library             SSHLibrary    timeout=90 seconds
 Resource            ../variables.robot
 Resource            ../keywords.robot

@@ -32,14 +32,14 @@ Serial Setup
         SSHLibrary.Execute Command    systemctl restart ser2net
     END
     Sleep    5s
-    Telnet.Open Connection
+    TelnetLibrary.Open Connection
     ...    ${host}
     ...    port=${s2n_port}
     ...    newline=LF
     ...    terminal_emulation=True
     ...    terminal_type=vt100
     ...    window_size=400x100
-    Telnet.Set Timeout    180s
+    TelnetLibrary.Set Timeout    180s
 
 Load OS Credentials
     [Documentation]    Loads os credentials from config file to global variables
@@ -150,9 +150,9 @@ Serial Root Login Linux
     [Documentation]    Universal telnet login to one of supported linux systems:
     ...    Ubuntu, Voyage, Xen or Debian.
     [Arguments]    ${password}
-    Telnet.Set Timeout    300
-    Telnet.Set Prompt    \~#
-    ${output}=    Telnet.Read Until    login:
+    TelnetLibrary.Set Timeout    300
+    TelnetLibrary.Set Prompt    \~#
+    ${output}=    TelnetLibrary.Read Until    login:
     ${status1}=    Evaluate    "voyage" in """${output}"""
     ${status2}=    Evaluate    "debian login" in """${output}"""
     ${status3}=    Evaluate    "ubuntu login" in """${output}"""
@@ -165,8 +165,8 @@ Serial Root Login Linux
     ELSE
         VAR    ${passwd}=    ${password}
     END
-    Telnet.Write Bare    \n
-    Telnet.Login    root    ${passwd}
+    TelnetLibrary.Write Bare    \n
+    TelnetLibrary.Login    root    ${passwd}
 
 Login To Linux Over Serial Console
     [Documentation]    Login to Linux over serial console, using provided
@@ -178,12 +178,12 @@ Login To Linux Over Serial Console
     ...    ${device_os_user_prompt}=${device_os_user_prompt}
     ...    ${timeout}=300
     Set DUT Response Timeout    ${timeout} seconds
-    Telnet.Read Until    login:
-    Telnet.Write    ${username}
-    Telnet.Read Until    Password:
-    Telnet.Write    ${password}
-    Telnet.Set Prompt    ${device_os_user_prompt}    prompt_is_regexp=False
-    Telnet.Read Until Prompt
+    TelnetLibrary.Read Until    login:
+    TelnetLibrary.Write    ${username}
+    TelnetLibrary.Read Until    Password:
+    TelnetLibrary.Write    ${password}
+    TelnetLibrary.Set Prompt    ${device_os_user_prompt}    prompt_is_regexp=False
+    TelnetLibrary.Read Until Prompt
 
 Inner Login To Linux Via SSH
     [Tags]    robot:private
@@ -377,7 +377,7 @@ Log Out And Close Connection
     [Documentation]    Close all opened SSH, serial connections and check in used
     ...    asset in SnipeIt.
     SSHLibrary.Close All Connections
-    Telnet.Close All Connections
+    TelnetLibrary.Close All Connections
     IF    '${PLATFORM}'=='raptor-cs_talos2'    RETURN
     IF    '${SNIPEIT}'=='no'    RETURN
     ${checked_out}=    Get Variable Value    ${SNIPEIT_ALREADY_CHECKED_OUT_MANUALLY}
@@ -683,7 +683,7 @@ Prepare To Serial Connection
     Get DUT To Start State
     # the following TRY/EXCEPT exposes telnet connection error preemptively
     TRY
-        Telnet.Read
+        TelnetLibrary.Read
     EXCEPT    EOFError: telnet connection closed
         VAR    ${err_msg}=
         ...    - telnet (or minicom on RTE) connection might be opened - either by you or someone else
@@ -768,7 +768,7 @@ Remap Keys Variables From PiKVM
 Get DUT To Start State
     [Documentation]    Clears telnet buffer and get Device Under Test to start
     ...    state.
-    Telnet.Read
+    TelnetLibrary.Read
     IF    '${MANUFACTURER}' != 'QEMU' and '${CONFIG}' != 'no-rte'
         ${state}=    Get Power Supply State
         IF    '${state}'=='OFF'    Turn On Power Supply

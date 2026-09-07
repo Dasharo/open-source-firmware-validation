@@ -76,6 +76,7 @@ robotframework-csvlibrary==0.0.5
 robotframework-faker==6.0.0
 robotframework-requests==0.9.4
 robotframework-sshlibrary @ git+https://github.com/MarketSquare/SSHLibrary@ba6c3ee783bd6fd8b73c1341fe873a99991a353a
+robotframework-telnetlibrary @ git+https://github.com/MarketSquare/robotframework-telnet-library@4d77b75f9a113709b8c90ad828a75847eb23e9f3
 rsa==4.9.1
 scp==0.15.0
 semver==3.0.4

@@ -3,7 +3,7 @@ Library             Collections
 Library             OperatingSystem
 Library             Process
 Library             String
-Library             Telnet    timeout=40 seconds    connection_timeout=120 seconds
+Library             TelnetLibrary    timeout=40 seconds    connection_timeout=120 seconds
 Library             SSHLibrary    timeout=90 seconds
 Library             RequestsLibrary
 Library             ./TemplateSplit.py    custom_prefix=E2E

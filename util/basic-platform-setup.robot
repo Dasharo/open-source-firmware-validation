@@ -3,7 +3,7 @@ Library             Collections
 Library             OperatingSystem
 Library             Process
 Library             String
-Library             Telnet    timeout=30 seconds    connection_timeout=120 seconds
+Library             TelnetLibrary    timeout=30 seconds    connection_timeout=120 seconds
 Library             SSHLibrary    timeout=90 seconds
 Library             RequestsLibrary
 # Library    ../osfv-scripts/osfv_cli/src/osfv/rf/rte_robot.py

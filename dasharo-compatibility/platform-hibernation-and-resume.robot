@@ -4,7 +4,7 @@ Library             DateTime
 Library             OperatingSystem
 Library             Process
 Library             String
-Library             Telnet    timeout=20 seconds
+Library             TelnetLibrary    timeout=20 seconds
 Library             SSHLibrary    timeout=20 seconds
 Library             RequestsLibrary
 Resource            ../variables.robot

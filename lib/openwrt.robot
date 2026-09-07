@@ -17,7 +17,7 @@ Boot OpenWrt
     Press Enter
     VAR    ${BOOTED_OS_ID}=    ${ENV_ID_OPENWRT}    scope=GLOBAL
     Load OS Credentials    ${BOOTED_OS_ID}
-    Telnet.Set Prompt    ${DEVICE_OS_ROOT_PROMPT}    prompt_is_regexp=False
+    TelnetLibrary.Set Prompt    ${DEVICE_OS_ROOT_PROMPT}    prompt_is_regexp=False
 
 Detect Or Install Package OpenWrt
     [Documentation]    Check if package is installed using apk, attempt to install

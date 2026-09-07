@@ -3,7 +3,7 @@ Documentation       Generic keywords for reading/writing into terminal.
 
 Library             Collections
 Library             String
-Library             Telnet
+Library             TelnetLibrary
 Library             SSHLibrary
 Resource            bios/menus.robot
 
@@ -30,13 +30,13 @@ Set Prompt For Terminal
     ...    variable.
     [Arguments]    ${prompt}
     IF    '${DUT_CONNECTION_METHOD}' == 'Telnet'
-        Telnet.Set Prompt    ${prompt}    prompt_is_regexp=False
+        TelnetLibrary.Set Prompt    ${prompt}    prompt_is_regexp=False
     ELSE IF    '${DUT_CONNECTION_METHOD}' == 'SSH'
         SSHLibrary.Set Client Configuration    prompt=${prompt}
     ELSE IF    '${DUT_CONNECTION_METHOD}' == 'open-bmc'
         SSHLibrary.Set Client Configuration    prompt=${prompt}
     ELSE IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
-        Telnet.Set Prompt    ${prompt}
+        TelnetLibrary.Set Prompt    ${prompt}
     ELSE
         FAIL    Unknown connection method: ${DUT_CONNECTION_METHOD}
     END
@@ -62,7 +62,7 @@ Set DUT Response Timeout
     ...    variable.
     [Arguments]    ${timeout}
     IF    '${DUT_CONNECTION_METHOD}' in ['Telnet', 'pikvm']
-        ${prev_timeout}=    Telnet.Set Timeout    ${timeout}
+        ${prev_timeout}=    TelnetLibrary.Set Timeout    ${timeout}
     ELSE IF    '${DUT_CONNECTION_METHOD}' in ['SSH', 'open-bmc']
         ${con}=    Get Connection
         VAR    ${prev_timeout}=    ${con.timeout}
@@ -90,13 +90,13 @@ Read From Terminal
     ...    === Effects ===
     ...    The terminal buffer is read and consequently cleared
     IF    '${DUT_CONNECTION_METHOD}' == 'Telnet'
-        ${output}=    Telnet.Read
+        ${output}=    TelnetLibrary.Read
     ELSE IF    '${DUT_CONNECTION_METHOD}' == 'SSH'
         ${output}=    SSHLibrary.Read
     ELSE IF    '${DUT_CONNECTION_METHOD}' == 'open-bmc'
         ${output}=    SSHLibrary.Read
     ELSE IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
-        ${output}=    Telnet.Read
+        ${output}=    TelnetLibrary.Read
     ELSE
         ${output}=    FAIL    Unknown connection method: ${DUT_CONNECTION_METHOD}
     END
@@ -126,9 +126,9 @@ Read From Terminal Until
     [Arguments]    ${expected}
     IF    '${DUT_CONNECTION_METHOD}' == 'Telnet' or '${DUT_CONNECTION_METHOD}' == 'pikvm'
         IF    ${TELNET_FUZZY_MAX_INSERTIONS} + ${TELNET_FUZZY_MAX_DELETIONS} + ${TELNET_FUZZY_MAX_SUBSTITUTIONS} == 0
-            ${output}=    Telnet.Read Until    ${expected}
+            ${output}=    TelnetLibrary.Read Until    ${expected}
         ELSE
-            ${output}=    Telnet.Read Until Fuzzy    ${expected}
+            ${output}=    TelnetLibrary.Read Until Fuzzy    ${expected}
             ...    max_substitutions=${TELNET_FUZZY_MAX_SUBSTITUTIONS}
             ...    max_insertions=${TELNET_FUZZY_MAX_INSERTIONS}
             ...    max_deletions=${TELNET_FUZZY_MAX_DELETIONS}
@@ -166,9 +166,9 @@ Read From Terminal Until Prompt
         ${output}=    Strip String    ${output}    characters=\n\r
     ELSE
         IF    '${DUT_CONNECTION_METHOD}' == 'Telnet'
-            ${output}=    Telnet.Read Until Prompt    strip_prompt=${TRUE}
+            ${output}=    TelnetLibrary.Read Until Prompt    strip_prompt=${TRUE}
         ELSE IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
-            ${output}=    Telnet.Read Until Prompt    strip_prompt=${TRUE}
+            ${output}=    TelnetLibrary.Read Until Prompt    strip_prompt=${TRUE}
         ELSE
             ${output}=    FAIL    Unknown connection method: ${DUT_CONNECTION_METHOD}
         END
@@ -201,13 +201,13 @@ Read From Terminal Until Regexp
     ...    buffer.
     [Arguments]    ${regexp}
     IF    '${DUT_CONNECTION_METHOD}' == 'Telnet'
-        ${output}=    Telnet.Read Until Regexp    ${regexp}
+        ${output}=    TelnetLibrary.Read Until Regexp    ${regexp}
     ELSE IF    '${DUT_CONNECTION_METHOD}' == 'SSH'
         ${output}=    SSHLibrary.Read Until Regexp    ${regexp}
     ELSE IF    '${DUT_CONNECTION_METHOD}' == 'open-bmc'
         ${output}=    SSHLibrary.Read Until Regexp    ${regexp}
     ELSE IF    '${DUT_CONNECTION_METHOD}' == 'pikvm'
-        ${output}=    Telnet.Read Until Regexp    ${regexp}
+        ${output}=    TelnetLibrary.Read Until Regexp    ${regexp}
     ELSE
         ${output}=    FAIL    Unknown connection method: ${DUT_CONNECTION_METHOD}
     END
@@ -232,7 +232,7 @@ Write Into Terminal
     ...    character
     [Arguments]    ${text}
     IF    '${DUT_CONNECTION_METHOD}' == 'Telnet'
-        Telnet.Write    ${text}
+        TelnetLibrary.Write    ${text}
     ELSE IF    '${DUT_CONNECTION_METHOD}' == 'SSH'
         SSHLibrary.Write    ${text}
     ELSE IF    '${DUT_CONNECTION_METHOD}' == 'open-bmc'
@@ -262,7 +262,7 @@ Write Bare Into Terminal
     ...    The ``${text}`` is written to the terminal
     [Arguments]    ${text}    ${interval}=None
     IF    '${DUT_CONNECTION_METHOD}' == 'Telnet'
-        Telnet.Write Bare    ${text}    ${interval}
+        TelnetLibrary.Write Bare    ${text}    ${interval}
     ELSE IF    '${DUT_CONNECTION_METHOD}' == 'SSH'
         SSHLibrary.Write Bare    ${text}
     ELSE IF    '${DUT_CONNECTION_METHOD}' == 'open-bmc'
@@ -296,8 +296,8 @@ Execute Command In Terminal
     [Arguments]    ${command}    ${timeout}=30s
     ${prev_timeout}=    Set DUT Response Timeout    ${timeout}
     IF    '${DUT_CONNECTION_METHOD}' == 'Telnet'
-        Telnet.Read
-        ${output}=    Telnet.Execute Command    ${command}    strip_prompt=True
+        TelnetLibrary.Read
+        ${output}=    TelnetLibrary.Execute Command    ${command}    strip_prompt=True
     ELSE
         Read From Terminal
         Write Into Terminal    ${command}

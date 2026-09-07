@@ -10,7 +10,7 @@ Library             Collections
 Library             OperatingSystem
 Library             Process
 Library             String
-Library             Telnet    timeout=30 seconds    connection_timeout=120 seconds
+Library             TelnetLibrary    timeout=30 seconds    connection_timeout=120 seconds
 Library             SSHLibrary    timeout=90 seconds
 Library             RequestsLibrary
 # TODO: maybe have a single file to include if we need to include the same
