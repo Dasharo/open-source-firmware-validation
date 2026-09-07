@@ -113,7 +113,7 @@ Usb Type-C Pd Power Input
         Boot And Login To Windows
         Check Charging State In Windows
     ELSE
-        Fail    Not implemented on ENV_ID ${env_id}
+        Skip    Not implemented on ENV_ID ${env_id}
     END
 
 Usb Type-C Display Output
@@ -135,7 +135,7 @@ Usb Type-C Display Output
             Exit From Root User
         END
     ELSE
-        Fail    Not implemented on ENV_ID ${env_id}
+        Skip    Not implemented on ENV_ID ${env_id}
     END
 
 Usb Type-C Docking Station Hdmi Display
@@ -170,7 +170,7 @@ Usb Type-C Docking Station Hdmi Display
         Boot And Login To Windows
         Check Docking Station HDMI Windows
     ELSE
-        Fail    Not implemented on ENV_ID ${env_id}
+        Skip    Not implemented on ENV_ID ${env_id}
     END
 
 Usb Type-C Docking Station Dp Display
@@ -197,7 +197,7 @@ Usb Type-C Docking Station Dp Display
         Boot And Login To Windows
         Check Docking Station DP Windows
     ELSE
-        Fail    Not implemented on ENV_ID ${env_id}
+        Skip    Not implemented on ENV_ID ${env_id}
     END
 
 # Not automated
@@ -215,10 +215,10 @@ Usb Type-C Docking Station Triple Display
             Pause Execution In Console    Qubes detected — switching to manual triple display test
             Run Qubes Steps    @{QUBES_TRIPLE_DISPLAY_STEPS}
         ELSE
-            Fail    Not implemented on ENV_ID ${env_id}
+            Skip    Not implemented on ENV_ID ${env_id}
         END
     ELSE
-        Fail    Not implemented on ENV_ID ${env_id}
+        Skip    Not implemented on ENV_ID ${env_id}
     END
 
 Usb Type-C Docking Station Usb Devices Recognition
@@ -238,7 +238,7 @@ Usb Type-C Docking Station Usb Devices Recognition
         ...    Get-PnpDevice -PresentOnly | Where-Object { $_.InstanceId -match '^USB' }
         Should Contain    ${out}    OK${SPACE*9}DiskDrive${SPACE*8}USB${SPACE*2}SanDisk
     ELSE
-        Fail    Not implemented on ENV_ID ${env_id}
+        Skip    Not implemented on ENV_ID ${env_id}
     END
 
 Usb Type-C Docking Station Usb Keyboard
@@ -257,7 +257,7 @@ Usb Type-C Docking Station Usb Keyboard
         ${out}=    Execute Command In Terminal    Get-CimInstance win32_KEYBOARD
         Should Contain    ${out}    Description${SPACE*17}: USB Input Device    strip_spaces=True
     ELSE
-        Fail    Not implemented on ENV_ID ${env_id}
+        Skip    Not implemented on ENV_ID ${env_id}
     END
 
 # Not automated
@@ -278,7 +278,7 @@ Usb Type-C Docking Station Ethernet Connection
         Boot And Login To Windows
         Check Internet Connection On Windows
     ELSE
-        Fail    Not implemented on ENV_ID ${env_id}
+        Skip    Not implemented on ENV_ID ${env_id}
     END
 
 Usb Type-C Docking Station Audio Recognition
@@ -293,7 +293,7 @@ Usb Type-C Docking Station Audio Recognition
         Should Contain Any    ${out}    USB Audio    USB-Audio    ignore_case=${TRUE}
         Exit From Root User
     ELSE
-        Fail    Not implemented on ENV_ID ${env_id}
+        Skip    Not implemented on ENV_ID ${env_id}
     END
 
 # Not automated
@@ -329,7 +329,7 @@ Usb Type-C Docking Station Sd Card Reader Detection
             END
         END
     ELSE
-        Fail    Not implemented on ENV_ID ${env_id}
+        Skip    Not implemented on ENV_ID ${env_id}
     END
 
 Usb Type-C Docking Station Sd Card Read/Write
@@ -350,7 +350,7 @@ Usb Type-C Docking Station Sd Card Read/Write
         ${drive_letter}=    Identify Path To SD Card In Windows
         Check Read Write To External Drive In Windows    ${drive_letter}
     ELSE
-        Fail    Not implemented on ENV_ID ${env_id}
+        Skip    Not implemented on ENV_ID ${env_id}
     END
 
 Usb Type-C Pd Current Limiting
@@ -371,16 +371,16 @@ Usb Type-C Pd Current Limiting
             Execute Manual Step    [8/8] Verify DUT does not exceed charger PD limits (voltage/current/wattage).
             Log To Console    USB-C PD current limiting test completed
         ELSE
-            Fail    Not implemented on ENV_ID ${env_id}
+            Skip    Not implemented on ENV_ID ${env_id}
         END
     ELSE
-        Fail    Not implemented on ENV_ID ${env_id}
+        Skip    Not implemented on ENV_ID ${env_id}
     END
 
 Docking Station Detection After Coldboot
     [Arguments]    ${env_id}    ${me_state}    ${dock_name}
     IF    not '${env_id}'.startswith('2')
-        Fail    Not implemented on ENV_ID ${env_id}
+        Skip    Not implemented on ENV_ID ${env_id}
     END
 
     IF    ${env_id} == ${ENV_ID_QUBES}
@@ -437,7 +437,7 @@ Docking Station Detection After Warmboot
     Skip If
     ...    not ${RTC_BOOT_SUPPORT} and ${INCLUDE_TAGS} is not ${None} and 'semiauto' not in ${INCLUDE_TAGS}
     IF    not '${env_id}'.startswith('2')
-        Fail    Not implemented on ENV_ID ${env_id}
+        Skip    Not implemented on ENV_ID ${env_id}
     END
 
     IF    ${env_id} == ${ENV_ID_QUBES}
@@ -494,7 +494,7 @@ Docking Station Detection After Reboot
     [Arguments]    ${env_id}    ${me_state}    ${dock_name}
 
     IF    not '${env_id}'.startswith('2')
-        Fail    Not implemented on ENV_ID ${env_id}
+        Skip    Not implemented on ENV_ID ${env_id}
     END
 
     IF    ${env_id} == ${ENV_ID_QUBES}
@@ -541,7 +541,7 @@ Docking Station Detection After Reboot
 Docking Station Detection After Suspend
     [Arguments]    ${env_id}    ${me_state}    ${dock_name}    ${platform_sleep_type}=${EMPTY}
     IF    not '${env_id}'.startswith('2')
-        Fail    Not implemented on ENV_ID ${env_id}
+        Skip    Not implemented on ENV_ID ${env_id}
     END
     Ensure ME State    ${me_state}
     Power On
@@ -569,21 +569,21 @@ Docking Station Detection After Suspend
 Docking Station Detection After Suspend (S0Ix)
     [Arguments]    ${env_id}    ${me_state}    ${dock_name}
     IF    not '${env_id}'.startswith('2')
-        Fail    Not implemented on ENV_ID ${env_id}
+        Skip    Not implemented on ENV_ID ${env_id}
     END
     Docking Station Detection After Suspend    ${env_id}    ${me_state}    ${dock_name}    S0Ix
 
 Docking Station Detection After Suspend (S3)
     [Arguments]    ${env_id}    ${me_state}    ${dock_name}
     IF    not '${env_id}'.startswith('2')
-        Fail    Not implemented on ENV_ID ${env_id}
+        Skip    Not implemented on ENV_ID ${env_id}
     END
     Docking Station Detection After Suspend    ${env_id}    ${me_state}    ${dock_name}    S3
 
 Docking Station Detection After Coldboot Then Hotplug
     [Arguments]    ${env_id}    ${me_state}    ${dock_name}
     IF    not '${env_id}'.startswith('2')
-        Fail    Not implemented on ENV_ID ${env_id}
+        Skip    Not implemented on ENV_ID ${env_id}
     END
     Ensure ME State    ${me_state}
     Pause Execution In Console    Please make sure the docking station is disconnected and press ENTER
@@ -631,7 +631,7 @@ Docking Station Detection After Coldboot Then Hotplug
 Docking Station Detection After Warmboot Then Hotplug
     [Arguments]    ${env_id}    ${me_state}    ${dock_name}
     IF    not '${env_id}'.startswith('2')
-        Fail    Not implemented on ENV_ID ${env_id}
+        Skip    Not implemented on ENV_ID ${env_id}
     END
     Ensure ME State    ${me_state}
     Pause Execution In Console    Please make sure the docking station is disconnected and press ENTER
@@ -678,7 +678,7 @@ Docking Station Detection After Warmboot Then Hotplug
 Docking Station Detection After Reboot Then Hotplug
     [Arguments]    ${env_id}    ${me_state}    ${dock_name}
     IF    not '${env_id}'.startswith('2')
-        Fail    Not implemented on ENV_ID ${env_id}
+        Skip    Not implemented on ENV_ID ${env_id}
     END
     Ensure ME State    ${me_state}
     Pause Execution In Console    Please make sure the docking station is disconnected and press ENTER
@@ -714,7 +714,7 @@ Docking Station Detection After Reboot Then Hotplug
 Docking Station Detection After Suspend Then Hotplug
     [Arguments]    ${env_id}    ${me_state}    ${dock_name}    ${platform_sleep_type}=${EMPTY}
     IF    not '${env_id}'.startswith('2')
-        Fail    Not implemented on ENV_ID ${env_id}
+        Skip    Not implemented on ENV_ID ${env_id}
     END
     Ensure ME State    ${me_state}
     Pause Execution In Console    Please make sure the docking station is disconnected and press ENTER
@@ -749,7 +749,7 @@ Docking Station Detection After Suspend Then Hotplug
 Docking Station Detection After Suspend Then Hotplug (S0Ix)
     [Arguments]    ${env_id}    ${me_state}    ${dock_name}
     IF    not '${env_id}'.startswith('2')
-        Fail    Not implemented on ENV_ID ${env_id}
+        Skip    Not implemented on ENV_ID ${env_id}
     END
     Ensure ME State    ${me_state}
     Docking Station Detection After Suspend    ${env_id}    ${me_state}    ${dock_name}    S0Ix
@@ -757,7 +757,7 @@ Docking Station Detection After Suspend Then Hotplug (S0Ix)
 Docking Station Detection After Suspend Then Hotplug (S3)
     [Arguments]    ${env_id}    ${me_state}    ${dock_name}
     IF    not '${env_id}'.startswith('2')
-        Fail    Not implemented on ENV_ID ${env_id}
+        Skip    Not implemented on ENV_ID ${env_id}
     END
     Ensure ME State    ${me_state}
     Docking Station Detection After Suspend    ${env_id}    ${me_state}    ${dock_name}    S3
