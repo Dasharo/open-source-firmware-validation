@@ -262,11 +262,7 @@ Write Bare Into Terminal
     ...    The ``${text}`` is written to the terminal
     [Arguments]    ${text}    ${interval}=None
     IF    '${DUT_CONNECTION_METHOD}' == 'Telnet'
-        IF    '${interval}' == 'None'
-            TelnetLibrary.Write Bare    ${text}
-        ELSE
-            TelnetLibrary.Write Bare Slow    ${text}    char_delay=${interval}
-        END
+        TelnetLibrary.Write Bare    ${text}    ${interval}
     ELSE IF    '${DUT_CONNECTION_METHOD}' == 'SSH'
         SSHLibrary.Write Bare    ${text}
     ELSE IF    '${DUT_CONNECTION_METHOD}' == 'open-bmc'
