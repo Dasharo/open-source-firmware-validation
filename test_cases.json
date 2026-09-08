@@ -6238,6 +6238,20 @@
   },
   {
     "doc": {
+      "_id": "STM001.201",
+      "name": "STM dual-monitor treatment is active after boot (Ubuntu)",
+      "module": "Dasharo Security"
+    }
+  },
+  {
+    "doc": {
+      "_id": "STM002.201",
+      "name": "SMI handler access outside BIOS Resource List is denied (Ubuntu)",
+      "module": "Dasharo Security"
+    }
+  },
+  {
+    "doc": {
       "_id": "STUB001.001",
       "name": "External flash explicit",
       "module": "Dasharo Compatibility"
