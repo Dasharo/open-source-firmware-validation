@@ -74,7 +74,7 @@ PXE004.001 DTS option is available and works correctly
     Power On
     ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
     Enter Submenu From Snapshot    ${boot_menu}    ${IPXE_BOOT_ENTRY}
-    ${ipxe_menu}=    Get IPXE Boot Menu Construction
+    ${ipxe_menu}=    Synchronize IPXE Time And Return Menu
     Enter Submenu From Snapshot    ${ipxe_menu}    Dasharo Tools Suite
     Set DUT Response Timeout    5m
     ${out}=    Read From Terminal Until    Enter an option
@@ -92,7 +92,7 @@ PXE005.001 OS installation option is available and works correctly
     Power On
     ${boot_menu}=    Enter Boot Menu Tianocore And Return Construction
     Enter Submenu From Snapshot    ${boot_menu}    ${IPXE_BOOT_ENTRY}
-    ${ipxe_menu}=    Get IPXE Boot Menu Construction
+    ${ipxe_menu}=    Synchronize IPXE Time And Return Menu
     Enter Submenu From Snapshot    ${ipxe_menu}    OS installation
     ${out}=    Read From Terminal Until    netboot.xyz [ enabled: true ]
     Should Contain    ${out}    netboot.xyz
@@ -127,3 +127,26 @@ PXE007.001 Dasharo Network Boot over https not http
     Log    ${out}
     Should Contain    ${out}    https://
     Should Not Contain    ${out}    http://
+
+
+*** Keywords ***
+Synchronize IPXE Time And Return Menu
+    [Documentation]    Synchronize iPXE time before selecting HTTPS boot entries.
+    [Arguments]    ${ntp_server}=pool.ntp.org
+    ${ipxe_menu}=    Get IPXE Boot Menu Construction
+    Enter Submenu From Snapshot    ${ipxe_menu}    iPXE Shell
+    Set Prompt For Terminal    iPXE>
+    Read From Terminal Until Prompt
+    Write Into Terminal    ntp ${ntp_server} && set osfv-ntp-ok 1 || clear osfv-ntp-ok
+    ${ntp_out}=    Read From Terminal Until Prompt
+    Write Into Terminal    show -q osfv-ntp-ok
+    ${out}=    Read From Terminal Until Prompt
+    Should Match Regexp
+    ...    ${out}
+    ...    (?m)^1\\r?$
+    ...    Failed to synchronize iPXE time using ${ntp_server}. NTP output: ${ntp_out}
+    Write Into Terminal    clear osfv-ntp-ok
+    Read From Terminal Until Prompt
+    Write Into Terminal    exit
+    ${ipxe_menu}=    Get IPXE Boot Menu Construction
+    RETURN    ${ipxe_menu}
