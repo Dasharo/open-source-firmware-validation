@@ -193,6 +193,11 @@ ${BASE_PORT_BOOTBLOCK_SUPPORT}=                     ${FALSE}
 ${BASE_PORT_ROMSTAGE_SUPPORT}=                      ${FALSE}
 ${BASE_PORT_POSTCAR_SUPPORT}=                       ${FALSE}
 ${BASE_PORT_RAMSTAGE_SUPPORT}=                      ${FALSE}
+# CBP007-CBP010: concerning coreboot console errors via cbmem -1
+${BASE_PORT_LOG_CHECK_SUPPORT}=                     ${FALSE}
+# CBP011: leftover static devices / Check your devicetree.cb. BIOS_WARNING
+# present on almost all boards (dasharo-issues#1409) - opt-in only.
+${BASE_PORT_DEVICETREE_CHECK_SUPPORT}=              ${FALSE}
 ${BOOT_BLOCKING_SUPPORT}=                           ${FALSE}
 ${FAN_SPEED_MEASURE_SUPPORT}=                       ${FALSE}
 ${FAN_MEASUREMENT_METHOD}=                          Run Prepare Sensors first ${TBD}

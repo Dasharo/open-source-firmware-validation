@@ -39,6 +39,9 @@ ${DASHARO_NETWORKING_MENU_SUPPORT}=         ${TRUE}
 ${DASHARO_CHIPSET_MENU_SUPPORT}=            ${TRUE}
 
 # Test module: dasharo-compatibility
+# CBP007-CBP010 (cbmem -1). CBP011 leftover-devicetree is opt-in and stays off:
+# that warning is expected on almost all boards (dasharo-issues#1409).
+${BASE_PORT_LOG_CHECK_SUPPORT}=             ${TRUE}
 ${CUSTOM_BOOT_MENU_KEY_SUPPORT}=            ${TRUE}
 ${CUSTOM_SETUP_MENU_KEY_SUPPORT}=           ${TRUE}
 ${CUSTOM_NETWORK_BOOT_ENTRIES_SUPPORT}=     ${TRUE}

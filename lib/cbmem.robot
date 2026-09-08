@@ -1,10 +1,47 @@
 *** Settings ***
-Documentation       Collection of keywords for getting boot time from cbmem in linux
+Documentation       Keywords for reading coreboot cbmem logs and timestamps in Linux
 
 Resource            ../keywords.robot
 
 
 *** Keywords ***
+Get Coreboot Console Log
+    [Documentation]
+    ...    Returns the coreboot console log collected with ``cbmem -1``.
+    ...    The first call in a suite boots Ubuntu, logs in as root, and
+    ...    caches the log. Later calls reuse that cache so CBP log-check
+    ...    tests do not each power-cycle the DUT.
+    ...
+    ...    === Requirements ===
+    ...    - The device has to be turned on, or this keyword will power it on
+    ...    - Ubuntu has to be bootable (``${TESTS_IN_UBUNTU_SUPPORT}``)
+    ...    - ``cbmem`` available as root (same as other OSFV cbmem tests)
+    ...
+    ...    === Arguments ===
+    ...    None
+    ...
+    ...    === Return Value ===
+    ...    - ``string`` - Full coreboot console log from ``cbmem -1``
+    ...
+    ...    === Effects ===
+    ...    - On cache miss: powers on the DUT, boots Ubuntu, logs in, and
+    ...    \ switches to root. On cache hit: none.
+    ${cached}=    Get Variable Value    ${COREBOOT_CONSOLE_LOG}    ${NONE}
+    IF    $cached is not None    RETURN    ${cached}
+    Power On
+    Boot And Login To OS    ${ENV_ID_UBUNTU}
+    Switch To Root User
+    ${boot_log}=    Execute Command In Terminal    cbmem -1    timeout=180s
+    ${boot_log}=    Strip String    ${boot_log}
+    Should Not Be Empty    ${boot_log}    cbmem -1 returned an empty coreboot console log
+    Should Not Contain
+    ...    ${boot_log}
+    ...    Operation not permitted
+    ...    msg=Cannot get cbmem log. Probably Secure Boot is enabled (kernel lockdown mode).
+    Should Not Contain    ${boot_log}    command not found    msg=cbmem is not installed on the DUT
+    VAR    ${COREBOOT_CONSOLE_LOG}=    ${boot_log}    scope=SUITE
+    RETURN    ${boot_log}
+
 Get Boot Time From Cbmem
     [Documentation]    Calculates boot time based on cbmem timestamps
     # fix for LT1000 and protectli platforms (output without tabs)

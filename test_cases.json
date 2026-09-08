@@ -806,6 +806,41 @@
   },
   {
     "doc": {
+      "_id": "CBP007.201",
+      "name": "No ASSERTION ERROR in boot log (Ubuntu)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "CBP008.201",
+      "name": "No missing static PCI devices in boot log (Ubuntu)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "CBP009.201",
+      "name": "No resource allocation failures in boot log (Ubuntu)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "CBP010.201",
+      "name": "No BUG messages in boot log (Ubuntu)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "CBP011.201",
+      "name": "No leftover static devices in boot log (Ubuntu)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
       "_id": "CCC001.201",
       "name": "Check core count with HT disabled (Ubuntu)",
       "module": "Dasharo Compatibility"
