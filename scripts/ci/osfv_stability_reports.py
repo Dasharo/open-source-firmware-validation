@@ -357,12 +357,21 @@ def json_results(test_data):
     print(json.dumps(test_data))
 
 
+def latest_only(test_data):
+    if not test_data:
+        return test_data
+    key = max(test_data, key=lambda k: test_data[k]["run_date"])
+    return {key: test_data[key]}
+
+
 def main():
     if not LOGS_DIR.exists():
         print(f"No logs available at {LOGS_DIR}. First run osfv_stability_run.py")
     parsed_results = parse()
+    if "--latest" in sys.argv:
+        parsed_results = latest_only(parsed_results)
     if any(h in sys.argv for h in ["--help", "-h"]):
-        print(f"Usage: {sys.argv[0]} [--json]")
+        print(f"Usage: {sys.argv[0]} [--json] [--latest]")
     elif "--json" in sys.argv:
         json_results(parsed_results)
         return 0
