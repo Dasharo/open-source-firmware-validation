@@ -110,9 +110,6 @@ assemble_capsule() {
 
     if [ "$is_v2" -eq 1 ]; then
         outer["payload"]="$inner_cap"
-        outer["sign_cert"]="$TESTING_SIGN_CERT"
-        outer["sub_cert"]="$TESTING_SUB_CERT"
-        outer["root_cert"]="$TESTING_ROOT_CERT"
         build_capsule "${final_cap%.cap}_outer.json" "$final_cap" outer
     else
         mv "$inner_cap" "$final_cap"
@@ -155,9 +152,18 @@ fi
 
 echo "--- CREATING CAPSULE WITH WRONG CERTIFICATES ---"
 
-inner["sign_cert"]="$here/sign.p12"
-inner["sub_cert"]="$here/sub.pub.pem"
-inner["root_cert"]="$here/root.pub.pem"
+if [ "$is_v2" -eq 1 ]; then
+    inner["sign_cert"]="$TESTING_SIGN_CERT"
+    inner["sub_cert"]="$TESTING_SUB_CERT"
+    inner["root_cert"]="$TESTING_ROOT_CERT"
+    outer["sign_cert"]="$here/sign.p12"
+    outer["sub_cert"]="$here/sub.pub.pem"
+    outer["root_cert"]="$here/root.pub.pem"
+else
+    inner["sign_cert"]="$here/sign.p12"
+    inner["sub_cert"]="$here/sub.pub.pem"
+    inner["root_cert"]="$here/root.pub.pem"
+fi
 
 inner_wrong_cert="${capsule_name}_wrong_cert_inner.cap"
 output_wrong_cert="${capsule_name}_wrong_cert.cap"
@@ -172,6 +178,11 @@ inner["guid"]="11111111-2222-3333-4444-abcdefabcdef"
 inner["sign_cert"]="$TESTING_SIGN_CERT"
 inner["sub_cert"]="$TESTING_SUB_CERT"
 inner["root_cert"]="$TESTING_ROOT_CERT"
+if [ "$is_v2" -eq 1 ]; then
+    outer["sign_cert"]="$TESTING_SIGN_CERT"
+    outer["sub_cert"]="$TESTING_SUB_CERT"
+    outer["root_cert"]="$TESTING_ROOT_CERT"
+fi
 
 inner_invalid_guid="${capsule_name}_invalid_guid_inner.cap"
 output_invalid_guid="${capsule_name}_invalid_guid.cap"
