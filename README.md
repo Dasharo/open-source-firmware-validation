@@ -297,6 +297,18 @@ platform config file.
 FW_FILE=$FW_FILE DEVICE_IP=$DEVICE_IP RTE_IP=$RTE_IP CONFIG=$CONFIG ./scripts/regression.sh
 ```
 
+`FW_FILE` can also be resolved automatically from a URI. When `FW_URI` is
+provided and `FW_FILE` is not set, the wrapper downloads the firmware binary to
+`${FW_CACHE_DIR:-$HOME/.cache/osfv/firmware}` and exports the cached path as
+`FW_FILE` before running tests. `FW_VERSION` is optional and, when provided, is
+used as a cache subdirectory to avoid collisions between releases.
+
+```bash
+FW_URI=https://dl.3mdeb.com/open-source-firmware/Dasharo/novacustom_v54x_mtl/v0.9.1/novacustom_v54x_mtl_v0.9.1.rom \
+FW_VERSION=novacustom_v54x_mtl_v0.9.1 \
+DEVICE_IP=$DEVICE_IP RTE_IP=$RTE_IP CONFIG=$CONFIG ./scripts/regression.sh
+```
+
 Running regression tests without snipeit works the same way as
 [running regular tests](#running-tests-via-wrapper).
 
