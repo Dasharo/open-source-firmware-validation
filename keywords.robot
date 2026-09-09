@@ -563,6 +563,12 @@ Prepare Test Suite
     ...    preparing connection with the DUT based on used
     ...    transmission protocol. Keyword used in all [Suite Setup]
     ...    sections.
+    ${fw_uri}=    Get Environment Variable    FW_URI
+    IF    $fw_uri is not None
+        Log    Downloading firmware from ${fw_uri}
+        Run    wget -o firmware.rom "${fw_uri}"
+    	VAR    ${FW_FILE}=    firmware.rom    scope=GLOBAL
+    END
     # Add some metadata to track test version
     ${revision}=    Run    git describe --dirty --always --tags
     Set Suite Metadata    OSFV revision    ${revision}
