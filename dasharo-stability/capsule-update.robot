@@ -827,11 +827,22 @@ Ensure Derived Capsule Files Are Present
     ...    OperatingSystem.File Should Exist    ./dl-cache/edk2/${file_name}_wrong_cert.cap
     ${f2}=    Run Keyword And Return Status
     ...    OperatingSystem.File Should Exist    ./dl-cache/edk2/${file_name}_invalid_guid.cap
+    ${f3}=    Run Keyword And Return Status
+    ...    OperatingSystem.File Should Exist    ./dl-cache/edk2/${file_name}.sha256
+
+    ${actual_hash}=    Run    sha256sum ${capsule_for_decoding} | cut -d' ' -f1
+    VAR    ${cache_valid}=    ${FALSE}
+    IF    ${f3}
+        ${cached_hash}=    OperatingSystem.Get File    ./dl-cache/edk2/${file_name}.sha256
+        ${cache_valid}=    Run Keyword And Return Status
+        ...    Should Contain    ${cached_hash}    ${actual_hash}
+    END
 
     VAR    ${WRONG_KEYS_CAP}=    ./dl-cache/edk2/${file_name}_wrong_cert.cap    scope=SUITE
     VAR    ${INVALID_GUID_CAP}=    ./dl-cache/edk2/${file_name}_invalid_guid.cap    scope=SUITE
-    IF    not ${f1} or not ${f2}
+    IF    not ${f1} or not ${f2} or not ${cache_valid}
         Run    ./scripts/capsules/capsule_update_tests.sh ${capsule_for_decoding}
+        OperatingSystem.Create File    ./dl-cache/edk2/${file_name}.sha256    ${actual_hash}
     END
 
     IF    ${DASHARO_INTEL_ME_MENU_SUPPORT}
