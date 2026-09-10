@@ -68,6 +68,9 @@ ${SECURE_BOOT_SUPPORT}=                     ${TRUE}
 ${USB_STACK_SUPPORT}=                       ${TRUE}
 ${USB_MASS_STORAGE_SUPPORT}=                ${TRUE}
 ${UEFI_PASSWORD_SUPPORT}=                   ${TRUE}
+${BASE_PORT_RAMSTAGE_SUPPORT}=              ${TRUE}
+${BASE_PORT_LOG_CHECK_SUPPORT}=             ${TRUE}
+${BASE_PORT_ALLOCATOR_V4_SUPPORT}=          ${TRUE}
 
 # Test module: dasharo-performance
 ${SERIAL_BOOT_MEASURE}=                     ${TRUE}

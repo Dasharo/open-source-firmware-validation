@@ -73,3 +73,63 @@ CBP006.101 Resource allocator v4 - allocating resources (EDK2 UEFI)
     Power On
     Set DUT Response Timeout    120s
     Read From Terminal Until    Pass 2 (allocating resources)
+
+CBP007.001 No ASSERTION ERROR in boot log
+    [Documentation]    Check whether the coreboot boot log is free from
+    ...    assertion failures reported by coreboot.
+    Skip If    not ${BASE_PORT_LOG_CHECK_SUPPORT}    CBP007.001 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CBP007.001 not supported
+    ${boot_log}=    Boot Ubuntu And Read Coreboot Boot Log
+    Coreboot Boot Log Should Not Contain    ${boot_log}    ASSERTION ERROR
+
+CBP008.001 No missing static PCI devices in boot log
+    [Documentation]    Check whether the coreboot boot log is free from
+    ...    static PCI device entries that were not found and disabled.
+    Skip If    not ${BASE_PORT_LOG_CHECK_SUPPORT}    CBP008.001 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CBP008.001 not supported
+    ${boot_log}=    Boot Ubuntu And Read Coreboot Boot Log
+    Coreboot Boot Log Should Not Contain    ${boot_log}    not found, disabling it.
+
+CBP009.001 No resource allocation failures in boot log
+    [Documentation]    Check whether the coreboot boot log is free from
+    ...    resource allocator failures.
+    Skip If    not ${BASE_PORT_LOG_CHECK_SUPPORT}    CBP009.001 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CBP009.001 not supported
+    ${boot_log}=    Boot Ubuntu And Read Coreboot Boot Log
+    Coreboot Boot Log Should Not Contain    ${boot_log}    Resource didn't fit!!!
+
+CBP010.001 No BUG messages in boot log
+    [Documentation]    Check whether the coreboot boot log is free from
+    ...    BUG messages emitted by coreboot.
+    Skip If    not ${BASE_PORT_LOG_CHECK_SUPPORT}    CBP010.001 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CBP010.001 not supported
+    ${boot_log}=    Boot Ubuntu And Read Coreboot Boot Log
+    Coreboot Boot Log Should Not Contain    ${boot_log}    BUG:
+
+CBP011.001 No devicetree.cb warnings in boot log
+    [Documentation]    Check whether the coreboot boot log is free from
+    ...    warnings that ask maintainers to fix devicetree.cb.
+    Skip If    not ${BASE_PORT_LOG_CHECK_SUPPORT}    CBP011.001 not supported
+    Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    CBP011.001 not supported
+    ${boot_log}=    Boot Ubuntu And Read Coreboot Boot Log
+    Coreboot Boot Log Should Not Contain    ${boot_log}    Check your devicetree.cb
+
+
+*** Keywords ***
+Boot Ubuntu And Read Coreboot Boot Log
+    [Documentation]    Boots Ubuntu, switches to root and returns the coreboot
+    ...    boot log collected with cbmem.
+    Power On
+    Boot And Login To OS    ${ENV_ID_UBUNTU}
+    Switch To Root User
+    ${boot_log}=    Execute Command In Terminal    cbmem -1
+    Should Not Contain
+    ...    ${boot_log}
+    ...    Operation not permitted
+    ...    msg=Cannot get cbmem log. Probably Secure Boot is enabled (kernel lockdown mode).
+    RETURN    ${boot_log}
+
+Coreboot Boot Log Should Not Contain
+    [Documentation]    Fails if a forbidden coreboot boot-log pattern is present.
+    [Arguments]    ${boot_log}    ${pattern}
+    Should Not Contain    ${boot_log}    ${pattern}
