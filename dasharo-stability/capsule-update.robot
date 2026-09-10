@@ -494,6 +494,80 @@ CUP270.101 Automatic ME Disable Works (EDK2 UEFI)
     Should Contain    ${status}    CapsuleMax
     Should Not Contain    ${status}    CapsuleLast
 
+CUP300.101 Can replace root key by editing CBFS (EDK2 UEFI)
+    [Documentation]    Verify that capsules are authenticated against root key
+    ...    stored in CBFS. Flash firmware with the root key used for signing
+    ...    wrong_cert.cap and observe it working this time after checking that
+    ...    valid_capsule.cap now causes a security violation.
+
+    # Editing CBFS requires resigning, so skipping if IBG is in use. The test
+    # should still work on an unfused unit that doesn't block boot on
+    # verification issues.
+    Skip If    ${INTEL_CBNT_BOOTGUARD_FUSED}    CUP300.101 is incompatible with IBG
+
+    # Should work, but root key from CBFS doesn't really have an effect for V1,
+    # so no point testing it.
+    Skip If    not ${CAPSULE_UPDATE_V2_SUPPORT}    CUP300.101 is useless for V1
+
+    VAR    ${fw_with_customkey}=    ${BASE_FW_FILE}_customkey.rom
+
+    # Prepare and flash firmware image with our custom root key.
+
+    ${rc}=    Run And Return Rc    cp -f ${BASE_FW_FILE} ${fw_with_customkey}
+    Should Be Equal As Integers    ${rc}    0
+    ...    Failed to copy base ROM for root key editing.
+
+    # "COREBOOT" must be there and operations on it must succeed, or the
+    # firmware is wrong.
+    ${rc}=    Run And Return Rc    cbfstool ${fw_with_customkey} remove -n root_key
+    Should Be Equal As Integers    ${rc}    0    Base ROM has no root key?
+    ${rc}=    Run And Return Rc    cbfstool ${fw_with_customkey} add -n root_key -f ./scripts/capsules/root.xdr -t raw
+    Should Be Equal As Integers    ${rc}    0    Failed to replace root key.
+
+    # Other regions are optional and can fail. Running commands one by one
+    # instead of pasting regions as a comma-separated list, to update all that
+    # are present. "COREBOOT_B" is "how" COREBOOT_TS was renamed by upstream.
+    VAR    @{regions}=    FW_MAIN_A    FW_MAIN_B    COREBOOT_TS    COREBOOT_B
+    FOR    ${region}    IN    @{regions}
+        ${rc}=    Run And Return Rc    cbfstool ${fw_with_customkey} remove -r ${region} -n root_key 2>&1
+        IF    ${rc} == 0
+            # If the file was removed, the region exists, so adding the file
+            # must succeed.
+            ${rc}=    Run And Return Rc
+            ...    cbfstool ${fw_with_customkey} add -r ${region} -n root_key -f ./scripts/capsules/root.xdr -t raw
+            Should Be Equal As Integers    ${rc}    0    Failed to replace root key in ${region}.
+        END
+    END
+
+    # Firmware with vboot enabled needs to be resigned to not end up using
+    # read-only partition and spam pop-ups that break tests. When BootGuard
+    # signing isn't enforced, can use any keys as long as firmware is internally
+    # consistent.
+    Resign Vboot Firmware With Temporary Keys    ${fw_with_customkey}
+
+    Flash Firmware    ${fw_with_customkey}
+
+    # Previously "good" capsule is no longer accepted.
+    ${status}    ${version_changed}=    Perform Capsule Update And Return Status
+    ...    valid_capsule.cap
+    IF    ${CAPSULE_DOES_NOT_PERSIST_ACROSS_RESET} and ${CAPSULE_ON_DISK_SUPPORT}
+        Should Contain    ${status}    ${WRONG_KEYS_CAPSULE_ON_DISK_STATUS}
+    ELSE
+        Should Contain    ${status}    ${WRONG_KEYS_CAPSULE_STATUS}
+    END
+    Should Not Be True    ${version_changed}
+
+    # Previously "bad" capsule now succeeds.
+    ${status}    ${version_changed}=    Perform Capsule Update And Return Status
+    ...    wrong_cert.cap
+    IF    ${CAPSULE_DOES_NOT_PERSIST_ACROSS_RESET} and ${CAPSULE_ON_DISK_SUPPORT}
+        Should Contain    ${status}    Firmware Update Succeeded
+    ELSE
+        Should Contain    ${status}    CapsuleMax
+        Should Not Contain    ${status}    CapsuleLast
+    END
+    Should Be True    ${version_changed}
+
 
 *** Keywords ***
 Check Platform Fused
@@ -1045,3 +1119,47 @@ Manual UI Verification Prompt
     ELSE
         Execute Manual Step    ${msg}
     END
+
+Resign Vboot Firmware With Temporary Keys
+    [Arguments]    ${in_fw_image}
+
+    # ${VERIFIED_BOOT_SUPPORT} doesn't guarantee that vboot is enabled in the
+    # current build, so check for it.
+    ${rc}=    Run And Return Rc    cbfstool ${in_fw_image} layout | grep "'VBLOCK_A'"
+    IF    ${rc} != 0    RETURN
+
+    ${have_tools}=    Run Keyword And Return Status
+    ...    OperatingSystem.Directory Should Not Be Empty    ./dl-cache/dasharo-tools
+    IF    not ${have_tools}
+        Run    git clone https://github.com/Dasharo/dasharo-tools.git ./dl-cache/dasharo-tools
+    END
+
+    VAR    ${base_dir}=    dl-cache/vboot
+    VAR    ${keys_dir}=    ${base_dir}/keys
+    ${have_keys}=    Run Keyword And Return Status
+    ...    OperatingSystem.Directory Should Not Be Empty    ${keys_dir}
+    IF    not ${have_keys}
+        Run    rm -rf ${keys_dir}
+        Run    mkdir -p ${base_dir}
+        ${out_genkey}=    Run    ./dl-cache/dasharo-tools/vboot/generate_keys ${keys_dir}
+        Run    chmod -R a+rwX ${base_dir}
+        Should Contain    ${out_genkey}    The Verified Boot keys were generated into following directory
+    END
+
+    # Copying source file to get the output file at a path which is writable
+    # from within a container (no handling of user credentials).
+    Run    cp ${in_fw_image} ${base_dir}/fw.rom
+    ${out_resign}=    Run    ./dl-cache/dasharo-tools/vboot/resign ${base_dir}/fw.rom ${keys_dir}
+    Run    rm ${base_dir}/fw.rom
+
+    VAR    ${tmp_fw_image}=    ${base_dir}/fw_resigned.rom
+    Should Contain    ${out_resign}    successfully saved new image to
+    Should Contain    ${out_resign}    ${tmp_fw_image}
+    ${size_original}=    OperatingSystem.Get File Size    ${in_fw_image}
+    ${size_resigned}=    OperatingSystem.Get File Size    ${tmp_fw_image}
+    Should Be Equal As Integers
+    ...    ${size_original}
+    ...    ${size_resigned}
+    ...    msg=Size of resigned firmware is incorrect. Resigning failed.
+
+    Run    mv ${tmp_fw_image} ${in_fw_image}

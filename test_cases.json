@@ -1989,6 +1989,13 @@
   },
   {
     "doc": {
+      "_id": "CUP300.101",
+      "name": "Can replace root key by editing CBFS (EDK2 UEFI)",
+      "module": "Dasharo Stability"
+    }
+  },
+  {
+    "doc": {
       "_id": "DBETA001.201",
       "name": "Dasharo Beta LVFS Upgrade (Ubuntu)",
       "module": "Dasharo Compatibility"
