@@ -1214,11 +1214,11 @@ Reenter Menu And Return Construction
     ...
     ...    === Effects ===
     ...    None
-    [Arguments]    ${forward}=${FALSE}
+    [Arguments]    ${forward}=${FALSE}    ${submenu_opt_only}=${FALSE}
 
     Reenter Menu    ${forward}
     Sleep    1s
-    ${menu}=    Get Submenu Construction
+    ${menu}=    Get Submenu Construction    opt_only=${submenu_opt_only}
     RETURN    ${menu}
 
 # This should stay, maybe improved if needed

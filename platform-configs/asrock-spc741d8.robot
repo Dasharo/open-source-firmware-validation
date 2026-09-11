@@ -94,6 +94,13 @@ ${ESP_SCANNING_SUPPORT}=                        ${TRUE}
 ${SATA_SUPPORT}=                                ${TRUE}
 ${RESET_TO_DEFAULTS_SUPPORT}=                   ${TRUE}
 ${AUTO_BOOT_TIME_OUT_DEFAULT_VALUE}=            2
+${PCIE_BIFURCATION_SUPPORT}=                    ${TRUE}
+@{PCIE_SLOTS}=
+...                                             PCIE1
+...                                             PCIE3
+...                                             PCIE5
+...                                             PCIE7
+...                                             MCIO
 
 # Test module: dasharo-security
 ${TPM_SUPPORTED_VERSION}=                       2

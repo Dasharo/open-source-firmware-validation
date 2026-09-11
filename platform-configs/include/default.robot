@@ -208,6 +208,9 @@ ${HIBERNATION_AND_RESUME_SUPPORT}=                  ${FALSE}
 ${ME_STATICALLY_DISABLED}=                          ${FALSE}
 ${APU_CONFIGURATION_MENU_SUPPORT}=                  ${FALSE}
 ${WATCHDOG_SUPPORT}=                                ${FALSE}
+# Bifurcation
+${PCIE_BIFURCATION_SUPPORT}=                        ${FALSE}
+@{PCIE_SLOTS}=                                      ${TBD}
 # Wake-on-LAN test suspends the system (S3) and wakes it with a magic packet;
 # only enable on platforms that actually support suspend + WoL.
 ${WAKE_ON_LAN_SUPPORT}=                             ${FALSE}

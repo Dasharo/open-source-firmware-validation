@@ -4915,6 +4915,76 @@
   },
   {
     "doc": {
+      "_id": "PEX002.201",
+      "name": "PCI Express Bifurcation x16 (Ubuntu)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "PEX003.201",
+      "name": "PCI Express Bifurcation Card Detection x16 (Ubuntu)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "PEX004.201",
+      "name": "PCI Express Bifurcation x8x8 (Ubuntu)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "PEX005.201",
+      "name": "PCI Express Bifurcation Card Detection x8x8 (Ubuntu)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "PEX006.201",
+      "name": "PCI Express Bifurcation x4x4x4x4 (Ubuntu)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "PEX007.201",
+      "name": "PCI Express Bifurcation Card Detection x4x4x4x4 (Ubuntu)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "PEX008.201",
+      "name": "PCI Express Bifurcation x4x4x8 (Ubuntu)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "PEX009.201",
+      "name": "PCI Express Bifurcation Card Detection x4x4x8 (Ubuntu)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "PEX010.201",
+      "name": "PCI Express Bifurcation x8x4x4 (Ubuntu)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "PEX011.201",
+      "name": "PCI Express Bifurcation Card Detection x8x4x4 (Ubuntu)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
       "_id": "PFS001.502",
       "name": "Install operating system on disk (pfSense)",
       "module": "Dasharo Compatibility"
