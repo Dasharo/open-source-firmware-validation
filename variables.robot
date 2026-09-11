@@ -272,10 +272,10 @@ ${OS_UBUNTU}=               ubuntu
 ...                         sonoff_ip=192.168.10.229
 
 # ASRock SPC741D8-2L2T/BCM
-&{RTE74}=                   ip=192.168.4.122
+&{RTE74}=                   ip=192.168.10.118
 ...                         platform=asrock-spc741d8
 ...                         platform_vendor=ASRock
-...                         sonoff_ip=192.168.10.130
+...                         sonoff_ip=192.168.10.117
 
 # Odroid-H4 Ultra
 &{RTE75}=                   ip=192.168.10.88    platform=odroid-h4-ultra
