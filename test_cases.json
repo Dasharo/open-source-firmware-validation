@@ -6252,6 +6252,20 @@
   },
   {
     "doc": {
+      "_id": "STM003.201",
+      "name": "Verify a measured launch succeeds with the STM active (Ubuntu)",
+      "module": "Dasharo Security"
+    }
+  },
+  {
+    "doc": {
+      "_id": "STM004.201",
+      "name": "Verify the platform remains stable under SMI load with the STM enforcing (Ubuntu)",
+      "module": "Dasharo Security"
+    }
+  },
+  {
+    "doc": {
       "_id": "STUB001.001",
       "name": "External flash explicit",
       "module": "Dasharo Compatibility"
