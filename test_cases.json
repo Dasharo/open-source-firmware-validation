@@ -6925,6 +6925,20 @@
   },
   {
     "doc": {
+      "_id": "TXT001.201",
+      "name": "Firmware-side State After Normal Boot (Ubuntu)",
+      "module": "Dasharo Security"
+    }
+  },
+  {
+    "doc": {
+      "_id": "TXT001.204",
+      "name": "Firmware-side State After Measured Boot (TrenchBoot)",
+      "module": "Dasharo Security"
+    }
+  },
+  {
+    "doc": {
       "_id": "UBT001.211",
       "name": "USB detect and boot after coldboot (DTS)",
       "module": "Dasharo Compatibility"

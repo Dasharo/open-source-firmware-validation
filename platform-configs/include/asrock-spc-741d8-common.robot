@@ -125,6 +125,10 @@ ${FAST_AND_QUIET_BOOT_SUPPORT}=                 ${TRUE}
 ${STM_SUPPORT}=                                 ${TRUE}
 ${DEVICE_DETECT_TEST_IN_SCOPE}=                 ${TRUE}
 
+${TRENCHBOOT_SUPPORT}=                          ${TRUE}
+${TESTS_IN_METATB_SUPPORT}=                     ${TRUE}
+${TXT_TESTS_SUPPORT}=                           ${TRUE}
+
 
 *** Keywords ***
 Power On

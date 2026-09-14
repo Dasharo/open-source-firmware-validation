@@ -264,6 +264,11 @@ ${INTEL_CBNT_BOOTGUARD_FUSING_SUPPORT}=             ${FALSE}
 ${INTEL_CBNT_BOOTGUARD_FUSED}=                      ${FALSE}
 ${FIRMWARE_UPDATE_MODE_SUPPORT}=                    ${FALSE}
 ${STM_SUPPORT}=                                     ${FALSE}
+# TXT tests
+${TXT_TESTS_SUPPORT}=                               ${FALSE}
+${TXT_SINIT_ACM_VERSION}=                           ${TBD}
+@{TXT_EXPECTED_SHA256_PCR17_22}=                    ${TBD}
+${TXT_EXPECTED_PCR17_FALLBACK}=                     ${TBD}
 
 # Test module: dasharo-performance
 ${SERIAL_BOOT_MEASURE}=                             ${FALSE}

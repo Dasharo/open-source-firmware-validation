@@ -53,6 +53,9 @@ Payload Select Boot Device    # robocop: off=too-long-keyword
         IF    "${system_name}" == "trenchboot" and "${MANUFACTURER}" == "QEMU"
             VAR    ${system_name}=    QEMU HARDDISK
         END
+        IF    "${system_name}" == "trenchboot"
+            VAR    ${system_name}=    SanDisk Ultra
+        END
     ELSE
         # Without ESP_SCANNING it does not matter if the entry has lowercase
         # or upperase.
