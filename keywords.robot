@@ -289,7 +289,7 @@ Switch To Root User
     Set Prompt For Terminal    ${DEVICE_OS_ROOT_PROMPT}
     Sleep    2s
     ${out}=    Read From Terminal
-    IF    "[sudo" in $out
+    IF    "[sudo" in $out or "password" in $out.lower()
         Write Into Terminal    ${DEVICE_OS_PASSWORD}
         Read From Terminal Until Prompt
     END
