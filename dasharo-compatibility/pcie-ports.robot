@@ -12,6 +12,7 @@ Resource            ../keys.robot
 
 Suite Setup         Prepare Test Suite
 Suite Teardown      Run Keywords
+...                     Run Keyword If    ${PCIE_BIFURCATION_SUPPORT}
 ...                     Set Bifurcation Layout In Firmware    ${BIFURCATION_X16_1}
 ...                     AND
 ...                     Log Out And Close Connection
