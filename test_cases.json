@@ -6246,7 +6246,7 @@
   {
     "doc": {
       "_id": "STM002.201",
-      "name": "SMI handler access outside BIOS Resource List is denied (Ubuntu)",
+      "name": "SMI handler works correctly with the STM active (Ubuntu)",
       "module": "Dasharo Security"
     }
   },
