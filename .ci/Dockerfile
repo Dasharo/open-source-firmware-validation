@@ -17,7 +17,8 @@ RUN apt-get update \
 
 RUN pip install --no-cache-dir \
     --root-user-action ignore \
-    pre-commit
+    pre-commit \
+    requests
 
 ARG TASK_VERSION=3.45.4
 RUN curl -fsSL "https://github.com/go-task/task/releases/download/v${TASK_VERSION}/task_linux_amd64.tar.gz" \
