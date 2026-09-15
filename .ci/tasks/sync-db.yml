@@ -1,0 +1,66 @@
+# SPDX-FileCopyrightText: 2026 3mdeb <contact@3mdeb.com>
+#
+# SPDX-License-Identifier: Apache-2.0
+
+version: '3'
+
+includes:
+  docker:
+    taskfile: ../../taskfile-templates/templates/common/docker-run.yml
+    optional: true
+
+vars:
+  REPO_ROOT:
+    sh: git rev-parse --show-toplevel
+  SYNC_DB_IMAGE_NAME: ghcr.io/dasharo/osfv-ci
+  SYNC_DB_IMAGE: '{{.SYNC_DB_IMAGE_NAME}}:latest'
+  # Task variables do not reach subtasks through 'env:', so the dry run flag is
+  # threaded explicitly. Defaults to whatever the caller exported.
+  DRY_RUN:
+    sh: echo "${DB_DRY_RUN:-}"
+
+tasks:
+  main:
+    desc: Upload test_cases.json to the test case database
+    dir: '{{.REPO_ROOT}}'
+    cmds:
+      - task: '{{if .CI}}run:local{{else}}run:container{{end}}'
+        vars:
+          DRY_RUN: '{{.DRY_RUN}}'
+
+  run:local:
+    desc: Upload test_cases.json in the current environment, no container
+    dir: '{{.REPO_ROOT}}'
+    preconditions:
+      - sh: '[ -n "$DB_SERVER_IP" ]'
+        msg: DB_SERVER_IP is not set
+      - sh: '[ -n "$DB_USER" ]'
+        msg: DB_USER is not set
+      - sh: '[ -n "$DB_PASSWORD" ]'
+        msg: DB_PASSWORD is not set
+    env:
+      DB_DRY_RUN: '{{.DRY_RUN}}'
+    cmds:
+      - ./scripts/synchronize-db.py
+
+  run:container:
+    desc: Upload test_cases.json from inside {{.SYNC_DB_IMAGE}}
+    dir: '{{.REPO_ROOT}}'
+    cmds:
+      # network host to reach the database on the internal network, credentials
+      # inherited from the environment so that they stay off the command line
+      - task: docker:run
+        vars:
+          IMAGE: '{{.SYNC_DB_IMAGE}}'
+          DOCKER_ARGS: --network host --env DB_SERVER_IP --env DB_USER --env DB_PASSWORD --env DB_DRY_RUN={{.DRY_RUN}}
+          VOLUMES: '{{.REPO_ROOT}}:/workspace'
+          WORKDIR: /workspace
+          COMMAND: task --taskfile .ci/Taskfile.yml sync-db:run:local
+
+  dry-run:
+    desc: Show what would be uploaded to the test case database, without writing
+    dir: '{{.REPO_ROOT}}'
+    cmds:
+      - task: main
+        vars:
+          DRY_RUN: '1'

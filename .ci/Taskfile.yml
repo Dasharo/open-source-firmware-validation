@@ -10,6 +10,7 @@ includes:
   develop-pr-regression: tasks/develop-pr-regression.yml
   image: tasks/image.yml
   stability: tasks/stability.yml
+  sync-db: tasks/sync-db.yml
 
 tasks:
   ci:pre-commit:
@@ -40,6 +41,16 @@ tasks:
     desc: Run the release test scope REPEATS times on $DEVICE
     cmds:
       - task: stability:device
+
+  ci:sync-db:
+    desc: Upload test_cases.json to the test case database
+    cmds:
+      - task: sync-db:main
+
+  ci:sync-db:dry-run:
+    desc: Show what would be uploaded to the test case database, without writing
+    cmds:
+      - task: sync-db:dry-run
 
   ci:image:precommit:build:
     desc: Build the CI image, tagged with a UTC timestamp and latest

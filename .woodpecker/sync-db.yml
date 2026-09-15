@@ -1,0 +1,50 @@
+# SPDX-FileCopyrightText: 2026 3mdeb <contact@3mdeb.com>
+#
+# SPDX-License-Identifier: Apache-2.0
+
+# Upload the merged test case definitions to the database. Only on push, never
+# on pull_request: the database is shared, so it must follow the merged state of
+# the branch, and the credentials are push-scoped secrets anyway.
+when:
+  - branch: [develop, main]
+    event: push
+    path:
+      include:
+        - test_cases.json
+        - .ci/tasks/sync-db.yml
+        - scripts/synchronize-db.py
+        - .woodpecker/sync-db.yml
+  # Testing branches: every push runs, no path filter, so the pipeline can be
+  # exercised without touching test_cases.json
+  - branch: ci-test-sync-db*
+    event: push
+
+labels:
+  network: office
+
+# The database takes one writer at a time, and an older pipeline must not
+# overwrite a newer one's test cases
+concurrency:
+  limit: 1
+  group: sync-db
+
+clone:
+  git:
+    image: woodpeckerci/plugin-git
+    settings:
+      recursive: false
+
+steps:
+  - name: sync-db
+    image: ghcr.io/dasharo/osfv-ci:latest
+    pull: true
+    environment:
+      DB_SERVER_IP:
+        from_secret: OSFV_DB_SERVER_IP
+      DB_USER:
+        from_secret: OSFV_DB_USER
+      DB_PASSWORD:
+        from_secret: OSFV_DB_PASSWORD
+    commands:
+      - git submodule update --init taskfile-templates
+      - TASK_X_REMOTE_TASKFILES=1 task --yes --taskfile .ci/Taskfile.yml ci:sync-db
