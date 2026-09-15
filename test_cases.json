@@ -6252,8 +6252,8 @@
   },
   {
     "doc": {
-      "_id": "STM003.201",
-      "name": "Verify a measured launch succeeds with the STM active (Ubuntu)",
+      "_id": "STM003.204",
+      "name": "Verify a measured launch succeeds with the STM active (TrenchBoot)",
       "module": "Dasharo Security"
     }
   },

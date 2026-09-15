@@ -104,6 +104,7 @@ ${EARLY_BOOT_DMA_SUPPORT}=                      ${TRUE}
 ${UEFI_PASSWORD_SUPPORT}=                       ${TRUE}
 # IMPORTANT! Update the revisions with new releases
 @{MICROCODE_REVISIONS}=                         0x133
+${STM_SUPPORT}=                                 ${TRUE}
 
 # Test module: dasharo-performance
 ${SERIAL_BOOT_MEASURE}=                         ${TRUE}

@@ -1,4 +1,10 @@
 *** Settings ***
+Documentation       Testing STM requires Ubuntu 26.04 with a patched kernel, as
+...                 described in
+...                 https://docs.dasharo.com/guides/smi-transfer-monitor/#preparing-to-launch-stm.
+...                 A disk image with the required changes already applied is
+...                 available on Clonezilla.
+
 Library             Collections
 Library             OperatingSystem
 Library             Process
@@ -66,28 +72,6 @@ STM002.201 SMI handler works correctly with the STM active (Ubuntu)
     Should Not Contain    ${cbmem_out}    ${STM_ERROR_STRING}
     [Teardown]    Execute Command In Terminal    efibootmgr -t ${AUTO_BOOT_TIME_OUT_DEFAULT_VALUE}
 
-STM003.201 Verify a measured launch succeeds with the STM active (Ubuntu)
-    [Documentation]    Verify a measured launch succeeds with the STM active
-    Skip If    '${ENV_ID_TRENCHBOOT}' not in ${TESTED_LINUX_DISTROS}    STM003.201 not supported
-    Skip If    not ${TRENCHBOOT_SUPPORT}    STM003.201 Not Supported
-    Skip If    not ${STM_WITH_TXT_SUPPORT}    STM003.201 Not Supported
-
-    Power On
-    Boot System Or From Connected Disk    ${ENV_ID_TRENCHBOOT}
-    Trigger Measured Launch
-
-    ${pcr_with_stm}=    Get PCRs State From Linux    17
-
-    Disable STM
-
-    Boot System Or From Connected Disk    ${ENV_ID_TRENCHBOOT}
-    Trigger Measured Launch
-    ${pcr_without_stm}=    Get PCRs State From Linux    17
-
-    Should Not Be Equal    ${pcr_with_stm}    ${pcr_without_stm}
-    ...    The STM measurement is not reflected in the PCR
-    [Teardown]    Run Keyword If    '${TEST_STATUS}' != 'SKIP'    Enable STM
-
 STM004.201 Verify the platform remains stable under SMI load with the STM enforcing (Ubuntu)
     [Documentation]    Verify the platform remains stable under SMI load with the STM enforcing
 
@@ -116,6 +100,29 @@ STM004.201 Verify the platform remains stable under SMI load with the STM enforc
     ${dmesg_out}=    Execute Command In Terminal    dmesg | grep -i -E "stm|dual.monitor"
     Should Contain    ${dmesg_out}    ${STM_LAUNCHED_STRING}
 
+STM003.204 Verify a measured launch succeeds with the STM active (TrenchBoot)
+    [Documentation]    Verify a measured launch succeeds with the STM active
+    Skip If    '${ENV_ID_TRENCHBOOT}' not in ${TESTED_LINUX_DISTROS}    STM003.204 not supported
+    Skip If    not ${TRENCHBOOT_SUPPORT}    STM003.201 Not Supported
+    Skip If    not ${STM_WITH_TXT_SUPPORT}    STM003.201 Not Supported
+    Skip If    not ${TESTS_IN_METATB_SUPPORT}    STM003.201 Not Supported
+
+    Power On
+    Boot System Or From Connected Disk    ${ENV_ID_TRENCHBOOT}
+    Trigger Measured Launch
+
+    ${pcr_with_stm}=    Get PCRs State From Linux    17
+
+    Disable STM
+
+    Boot System Or From Connected Disk    ${ENV_ID_TRENCHBOOT}
+    Trigger Measured Launch
+    ${pcr_without_stm}=    Get PCRs State From Linux    17
+
+    Should Not Be Equal    ${pcr_with_stm}    ${pcr_without_stm}
+    ...    The STM measurement is not reflected in the PCR
+    [Teardown]    Run Keyword If    '${TEST_STATUS}' != 'SKIP'    Enable STM
+
 
 *** Keywords ***
 Trigger Measured Launch
@@ -126,7 +133,10 @@ Trigger Measured Launch
 
 Ensure STM Module Is Loaded
     [Documentation]    Loads the dual_monitor_mode kernel module
-    Execute Command In Terminal    modprobe dual_monitor_mode
+    ${out}=    Execute Command In Terminal    modprobe dual_monitor_mode
+    IF    '''${out}''' != '''${EMPTY}'''
+        Fail    Failed to load dual_monitor_mode module
+    END
 
 Enable STM
     [Documentation]    Enables STM option
