@@ -14,10 +14,6 @@ when:
         - .ci/tasks/sync-db.yml
         - scripts/synchronize-db.py
         - .woodpecker/sync-db.yml
-  # Testing branches: every push runs, no path filter, so the pipeline can be
-  # exercised without touching test_cases.json
-  - branch: ci-test-sync-db*
-    event: push
 
 labels:
   network: office
