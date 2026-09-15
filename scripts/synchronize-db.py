@@ -4,29 +4,85 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
+import argparse
 import json
 import os
 import sys
-from getpass import getpass
 
 import requests
 from requests.auth import HTTPBasicAuth
-
-IP = os.getenv("DB_SERVER_IP")
-COUCHDB_URL = f"http://{IP}/test_cases"
 
 FAIL = "\033[91m\033[1m"
 ENDC = "\033[0m"
 
 
+def parse_args():
+    parser = argparse.ArgumentParser(
+        description="Synchronize test_cases.json with the CouchDB test case database. "
+        "Runs non-interactively; every option can also be given as an "
+        "environment variable.",
+    )
+    parser.add_argument(
+        "--server",
+        default=os.getenv("DB_SERVER_IP"),
+        help="database server address, with optional port, e.g. 127.0.0.1:5984 "
+        "(env: DB_SERVER_IP)",
+    )
+    parser.add_argument(
+        "--user",
+        default=os.getenv("DB_USER"),
+        help="user name, must have 'Test case developer' permissions (env: DB_USER)",
+    )
+    parser.add_argument(
+        "--password",
+        default=os.getenv("DB_PASSWORD"),
+        help="password for --user; prefer passing it as env DB_PASSWORD (env: DB_PASSWORD)",
+    )
+    parser.add_argument(
+        "--file",
+        default=os.getenv("DB_TEST_CASES_FILE", "test_cases.json"),
+        help="local copy of test cases to upload (default: test_cases.json, "
+        "env: DB_TEST_CASES_FILE)",
+    )
+    parser.add_argument(
+        "--dry-run",
+        action="store_true",
+        default=os.getenv("DB_DRY_RUN", "").lower() in ("1", "true", "yes"),
+        help="print the changes that would be uploaded and exit without writing "
+        "to the database (env: DB_DRY_RUN)",
+    )
+
+    args = parser.parse_args()
+
+    missing = [
+        name
+        for name, value in (
+            ("--server/DB_SERVER_IP", args.server),
+            ("--user/DB_USER", args.user),
+            ("--password/DB_PASSWORD", args.password),
+        )
+        if not value
+    ]
+
+    if missing:
+        parser.error(f"missing required option(s): {', '.join(missing)}")
+
+    return args
+
+
 def main():
-    with open("test_cases.json", "r") as file:
+    args = parse_args()
+
+    couchdb_url = f"http://{args.server}/test_cases"
+    auth = HTTPBasicAuth(args.user, args.password)
+
+    with open(args.file, "r") as file:
         local_json = json.load(file)
 
     try:
         response = requests.get(
-            f"{COUCHDB_URL}/_all_docs?include_docs=true",
-            auth=HTTPBasicAuth("web", "site"),  # Add authentication
+            f"{couchdb_url}/_all_docs?include_docs=true",
+            auth=auth,
         )
     except Exception as e:
         print(f"{FAIL}Error connecting to the database: {repr(e)}{ENDC}")
@@ -94,22 +150,9 @@ def main():
     print(f"These local changes will be uploaded:")
     print(json.dumps(local_json, indent=2))
 
-    confirm = ""
-
-    try:
-        confirm = input(f"\nIs that correct? [N/y] ")
-    finally:  # to handle ^C (KeyboardInterrupt) and ^D (EOFError) gracefully
-        if confirm != "y" and confirm != "Y":
-            print(f"\nAborting")
-            sys.exit(0)
-
-    try:
-        user = input(f"Enter user name: ")
-        # TODO: check if this works without interactive terminal
-        password = getpass()
-    except:
-        print(f"\nAborting")
-        sys.exit(1)
+    if args.dry_run:
+        print(f"Dry run requested, not uploading anything.")
+        sys.exit(0)
 
     for doc in local_json[:]:
         if doc["doc"]["_id"] in updated_cases:
@@ -120,9 +163,9 @@ def main():
                     break
             try:
                 response = requests.put(
-                    f"{COUCHDB_URL}/{doc['doc']['_id']}?rev={rev}",
+                    f"{couchdb_url}/{doc['doc']['_id']}?rev={rev}",
                     json=doc["doc"],
-                    auth=HTTPBasicAuth(user, password),  # Add authentication
+                    auth=auth,
                 )
             except Exception as e:
                 print(f"{FAIL}Error connecting to the database: {repr(e)}{ENDC}")
@@ -140,9 +183,9 @@ def main():
             # new doc, POST can be used
             try:
                 response = requests.post(
-                    f"{COUCHDB_URL}",
+                    f"{couchdb_url}",
                     json=doc["doc"],
-                    auth=HTTPBasicAuth(user, password),  # Add authentication
+                    auth=auth,
                 )
             except Exception as e:
                 print(f"{FAIL}Error connecting to the database: {repr(e)}{ENDC}")
@@ -162,6 +205,7 @@ def main():
         print(f"{FAIL}These documents failed to be created/updated:\n")
         print(json.dumps(local_json, indent=2))
         print(f"{ENDC}")
+        sys.exit(1)
 
 
 if __name__ == "__main__":

@@ -217,13 +217,24 @@ and the reviewer.
 ### Synchronize
 
 The synchronization is performed by `scripts/synchronize-db.py`. The script is
-to be started from top directory and doesn't take any parameters, but it reads
-database IP (and port) from environmental variable `DB_SERVER_IP`. It will
-interactively ask for user credentials. The user must have _Test case developer_
-permissions. Example usage, assuming database server running on localhost:
+to be started from top directory and runs non-interactively, which makes it
+usable both manually and from CI. It needs the database address and the
+credentials of a user with _Test case developer_ permissions. Each option can be
+passed either on the command line or through an environment variable:
+
+| Option    | Environment variable | Meaning                                                |
+| --------- | -------------------- | ------------------------------------------------------ |
+| `--server`| `DB_SERVER_IP`       | database address with optional port                    |
+| `--user`  | `DB_USER`            | user name                                              |
+| `--password` | `DB_PASSWORD`     | password                                               |
+| `--file`  | `DB_TEST_CASES_FILE` | local copy to upload, `test_cases.json` by default     |
+| `--dry-run` | `DB_DRY_RUN`       | print the changes and exit without writing to database |
+
+Example usage, assuming database server running on localhost:
 
 ```shell
-DB_SERVER_IP=127.0.0.1:5984 ./scripts/synchronize-db.py
+DB_SERVER_IP=127.0.0.1:5984 DB_USER=user DB_PASSWORD=secret \
+    ./scripts/synchronize-db.py
 ```
 
 # Test Workflow Tag Guidelines
