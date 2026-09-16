@@ -126,6 +126,13 @@ The osfv uses the
 
 ## Getting started
 
+### Installing dependencies
+#### Fedora:
+```bash
+dnf install g++ python-devel
+dnf group install development-tools
+```
+
 ### Initializing environment
 
 * Clone repository and setup virtualenv:
