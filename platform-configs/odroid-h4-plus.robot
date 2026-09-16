@@ -134,7 +134,7 @@ ${DTS_SUPPORT}=                                 ${TRUE}
 ${DTS_TEST_SYSTEM_VENDOR}=                      HARDKERNEL
 ${DTS_TEST_BOARD_MODEL}=                        ODROID-H4
 @{DTS_TEST_WORKFLOWS}=                          Initial Deployment    UEFI Update
-...                                             Dasharo (coreboot+UEFI) to Dasharo (Slim Bootloader+UEFI) Transition
+...                                             Dasharo (coreboot+UEFI)->Dasharo (Slim Bootloader+UEFI) Transition
 ...                                             Dasharo (Slim Bootloader+UEFI) Initial Deployment
 @{DTS_TEST_DEFAULT_RELEASES}=                   DPP
 &{DTS_TEST_EXPORTS}=                            &{DTS_TEST_BASE_EXPORTS}
@@ -150,7 +150,7 @@ ${DTS_TEST_BOARD_MODEL}=                        ODROID-H4
 ...                                             UEFI Update=&{{ {"TEST_VBOOT_KEYS": "true", "TEST_IS_COREBOOT": "true"} }}
 @{DTS_TEST_WORKFLOW_PROFILES}=
 ...                                             ${{ ("Initial Deployment", "DPP") }}
-...                                             ${{ ("Dasharo (coreboot+UEFI) to Dasharo (Slim Bootloader+UEFI) Transition", "DPP") }}
+...                                             ${{ ("Dasharo (coreboot+UEFI)->Dasharo (Slim Bootloader+UEFI) Transition", "DPP") }}
 ...                                             ${{ ("Dasharo (Slim Bootloader+UEFI) Initial Deployment", "DPP") }}
 ...                                             ${{ ("UEFI Update", "DPP") }}
 
