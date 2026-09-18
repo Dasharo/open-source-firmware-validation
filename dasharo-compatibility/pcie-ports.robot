@@ -184,8 +184,7 @@ Set Bifurcation Layout In Firmware
 
     Power On
     ${setup_menu}=    Enter Setup Menu Tianocore And Return Construction
-    ${dasharo_menu}=    Enter Dasharo Submenu    ${setup_menu}    Device Manager
-    ${dasharo_menu}=    Enter Dasharo Submenu    ${dasharo_menu}    Platform Setup Menu
+    ${dasharo_menu}=    Enter Dasharo Submenu    ${setup_menu}    Platform Setup Menu
 
     FOR    ${pcie_slot}    IN    @{PCIE_SLOTS}
         FOR    ${_}    IN RANGE    0    4    1
