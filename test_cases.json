@@ -771,8 +771,22 @@
   },
   {
     "doc": {
+      "_id": "CBP001.107",
+      "name": "Boot into coreboot stage bootblock (LinuxBoot)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
       "_id": "CBP002.101",
       "name": "Boot into coreboot stage romstage (EDK2 UEFI)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "CBP002.107",
+      "name": "Boot into coreboot stage romstage (LinuxBoot)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -787,6 +801,13 @@
     "doc": {
       "_id": "CBP004.101",
       "name": "Boot into coreboot stage ramstage (EDK2 UEFI)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "CBP004.107",
+      "name": "Boot into coreboot stage ramstage (LinuxBoot)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -4091,6 +4112,27 @@
     "doc": {
       "_id": "IBECC002.201",
       "name": "Verify IBECC works when enabled (Ubuntu)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "LBB002.107",
+      "name": "Ramstage hands off to the LinuxBoot payload",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "LBB003.107",
+      "name": "LinuxBoot reaches a u-root shell",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "LBB005.107",
+      "name": "kexec into a lightweight target OS",
       "module": "Dasharo Compatibility"
     }
   },

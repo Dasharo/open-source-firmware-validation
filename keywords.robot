@@ -28,7 +28,7 @@ Serial Setup
     ...    ser2net port as an arguments.
     [Arguments]    ${host}    ${s2n_port}
     # provide ser2net port where serial was redirected
-    IF    '${MANUFACTURER}' != 'QEMU' and '${CONFIG}' != 'no-rte'
+    IF    '${MANUFACTURER}' != 'QEMU' and '${CONFIG}' != 'no-rte' and '${POWER_CTRL}' != 'benchctl'
         SSHLibrary.Execute Command    systemctl restart ser2net
     END
     Sleep    5s
@@ -307,7 +307,7 @@ Open Connection And Log In
     Check Provided Ip
     # FIXME: some stands do not have RTE connected, this should be better handled
     # by reworking variables.robot
-    IF    '${MANUFACTURER}' != 'QEMU' and '${CONFIG}' != 'no-rte'
+    IF    '${MANUFACTURER}' != 'QEMU' and '${CONFIG}' != 'no-rte' and '${POWER_CTRL}' != 'benchctl'
         SSHLibrary.Set Default Configuration    timeout=60 seconds
         SSHLibrary.Open Connection    ${RTE_IP}    prompt=~#
         SSHLibrary.Login    ${USERNAME}    ${PASSWORD}
@@ -599,7 +599,7 @@ Prepare Test Suite
     IF    $default_boot is ${None}
         VAR    ${BOOTED_OS_ID}=    ${DEFAULT_BOOT_OS_ID}    scope=GLOBAL
     END
-    IF    '${MANUFACTURER}' != 'QEMU' and '${CONFIG}' != 'no-rte'
+    IF    '${MANUFACTURER}' != 'QEMU' and '${CONFIG}' != 'no-rte' and '${POWER_CTRL}' != 'benchctl'
         Import Osfv Libraries
     END
     VAR    ${SNIPEIT_ALREADY_CHECKED_OUT_MANUALLY}=    ${TRUE}    scope=GLOBAL
@@ -681,6 +681,8 @@ Prepare To Serial Connection
     IF    '${MANUFACTURER}' == 'QEMU'
         VAR    ${PLATFORM}=    qemu    scope=GLOBAL
     ELSE IF    '${CONFIG}' == 'no-rte'
+        VAR    ${PLATFORM}=    ${CONFIG}    scope=GLOBAL
+    ELSE IF    '${POWER_CTRL}' == 'benchctl'
         VAR    ${PLATFORM}=    ${CONFIG}    scope=GLOBAL
     ELSE
         ${platform_param}=    Get Current RTE Param    platform
@@ -775,7 +777,7 @@ Get DUT To Start State
     [Documentation]    Clears telnet buffer and get Device Under Test to start
     ...    state.
     TelnetLibrary.Read
-    IF    '${MANUFACTURER}' != 'QEMU' and '${CONFIG}' != 'no-rte'
+    IF    '${MANUFACTURER}' != 'QEMU' and '${CONFIG}' != 'no-rte' and '${POWER_CTRL}' != 'benchctl'
         ${state}=    Get Power Supply State
         IF    '${state}'=='OFF'    Turn On Power Supply
     END
@@ -807,6 +809,8 @@ Power Cycle On
     ${pc}=    Get Variable Value    ${POWER_CTRL}
     IF    'obmcutil' == '${pc}'
         OBMC Power Cycle On
+    ELSE IF    'benchctl' == '${pc}'
+        Benchctl Power Reset
     ELSE
         Rte Psu Off
         Sleep    10
@@ -817,12 +821,12 @@ Power Cycle On
         END
         Rte Psu On
     END
-    IF    '${POWER_STATE_AFTER_FAIL}' == 'Powered Off'
+    IF    '${POWER_STATE_AFTER_FAIL}' == 'Powered Off' and '${pc}' != 'benchctl'
         Sleep    ${POWER_ON_DELAY}
         Rte Power On
     END
 
-    IF    '${CHECK_POWER_LED_SUPPORT}' == '${TRUE}'
+    IF    '${CHECK_POWER_LED_SUPPORT}' == '${TRUE}' and '${pc}' != 'benchctl'
         FOR    ${i}    IN RANGE    10
             ${out}=    Rte Check Power Led
             IF    '${out}' == 'high'    RETURN

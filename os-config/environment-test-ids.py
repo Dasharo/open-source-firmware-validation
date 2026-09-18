@@ -12,6 +12,7 @@ ENV_ID_IPXE = "103"
 ENV_ID_HEADS = "104"
 ENV_ID_PETITBOOT = "105"
 ENV_ID_UEFI_SHELL = "106"
+ENV_ID_LINUXBOOT = "107"
 
 # 2xx - Linux
 ENV_ID_UBUNTU = "201"
@@ -59,6 +60,7 @@ ENV_ID_FRIENDLY_NAMES = {
     ENV_ID_HEADS: "Heads",
     ENV_ID_PETITBOOT: "Petitboot",
     ENV_ID_UEFI_SHELL: "UEFI Shell",
+    ENV_ID_LINUXBOOT: "LinuxBoot",
     ENV_ID_DTS: "DTS",
     ENV_ID_UBUNTU: "Ubuntu",
     ENV_ID_FEDORA: "Fedora",

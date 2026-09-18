@@ -1,6 +1,7 @@
 *** Settings ***
 Resource    ../keywords.robot
 Resource    custom_bootentries.robot
+Resource    benchctl.robot
 
 
 *** Keywords ***
@@ -117,6 +118,12 @@ Flash Firmware
     ...    chip size.
     [Arguments]    ${fw_file}
     IF    '${FLASHING_METHOD}'=='none'    RETURN
+    IF    '${FLASHING_METHOD}' == 'benchctl'
+        # No flash-chip-size check: the image is an opaque binary for a
+        # virtual platform, not a fixed-size SPI flash chip.
+        Benchctl Flash Write    ${fw_file}
+        RETURN
+    END
 
     ${file_size}=    Run    ls -l ${fw_file} | awk '{print $5}'
     IF    '''${file_size}''' != '''${FLASH_SIZE}'''

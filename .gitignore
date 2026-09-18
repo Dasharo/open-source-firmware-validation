@@ -29,3 +29,4 @@ UEFI
 _envvars/
 _roms/
 .ci/.task/
+.fvp/
