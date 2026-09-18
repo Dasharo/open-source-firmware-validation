@@ -30,3 +30,4 @@ ${PLATFORM_RAM_SPEED}=          4400
 ${PLATFORM_RAM_SIZE}=           16384
 ${MAX_CPU_TEMP_THRESHOLD}=      93
 ${CPU}=                         Intel(R) Xeon(R) Silver 4516Y+
+${DMIDECODE_SERIAL_NUMBER}=     85842258

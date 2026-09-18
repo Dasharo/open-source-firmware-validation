@@ -20,9 +20,9 @@ ${FLASHING_METHOD}=                             external
 ${DMIDECODE_MANUFACTURER}=                      ASROCK
 ${DMIDECODE_VENDOR}=                            3mdeb
 # ${DMIDECODE_SERIAL_NUMBER}=    123456789
-${DMIDECODE_FIRMWARE_VERSION}=                  Dasharo (coreboot+UEFI) v0.9.0
+${DMIDECODE_FIRMWARE_VERSION}=                  Dasharo (coreboot+UEFI) v0.9.1-rc1
 ${DMIDECODE_PRODUCT_NAME}=                      SPC741D8-2L2T/BCM
-${DMIDECODE_RELEASE_DATE}=                      09/12/2025
+${DMIDECODE_RELEASE_DATE}=                      09/15/2026
 ${DMIDECODE_TYPE}=                              Desktop
 ${CHECK_POWER_LED_SUPPORT}=                     ${FALSE}
 ${FLASH_VERIFY_METHOD}=                         none
@@ -55,7 +55,7 @@ ${UEFI_COMPATIBLE_INTERFACE_SUPPORT}=           ${TRUE}
 ${IPXE_BOOT_SUPPORT}=                           ${TRUE}
 ${NVME_DISK_SUPPORT}=                           ${TRUE}
 ${SUSPEND_AND_RESUME_SUPPORT}=                  ${TRUE}
-${SERIAL_NUMBER_VERIFICATION}=                  ${FALSE}
+${SERIAL_NUMBER_VERIFICATION}=                  ${TRUE}
 ${FIRMWARE_NUMBER_VERIFICATION}=                ${TRUE}
 ${PRODUCT_NAME_VERIFICATION}=                   ${TRUE}
 ${RELEASE_DATE_VERIFICATION}=                   ${TRUE}
@@ -116,13 +116,14 @@ ${DASHARO_PCI_PCIE_MENU_SUPPORT}=               ${TRUE}
 ${DASHARO_PCIE_REBAR_SUPPORT}=                  ${TRUE}
 ${CUSTOM_NETWORK_BOOT_ENTRIES_SUPPORT}=         ${TRUE}
 ${HDMI_AUDIO_SUPPORT}=                          ${TRUE}
-${SERIAL_NUMBER_VERIFICATION}=                  ${TRUE}
 ${FAMILY_VERIFICATION}=                         ${FALSE}
 ${ME_STATICALLY_DISABLED}=                      ${TRUE}
 ${TPM_EXPECTED_CHIP}=                           ${TBD}    # Can't read it as TPM doesn't work as of today
 ${USB_STACK_SUPPORT}=                           ${TRUE}
 ${PLATFORM_STABILITY_CHECKING}=                 ${TRUE}
 ${FAST_AND_QUIET_BOOT_SUPPORT}=                 ${TRUE}
+${STM_SUPPORT}=                                 ${TRUE}
+${DEVICE_DETECT_TEST_IN_SCOPE}=                 ${TRUE}
 
 
 *** Keywords ***
