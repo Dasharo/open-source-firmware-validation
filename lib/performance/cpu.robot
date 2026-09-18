@@ -31,7 +31,7 @@ Get CPU Frequencies In Linux
     [Documentation]    Get all CPU frequencies in Ubuntu OS. Keyword returns
     ...    list of current CPU frequencies
     VAR    @{frequency_list}=    @{EMPTY}
-    ${output}=    Execute Command In Terminal    cat /proc/cpuinfo
+    ${output}=    Execute Command In Terminal    cat /proc/cpuinfo    60s
     ${output}=    Get Lines Containing String    ${output}    cpu MHz
     @{frequencies}=    Split To Lines    ${output}
     FOR    ${frequency}    IN    @{frequencies}
