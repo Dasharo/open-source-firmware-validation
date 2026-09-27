@@ -46,6 +46,9 @@ ${CUSTOM_LOGO_SUPPORT}=                     ${TRUE}
 ${USB_DISKS_DETECTION_SUPPORT}=             ${TRUE}
 ${USB_KEYBOARD_DETECTION_SUPPORT}=          ${TRUE}
 ${IPXE_BOOT_SUPPORT}=                       ${TRUE}
+# Enable once a QEMU firmware release ships the nightly DTS entry
+# from Dasharo/dasharo-blobs#53
+${IPXE_NIGHTLY_DTS_SUPPORT}=                ${FALSE}
 ${AUDIO_SUBSYSTEM_SUPPORT}=                 ${TRUE}
 ${FIRMWARE_NUMBER_VERIFICATION}=            ${TRUE}
 ${PRODUCT_NAME_VERIFICATION}=               ${TRUE}
