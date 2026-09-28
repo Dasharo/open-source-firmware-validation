@@ -183,7 +183,7 @@ QEMU_PARAMS_BASE="-machine q35,smm=on -cpu Skylake-Client-noTSX-IBRS \
   -smp 2 \
   -mem-prealloc"
 
-if [[ -f /dev/kvm ]]; then
+if [[ -c /dev/kvm ]]; then
   QEMU_PARAMS_BASE+=" -enable-kvm"
 fi
 
