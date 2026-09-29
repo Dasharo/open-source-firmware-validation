@@ -5580,8 +5580,43 @@
   },
   {
     "doc": {
+      "_id": "SBO021.101",
+      "name": "Boot timestamped image signed with trusted certificate (EDK2 UEFI)",
+      "module": "Dasharo Security"
+    }
+  },
+  {
+    "doc": {
       "_id": "SBO021.201",
       "name": "Attempt to enroll the key in the incorrect format (Ubuntu)",
+      "module": "Dasharo Security"
+    }
+  },
+  {
+    "doc": {
+      "_id": "SBO022.101",
+      "name": "Attempt to boot image signed with revoked certificate without trusted TSA (EDK2 UEFI)",
+      "module": "Dasharo Security"
+    }
+  },
+  {
+    "doc": {
+      "_id": "SBO023.101",
+      "name": "Boot timestamped image signed before certificate revocation (EDK2 UEFI)",
+      "module": "Dasharo Security"
+    }
+  },
+  {
+    "doc": {
+      "_id": "SBO024.101",
+      "name": "Attempt to boot timestamped image signed after certificate revocation (EDK2 UEFI)",
+      "module": "Dasharo Security"
+    }
+  },
+  {
+    "doc": {
+      "_id": "SBO025.101",
+      "name": "Attempt to boot timestamped image signed with always revoked certificate (EDK2 UEFI)",
       "module": "Dasharo Security"
     }
   },
