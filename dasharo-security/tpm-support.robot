@@ -464,6 +464,8 @@ TPM014.201 Check if platform is vulnerable to TPM GPIO reset (Ubuntu)
     [Documentation]    This test aims to verify that the platform
     ...    is not vulnerable to a TPM GPIO reset attack.
     ...    This test requires a writable USB drive matching USB_MODEL to be available for the DUT!
+    ...
+    ...    Previous IDs: TPM015.101
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    TPM014.201 not supported
     Skip If    '${ENV_ID_UBUNTU}' not in ${TESTED_LINUX_DISTROS}    TPM014.201 not supported
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    TPM014.201 not supported
