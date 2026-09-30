@@ -504,6 +504,12 @@ TPM014.201 Check if platform is vulnerable to TPM GPIO reset (Ubuntu)
     Switch To Root User
     Execute Command In Terminal    mkdir /mnt/usb
     Execute Command In Terminal    mount ${usb_partition} /mnt/usb
+
+    # Check if log file exists
+    ${log_exists}=    Execute Command In Terminal    test -f /mnt/usb/tpm-gpio-assert.log && echo EXISTS
+    Should Not Be Empty    ${log_exists}    Log file is not present on the USB drive.
+
+    # Check log file
     ${assert_output}=    Execute Command In Terminal    cat /mnt/usb/tpm-gpio-assert.log
     Should Not Contain    ${assert_output}    0 : 0x0000000000000000000000000000000000000000000000000000000000000000
 
