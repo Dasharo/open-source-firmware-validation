@@ -165,15 +165,29 @@ Check Secure Boot In Windows
     ...    Should Contain    ${out}    True
     RETURN    ${sb_status}
 
-Enter Enroll DB Signature Using File In DB Options
-    [Documentation]    Keyword checks Secure Boot state in Windows.
-    [Arguments]    ${advanced_menu}
-    ${db_opts_menu}=    Enter Submenu From Snapshot And Return Construction
-    ...    ${advanced_menu}
-    ...    DB Options
-    ...    opt_only=${TRUE}
+Enter Enroll Signature Using File In Options
+    [Documentation]    Navigates from the Advanced Secure Boot Keys Management
+    ...    menu into ``${options_menu}`` -> Enroll Signature -> Enroll Signature Using File.
+    [Arguments]    ${advanced_menu}    ${options_menu}
+    ${index}=    Get Index Of Matching Option In Menu    ${advanced_menu}    ${options_menu}    ${TRUE}
+    IF    ${index} != -1
+        Press Key N Times And Enter    ${index}    ${ARROW_DOWN}
+    ELSE
+        ${options_no}=    Get Length    ${advanced_menu}
+        Press Key N Times    ${options_no}    ${ARROW_DOWN}
+        FOR    ${in}    IN RANGE    20
+            ${new_entry}=    Read From Terminal
+            ${status}=    Run Keyword And Return Status
+            ...    Should Contain    ${new_entry}    ${options_menu}
+            IF    ${status} == ${TRUE}    BREAK
+            IF    ${in} == 19    Fail    ${options_menu} not found
+            Press Key N Times    1    ${ARROW_DOWN}
+        END
+        Press Key N Times    1    ${ENTER}
+    END
+    ${opts_menu}=    Get Submenu Construction    opt_only=${TRUE}
     ${enroll_sig_menu}=    Enter Submenu From Snapshot And Return Construction
-    ...    ${db_opts_menu}
+    ...    ${opts_menu}
     ...    Enroll Signature
     ...    opt_only=${FALSE}
     Enter Submenu From Snapshot    ${enroll_sig_menu}    Enroll Signature Using File
@@ -235,6 +249,69 @@ Select File In File Explorer
     Remove Values From List    ${enroll_sig_menu}    ${target_file}
     ${index}=    Get Index Of Matching Option In Menu    ${enroll_sig_menu}    Commit Changes and Exit
     Press Key N Times And Enter    ${index}    ${ARROW_DOWN}
+
+Enroll Signature Using File With Revocation Settings
+    [Documentation]    Selects ``${target_file}`` in the file explorer, then sets chosen atguments.
+    ...    === Arguments ===
+    ...    - ``${target_file}``: ``string`` - certificate file to enroll.
+    ...    - ``${signature_format}``: ``string`` - e.g. ``X509 CERT SHA256``.
+    ...    - ``${always_revocation}``: ``boolean`` - state of the Always Revocation checkbox.
+    ...    - ``${revocation_date}``: ``string`` - e.g. ``08/01/2026``.
+    [Arguments]    ${target_file}
+    ...    ${signature_format}=${NONE}
+    ...    ${always_revocation}=${NONE}
+    ...    ${revocation_date}=${NONE}
+    Execute File In File Explorer    ${target_file}
+    ${menu}=    Get Submenu Construction
+    Remove Values From List    ${menu}    ${target_file}
+    IF    $signature_format is not None
+        Enter Submenu From Snapshot    ${menu}    Signature Format
+        Sleep    1s
+        ${out}=    Read From Terminal
+        ${format_list}=    Extract Strings From Frame    ${out}
+        ${current_format}=    Get Option State    ${menu}    Signature Format
+        ${current_index}=    Get Index From List    ${format_list}    ${current_format}
+        ${target_index}=    Get Index From List    ${format_list}    ${signature_format}
+        ${diff_index}=    Evaluate    ${target_index} - ${current_index}
+        IF    ${diff_index} > 0
+            Press Key N Times And Enter    ${diff_index}    ${ARROW_DOWN}
+        ELSE
+            ${offset}=    Evaluate    -1 * ${diff_index}
+            Press Key N Times And Enter    ${offset}    ${ARROW_UP}
+        END
+        ${menu}=    Get Submenu Construction
+    END
+    IF    $always_revocation is not None
+        # Move the cursor from "Signature Format" down to the "Always Revocation" checkbox.
+        Press Key N Times    1    ${ARROW_DOWN}
+        IF    ${always_revocation} != ${TRUE}
+            Press Enter
+            ${menu}=    Get Submenu Construction
+        END
+    END
+    IF    $revocation_date is not None
+        # Move down to the "Revocation Date" field and open it for editing.
+        Press Key N Times    1    ${ARROW_DOWN}
+        Press Enter
+        @{date_parts}=    Split String    ${revocation_date}    separator=/
+        FOR    ${part_index}    ${date_part}    IN ENUMERATE    @{date_parts}
+            IF    ${part_index} > 0
+                Press Key N Times    1    ${ARROW_RIGHT}
+                Press Enter
+            END
+            Write Bare Into Terminal    ${date_part}
+            Press Enter
+        END
+        ${menu}=    Get Submenu Construction
+    END
+    # Navigate to the final "Commit Changes and Exit" option. The number of rows to skip
+    # depends on which options above were visited, because cursor position differs.
+    IF    $revocation_date is None and $always_revocation is not None and $always_revocation
+        Press Key N Times    1    ${ARROW_DOWN}
+    ELSE
+        Press Key N Times    2    ${ARROW_DOWN}
+    END
+    Press Enter
 
 Enter UEFI Shell
     [Documentation]    Boots into UEFI Shell. Should be called after Power On or

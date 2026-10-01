@@ -100,7 +100,7 @@ FIRMWARE_ENTRY_KEYWORDS = frozenset(
         "Enter Dasharo APU Configuration",
         "Enter Secure Boot Menu",
         "Enter Advanced Secure Boot Keys Management",
-        "Enter Enroll DB Signature Using File In DB Options",
+        "Enter Enroll Signature Using File In Options",
         "Enter Volume In File Explorer",
         "Enter Boot From File",
         "Enter UEFI Shell",

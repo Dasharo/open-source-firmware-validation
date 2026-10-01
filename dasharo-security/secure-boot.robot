@@ -71,7 +71,7 @@ SBO003.101 Attempt to boot file with the correct key from Shell (EDK2 UEFI)
     Reenter Menu
     ${sb_menu}=    Get Secure Boot Menu Construction
     ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
-    Enter Enroll DB Signature Using File In DB Options    ${advanced_menu}
+    Enter Enroll Signature Using File In Options    ${advanced_menu}    DB Options
     Enter Volume In File Explorer    BAD_INFLUE
     Select File In File Explorer    cert_good.der
     # Save Changes And Reset
@@ -149,7 +149,7 @@ SBO007.101 Attempt to boot the file after restoring keys to default (EDK2 UEFI)
     Reenter Menu
     ${sb_menu}=    Get Secure Boot Menu Construction
     ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
-    Enter Enroll DB Signature Using File In DB Options    ${advanced_menu}
+    Enter Enroll Signature Using File In Options    ${advanced_menu}    DB Options
     Enter Volume In File Explorer    BAD_INFLUE
     Select File In File Explorer    cert_good.der
     # Save Changes And Reset
@@ -187,7 +187,7 @@ SBO008.101 Attempt to enroll the key in the incorrect format (EDK2 UEFI)
     Reenter Menu
     ${sb_menu}=    Get Secure Boot Menu Construction
     ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
-    Enter Enroll DB Signature Using File In DB Options    ${advanced_menu}
+    Enter Enroll Signature Using File In Options    ${advanced_menu}    DB Options
     Enter Volume In File Explorer    BAD_INFLUE
     Select File In File Explorer    cert_fake.der
     Read From Terminal Until    ERROR: Unsupported file type!
@@ -494,189 +494,255 @@ SBO020.101 Enroll certificates using sbctl (EDK2 UEFI)
 
 SBO021.101 Boot timestamped image signed with trusted certificate (EDK2 UEFI)
     [Documentation]    Check that an image carrying an RFC 3161 timestamp boots when its signing certificate is in DB and not revoked.
-    [Tags]    semiauto
-    Execute Manual Step    [1/20] Flash sb_test_data.img from osfv-test-data/secure-boot into USB storage.
-    Execute Manual Step    [2/20] Plug the USB storage into DUT.
-    Execute Manual Step    [3/20] Power on the DUT.
-    Execute Manual Step    [4/20] While the DUT is booting, hold the BIOS_SETUP_KEY to enter the UEFI setup menu.
-    Execute Manual Step    [5/20] Enter the Device Manager menu using the arrow keys and Enter.
-    Execute Manual Step    [6/20] Enter the Secure Boot Configuration submenu.
-    Execute Manual Step    [7/20] Set the Current Secure Boot State field to Enabled.
-    Execute Manual Step    [8/20] Set the Secure Boot Mode field to Custom Mode.
-    Execute Manual Step
-    ...    [9/20] Enter Advanced Secure Boot Keys Management, select Reset to default Secure Boot Keys and confirm.
-    Execute Manual Step    [10/20] Select options: DB Options -> Enroll Signature -> Enroll Signature Using File.
-    Execute Manual Step    [11/20] Select cert_ts.der from the BAD_INFLUE volume.
-    Execute Manual Step    [12/20] Select the Commit Changes and Exit option.
-    Execute Manual Step    [13/20] Press ESC until the setup menu.
-    Execute Manual Step    [14/20] Select the Reset option.
-    Execute Manual Step    [15/20] While the DUT is booting, hold the BIOS_SETUP_KEY to enter the UEFI setup menu.
-    Execute Manual Step    [16/20] Enter Boot Maintenance Manager -> Boot From File.
-    Execute Manual Step    [17/20] Select the BAD_INFLUE volume.
-    Execute Manual Step    [18/20] Select the file: hello-dasharo-signed-ts.efi
-    Execute Manual Step
-    ...    [19/20] Return to Boot From File menu.
-    Execute Manual Step    [20/20] Select the file: hello-dasharo-signed-no-ts.efi
-    Execute Manual Step
-    ...    [Expected result 1/2] hello-dasharo-signed-ts.efi boots correctly and the output shows: "UEFI Hello, Dasharo Universe!".
-    Execute Manual Step
-    ...    [Expected result 2/2] hello-dasharo-signed-no-ts.efi boots correctly and the output shows: "UEFI Hello, Dasharo Universe!".
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO021.101 not supported
+    Power On
+    ${sb_menu}=    Enter Secure Boot Menu And Return Construction
+    ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
+    Reset To Default Secure Boot Keys    ${advanced_menu}
+    Exit From Current Menu
+    Sleep    1s
+    ${sb_menu}=    Reenter Menu And Return Construction
+    Enable Secure Boot    ${sb_menu}
+
+    Exit From Current Menu
+    Sleep    5s
+    Press Enter
+    ${sb_menu}=    Get Secure Boot Menu Construction
+    ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
+    Enter Enroll Signature Using File In Options    ${advanced_menu}    DB Options
+    Enter Volume In File Explorer    BAD_INFLUE
+    Select File In File Explorer    cert_ts.der
+    Tianocore Reset System
+
+    Enter Boot From File
+    Enter Volume In File Explorer    BAD_INFLUE
+    Execute File In File Explorer    hello-dasharo-signed-ts.efi
+    Read From Terminal Until    ${HELLO_EFI_STRING}
+    Press Key N Times    1    ${ARROW_DOWN}
+    Sleep    10s
+
+    Reenter Menu
+    Enter Volume In File Explorer    BAD_INFLUE
+    Execute File In File Explorer    hello-dasharo-signed-no-ts.efi
+    Read From Terminal Until    ${HELLO_EFI_STRING}
 
 SBO022.101 Attempt to boot image signed with revoked certificate without trusted TSA (EDK2 UEFI)
     [Documentation]    Check that an image signed with a certificate revoked by hash in DBX cannot boot when no TSA certificate is
     ...    enrolled in DBT.
-    [Tags]    semiauto
-    Execute Manual Step    [1/25] Flash sb_test_data.img from osfv-test-data/secure-boot into USB storage.
-    Execute Manual Step    [2/25] Plug the USB storage into DUT.
-    Execute Manual Step    [3/25] Power on the DUT.
-    Execute Manual Step    [4/25] While the DUT is booting, hold the BIOS_SETUP_KEY to enter the UEFI setup menu.
-    Execute Manual Step    [5/25] Enter the Device Manager menu using the arrow keys and Enter.
-    Execute Manual Step    [6/25] Enter the Secure Boot Configuration submenu.
-    Execute Manual Step    [7/25] Set the Current Secure Boot State field to Enabled.
-    Execute Manual Step    [8/25] Set the Secure Boot Mode field to Custom Mode.
-    Execute Manual Step
-    ...    [9/25] Enter Advanced Secure Boot Keys Management, select Reset to default Secure Boot Keys and confirm.
-    Execute Manual Step    [10/25] Select options: DB Options -> Enroll Signature -> Enroll Signature Using File.
-    Execute Manual Step    [11/25] Select cert_ts.der from the BAD_INFLUE volume.
-    Execute Manual Step    [12/25] Select the Commit Changes and Exit option.
-    Execute Manual Step    [13/25] Select options: DBX Options -> Enroll Signature -> Enroll Signature Using File.
-    Execute Manual Step    [14/25] Select cert_ts.der from the BAD_INFLUE volume.
-    Execute Manual Step    [15/25] Make sure the Signature Format field is set to X509 CERT SHA256.
-    Execute Manual Step
-    ...    [16/25] Leave Always Revocation unchecked and set Revocation Date to 08/01/2026.
-    Execute Manual Step    [17/25] Select the Commit Changes and Exit option.
-    Execute Manual Step    [18/25] Press ESC until the setup menu.
-    Execute Manual Step    [19/25] Select the Reset option.
-    Execute Manual Step    [20/25] While the DUT is booting, hold the BIOS_SETUP_KEY to enter the UEFI setup menu.
-    Execute Manual Step    [21/25] Enter Boot Maintenance Manager -> Boot From File.
-    Execute Manual Step    [22/25] Select the BAD_INFLUE volume.
-    Execute Manual Step    [23/25] Select the file: hello-dasharo-signed-ts.efi
-    Execute Manual Step
-    ...    [24/25] Return to Boot From File menu.
-    Execute Manual Step    [25/25] Select the file: hello-dasharo-signed-no-ts.efi
-    Execute Manual Step
-    ...    [Expected result 1/2] hello-dasharo-signed-ts.efi does not boot and the pop-up shows: "The image signature is invalid or missing!".
-    Execute Manual Step
-    ...    [Expected result 2/2] hello-dasharo-signed-no-ts.efi does not boot and the pop-up shows: "The image signature is invalid or missing!".
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO022.101 not supported
+    Power On
+    ${sb_menu}=    Enter Secure Boot Menu And Return Construction
+    ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
+    Reset To Default Secure Boot Keys    ${advanced_menu}
+    Exit From Current Menu
+    Sleep    1s
+    ${sb_menu}=    Reenter Menu And Return Construction
+    Enable Secure Boot    ${sb_menu}
+
+    Exit From Current Menu
+    Sleep    5s
+    Press Enter
+    ${sb_menu}=    Get Secure Boot Menu Construction
+    ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
+    Enter Enroll Signature Using File In Options    ${advanced_menu}    DB Options
+    Enter Volume In File Explorer    BAD_INFLUE
+    Select File In File Explorer    cert_ts.der
+
+    Exit From Current Menu
+    Sleep    1s
+    ${sb_menu}=    Reenter Menu And Return Construction
+    ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
+    Enter Enroll Signature Using File In Options    ${advanced_menu}    DBX Options
+    Enter Volume In File Explorer    BAD_INFLUE
+    Enroll Signature Using File With Revocation Settings
+    ...    cert_ts.der
+    ...    signature_format=X509 CERT SHA256
+    ...    always_revocation=${FALSE}
+    ...    revocation_date=08/01/2026
+    Tianocore Reset System
+
+    Enter Boot From File
+    Enter Volume In File Explorer    BAD_INFLUE
+    Execute File In File Explorer    hello-dasharo-signed-ts.efi
+    Read From Terminal Until    ${SB_ERROR_STRING}
+    Press Key N Times    1    ${ARROW_DOWN}
+    Sleep    10s
+
+    Reenter Menu
+    Enter Volume In File Explorer    BAD_INFLUE
+    Execute File In File Explorer    hello-dasharo-signed-no-ts.efi
+    Read From Terminal Until    ${SB_ERROR_STRING}
 
 SBO023.101 Boot timestamped image signed before certificate revocation (EDK2 UEFI)
     [Documentation]    Check that an image signed with a certificate revoked by hash in DBX boots when it carries a timestamp from a
     ...    TSA trusted in DBT and the timestamp is earlier than the revocation time.
-    [Tags]    semiauto
-    Execute Manual Step    [1/28] Flash sb_test_data.img from osfv-test-data/secure-boot into USB storage.
-    Execute Manual Step    [2/28] Plug the USB storage into DUT.
-    Execute Manual Step    [3/28] Power on the DUT.
-    Execute Manual Step    [4/28] While the DUT is booting, hold the BIOS_SETUP_KEY to enter the UEFI setup menu.
-    Execute Manual Step    [5/28] Enter the Device Manager menu using the arrow keys and Enter.
-    Execute Manual Step    [6/28] Enter the Secure Boot Configuration submenu.
-    Execute Manual Step    [7/28] Set the Current Secure Boot State field to Enabled.
-    Execute Manual Step    [8/28] Set the Secure Boot Mode field to Custom Mode.
-    Execute Manual Step
-    ...    [9/28] Enter Advanced Secure Boot Keys Management, select Reset to default Secure Boot Keys and confirm.
-    Execute Manual Step    [10/28] Select options: DB Options -> Enroll Signature -> Enroll Signature Using File.
-    Execute Manual Step    [11/28] Select cert_ts.der from the BAD_INFLUE volume.
-    Execute Manual Step    [12/28] Select the Commit Changes and Exit option.
-    Execute Manual Step    [13/28] Select options: DBX Options -> Enroll Signature -> Enroll Signature Using File.
-    Execute Manual Step    [14/28] Select cert_ts.der from the BAD_INFLUE volume.
-    Execute Manual Step    [15/28] Make sure the Signature Format field is set to X509 CERT SHA256.
-    Execute Manual Step
-    ...    [16/28] Leave Always Revocation unchecked and set Revocation Date to 08/01/2026.
-    Execute Manual Step    [17/28] Select the Commit Changes and Exit option.
-    Execute Manual Step    [18/28] Select options: DBT Options -> Enroll Signature -> Enroll Signature Using File.
-    Execute Manual Step    [19/28] Select cert_tsa.der from the BAD_INFLUE volume.
-    Execute Manual Step    [20/28] Select the Commit Changes and Exit option.
-    Execute Manual Step    [21/28] Press ESC until the setup menu.
-    Execute Manual Step    [22/28] Select the Reset option.
-    Execute Manual Step    [23/28] While the DUT is booting, hold the BIOS_SETUP_KEY to enter the UEFI setup menu.
-    Execute Manual Step    [24/28] Enter Boot Maintenance Manager -> Boot From File.
-    Execute Manual Step    [25/28] Select the BAD_INFLUE volume.
-    Execute Manual Step    [26/28] Select the file: hello-dasharo-signed-ts.efi
-    Execute Manual Step
-    ...    [27/28] Return to Boot From File menu.
-    Execute Manual Step    [28/28] Select the file: hello-dasharo-signed-no-ts.efi
-    Execute Manual Step
-    ...    [Expected result 1/2] hello-dasharo-signed-ts.efi boots correctly and the output shows: "UEFI Hello, Dasharo Universe!".
-    Execute Manual Step
-    ...    [Expected result 2/2] hello-dasharo-signed-no-ts.efi does not boot and the pop-up shows: "The image signature is invalid or missing!".
+    ...    Note: the revocation date (08/01/2026) is chosen relative to the signing timestamp, which is hardcoded in
+    ...    the certificate/image generation script in osfv-test-data.
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO023.101 not supported
+    Power On
+    ${sb_menu}=    Enter Secure Boot Menu And Return Construction
+    ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
+    Reset To Default Secure Boot Keys    ${advanced_menu}
+    Exit From Current Menu
+
+    Sleep    1s
+    ${sb_menu}=    Reenter Menu And Return Construction
+    Enable Secure Boot    ${sb_menu}
+    Exit From Current Menu
+    Sleep    5s
+    Press Enter
+
+    ${sb_menu}=    Get Secure Boot Menu Construction
+    ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
+    Enter Enroll Signature Using File In Options    ${advanced_menu}    DB Options
+    Enter Volume In File Explorer    BAD_INFLUE
+    Select File In File Explorer    cert_ts.der
+
+    Exit From Current Menu
+
+    Sleep    1s
+    ${sb_menu}=    Reenter Menu And Return Construction
+    ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
+    Enter Enroll Signature Using File In Options    ${advanced_menu}    DBX Options
+    Enter Volume In File Explorer    BAD_INFLUE
+    Enroll Signature Using File With Revocation Settings
+    ...    cert_ts.der
+    ...    signature_format=X509 CERT SHA256
+    ...    always_revocation=${FALSE}
+    ...    revocation_date=08/01/2026
+
+    Exit From Current Menu
+
+    Sleep    1s
+    ${sb_menu}=    Reenter Menu And Return Construction
+    ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
+
+    Enter Enroll Signature Using File In Options    ${advanced_menu}    DBT Options
+    Enter Volume In File Explorer    BAD_INFLUE
+    Select File In File Explorer    cert_tsa.der
+    Tianocore Reset System
+
+    Enter Boot From File
+    Enter Volume In File Explorer    BAD_INFLUE
+    Execute File In File Explorer    hello-dasharo-signed-ts.efi
+    Read From Terminal Until    ${HELLO_EFI_STRING}
+    Press Key N Times    1    ${ARROW_DOWN}
+    Sleep    10s
+
+    Reenter Menu
+    Enter Volume In File Explorer    BAD_INFLUE
+    Execute File In File Explorer    hello-dasharo-signed-no-ts.efi
+    Read From Terminal Until    ${SB_ERROR_STRING}
 
 SBO024.101 Attempt to boot timestamped image signed after certificate revocation (EDK2 UEFI)
     [Documentation]    Check that an image signed with a certificate revoked by hash in DBX cannot boot when its trusted timestamp is
     ...    later than the revocation time.
-    [Tags]    semiauto
-    Execute Manual Step    [1/28] Flash sb_test_data.img from osfv-test-data/secure-boot into USB storage.
-    Execute Manual Step    [2/28] Plug the USB storage into DUT.
-    Execute Manual Step    [3/28] Power on the DUT.
-    Execute Manual Step    [4/28] While the DUT is booting, hold the BIOS_SETUP_KEY to enter the UEFI setup menu.
-    Execute Manual Step    [5/28] Enter the Device Manager menu using the arrow keys and Enter.
-    Execute Manual Step    [6/28] Enter the Secure Boot Configuration submenu.
-    Execute Manual Step    [7/28] Set the Current Secure Boot State field to Enabled.
-    Execute Manual Step    [8/28] Set the Secure Boot Mode field to Custom Mode.
-    Execute Manual Step
-    ...    [9/28] Enter Advanced Secure Boot Keys Management, select Reset to default Secure Boot Keys and confirm.
-    Execute Manual Step    [10/28] Select options: DB Options -> Enroll Signature -> Enroll Signature Using File.
-    Execute Manual Step    [11/28] Select cert_ts.der from the BAD_INFLUE volume.
-    Execute Manual Step    [12/28] Select the Commit Changes and Exit option.
-    Execute Manual Step    [13/28] Select options: DBX Options -> Enroll Signature -> Enroll Signature Using File.
-    Execute Manual Step    [14/28] Select cert_ts.der from the BAD_INFLUE volume.
-    Execute Manual Step    [15/28] Make sure the Signature Format field is set to X509 CERT SHA256.
-    Execute Manual Step
-    ...    [16/28] Leave Always Revocation unchecked and set Revocation Date to 06/01/2026.
-    Execute Manual Step    [17/28] Select the Commit Changes and Exit option.
-    Execute Manual Step    [18/28] Select options: DBT Options -> Enroll Signature -> Enroll Signature Using File.
-    Execute Manual Step    [19/28] Select cert_tsa.der from the BAD_INFLUE volume.
-    Execute Manual Step    [20/28] Select the Commit Changes and Exit option.
-    Execute Manual Step    [21/28] Press ESC until the setup menu.
-    Execute Manual Step    [22/28] Select the Reset option.
-    Execute Manual Step    [23/28] While the DUT is booting, hold the BIOS_SETUP_KEY to enter the UEFI setup menu.
-    Execute Manual Step    [24/28] Enter Boot Maintenance Manager -> Boot From File.
-    Execute Manual Step    [25/28] Select the BAD_INFLUE volume.
-    Execute Manual Step    [26/28] Select the file: hello-dasharo-signed-ts.efi
-    Execute Manual Step
-    ...    [27/28] Return to Boot From File menu.
-    Execute Manual Step    [28/28] Select the file: hello-dasharo-signed-no-ts.efi
-    Execute Manual Step
-    ...    [Expected result 1/2] hello-dasharo-signed-ts.efi does not boot and the pop-up shows: "The image signature is invalid or missing!".
-    Execute Manual Step
-    ...    [Expected result 2/2] hello-dasharo-signed-no-ts.efi does not boot and the pop-up shows: "The image signature is invalid or missing!".
+    ...    Note: the revocation date (06/01/2026) is chosen relative to the signing timestamp, which is hardcoded in
+    ...    the certificate/image generation script in osfv-test-data.
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO024.101 not supported
+    Power On
+    ${sb_menu}=    Enter Secure Boot Menu And Return Construction
+    ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
+    Reset To Default Secure Boot Keys    ${advanced_menu}
+    Exit From Current Menu
+    Sleep    1s
+    ${sb_menu}=    Reenter Menu And Return Construction
+    Enable Secure Boot    ${sb_menu}
+    Exit From Current Menu
+
+    Sleep    5s
+    Press Enter
+    ${sb_menu}=    Get Secure Boot Menu Construction
+    ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
+    Enter Enroll Signature Using File In Options    ${advanced_menu}    DB Options
+    Enter Volume In File Explorer    BAD_INFLUE
+    Select File In File Explorer    cert_ts.der
+
+    Exit From Current Menu
+    Sleep    1s
+    ${sb_menu}=    Reenter Menu And Return Construction
+    ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
+    Enter Enroll Signature Using File In Options    ${advanced_menu}    DBX Options
+    Enter Volume In File Explorer    BAD_INFLUE
+    Enroll Signature Using File With Revocation Settings
+    ...    cert_ts.der
+    ...    signature_format=X509 CERT SHA256
+    ...    always_revocation=${FALSE}
+    ...    revocation_date=06/01/2026
+
+    Exit From Current Menu
+    Sleep    1s
+    ${sb_menu}=    Reenter Menu And Return Construction
+    ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
+    Enter Enroll Signature Using File In Options    ${advanced_menu}    DBT Options
+    Enter Volume In File Explorer    BAD_INFLUE
+    Select File In File Explorer    cert_tsa.der
+    Tianocore Reset System
+
+    Enter Boot From File
+    Enter Volume In File Explorer    BAD_INFLUE
+    Execute File In File Explorer    hello-dasharo-signed-ts.efi
+    Read From Terminal Until    ${SB_ERROR_STRING}
+    Press Key N Times    1    ${ARROW_DOWN}
+    Sleep    10s
+
+    Reenter Menu
+    Enter Volume In File Explorer    BAD_INFLUE
+    Execute File In File Explorer    hello-dasharo-signed-no-ts.efi
+    Read From Terminal Until    ${SB_ERROR_STRING}
 
 SBO025.101 Attempt to boot timestamped image signed with always revoked certificate (EDK2 UEFI)
     [Documentation]    Check that an image signed with a certificate revoked in DBX with Always Revocation cannot boot, regardless of
     ...    a trusted timestamp.
-    [Tags]    semiauto
-    Execute Manual Step    [1/28] Flash sb_test_data.img from osfv-test-data/secure-boot into USB storage.
-    Execute Manual Step    [2/28] Plug the USB storage into DUT.
-    Execute Manual Step    [3/28] Power on the DUT.
-    Execute Manual Step    [4/28] While the DUT is booting, hold the BIOS_SETUP_KEY to enter the UEFI setup menu.
-    Execute Manual Step    [5/28] Enter the Device Manager menu using the arrow keys and Enter.
-    Execute Manual Step    [6/28] Enter the Secure Boot Configuration submenu.
-    Execute Manual Step    [7/28] Set the Current Secure Boot State field to Enabled.
-    Execute Manual Step    [8/28] Set the Secure Boot Mode field to Custom Mode.
-    Execute Manual Step
-    ...    [9/28] Enter Advanced Secure Boot Keys Management, select Reset to default Secure Boot Keys and confirm.
-    Execute Manual Step    [10/28] Select options: DB Options -> Enroll Signature -> Enroll Signature Using File.
-    Execute Manual Step    [11/28] Select cert_ts.der from the BAD_INFLUE volume.
-    Execute Manual Step    [12/28] Select the Commit Changes and Exit option.
-    Execute Manual Step    [13/28] Select options: DBX Options -> Enroll Signature -> Enroll Signature Using File.
-    Execute Manual Step    [14/28] Select cert_ts.der from the BAD_INFLUE volume.
-    Execute Manual Step    [15/28] Make sure the Signature Format field is set to X509 CERT SHA256.
-    Execute Manual Step    [16/28] Check the Always Revocation checkbox.
-    Execute Manual Step    [17/28] Select the Commit Changes and Exit option.
-    Execute Manual Step    [18/28] Select options: DBT Options -> Enroll Signature -> Enroll Signature Using File.
-    Execute Manual Step    [19/28] Select cert_tsa.der from the BAD_INFLUE volume.
-    Execute Manual Step    [20/28] Select the Commit Changes and Exit option.
-    Execute Manual Step    [21/28] Press ESC until the setup menu.
-    Execute Manual Step    [22/28] Select the Reset option.
-    Execute Manual Step    [23/28] While the DUT is booting, hold the BIOS_SETUP_KEY to enter the UEFI setup menu.
-    Execute Manual Step    [24/28] Enter Boot Maintenance Manager -> Boot From File.
-    Execute Manual Step    [25/28] Select the BAD_INFLUE volume.
-    Execute Manual Step    [26/28] Select the file: hello-dasharo-signed-ts.efi
-    Execute Manual Step
-    ...    [27/28] Return to Boot From File menu.
-    Execute Manual Step    [28/28] Select the file: hello-dasharo-signed-no-ts.efi
-    Execute Manual Step
-    ...    [Expected result 1/2] hello-dasharo-signed-ts.efi does not boot and the pop-up shows: "The image signature is invalid or missing!".
-    Execute Manual Step
-    ...    [Expected result 2/2] hello-dasharo-signed-no-ts.efi does not boot and the pop-up shows: "The image signature is invalid or missing!"
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    SBO025.101 not supported
+    Power On
+    ${sb_menu}=    Enter Secure Boot Menu And Return Construction
+    ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
+    Reset To Default Secure Boot Keys    ${advanced_menu}
+    Exit From Current Menu
+    Sleep    1s
+    ${sb_menu}=    Reenter Menu And Return Construction
+    Enable Secure Boot    ${sb_menu}
+    Exit From Current Menu
+    Sleep    5s
+    Press Enter
+    ${sb_menu}=    Get Secure Boot Menu Construction
+    ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
+    Enter Enroll Signature Using File In Options    ${advanced_menu}    DB Options
+    Enter Volume In File Explorer    BAD_INFLUE
+    Select File In File Explorer    cert_ts.der
+
+    Exit From Current Menu
+    Sleep    1s
+    ${sb_menu}=    Reenter Menu And Return Construction
+    ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
+    Enter Enroll Signature Using File In Options    ${advanced_menu}    DBX Options
+    Enter Volume In File Explorer    BAD_INFLUE
+    Enroll Signature Using File With Revocation Settings
+    ...    cert_ts.der
+    ...    signature_format=X509 CERT SHA256
+    ...    always_revocation=${TRUE}
+
+    Exit From Current Menu
+    Sleep    1s
+    ${sb_menu}=    Reenter Menu And Return Construction
+    ${advanced_menu}=    Enter Advanced Secure Boot Keys Management And Return Construction    ${sb_menu}
+    Enter Enroll Signature Using File In Options    ${advanced_menu}    DBT Options
+    Enter Volume In File Explorer    BAD_INFLUE
+    Select File In File Explorer    cert_tsa.der
+    Tianocore Reset System
+
+    Enter Boot From File
+    Enter Volume In File Explorer    BAD_INFLUE
+    Execute File In File Explorer    hello-dasharo-signed-ts.efi
+    Read From Terminal Until    ${SB_ERROR_STRING}
+    Press Key N Times    1    ${ARROW_DOWN}
+    Sleep    10s
+
+    Reenter Menu
+    Enter Volume In File Explorer    BAD_INFLUE
+    Execute File In File Explorer    hello-dasharo-signed-no-ts.efi
+    Read From Terminal Until    ${SB_ERROR_STRING}
 
 SBO002.201 UEFI Secure Boot (Ubuntu)
     [Documentation]    This test verifies that Secure Boot can be enabled from
