@@ -6,8 +6,7 @@ version: '3'
 
 includes:
   docker:
-    taskfile: ../../taskfile-templates/templates/common/docker-run.yml
-    optional: true
+    taskfile: common/docker-run.yml
 
 vars:
   REPO_ROOT:

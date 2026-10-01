@@ -1,0 +1,85 @@
+# SPDX-FileCopyrightText: 2026 3mdeb <contact@3mdeb.com>
+#
+# SPDX-License-Identifier: Apache-2.0
+
+version: '3'
+
+# Category: lint
+# Runs pre-commit hooks against the repository.
+#
+# Variables (override in your Taskfile or via CLI):
+#   PRE_COMMIT_CONFIG  - path to config file (default: .pre-commit-config.yaml)
+#   PRE_COMMIT_ARGS    - extra args passed to `pre-commit run` (default: --all-files)
+#
+# Usage in your Taskfile:
+#   includes:
+#     lint:
+#       taskfile: .taskfile-templates/templates/lint/pre-commit.yml
+#       vars:
+#         PRE_COMMIT_CONFIG: configs/.pre-commit-config.yaml
+
+vars:
+  PRE_COMMIT_ARGS: --all-files
+
+tasks:
+  install:
+    desc: Install pre-commit hooks into the local git repository
+    cmds:
+      - pre-commit install
+
+  run:
+    desc: Run all pre-commit hooks
+    cmds:
+      - pre-commit run --config {{.PRE_COMMIT_CONFIG | default ".pre-commit-config.yaml"}} {{.PRE_COMMIT_ARGS}}
+
+  run:changed:
+    desc: Run pre-commit only on what the current CI event changed
+    cmds:
+      - |
+        set -eu
+
+        _config='{{.PRE_COMMIT_CONFIG | default ".pre-commit-config.yaml"}}'
+
+        if [ -z "${CI_PIPELINE_EVENT:-}" ] && [ -n "${GITHUB_ACTIONS:-}" ]; then
+          case "${GITHUB_EVENT_NAME:-}" in
+            pull_request)
+              CI_PIPELINE_EVENT=pull_request
+              CI_COMMIT_TARGET_BRANCH="${GITHUB_BASE_REF:-}"
+              ;;
+            push)
+              CI_PIPELINE_EVENT=push
+              CI_PREV_COMMIT_SHA="${GITHUB_EVENT_BEFORE:-}"
+              CI_COMMIT_SHA="${GITHUB_SHA:-}"
+              ;;
+            *)
+              CI_PIPELINE_EVENT=manual
+              ;;
+          esac
+        fi
+
+        case "${CI_PIPELINE_EVENT:-local}" in
+          pull_request)
+            git fetch origin "$CI_COMMIT_TARGET_BRANCH"
+            pre-commit run --config "$_config" --show-diff-on-failure \
+              --from-ref "origin/$CI_COMMIT_TARGET_BRANCH" --to-ref HEAD
+            ;;
+          push)
+            git fetch origin "$CI_PREV_COMMIT_SHA"
+            pre-commit run --config "$_config" --show-diff-on-failure \
+              --from-ref "$CI_PREV_COMMIT_SHA" --to-ref "$CI_COMMIT_SHA"
+            ;;
+          *)
+            pre-commit run --config "$_config" --show-diff-on-failure --all-files
+            ;;
+        esac
+
+  update:
+    desc: Auto-update all pre-commit hook revisions to latest
+    cmds:
+      - pre-commit autoupdate
+
+  clean:
+    desc: Remove pre-commit cache and uninstall hooks
+    cmds:
+      - pre-commit clean
+      - pre-commit uninstall

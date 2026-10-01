@@ -6,15 +6,13 @@ version: '3'
 
 includes:
   precommit-image:
-    taskfile: ../../taskfile-templates/templates/build/docker-image.yml
-    optional: true
+    taskfile: common/docker-image.yml
     dir: ../..
     vars:
       IMAGE_NAME: ghcr.io/dasharo/osfv-ci
       DOCKERFILE: .ci/Dockerfile
   qemu-image:
-    taskfile: ../../taskfile-templates/templates/build/docker-image.yml
-    optional: true
+    taskfile: common/docker-image.yml
     dir: ../..
     vars:
       IMAGE_NAME: ghcr.io/dasharo/osfv-qemu-ci

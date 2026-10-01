@@ -6,11 +6,9 @@ version: '3'
 
 includes:
   docker:
-    taskfile: ../../taskfile-templates/templates/common/docker-run.yml
-    optional: true
+    taskfile: common/docker-run.yml
   lint:
-    taskfile: ../../taskfile-templates/templates/lint/pre-commit.yml
-    optional: true
+    taskfile: common/pre-commit.yml
     dir: ../..
 
 vars:
