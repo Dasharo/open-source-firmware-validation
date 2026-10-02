@@ -42,5 +42,4 @@ steps:
       DB_PASSWORD:
         from_secret: OSFV_DB_PASSWORD
     commands:
-      - git submodule update --init taskfile-templates
       - TASK_X_REMOTE_TASKFILES=1 task --yes --taskfile .ci/Taskfile.yml ci:sync-db

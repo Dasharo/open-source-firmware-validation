@@ -18,5 +18,4 @@ steps:
   - name: pre-commit
     image: ghcr.io/dasharo/osfv-ci:latest
     commands:
-      - git submodule update --init taskfile-templates
       - task --taskfile .ci/Taskfile.yml ci:pre-commit
