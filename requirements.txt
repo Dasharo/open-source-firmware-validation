@@ -76,7 +76,7 @@ robotframework-csvlibrary==0.0.5
 robotframework-faker==6.0.0
 robotframework-requests==0.9.4
 robotframework-sshlibrary @ git+https://github.com/MarketSquare/SSHLibrary@ba6c3ee783bd6fd8b73c1341fe873a99991a353a
-robotframework-telnetlibrary @ git+https://github.com/MarketSquare/robotframework-telnet-library@4d77b75f9a113709b8c90ad828a75847eb23e9f3
+robotframework-telnetlibrary==1.0.0
 rsa==4.9.1
 scp==0.15.0
 semver==3.0.4
@@ -84,7 +84,7 @@ setuptools==80.9.0
 six==1.17.0
 SQLAlchemy==2.0.41
 tabulate==0.9.0
-telnetlib @ git+https://github.com/3mdeb/telnetlib@6c12ff08b06f04010a9a565ba90f87f2251fba3c
+telnetlib3==5.0.1
 termcolor==3.1.0
 toml==0.10.2
 tomli==2.2.1
