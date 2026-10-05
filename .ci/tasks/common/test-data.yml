@@ -15,5 +15,4 @@ tasks:
         cd osfv-test-data
         git config --local user.email "ci@3mdeb.com"
         git config --local user.name "osfv-ci"
-        git annex pull
         ./setup.sh
