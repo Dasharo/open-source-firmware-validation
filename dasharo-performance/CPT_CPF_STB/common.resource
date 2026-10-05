@@ -10,7 +10,7 @@ Documentation       common keywords for CPT_CPF_STB concurrent tests
 Library             Collections
 Library             DateTime
 Library             String
-Library             Telnet    timeout=20 seconds    connection_timeout=120 seconds
+Library             TelnetLibrary    timeout=20 seconds    connection_timeout=120 seconds
 Library             SSHLibrary    timeout=90 seconds
 Resource            ../../variables.robot
 Resource            ../../keywords.robot
