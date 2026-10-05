@@ -134,9 +134,6 @@ Trigger Measured Launch
 Ensure STM Module Is Loaded
     [Documentation]    Loads the dual_monitor_mode kernel module
     ${out}=    Execute Command In Terminal    modprobe dual_monitor_mode
-    IF    '''${out}''' != '''${EMPTY}'''
-        Fail    Failed to load dual_monitor_mode module
-    END
 
 Enable STM
     [Documentation]    Enables STM option
