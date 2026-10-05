@@ -7,6 +7,9 @@ version: '3'
 includes:
   docker:
     taskfile: common/docker-run.yml
+  test-data:
+    taskfile: common/test-data.yml
+    dir: ../..
 
 vars:
   REPO_ROOT:
@@ -68,12 +71,14 @@ tasks:
       RULES_FILE: '{{.RULES_FILE}}'
       ALLOW_DIRTY: '1'
     cmds:
+      - task: test-data:init
       - scripts/ci/develop_pr_auto_regression.py |& tee '{{.RUN_LOGS_DIR}}/{{.DEVICE}}.log'
 
   device:container:
     desc: Run the release test scope on DEVICE inside {{.REGRESSION_IMAGE}}
     dir: '{{.REPO_ROOT}}'
     cmds:
+      - task: test-data:init
       # network host for the lab devices (RTE, PiKVM, Sonoff), ~/.osfv for the
       # Snipe-IT credentials, the NFS share for the logs
       - task: docker:run

@@ -34,21 +34,6 @@ cleanup() {
   return $_rc
 }
 
-setup_test_data() {
-  git submodule update --init --checkout --recursive
-
-  # osfv-test-data keeps its payloads in git-annex. The QEMU self-tests only
-  # need the submodule to be checked out, so a missing annex remote must not
-  # fail the whole job.
-  (
-    cd osfv-test-data || exit 0
-    git config --local user.email "ci@3mdeb.com"
-    git config --local user.name "osfv-ci"
-    git annex pull || true
-    ./setup.sh || true
-  ) || true
-}
-
 # The suites talk to QEMU over both the serial telnet port and the QMP socket,
 # and lib/QemuMonitor.py refuses to even load when the latter is missing, so
 # robot must not be started before QEMU has set up the two of them.
@@ -69,8 +54,6 @@ wait_for_qemu() {
 }
 
 trap cleanup EXIT
-
-setup_test_data
 
 ./scripts/ci/qemu-run.sh nographic firmware &
 wait_for_qemu

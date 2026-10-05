@@ -7,6 +7,9 @@ version: '3'
 includes:
   docker:
     taskfile: common/docker-run.yml
+  test-data:
+    taskfile: common/test-data.yml
+    dir: ../..
 
 vars:
   REPO_ROOT:
@@ -27,12 +30,14 @@ tasks:
     desc: Run the PR regression on $DEVICE in the current environment, no container
     dir: '{{.REPO_ROOT}}'
     cmds:
+      - task: test-data:init
       - DEVICE='{{.DEVICE}}' bash .ci/develop-pr-regression.sh
 
   run:container:
     desc: Run the PR regression on $DEVICE inside {{.REGRESSION_IMAGE}}
     dir: '{{.REPO_ROOT}}'
     cmds:
+      - task: test-data:init
       # passing ssh agent because develop-pr-regression pulls the remote
       - task: docker:run
         vars:

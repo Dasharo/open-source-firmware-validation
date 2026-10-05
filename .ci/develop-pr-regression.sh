@@ -29,7 +29,6 @@ setup_snipeit_config() {
   export SNIPEIT_CONFIG_FILE_PATH="$_config"
 }
 
-git submodule update --init --checkout --recursive
 # The scope of the regression is what the pull request changed against the base
 # branch, so the comparison base has to be there.
 git fetch origin "$BASE_BRANCH"

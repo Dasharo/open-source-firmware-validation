@@ -1,0 +1,19 @@
+# SPDX-FileCopyrightText: 2026 3mdeb <contact@3mdeb.com>
+#
+# SPDX-License-Identifier: Apache-2.0
+
+version: '3'
+
+tasks:
+  init:
+    desc: Initialize the submodules and the osfv-test-data payloads, as README.md describes
+    run: once
+    cmds:
+      - git submodule update --init --checkout --recursive
+      - |
+        set -eu
+        cd osfv-test-data
+        git config --local user.email "ci@3mdeb.com"
+        git config --local user.name "osfv-ci"
+        git annex pull
+        ./setup.sh
