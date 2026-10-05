@@ -74,8 +74,9 @@ Set Fast Boot State
     END
 
     ${out}=    Execute Linux Command
-    ...    dd if=${new_var_path} of=${var_file_path} bs=5
+    ...    dd if=${new_var_path} of=${var_file_path} bs=5 conv=notrunc status=none
     Should Be Empty    ${out}
+
     Execute Linux Command    rm ${new_var_path}
 
     ${out}=    Execute Linux Command
