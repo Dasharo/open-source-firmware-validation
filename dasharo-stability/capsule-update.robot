@@ -28,6 +28,8 @@ Suite Setup         Run Keywords
 ...                     AND    Set DUT Response Timeout    90s    # a boot can last longer than default 30s
 Suite Teardown      Run Keywords
 ...                     Run Keyword If    '${SUITE_STATUS}' != 'SKIP'    Flash Firmware    ${FW_FILE}
+...                     AND    Run Keyword If    '${EC_CAPSULE_UPDATE_SUPPORT}' == '${TRUE}'
+...                     Perform Capsule Update    valid_capsule.cap    ec_capsule.cap
 ...                     AND    Log Out And Close Connection
 
 Default Tags        automated
@@ -50,6 +52,9 @@ ${BASE_FW_FILE}=                                ${NONE}
 # # V2 specific variables
 ${V2_CAP_HAS_TEST_KEYS}=                        ${FALSE}
 ${CAPSULE_UPDATE_RC0_HAS_TEST_KEYS}=            ${FALSE}
+
+# EC Capsules specific variables
+${EC_CAPSULE_UPDATE}=                           ${FALSE}
 
 # # Capsules used for testing filenames
 ${WRONG_KEYS_CAP}=                              ${NONE}
@@ -129,6 +134,7 @@ CUP001.101 Capsule Update With Wrong Keys (EDK2 UEFI)
         Manual UI Verification Prompt    ${CUP_280_MESSAGE}    prepare=${TRUE}
     END
     Set To Dictionary    ${V2_RESULT_SCREENS}    wrong_cert.cap    ${EMPTY}
+    VAR    ${EC_CAPSULE_UPDATE}=     ${FALSE}    scope=SUITE
     ${status}    ${version_changed}=    Perform Capsule Update And Return Status
     ...    wrong_cert.cap
     ...    manual_v2_results_screen=${manual_gui}
@@ -167,6 +173,7 @@ CUP002.101 Capsule Update With Wrong GUID (EDK2 UEFI)
         Manual UI Verification Prompt    ${CUP_281_MESSAGE}    prepare=${TRUE}
     END
     Set To Dictionary    ${V2_RESULT_SCREENS}    invalid_guid.cap    ${EMPTY}
+    VAR    ${EC_CAPSULE_UPDATE}=     ${FALSE}    scope=SUITE
     ${status}    ${version_changed}=    Perform Capsule Update And Return Status
     ...    invalid_guid.cap
     ...    manual_v2_results_screen=${manual_gui}
@@ -204,6 +211,7 @@ CUP003.101 Capsule Update with wrong BtG key (EDK2 UEFI)
     Boot System Or From Connected Disk    ${DEFAULT_BOOT_OS_ID}
     Login To Linux With Root Privileges
     Check The Update Screen For BtG Error Message    pre=${TRUE}
+    VAR    ${EC_CAPSULE_UPDATE}=     ${FALSE}    scope=SUITE
     Perform Capsule Update    invalid_btg_signature.cap
     Check The Update Screen For BtG Error Message
 
@@ -234,6 +242,9 @@ CUP150.101 Capsule Update (EDK2 UEFI)
         Manual UI Verification Prompt    @{manual_gui_messages}    prepare=${TRUE}
     END
     ${verify_results_screen}=    Evaluate    ${CAPSULE_UPDATE_V2_SUPPORT} and ${SHOULD_RUN_SEMIAUTO_TESTS}
+    IF    '${EC_CAPSULE_UPDATE_SUPPORT}' == '${TRUE}'
+        VAR    ${EC_CAPSULE_UPDATE}=     ${TRUE}    scope=SUITE
+    END
     ${status}    ${version_changed}=    Perform Capsule Update And Return Status
     ...    valid_capsule.cap
     ...    ec_capsule.cap
@@ -244,7 +255,9 @@ CUP150.101 Capsule Update (EDK2 UEFI)
         Should Contain    ${status}    Firmware Update Succeeded
     ELSE
         Should Contain    ${status}    CapsuleMax
-        Should Not Contain    ${status}    CapsuleLast
+        IF    '${EC_CAPSULE_UPDATE}' != '${TRUE}'
+            Should Not Contain    ${status}    CapsuleLast
+        END
     END
 
 CUP151.101 Capsule Update Production Keys (EDK2 UEFI)
@@ -567,12 +580,12 @@ Check Platform Fused
     Exit From Root User
 
 Perform Capsule Update And Return Status
-    [Arguments]    ${capsule_file}    ${capsule_file_ec}    ${ondisk}=${FALSE}    ${manual_v2_results_screen}=${FALSE}
+    [Arguments]    ${capsule_file}    ${capsule_file_ec}=${FALSE}    ${ondisk}=${FALSE}    ${manual_v2_results_screen}=${FALSE}
     Power On
     Boot System Or From Connected Disk    ${DEFAULT_BOOT_OS_ID}
     Login To Linux With Root Privileges
     ${original_bios_version}=    Get BIOS Version Linux    Before update
-    IF    '${EC_CAPSULE_UPDATE_SUPPORT}' == '${TRUE}'
+    IF    '${EC_CAPSULE_UPDATE}' == '${TRUE}'
         ${original_ec_version}=    Get EC Version Linux    Before update
     END
     Deploy Uefi Shell    os_logged_in=${TRUE}
@@ -617,7 +630,7 @@ Perform Capsule Update And Return Status
     ...    ${original_bios_version}
     ...    ${updated_bios_version}
 
-    IF    '${EC_CAPSULE_UPDATE_SUPPORT}' == '${TRUE}'
+    IF    '${EC_CAPSULE_UPDATE}' == '${TRUE}'
         ${updated_ec_version}=    Get EC Version Linux    After update
         ${version_changed}=    Run Keyword And Return Status
         ...    Should Not Be Equal
@@ -732,7 +745,7 @@ Copy Capsule Files To Shell Workspace
         Send File To DUT    dasharo-stability/capsule-update-files/variable_capsule_file_ec.nsh
         ...    ${CAPSULE_UPDATE_SHELL_DIR}/variable_capsule_file_ec.nsh
         # TBD Read path to EC capsule from env variable
-        Send File To DUT    ${CAPSULE_FW_FILE}    ${CAPSULE_UPDATE_SHELL_DIR}/ec_capsule.cap
+        Send File To DUT    ${VER_PATCH_EC_CAP}    ${CAPSULE_UPDATE_SHELL_DIR}/ec_capsule.cap
     END
 
 Perform Capsule Update
@@ -742,10 +755,9 @@ Perform Capsule Update
     VAR    ${capsule_fs_path}=    ${capsule_file}
     VAR    ${capsule_ec_fs_path}=    ${capsule_file_ec}
     Set Startup Nsh Variable    capsule_file    ${capsule_fs_path}
-    Set Startup Nsh Variable    capsule_file_ec    ${capsule_ec_fs_path}
     Set Startup Nsh Variable    step    0
 
-    IF    '${EC_CAPSULE_UPDATE_SUPPORT}' == '${TRUE}'
+    IF    '${EC_CAPSULE_UPDATE}' == '${TRUE}'
         Set Startup Nsh Variable    capsule_file_ec    ${capsule_ec_fs_path}
         Set Startup Nsh Variable    ec_update    1
     ELSE
@@ -789,23 +801,6 @@ Perform Capsule Update
             IF    ${post_screen_counter} == 2    BREAK
         END
     END
-
-#ADDED FOR EC
-Patch EC Capsule Version String
-    [Documentation]    asdad
-    [Arguments]    ${capsule_file_ec}
-    ${ec_capsule_ver}=    Execute Command In Terminal
-    ...    strings ${capsule_file_ec} | grep 76EC_VERSION | tail -1
-    ${ec_capsule_ver}=    Fetch From Right    ${ec_capsule_ver}    \=
-    ${ec_capsule_ver_patch}=    Fetch From Left    ${ec_capsule_ver}    _
-    ${ec_capsule_ver_patch}=    Catenate    SEPARATOR=    ${ec_capsule_ver_patch}    _dasharo
-    Execute Command In Terminal    cp ${capsule_file_ec} ${capsule_file_ec}.patch.cap
-    Execute Command In Terminal
-    ...    sed -i 's/${ec_capsule_ver}/${ec_capsule_ver_patch}/' ${capsule_file_ec}.patch.cap
-
-#==============
-
-
 
 Handle Capsule Update Screens
     [Arguments]    ${expect_fum}=${FALSE}    ${manual_v2_results_screen}=${FALSE}
@@ -897,9 +892,11 @@ Ensure Capsule Files Are Present
         OperatingSystem.File Should Exist
         ...    ${CAPSULE_UPDATE_EC_FW_FILE}
         ...    CAPSULE_UPDATE_EC_FW_FILE env variable does not point to a file! CAPSULE_UPDATE_EC_FW_FILE="${CAPSULE_UPDATE_EC_FW_FILE}"
+    ELSE
+        VAR    ${CAPSULE_UPDATE_EC_FW_FILE}=    ${EMPTY}    scope=SUITE
     END
 
-    Ensure Derived Capsule Files Are Present    ${CAPSULE_FW_FILE}    ${CAPSULE_UPDATE_RC0_FW_FILE}
+    Ensure Derived Capsule Files Are Present    ${CAPSULE_FW_FILE}    ${CAPSULE_UPDATE_RC0_FW_FILE}    ${CAPSULE_UPDATE_EC_FW_FILE}
 
 Ensure V2 Capsule Key Variables Are Set
     [Documentation]    Detects whether the provided capsule uses testing or production keys and sets
@@ -934,7 +931,7 @@ Ensure V2 Capsule Key Variables Are Set
 Ensure Derived Capsule Files Are Present
     [Documentation]    Ensures wrong_cert and invalid_guid capsule variants exist for the given capsule,
     ...    generating them via capsule_update_tests.sh if not already present.
-    [Arguments]    ${capsule_for_decoding}    ${base_rom}
+    [Arguments]    ${capsule_for_decoding}    ${base_rom}    ${ec_capsule}=${EMPTY}
     ${file_name}=    Get File Name Without Extension    ${capsule_for_decoding}
     ${f1}=    Run Keyword And Return Status
     ...    OperatingSystem.File Should Exist    ./dl-cache/edk2/${file_name}_wrong_cert.cap
@@ -956,6 +953,10 @@ Ensure Derived Capsule Files Are Present
     IF    not ${f1} or not ${f2} or not ${cache_valid}
         Run    ./scripts/capsules/capsule_update_tests.sh ${capsule_for_decoding}
         OperatingSystem.Create File    ./dl-cache/edk2/${file_name}.sha256    ${actual_hash}
+    END
+    IF    '${ec_capsule}' != '${EMPTY}'
+        Run    ./scripts/capsules/capsule_ec_version_patch.sh ${ec_capsule} 2137-21-37_dasharo
+        VAR    ${VER_PATCH_EC_CAP}=    ec_ver.cap    scope=SUITE
     END
 
     IF    ${DASHARO_INTEL_ME_MENU_SUPPORT}
