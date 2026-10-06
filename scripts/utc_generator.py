@@ -209,7 +209,7 @@ test_names = {
         "doc": """This test aims to verify that the power draw from a USB-C PD
     ...    power supply does not exceed the limits of the power supply's
     ...    specifications.""",
-        "skips": "",
+        "skips": ["not ${USB_TYPE_C_PD_CHARGING_SUPPORT}"],
         "docking_stations": ["0"],
     },
     "Docking station detection after coldboot": {
@@ -400,6 +400,12 @@ for idx, row in enumerate(test_rows):
         robot_tests_lines[idx].append(f"    [Tags]    semiauto\n")
     elif row["automation"] == "depends":
         robot_tests_lines[idx].append(f"    [Tags]    automated    semiauto\n")
+
+    # Every test that needs a docking station
+    if row["Dock"] != "none":
+        robot_tests_lines[idx].append(
+            f"    Skip If    not ${{DOCKING_STATION_SUPPORT}}    {row['Test ID']} not supported\n"
+        )
 
     for skip in row["skips"]:
         robot_tests_lines[idx].append(

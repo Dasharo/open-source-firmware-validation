@@ -29,6 +29,8 @@ ${ESP_SCANNING_SUPPORT}=                    ${TRUE}
 ${USB_DISKS_DETECTION_SUPPORT}=             ${TRUE}
 ${USB_KEYBOARD_DETECTION_SUPPORT}=          ${TRUE}
 ${FAN_SPEED_MEASURE_SUPPORT}=               ${TRUE}
+${DOCKING_STATION_SUPPORT}=                 ${FALSE}
+${USB_TYPE_C_PD_CHARGING_SUPPORT}=          ${FALSE}
 
 # DTS E2E test variables
 @{DTS_TEST_WORKFLOWS}=                      Initial Deployment    UEFI Update
