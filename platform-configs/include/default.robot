@@ -210,6 +210,8 @@ ${FAN_MEASUREMENT_METHOD}=                          Run Prepare Sensors first ${
 ${DOCKING_STATION_AUDIO_SUPPORT}=                   ${FALSE}
 ${DOCKING_STATION_DETECT_SUPPORT}=                  ${FALSE}
 ${HEADS_PAYLOAD_SUPPORT}=                           ${FALSE}
+# Heads recovery shell prompt (Heads ships bash 5.1)
+${HEADS_PROMPT}=                                    bash-5.1#
 ${DEVICE_TREE_SUPPORT}=                             ${FALSE}
 ${MINI_PC_IE_SLOT_SUPPORT}=                         ${FALSE}
 ${NETBOOT_UTILITIES_SUPPORT}=                       ${FALSE}
