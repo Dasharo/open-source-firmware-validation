@@ -14,7 +14,7 @@ includes:
 vars:
   REPO_ROOT:
     sh: git rev-parse --show-toplevel
-  PRECOMMIT_IMAGE_NAME: ghcr.io/dasharo/osfv-ci
+  PRECOMMIT_IMAGE_NAME: git.3mdeb.com/dasharo/osfv-ci
   PRECOMMIT_IMAGE: '{{.PRECOMMIT_IMAGE_NAME}}:latest'
 
 tasks:

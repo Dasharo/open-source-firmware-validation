@@ -16,6 +16,6 @@ clone:
 
 steps:
   - name: pre-commit
-    image: ghcr.io/dasharo/osfv-ci:latest
+    image: git.3mdeb.com/dasharo/osfv-ci:latest
     commands:
       - task --taskfile .ci/Taskfile.yml ci:pre-commit

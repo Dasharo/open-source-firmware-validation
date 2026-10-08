@@ -1,0 +1,53 @@
+# SPDX-FileCopyrightText: 2026 3mdeb <contact@3mdeb.com>
+#
+# SPDX-License-Identifier: Apache-2.0
+
+# Rebuild and publish the CI images to the internal registry after a merge that
+# changes what goes into them. Push only, never on pull_request: the tokens are
+# push-scoped secrets, and `latest` is shared by every pipeline.
+when:
+  - branch: develop
+    event: [push, manual]
+    path:
+      include:
+        - requirements.txt
+        - .pre-commit-config.yaml
+        - .ci/Dockerfile
+        - .ci/Dockerfile.qemu
+        - .woodpecker/release-image.yml
+
+clone:
+  git:
+    image: woodpeckerci/plugin-git
+    settings:
+      recursive: false
+
+steps:
+  # osfv-qemu-ci is built FROM osfv-ci:latest, so the base goes first
+  - name: release-osfv-ci
+    image: woodpeckerci/plugin-docker-buildx
+    settings:
+      registry: git.3mdeb.com
+      repo: git.3mdeb.com/dasharo/osfv-ci
+      dockerfile: .ci/Dockerfile
+      context: .
+      tags:
+        - latest
+        - ${CI_PIPELINE_CREATED}-${CI_COMMIT_SHA:0:8}
+      username: builder
+      password:
+        from_secret: OSFV_PACKAGER_TOKEN
+
+  - name: release-osfv-qemu-ci
+    image: woodpeckerci/plugin-docker-buildx
+    settings:
+      registry: git.3mdeb.com
+      repo: git.3mdeb.com/dasharo/osfv-qemu-ci
+      dockerfile: .ci/Dockerfile.qemu
+      context: .
+      tags:
+        - latest
+        - ${CI_PIPELINE_CREATED}-${CI_COMMIT_SHA:0:8}
+      username: builder
+      password:
+        from_secret: OSFV_PACKAGER_TOKEN

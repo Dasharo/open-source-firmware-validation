@@ -30,7 +30,7 @@ clone:
 
 steps:
   - name: qemu-self-test
-    image: ghcr.io/dasharo/osfv-qemu-ci:latest
+    image: git.3mdeb.com/dasharo/osfv-qemu-ci:latest
     pull: true
     # QEMU is run with KVM acceleration, which needs /dev/kvm. Requires the
     # repository to be marked as trusted in the Woodpecker settings.

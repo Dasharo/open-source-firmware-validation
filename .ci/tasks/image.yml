@@ -9,13 +9,13 @@ includes:
     taskfile: common/docker-image.yml
     dir: ../..
     vars:
-      IMAGE_NAME: ghcr.io/dasharo/osfv-ci
+      IMAGE_NAME: git.3mdeb.com/dasharo/osfv-ci
       DOCKERFILE: .ci/Dockerfile
   qemu-image:
     taskfile: common/docker-image.yml
     dir: ../..
     vars:
-      IMAGE_NAME: ghcr.io/dasharo/osfv-qemu-ci
+      IMAGE_NAME: git.3mdeb.com/dasharo/osfv-qemu-ci
       DOCKERFILE: .ci/Dockerfile.qemu
 
 vars:

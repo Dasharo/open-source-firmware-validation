@@ -32,7 +32,7 @@ clone:
 
 steps:
   - name: sync-db
-    image: ghcr.io/dasharo/osfv-ci:latest
+    image: git.3mdeb.com/dasharo/osfv-ci:latest
     pull: true
     environment:
       DB_SERVER_IP:

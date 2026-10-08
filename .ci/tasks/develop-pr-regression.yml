@@ -14,7 +14,7 @@ includes:
 vars:
   REPO_ROOT:
     sh: git rev-parse --show-toplevel
-  REGRESSION_IMAGE_NAME: ghcr.io/dasharo/osfv-qemu-ci
+  REGRESSION_IMAGE_NAME: git.3mdeb.com/dasharo/osfv-qemu-ci
   REGRESSION_IMAGE: '{{.REGRESSION_IMAGE_NAME}}:latest'
 
 tasks:

@@ -11,7 +11,7 @@ includes:
 vars:
   REPO_ROOT:
     sh: git rev-parse --show-toplevel
-  SYNC_DB_IMAGE_NAME: ghcr.io/dasharo/osfv-ci
+  SYNC_DB_IMAGE_NAME: git.3mdeb.com/dasharo/osfv-ci
   SYNC_DB_IMAGE: '{{.SYNC_DB_IMAGE_NAME}}:latest'
   # Task variables do not reach subtasks through 'env:', so the dry run flag is
   # threaded explicitly. Defaults to whatever the caller exported.

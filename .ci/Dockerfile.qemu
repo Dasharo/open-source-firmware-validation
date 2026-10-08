@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-FROM ghcr.io/dasharo/osfv-ci:latest
+FROM git.3mdeb.com/dasharo/osfv-ci:latest
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \

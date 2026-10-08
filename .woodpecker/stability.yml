@@ -33,7 +33,7 @@ clone:
 
 steps:
   - name: stability
-    image: ghcr.io/dasharo/osfv-qemu-ci:latest
+    image: git.3mdeb.com/dasharo/osfv-qemu-ci:latest
     pull: true
     environment:
       STABILITY_LOGS_DIR: /srv/nfs/logs/osfv_stability/ci_logs
@@ -62,7 +62,7 @@ steps:
         ci:stability-device DEVICE="$${DEVICE}" LOGS_DIR="$${STABILITY_LOGS_DIR}" RUN_ID="$${RUN_ID}"
 
   - name: check-in # make sure its checked in even if the task fails
-    image: ghcr.io/dasharo/osfv-qemu-ci:latest
+    image: git.3mdeb.com/dasharo/osfv-qemu-ci:latest
     environment:
       SNIPEIT_CONFIG:
         from_secret: SNIPEIT_YAML_CONFIG_FILE
