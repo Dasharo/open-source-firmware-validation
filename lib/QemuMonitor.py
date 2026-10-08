@@ -85,6 +85,37 @@ class QemuMonitor:
     def system_reset(self):
         return self._send_cmd("system_reset")
 
+    @keyword("Resume Qemu")
+    def cont(self):
+        """Resume a stopped VM, e.g. after a guest power off with -no-shutdown
+        followed by system_reset."""
+        return self._send_cmd("cont")
+
+    @keyword("Get Qemu Status")
+    def query_status(self):
+        """Return the VM run state, e.g. 'running', or 'shutdown' after the
+        guest powered off when QEMU runs with -no-shutdown."""
+        # Read replies until our own: QMP may interleave asynchronous events
+        # (e.g. RESET, SHUTDOWN) with command replies.
+        sock = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
+        sock.connect(self.socket_path)
+        try:
+            buf = b""
+            for cmd in ("qmp_capabilities", "query-status"):
+                sock.sendall(json.dumps({"execute": cmd}).encode())
+                while True:
+                    while b"\n" not in buf:
+                        buf += sock.recv(8192)
+                    line, buf = buf.split(b"\n", 1)
+                    msg = json.loads(line) if line.strip() else {}
+                    if "return" in msg or "error" in msg:
+                        break
+            if "error" in msg:
+                raise RuntimeError(f"QEMU monitor error response: {msg['error']['desc']}")
+            return msg["return"]["status"]
+        finally:
+            sock.close()
+
     @keyword
     def quit(self):
         return self._send_cmd("quit")
