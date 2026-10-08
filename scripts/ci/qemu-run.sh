@@ -35,7 +35,23 @@ TPM_LOG_FILE="${TPM_DIR}/log"
 # some cases.
 # TPM_VERSION="2.0"
 
-QEMU_FW_FILE=${QEMU_FW_FILE:-./qemu_q35.rom}
+# FW_TYPE=dasharo (default): Dasharo (coreboot+UEFI) for QEMU Q35.
+# FW_TYPE=heads: Heads for the qemu-coreboot-* boards, booting from a
+# writable 16 MiB flash image which Heads can reflash (settings, GPG keys).
+FW_TYPE=${FW_TYPE:-dasharo}
+if [[ "${FW_TYPE}" == "heads" ]]; then
+  QEMU_FW_FILE=${QEMU_FW_FILE:-qemu-data/heads.rom}
+else
+  QEMU_FW_FILE=${QEMU_FW_FILE:-./qemu_q35.rom}
+fi
+# Heads only: USB security dongle, one of: nk3 (default; forward a Nitrokey 3,
+# e.g. the emulated one from Heads' bin/qemu-nk3-usbip.sh, attached to the host
+# before QEMU starts), canokey (QEMU's virtual OpenPGP card, state kept in
+# $CANOKEY_FILE, needs a QEMU built with canokey), none
+HEADS_USB_TOKEN=${HEADS_USB_TOKEN:-nk3}
+CANOKEY_FILE=${CANOKEY_FILE:-qemu-data/canokey-file}
+# TPM version presented to the guest: 2 (default) or 1.2 (Heads tpm1 boards)
+TPM_VERSION=${TPM_VERSION:-2}
 
 usage() {
 cat <<EOF
@@ -60,6 +76,16 @@ This is the QEMU wrapper script for the Dasharo Open Source Firmware Validation.
 
   Environmental variables:
     DIR         working directory, defaults to current working directory
+    FW_TYPE     dasharo (default) or heads
+    QEMU_FW_FILE  firmware image, defaults to ./qemu_q35.rom, or
+                qemu-data/heads.rom with FW_TYPE=heads (a 16 MiB Heads ROM
+                for the qemu-coreboot-* boards; Heads writes to it)
+    HEADS_USB_TOKEN  nk3 (default), canokey or none, with FW_TYPE=heads
+    CANOKEY_FILE  canokey state, defaults to qemu-data/canokey-file
+    TPM_VERSION 2 (default) or 1.2
+    SERIAL_LOG  also write the serial console output to this file
+    SERIAL_WAIT if set, start the VM only once a client connected to the
+                serial console, so no early output is lost
     HDD2_PATH   optional path of the second hard drive to connect to the machine if
                 ACTION "os" is used. Relative to DIR
     BRIDGE      if set, connects the machine to the local network via `br0` bridge
@@ -104,7 +130,9 @@ tpm_start() {
   mkdir -p "${TPM_DIR}"
   touch "${TPM_PID_FILE}" "${TPM_LOG_FILE}"
 
-  swtpm socket --tpm2 \
+  local _tpm_ver=""
+  [[ "${TPM_VERSION}" == "2" ]] && _tpm_ver="--tpm2"
+  swtpm socket ${_tpm_ver} \
     --tpmstate dir=${TPM_DIR} \
     --ctrl type=unixio,path=${TPM_SOCK} \
     --pid file="${TPM_PID_FILE}" \
@@ -168,6 +196,20 @@ if [ $# -ne 2 ]; then
   exit 1
 fi
 
+# Serial console on telnet localhost:1234; with SERIAL_LOG also logged to a
+# file, with SERIAL_WAIT the VM starts only once a telnet client connected
+# (QEMU drops serial output while no client is connected)
+SERIAL_PARAMS="-chardev socket,id=ser0,host=localhost,port=1234,telnet=on,server=on"
+if [[ -n "${SERIAL_WAIT}" ]]; then
+  SERIAL_PARAMS+=",wait=on"
+else
+  SERIAL_PARAMS+=",wait=off"
+fi
+if [[ -n "${SERIAL_LOG}" ]]; then
+  SERIAL_PARAMS+=",logfile=${SERIAL_LOG},logappend=on"
+fi
+SERIAL_PARAMS+=" -serial chardev:ser0"
+
 QEMU_CPU="Skylake-Client-noTSX-IBRS"
 QEMU_ACCEL=""
 if [[ -c /dev/kvm ]]; then
@@ -183,7 +225,7 @@ QEMU_PARAMS_BASE="-machine q35,smm=on -cpu ${QEMU_CPU} ${QEMU_ACCEL} \
   -global ICH9-LPC.disable_s3=1 \
   -qmp unix:/tmp/qmp-socket,server,nowait \
   -pidfile /tmp/qemu-pid \
-  -serial telnet:localhost:1234,server,nowait \
+  ${SERIAL_PARAMS} \
   -device virtio-scsi-pci,id=scsi \
   -device qemu-xhci,id=usb \
   -chardev socket,id=chrtpm,path=${TPM_SOCK} \
@@ -191,6 +233,29 @@ QEMU_PARAMS_BASE="-machine q35,smm=on -cpu ${QEMU_CPU} ${QEMU_ACCEL} \
   -device tpm-tis,tpmdev=tpm0 \
   -smp 2 \
   -mem-prealloc"
+
+if [[ "${FW_TYPE}" == "heads" ]]; then
+  # The Heads ROM fills a 16 MiB flash; QEMU allows 8 MiB by default.
+  QEMU_PARAMS_BASE="${QEMU_PARAMS_BASE/-machine q35,smm=on/-machine q35,smm=on,max-fw-size=16M}"
+  # TOTP needs the guest clock in UTC.  Heads powers off instead of
+  # rebooting on QEMU; -no-shutdown keeps QEMU (and QMP) alive, so
+  # 'Power On' can reset the machine.
+  QEMU_PARAMS_BASE+=" -rtc base=utc -no-shutdown"
+  case "${HEADS_USB_TOKEN}" in
+    canokey)
+      QEMU_PARAMS_BASE+=" -device canokey,bus=usb.0,file=${CANOKEY_FILE}"
+      ;;
+    nk3)
+      QEMU_PARAMS_BASE+=" -device usb-host,bus=usb.0,vendorid=0x20a0,productid=0x42b2"
+      ;;
+    none)
+      ;;
+    *)
+      echo "Unknown HEADS_USB_TOKEN: ${HEADS_USB_TOKEN}"
+      exit 1
+      ;;
+  esac
+fi
 
 QEMU_PARAMS_OS="-object rng-random,id=rng0,filename=/dev/urandom \
   -device virtio-rng-pci,max-bytes=1024,period=1000 \
@@ -272,8 +337,15 @@ case "${ACTION}" in
 		;;
 esac
 
+if [[ "${FW_TYPE}" == "heads" ]]; then
+  if [ ! -f "${QEMU_FW_FILE}" ]; then
+    echo "Heads ROM ${QEMU_FW_FILE} not found. Copy a 16 MiB Heads ROM for a"
+    echo "qemu-coreboot-* board there, e.g. from Heads' build/x86/<board>/."
+    exit 1
+  fi
+  echo "Running QEMU Q35 with Heads from ${QEMU_FW_FILE} ... (Ctrl+C to terminate)"
 # Check for the existence of QEMU firmware file
-if [ ! -f "${QEMU_FW_FILE}" ]; then
+elif [ ! -f "${QEMU_FW_FILE}" ]; then
     echo "The required file ${QEMU_FW_FILE} is missing."
     echo "Downloading from the server..."
     wget -O ${QEMU_FW_FILE} https://github.com/Dasharo/coreboot/releases/latest/download/qemu_q35_all_menus.rom
@@ -283,11 +355,13 @@ else
     echo "simply remove it and let the script download the latest release."
 fi
 
-echo "Clear UEFI variables"
-echo "On each run on this script, the firmware settings would be restored to default."
-dd if=/dev/zero of=${QEMU_FW_FILE} bs=256 count=1 conv=notrunc 2> /dev/null
+if [[ "${FW_TYPE}" != "heads" ]]; then
+  echo "Clear UEFI variables"
+  echo "On each run on this script, the firmware settings would be restored to default."
+  dd if=/dev/zero of=${QEMU_FW_FILE} bs=256 count=1 conv=notrunc 2> /dev/null
 
-echo "Running QEMU Q35 with Dasharo (coreboot+UEFI) firmware ... (Ctrl+C to terminate)"
+  echo "Running QEMU Q35 with Dasharo (coreboot+UEFI) firmware ... (Ctrl+C to terminate)"
+fi
 
 tpm_start
 # Detect if running in CI environment
