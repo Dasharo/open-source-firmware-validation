@@ -27,9 +27,9 @@ Suite Setup         Run Keywords
 ...                     AND    Get System Values
 ...                     AND    Set DUT Response Timeout    90s    # a boot can last longer than default 30s
 Suite Teardown      Run Keywords
-...                     Run Keyword If    '${SUITE_STATUS}' != 'SKIP'    Flash Firmware    ${FW_FILE}
-...                     AND    Run Keyword If    '${EC_CAPSULE_UPDATE_SUPPORT}' == '${TRUE}'
-...                     Perform Capsule Update    valid_capsule.cap    ec_capsule.cap
+...                     Run Keyword If    '${SUITE_STATUS}' != 'SKIP' and '${EC_CAPSULE_UPDATE_SUPPORT}' == '${TRUE}'
+...                     Update To Original EC By Capsule    ec_capsule_unpatched.cap
+...                     AND    Run Keyword If    '${SUITE_STATUS}' != 'SKIP'    Flash Firmware    ${FW_FILE}
 ...                     AND    Log Out And Close Connection
 
 Default Tags        automated
@@ -134,7 +134,7 @@ CUP001.101 Capsule Update With Wrong Keys (EDK2 UEFI)
         Manual UI Verification Prompt    ${CUP_280_MESSAGE}    prepare=${TRUE}
     END
     Set To Dictionary    ${V2_RESULT_SCREENS}    wrong_cert.cap    ${EMPTY}
-    VAR    ${EC_CAPSULE_UPDATE}=     ${FALSE}    scope=SUITE
+    VAR    ${EC_CAPSULE_UPDATE}=    ${FALSE}    scope=SUITE
     ${status}    ${version_changed}=    Perform Capsule Update And Return Status
     ...    wrong_cert.cap
     ...    manual_v2_results_screen=${manual_gui}
@@ -173,7 +173,7 @@ CUP002.101 Capsule Update With Wrong GUID (EDK2 UEFI)
         Manual UI Verification Prompt    ${CUP_281_MESSAGE}    prepare=${TRUE}
     END
     Set To Dictionary    ${V2_RESULT_SCREENS}    invalid_guid.cap    ${EMPTY}
-    VAR    ${EC_CAPSULE_UPDATE}=     ${FALSE}    scope=SUITE
+    VAR    ${EC_CAPSULE_UPDATE}=    ${FALSE}    scope=SUITE
     ${status}    ${version_changed}=    Perform Capsule Update And Return Status
     ...    invalid_guid.cap
     ...    manual_v2_results_screen=${manual_gui}
@@ -211,7 +211,7 @@ CUP003.101 Capsule Update with wrong BtG key (EDK2 UEFI)
     Boot System Or From Connected Disk    ${DEFAULT_BOOT_OS_ID}
     Login To Linux With Root Privileges
     Check The Update Screen For BtG Error Message    pre=${TRUE}
-    VAR    ${EC_CAPSULE_UPDATE}=     ${FALSE}    scope=SUITE
+    VAR    ${EC_CAPSULE_UPDATE}=    ${FALSE}    scope=SUITE
     Perform Capsule Update    invalid_btg_signature.cap
     Check The Update Screen For BtG Error Message
 
@@ -243,7 +243,7 @@ CUP150.101 Capsule Update (EDK2 UEFI)
     END
     ${verify_results_screen}=    Evaluate    ${CAPSULE_UPDATE_V2_SUPPORT} and ${SHOULD_RUN_SEMIAUTO_TESTS}
     IF    '${EC_CAPSULE_UPDATE_SUPPORT}' == '${TRUE}'
-        VAR    ${EC_CAPSULE_UPDATE}=     ${TRUE}    scope=SUITE
+        VAR    ${EC_CAPSULE_UPDATE}=    ${TRUE}    scope=SUITE
     END
     ${status}    ${version_changed}=    Perform Capsule Update And Return Status
     ...    valid_capsule.cap
@@ -580,7 +580,10 @@ Check Platform Fused
     Exit From Root User
 
 Perform Capsule Update And Return Status
-    [Arguments]    ${capsule_file}    ${capsule_file_ec}=${FALSE}    ${ondisk}=${FALSE}    ${manual_v2_results_screen}=${FALSE}
+    [Arguments]    ${capsule_file}
+    ...    ${capsule_file_ec}=${FALSE}
+    ...    ${ondisk}=${FALSE}
+    ...    ${manual_v2_results_screen}=${FALSE}
     Power On
     Boot System Or From Connected Disk    ${DEFAULT_BOOT_OS_ID}
     Login To Linux With Root Privileges
@@ -729,7 +732,7 @@ Copy Capsule Files To Shell Workspace
     Send File To DUT    dasharo-stability/capsule-update-files/variable_step.nsh
     ...    ${CAPSULE_UPDATE_SHELL_DIR}/variable_step.nsh
     Send File To DUT    dasharo-stability/capsule-update-files/variable_ec_update.nsh
-        ...    ${CAPSULE_UPDATE_SHELL_DIR}/variable_ec_update.nsh
+    ...    ${CAPSULE_UPDATE_SHELL_DIR}/variable_ec_update.nsh
 
     # Capsules
     Send File To DUT    ${CAPSULE_FW_FILE}    ${CAPSULE_UPDATE_SHELL_DIR}/valid_capsule.cap
@@ -746,6 +749,8 @@ Copy Capsule Files To Shell Workspace
         ...    ${CAPSULE_UPDATE_SHELL_DIR}/variable_capsule_file_ec.nsh
         # TBD Read path to EC capsule from env variable
         Send File To DUT    ${VER_PATCH_EC_CAP}    ${CAPSULE_UPDATE_SHELL_DIR}/ec_capsule.cap
+        # Send original capsule to be applied on teardown
+        Send File To DUT    ${CAPSULE_UPDATE_EC_FW_FILE}    ${CAPSULE_UPDATE_SHELL_DIR}/ec_capsule_unpatched.cap
     END
 
 Perform Capsule Update
@@ -896,7 +901,10 @@ Ensure Capsule Files Are Present
         VAR    ${CAPSULE_UPDATE_EC_FW_FILE}=    ${EMPTY}    scope=SUITE
     END
 
-    Ensure Derived Capsule Files Are Present    ${CAPSULE_FW_FILE}    ${CAPSULE_UPDATE_RC0_FW_FILE}    ${CAPSULE_UPDATE_EC_FW_FILE}
+    Ensure Derived Capsule Files Are Present
+    ...    ${CAPSULE_FW_FILE}
+    ...    ${CAPSULE_UPDATE_RC0_FW_FILE}
+    ...    ${CAPSULE_UPDATE_EC_FW_FILE}
 
 Ensure V2 Capsule Key Variables Are Set
     [Documentation]    Detects whether the provided capsule uses testing or production keys and sets
@@ -1203,3 +1211,26 @@ Resign Vboot Firmware With Temporary Keys
     ...    msg=Size of resigned firmware is incorrect. Resigning failed.
 
     Run    mv ${tmp_fw_image} ${in_fw_image}
+
+Update To Original EC By Capsule
+    [Documentation]    asdasdasda
+    [Arguments]    ${capsule_file_ec}
+    Power On
+    Boot System Or From Connected Disk    ${DEFAULT_BOOT_OS_ID}
+    Login To Linux With Root Privileges
+    ${original_ec_version}=    Get EC Version Linux    Before update
+
+    Perform Capsule Update
+    ...    ${EMPTY}
+    ...    ${capsule_file_ec}
+
+    # Wait for update to finish
+    Sleep    30
+    Power On
+    Boot System Or From Connected Disk    ${DEFAULT_BOOT_OS_ID}
+    Login To Linux With Root Privileges
+    ${updated_ec_version}=    Get EC Version Linux    After update
+
+    Should Not Be Equal
+    ...    ${original_ec_version}
+    ...    ${updated_ec_version}
