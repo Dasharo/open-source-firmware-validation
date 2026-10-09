@@ -39,25 +39,64 @@ Detect Heads Main Menu
     ...    menu are answered to continue to it:
     ...    - "No /boot Partition Found" (no OS installed)
     ...    - "GPG signing key unavailable" (no USB Security dongle with keys)
+    ...    - "TOTP Generation Failed" / "HOTP Validation Failed" (no secret
+    ...    sealed yet, e.g. after OEM Factory Reset): ignored, the tests
+    ...    generate a new secret from the menu when they need one
+    ...    - "GPG keyring empty" (freshly flashed ROM): ignored
+    ...    - "OEM Factory Reset / Re-Ownership" (offered on a clean boot: OS
+    ...    installed, no GPG keys, dongle present): cancelled
+    ...    - "TPM State Inconsistent" (TPM rollback counter gone): continued
+    ...    Fails right away on any other dialog, showing it. ${answered} is
+    ...    the title of a dialog the caller just answered, whose redraws are
+    ...    skipped.
+    [Arguments]    ${answered}=${EMPTY}
     Set DUT Response Timeout    ${HEADS_DIALOG_TIMEOUT}
     # Choosing an entry redraws the dialog before it closes: skip redraws of
-    # the dialog just answered, answer each dialog once.
-    VAR    ${answered}=    ${EMPTY}
+    # the dialog just answered, answer each dialog once. Titles may contain
+    # color codes, so compare by substring.
+    # "TPM State Inconsistent" (26 rows) is taller than the 24 row serial
+    # console: its title and bottom corner are not drawn there, so also
+    # stop at its last entry
+    VAR    ${rollback_answered}=    ${FALSE}
     FOR    ${i}    IN RANGE    20
-        ${output}=    Read From Terminal Until    ┘
+        ${output}=    Read From Terminal Until Regexp
+        ...    ┘|TPM rollback protection[\\s\\S]*?Continue to main menu
         ${titles}=    Get Regexp Matches    ${output}    ┤\\s*([^├]*?)\\s*├    1
-        ${title}=    Set Variable If    ${titles}    ${titles}[-1]    ${EMPTY}
-        IF    '${title}' == '${answered}'    CONTINUE
+        IF    ${titles}
+            VAR    ${title}=    ${titles}[-1]
+        ELSE
+            VAR    ${title}=    ${EMPTY}
+        END
+        IF    'Cannot verify TPM rollback protection' in $output and not $rollback_answered
+            # TPM counter of /boot/kexec_rollback.txt gone, e.g. after a TPM
+            # reset by "Clear GPG key(s) and reset all user settings":
+            # continue, OEM Factory Reset or a TPM reset fixes it
+            Choose Heads Option    m
+            VAR    ${rollback_answered}=    ${TRUE}
+            CONTINUE
+        END
+        IF    $answered and $answered in $title    CONTINUE
         IF    'Heads Boot Menu' in $title
             Sleep    1s
             RETURN    ${output}
         ELSE IF    'No /boot Partition Found' in $title
+            VAR    ${HEADS_BOOT_PARTITION_FOUND}=    ${FALSE}    scope=SUITE
             Choose Heads Option    m
-            VAR    ${answered}=    ${title}
         ELSE IF    'GPG signing key unavailable' in $title
             Choose Heads Option    m
-            VAR    ${answered}=    ${title}
+        ELSE IF    re.search('[TH]OTP Generation Failed|HOTP Validation Failed|GPG keyring empty', $title)
+            # 'i' is not drawn when the entry list scrolls, but still works
+            Choose Heads Option    i
+        ELSE IF    'OEM Factory Reset / Re-Ownership' in $title and 'Complete' not in $title
+            Focus Heads Dialog Buttons    ${output}
+            # Tab moves the focus to <Cancel>
+            Write Bare Into Terminal    \t
+            Sleep    0.5s
+            Write Bare Into Terminal    ${ENTER}
+        ELSE IF    $title
+            Fail    Unexpected Heads dialog before the main menu:\n${output}
         END
+        IF    $title    VAR    ${answered}=    ${title}
     END
     Fail    Heads main menu not reached
 
@@ -164,10 +203,20 @@ Open Heads GPG Menu
 
 Power On Into Heads Main Menu
     [Documentation]    Powers the DUT on and waits for Heads' main menu,
-    ...    which is returned.
+    ...    which is returned. Sets ${HEADS_BOOT_PARTITION_FOUND} to whether
+    ...    Heads found a /boot partition on this boot.
+    VAR    ${HEADS_BOOT_PARTITION_FOUND}=    ${TRUE}    scope=SUITE
     Power On
     ${menu}=    Detect Heads Main Menu
     RETURN    ${menu}
+
+Heads Boot Partition Should Be Found
+    [Documentation]    Fails unless Heads found a /boot partition on the last
+    ...    Power On Into Heads Main Menu. Heads seals TOTP/HOTP secrets only
+    ...    with /boot signed by the dongle's key, which needs an OS installed
+    ...    with a separate, unencrypted /boot partition.
+    Should Be True    ${HEADS_BOOT_PARTITION_FOUND}
+    ...    Heads found no /boot partition, needed to seal TOTP/HOTP secrets (see Heads in docs/qemu.md)
 
 Wait For Heads Power Off
     [Documentation]    Answers the prompts of Heads' reboot (on QEMU boards
@@ -231,7 +280,7 @@ Read Heads Scrolled Message
             Write Bare Into Terminal    \x1b[6~
             Sleep    1s
             ${more}=    Read From Terminal
-            ${dialog}=    Catenate    SEPARATOR=\n    ${dialog}    ${more}
+            VAR    ${dialog}=    ${dialog}    ${more}    separator=\n
         END
     END
     Focus Heads Dialog Buttons    ${dialog}
@@ -284,18 +333,29 @@ Heads VM Should Be Powered Off
 Prepare Heads GPG Test Data
     [Documentation]    Generates two GPG test keys on the host and USB disk
     ...    images with their public keys, once per suite. Sets the suite
-    ...    variables ${HEADS_KEY1}, ${HEADS_KEY1_FPR}, ${HEADS_USB_KEY1} and
-    ...    the same for key 2.
-    ${done}=    Get Variable Value    ${HEADS_KEY1_FPR}    ${EMPTY}
+    ...    variables ${HEADS_KEY1}, ${HEADS_KEY1_FINGERPRINT},
+    ...    ${HEADS_USB_KEY1} and the same for key 2.
+    ${done}=    Get Variable Value    ${HEADS_KEY1_FINGERPRINT}    ${EMPTY}
     IF    '${done}' != '${EMPTY}'    RETURN
-    FOR    ${n}    IN    1    2
-        ${key}    ${fpr}=    Generate GPG Test Key    ${HEADS_QEMU_WORKDIR}/key${n}
-        ...    uid=OSFV Heads Test ${n} <osfv-heads-${n}@example.com>
-        Create Heads USB Image    ${HEADS_QEMU_WORKDIR}/usb-key${n}.img    ${key}
-        VAR    ${HEADS_KEY${n}}=    ${key}    scope=SUITE
-        VAR    ${HEADS_KEY${n}_FPR}=    ${fpr}    scope=SUITE
-        VAR    ${HEADS_USB_KEY${n}}=    ${HEADS_QEMU_WORKDIR}/usb-key${n}.img    scope=SUITE
-    END
+    ${key}    ${fingerprint}    ${usb}=    Prepare Heads GPG Test Key    1
+    VAR    ${HEADS_KEY1}=    ${key}    scope=SUITE
+    VAR    ${HEADS_KEY1_FINGERPRINT}=    ${fingerprint}    scope=SUITE
+    VAR    ${HEADS_USB_KEY1}=    ${usb}    scope=SUITE
+    ${key}    ${fingerprint}    ${usb}=    Prepare Heads GPG Test Key    2
+    VAR    ${HEADS_KEY2}=    ${key}    scope=SUITE
+    VAR    ${HEADS_KEY2_FINGERPRINT}=    ${fingerprint}    scope=SUITE
+    VAR    ${HEADS_USB_KEY2}=    ${usb}    scope=SUITE
+
+Prepare Heads GPG Test Key
+    [Documentation]    Generates GPG test key ${n} on the host and a USB disk
+    ...    image with its public key. Returns the public key file, the key
+    ...    fingerprint and the USB disk image.
+    [Arguments]    ${n}
+    ${key}    ${fingerprint}=    Generate GPG Test Key    ${HEADS_QEMU_WORKDIR}/key${n}
+    ...    uid=OSFV Heads Test ${n} <osfv-heads-${n}@example.com>
+    VAR    ${usb}=    ${HEADS_QEMU_WORKDIR}/usb-key${n}.img
+    Create Heads USB Image    ${usb}    ${key}
+    RETURN    ${key}    ${fingerprint}    ${usb}
 
 Answer Heads Prompts Until
     [Documentation]    Answers Heads' prompts and dialogs with the defaults of
@@ -312,32 +372,36 @@ Answer Heads Prompts Until
     VAR    ${answered}=    ${EMPTY}
     VAR    @{prompts}=
     ...    TPM Owner Passphrase[^:\\n]{0,120}:
-    ...    Enter (?:your|desired)[^:\\n]{0,120}PIN[^:\\n]{0,120}:
+    ...    Enter [^:\\n]{0,120}PIN[^:\\n]{0,120}:
     ...    Wrong PIN[^:\\n]{0,120}:
     ...    \\[[yY]/[nN]\\]:
     ...    [Pp]ress Enter to (?:continue|configure)[^:\\n]{0,40}
     ...    Insert your [^\\n]{0,40} and press Enter[^\\n]{0,20}
     ...    ┘
-    ${any}=    Catenate    SEPARATOR=|    (?:${stop})    @{prompts}
+    VAR    ${any}=    (?:${stop})    @{prompts}    separator=|
     FOR    ${i}    IN RANGE    100
         ${out}=    Read From Terminal Until Regexp    ${any}
-        ${all}=    Catenate    SEPARATOR=    ${all}    ${out}
-        ${secret}=    Get Regexp Matches    ${out}    TOTP secret for manual input[^:]*: ([A-Z2-7]+)    1
-        IF    ${secret}    VAR    ${HEADS_TOTP_SECRET}=    ${secret}[-1]    scope=SUITE
+        VAR    ${all}=    ${all}    ${out}    separator=${EMPTY}
+        Store Heads TOTP Secret    ${out}
         ${stopped}=    Run Keyword And Return Status    Should Match Regexp    ${out}    ${stop}
         IF    ${stopped}    RETURN    ${all}
+        Heads Output Should Not Have Error    ${out}    ${stop}
         # A prompt-like line inside a dialog (e.g. "│ TPM Owner Passphrase:"
         # in the summary of the secrets) is not a prompt: read the dialog
         ${last}=    Evaluate    $out.rsplit('\\n', 1)[-1].lstrip()
         IF    $last.startswith('│')
             ${rest}=    Read From Terminal Until    ┘
-            ${out}=    Catenate    SEPARATOR=    ${out}    ${rest}
-            ${all}=    Catenate    SEPARATOR=    ${all}    ${rest}
+            VAR    ${out}=    ${out}    ${rest}    separator=${EMPTY}
+            VAR    ${all}=    ${all}    ${rest}    separator=${EMPTY}
         END
         ${tail}=    Get Substring    ${out}    -400
         IF    $out.rstrip().endswith('┘')
             ${titles}=    Get Regexp Matches    ${out}    ┤\\s*([^├]*?)\\s*├    1
-            ${title}=    Set Variable If    ${titles}    ${titles}[-1]    ${EMPTY}
+            IF    ${titles}
+                VAR    ${title}=    ${titles}[-1]
+            ELSE
+                VAR    ${title}=    ${EMPTY}
+            END
             IF    'Heads Boot Menu' in $title
                 # The flow ended early, e.g. after an error message
                 ${before}=    Get Substring    ${all}    -6000
@@ -373,18 +437,40 @@ Answer Heads Prompts Until
     END
     Fail    "${stop}" not reached
 
+Store Heads TOTP Secret
+    [Documentation]    Stores the TOTP secret, if Heads printed one in
+    ...    ${output}, in ${HEADS_TOTP_SECRET}.
+    [Arguments]    ${output}
+    ${secret}=    Get Regexp Matches    ${output}    TOTP secret for manual input[^:]*: ([A-Z2-7]+)    1
+    IF    ${secret}
+        VAR    ${HEADS_TOTP_SECRET}=    ${secret}[-1]    scope=SUITE
+    END
+
+Heads Output Should Not Have Error
+    [Documentation]    Fails with Heads' message when ${output} has one of
+    ...    its fatal errors ("!!! ERROR: ... !!!", from DIE): the flow
+    ...    waiting for ${stop} failed, don't continue past it.
+    [Arguments]    ${output}    ${stop}
+    ${errors}=    Get Regexp Matches    ${output}    !!! ERROR: ([^\\n]*?) !!!    1
+    IF    ${errors}    Fail    Heads failed before "${stop}": ${errors}[-1]
+
 Answer Heads Dialog
     [Documentation]    Answers a dialog met by Answer Heads Prompts Until.
     [Arguments]    ${dialog}
-    IF    'Choose an action' in $dialog and 'Continue' in $dialog
-        # Measured Integrity Report: continue
+    IF    'Measured Integrity Report' in $dialog or ('Choose an action' in $dialog and 'Continue' in $dialog)
+        # Measured Integrity Report: continue ('c' in all its variants, even
+        # when the entries are scrolled out of view)
         Choose Heads Option    c
     ELSE IF    'No /boot Partition Found' in $dialog
         Choose Heads Option    m
     ELSE IF    '<Ok>' in $dialog and '<Cancel>' not in $dialog and '<Yes>' not in $dialog
         # Message box, e.g. "touch the dongle when requested"
         ${box}=    Get Regexp Matches    ${dialog}    ┌[^┌]*$
-        ${box}=    Set Variable If    ${box}    ${box}[-1]    ${dialog}
+        IF    ${box}
+            VAR    ${box}=    ${box}[-1]
+        ELSE
+            VAR    ${box}=    ${dialog}
+        END
         Log    Dismissing Heads message:\n${box}    WARN
         Sleep    0.5s
         Focus Heads Dialog Buttons    ${dialog}
