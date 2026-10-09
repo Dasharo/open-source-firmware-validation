@@ -18,7 +18,8 @@ ${ITERATIONS}=      5
 *** Test Cases ***
 FBT001.201 Fast Boot Reduces Boot Time (Ubuntu)
     [Documentation]    Check whether the DUT boot time is reduced with
-    ...    fast boot enabled.
+    ...    fast boot enabled. Only the payload phase is measured as Fast Boot
+    ...    does not affect earlier phases
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    FBT001.201 not supported
     Log To Console    \nMeasuring boot time with Fast Boot\n
     Power On
@@ -50,7 +51,7 @@ FBT001.201 Fast Boot Reduces Boot Time (Ubuntu)
     Log To Console
     ...    \nFastboot took ${relative_boot_time}% of regular boot on average
 
-    IF    ${relative_boot_time} > 70.0    Fail
+    IF    ${relative_boot_time} > ${FAST_BOOT_MAX_RELATIVE_TIME}    Fail
 
 
 *** Keywords ***
@@ -64,20 +65,11 @@ Set Fast Boot State
     VAR    ${var_file_path}=    /sys/firmware/efi/efivars/    ${var_file_name}    separator=${EMPTY}
     Execute Linux Command    chattr -i ${var_file_path}
 
-    VAR    ${new_var_path}=    /tmp/${var_file_name}
-
-    Execute Linux Command    touch ${new_var_path}
     IF    '${state}' == 'on'
-        Execute Linux Command    printf '\x07\x00\x00\x00\x01' \> ${new_var_path}
+        ${out}=    Execute Linux Command    printf '\\x07\\x00\\x00\\x00\\x01' | tee ${var_file_path}
     ELSE IF    '${state}' == 'off'
-        Execute Linux Command    printf '\x07\x00\x00\x00\x00' \> ${new_var_path}
+        ${out}=    Execute Linux Command    printf '\\x07\\x00\\x00\\x00\\x00' | tee ${var_file_path}
     END
-
-    ${out}=    Execute Linux Command
-    ...    dd if=${new_var_path} of=${var_file_path} bs=5 conv=notrunc status=none
-    Should Be Empty    ${out}
-
-    Execute Linux Command    rm ${new_var_path}
 
     ${out}=    Execute Linux Command
     ...    cat ${var_file_path} |tail -c 1 |xxd -ps
@@ -98,19 +90,10 @@ Measure FW Boot Time On Linux
         Execute Reboot Command    linux    ${True}
         Login To Linux
         Switch To Root User
-        # On AMD systems, PSP may take a long time before x86 starts
-        # To properly estimate the gain from fast boot, we have to
-        # consider only the time spent on x86 side, not on proprietary
-        # processors running before x86. For Intel this time is neglectable
-        # so only do it for AMD for now.
-        ${cpuinfo}=    Execute Command In Terminal    cat /proc/cpuinfo
-        IF    "AuthenticAMD" in """${cpuinfo}"""
-            ${boot_start}=    Get First Timestamp From Cbmem Log
-            ${boot_time}=    Get FW Boot Time From Systemd-analyze
-            ${boot_time}=    Evaluate    float(${boot_time} - ${boot_start})
-        ELSE
-            ${boot_time}=    Get FW Boot Time From Systemd-analyze
-        END
+        # Measure only from coreboot jump to payload to OS loader start
+        ${payload_start}=    Get Payload Start Timestamp From Cbmem Log
+        ${boot_time}=    Get FW Boot Time From Systemd-analyze
+        ${boot_time}=    Evaluate    float(${boot_time} - ${payload_start})
         Log To Console    (${index}) Boot time: ${boot_time} s
         Append To List    ${durations}    ${boot_time}
     END

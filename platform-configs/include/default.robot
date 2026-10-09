@@ -298,6 +298,7 @@ ${MAX_ACCEPTABLE_AVERAGE_REBOOT_TIME_S}=            10
 ${MAX_ACCEPTABLE_REBOOT_TIME_STD_DEV_S}=            10
 ${MAX_ACCEPTABLE_REBOOT_TIME_S}=                    20
 ${FAST_AND_QUIET_BOOT_SUPPORT}=                     ${FALSE}
+${FAST_BOOT_MAX_RELATIVE_TIME}=                     70.0
 
 @{UPP_BENCHMARKS}=                                  ${TBD}
 &{UPP_BLAKE2_BENCHMARK}=                            &{EMPTY}

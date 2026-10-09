@@ -72,3 +72,19 @@ Calculate Boot Time Statistics
     ...    math.sqrt(${standard_deviation} / ${iterations})
 
     RETURN    ${min}    ${max}    ${average}    ${standard_deviation}
+
+Get Payload Start Timestamp From Cbmem Log
+    [Documentation]    Return time (s) of coreboot jump to payload (ID 99)
+    ${out_cbmem}=    Execute Command In Terminal    cbmem -T
+    Should Not Contain    ${out_cbmem}    Operation not permitted
+    ...    msg=Cannot get cbmem log. Probably Secure Boot is enabled (kernel lockdown mode).
+    ${lines}=    Split To Lines    ${out_cbmem}
+    ${matches}=    Get Matches    ${lines}    regexp=^99\\s
+    IF    ${matches}
+        VAR    ${line}=    ${matches}[0]
+    ELSE
+        VAR    ${line}=    ${lines}[-1]
+    END
+    ${timestamp}=    Get Timestamp From Cbmem Log    ${line}
+    ${payload_start}=    Evaluate    float(${timestamp}) / 1000000.0
+    RETURN    ${payload_start}
