@@ -308,6 +308,11 @@ if [[ -f ${HDD2_PATH} ]]; then
 fi
 
 QEMU_PARAMS_INSTALLER="-cdrom ${INSTALLER_PATH}"
+if [[ "${FW_TYPE}" == "heads" ]]; then
+  # Heads boots installers from USB drives only, not from a CD-ROM
+  QEMU_PARAMS_INSTALLER="-drive file=${INSTALLER_PATH},if=none,id=installer,format=raw,readonly=on \
+  -device usb-storage,bus=usb.0,drive=installer,removable=on"
+fi
 
 cd "$DIR" || exit
 

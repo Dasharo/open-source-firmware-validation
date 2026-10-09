@@ -146,6 +146,14 @@ getting a copy of the serial console, and `SERIAL_WAIT=1` holds the VM until
 a client connects to the serial console (QEMU drops serial output while no
 client is connected).
 
+To install an OS for the tests that need one (e.g. Ubuntu or Debian with a
+separate, unencrypted `/boot`), use `os_install` and then `os` instead of
+`firmware`. With `FW_TYPE=heads`, `os_install` attaches
+`qemu-data/installer.iso` as a USB drive rather than a CD-ROM, as Heads only
+boots installers from USB: choose "Boot from USB" in Heads. The disk
+(`qemu-data/hdd.qcow2`) is `/dev/sda` in Heads; it has no filesystem, so
+`blkid` does not list it, until the OS is installed.
+
 Platform config variables (`platform-configs/qemu-heads.robot`):
 
 * `heads_rom_file`: unmodified ROM for HDS012 (flashing a standalone image);
