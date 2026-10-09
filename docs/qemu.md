@@ -100,7 +100,8 @@ that need DTS/DES, Qubes OS or a build machine are skipped.
   Heads reflashes it (GPG keys, settings), so give QEMU a copy.
 * A USB security dongle for OEM Factory Reset, TOTP/HOTP and TPM reset
   (HDS001, HDS002, HDS018, HDS019): the emulated Nitrokey 3 from Heads'
-  `bin/qemu-nk3-usbip.sh`, attached to the host before QEMU starts, with its
+  `bin/qemu-nk3-usbip.sh` (Setup step 2), attached to the host before QEMU
+  starts, with its
   `/dev/bus/usb` node writable by the user running QEMU (`qemu-run.sh` checks
   both, as QEMU itself just boots without the device). Without
   one, use `HEADS_USB_TOKEN=none` and `-v heads_usb_token:none`; those tests
@@ -113,6 +114,16 @@ that need DTS/DES, Qubes OS or a build machine are skipped.
   boot after a reset has a corrupted XSDT: Linux loads no ACPI namespace, so
   Heads has no TPM and cannot power off (HDS009, and every test that reflashes
   and reboots, fail).
+* An OS installed on the VM disk with a separate, unencrypted `/boot`
+  partition (Heads only takes a partition with `grub*` at its root as
+  `/boot`): Heads seals a TOTP/HOTP secret only after the integrity gate,
+  which needs `/boot` signed with the dongle's key. Without it, HDS001,
+  HDS002, HDS018 and HDS019 fail right after power on ("Heads found no
+  /boot partition"). Setup step 3 describes two ways to get one.
+* Heads whose `read_first_tty` (`initrd/etc/functions.sh`) does not exit
+  `set -e` callers: with the serial console mirrored, killing the losing
+  reader made `wait` fail, which exited `tpmr.sh` at the TPM Owner
+  Passphrase prompt ("Unable to seal TOTP secret to TPM NVRAM").
 * Heads with the fixes these tests found: "Export public GPG key to USB
   drive" (`gpg_export_pubkey_to_usb` was missing, HDS015) and "Clear GPG
   key(s) and reset all user settings" without an installed OS (HDS017), and
@@ -120,21 +131,91 @@ that need DTS/DES, Qubes OS or a build machine are skipped.
   while the graphical one is still being drawn (HDS017, and any dialog the
   tests answer right away).
 
-### Running
+### Setup
 
-```bash
-mkdir -p qemu-data
-cp <heads>/build/x86/qemu-coreboot-fbwhiptail-tpm2-hotp/heads-*.rom qemu-data/heads.rom
-cp qemu-data/heads.rom qemu-data/heads-clean.rom
-# in Heads: bin/qemu-nk3-usbip.sh start qemu-coreboot-fbwhiptail-tpm2-hotp
-FW_TYPE=heads SERIAL_LOG=qemu-data/serial.log ./scripts/ci/qemu-run.sh vnc firmware
-```
+The commands below run from the root of this repository, except where they
+say Heads; `<heads>` is your Heads checkout. The board in the examples is
+`qemu-coreboot-fbwhiptail-tpm2`; any `qemu-coreboot-*` board works, use the
+same one in every step.
 
-```bash
-robot -L TRACE -v config:qemu-heads -v snipeit:no -v rte_ip:127.0.0.1 \
-  -v "INCLUDE_TAGS:[]" -v heads_rom_file:qemu-data/heads-clean.rom \
-  dasharo-compatibility/heads-bootloader-support.robot
-```
+1. Build the Heads ROM in Heads, with its Docker image (`docker_repro.sh`
+   needs an interactive terminal):
+
+   ```bash
+   cd <heads>
+   ./docker_repro.sh make BOARD=qemu-coreboot-fbwhiptail-tpm2
+   ```
+
+   Copy it twice: QEMU boots `heads.rom`, which Heads reflashes (GPG keys,
+   settings); `heads-clean.rom` stays unmodified for HDS012:
+
+   ```bash
+   mkdir -p qemu-data
+   cp <heads>/build/x86/qemu-coreboot-fbwhiptail-tpm2/heads-*.rom qemu-data/heads.rom
+   cp qemu-data/heads.rom qemu-data/heads-clean.rom
+   ```
+
+2. Start the emulated Nitrokey 3 with Heads' script, on the host (not in the
+   Docker container). The first start builds the Nitrokey 3 firmware USB/IP
+   runner; attaching it to the host asks for sudo. Its state (keys, PINs)
+   is kept in `<heads>/build/x86/<board>/nk3-usbip/`:
+
+   ```bash
+   cd <heads>
+   bin/qemu-nk3-usbip.sh start qemu-coreboot-fbwhiptail-tpm2
+   bin/qemu-nk3-usbip.sh status qemu-coreboot-fbwhiptail-tpm2
+   ```
+
+   It shows up as a Nitrokey 3 (`20a0:42b2`, `lsusb`). QEMU needs write
+   access to its `/dev/bus/usb/BBB/DDD` node; `qemu-run.sh` checks this and
+   prints the `chown` command to run when it cannot. The node changes each
+   time the token is attached. Stop it with `bin/qemu-nk3-usbip.sh stop`.
+
+3. Prepare a disk with an OS installed on a separate, unencrypted `/boot`
+   partition (see Requirements). Either install one: copy the installer ISO
+   to `qemu-data/installer.iso`, start
+
+   ```bash
+   FW_TYPE=heads HEADS_USB_TOKEN=nk3 ./scripts/ci/qemu-run.sh graphic os_install
+   ```
+
+   choose "Boot from USB" in Heads (`os_install` attaches the ISO as a USB
+   drive, Heads boots installers from USB only) and, in the installer's
+   manual partitioning, create an ext4 `/boot` partition (1 GiB) next to
+   the root filesystem, without disk encryption. The disk is
+   `qemu-data/hdd.qcow2` (`/dev/sda` in Heads).
+
+   Or, for a disk with an OS keeping `/boot` on its root filesystem (e.g.
+   the default Ubuntu layout), make a copy-on-write overlay with a separate
+   `/boot`, without root and without changing the disk
+   (`qemu-img` and `guestfish` from libguestfs):
+
+   ```bash
+   ./scripts/ci/heads-split-boot.sh qemu-data/hdd.qcow2 qemu-data/hdd-heads.qcow2
+   ```
+
+   The original disk must not change while the overlay is in use.
+
+4. Start QEMU in `os` mode with that disk (`HDD_PATH`, default
+   `qemu-data/hdd.qcow2`):
+
+   ```bash
+   FW_TYPE=heads HEADS_USB_TOKEN=nk3 HDD_PATH=qemu-data/hdd-heads.qcow2 \
+     SERIAL_LOG=qemu-data/serial.log ./scripts/ci/qemu-run.sh vnc os
+   ```
+
+5. Run the suite, in the virtual environment of this repository:
+
+   ```bash
+   source venv/bin/activate
+   robot -L TRACE -v config:qemu-heads -v snipeit:no -v rte_ip:127.0.0.1 \
+     -v "INCLUDE_TAGS:[]" -v heads_rom_file:qemu-data/heads-clean.rom \
+     -v heads_usb_token:nk3 \
+     dasharo-compatibility/heads-bootloader-support.robot
+   ```
+
+   A full run takes about 25 minutes. The suite can be rerun on the same
+   flash image, TPM state and disk: HDS001 starts with OEM Factory Reset.
 
 `FW_TYPE=heads` makes `qemu-run.sh` boot from the writable 16 MiB flash
 image (`QEMU_FW_FILE`, default `qemu-data/heads.rom`), keep the guest clock
@@ -146,14 +227,6 @@ getting a copy of the serial console, and `SERIAL_WAIT=1` holds the VM until
 a client connects to the serial console (QEMU drops serial output while no
 client is connected).
 
-To install an OS for the tests that need one (e.g. Ubuntu or Debian with a
-separate, unencrypted `/boot`), use `os_install` and then `os` instead of
-`firmware`. With `FW_TYPE=heads`, `os_install` attaches
-`qemu-data/installer.iso` as a USB drive rather than a CD-ROM, as Heads only
-boots installers from USB: choose "Boot from USB" in Heads. The disk
-(`qemu-data/hdd.qcow2`) is `/dev/sda` in Heads; it has no filesystem, so
-`blkid` does not list it, until the OS is installed.
-
 Platform config variables (`platform-configs/qemu-heads.robot`):
 
 * `heads_rom_file`: unmodified ROM for HDS012 (flashing a standalone image);
@@ -164,8 +237,8 @@ Platform config variables (`platform-configs/qemu-heads.robot`):
 
 The suite is order sensitive: HDS001 provisions the dongle and TOTP for
 HDS002, HDS011 to HDS017 build on each other's keyring, and HDS017 resets
-the configuration at the end. Start from a fresh flash image and TPM state
-(`/tmp/osfv/tpm`) for a full run.
+the configuration (and the TPM) at the end. Run it as a whole, or start
+with HDS001 when running a subset.
 
 Not automated on QEMU yet: HDS003 (boot from USB, needs a test ISO), HDS006
 (default boot, needs an installed OS) and HDS016 (`gpg --card-edit` only runs

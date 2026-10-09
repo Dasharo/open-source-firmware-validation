@@ -51,6 +51,7 @@ HDS001.104 Install Heads (Heads)
     IF    '${MANUFACTURER}' == 'QEMU'
         Skip If    '${HEADS_USB_TOKEN}' == 'none'    HDS001.104 needs a USB security dongle
         Power On Into Heads Main Menu
+        Heads Boot Partition Should Be Found
         Open Heads Options Menu
         Choose Heads Option    F
         Answer Heads Yes No    OEM Factory Reset / Re-Ownership
@@ -117,6 +118,7 @@ HDS002.104 Boot into Heads (Heads)
         Skip If    '${HEADS_USB_TOKEN}' == 'none'    HDS002.104 needs a USB security dongle
         Skip If    '${HEADS_TOTP_SECRET}' == '${EMPTY}'    HDS002.104 needs the TOTP secret from HDS001.104
         ${menu}=    Power On Into Heads Main Menu
+        Heads Boot Partition Should Be Found
         Heads TOTP Should Match    ${menu}
         Heads HOTP Should Not Fail    ${menu}
     ELSE
@@ -131,7 +133,9 @@ HDS002.104 Boot into Heads (Heads)
 HDS003.104 Boot from USB option is available and works correctly (Heads)
     [Documentation]    Check whether the Boot from USB option is available in Heads and works correctly.
     [Tags]    semiauto
-    Skip If    '${MANUFACTURER}' == 'QEMU'    HDS003.104 needs a bootable ISO on the VM's USB drive, not automated on QEMU yet
+    Skip If
+    ...    '${MANUFACTURER}' == 'QEMU'
+    ...    HDS003.104 needs a bootable ISO on the VM's USB drive, not automated on QEMU yet
     Execute Manual Step    [1/4] Power on the DUT and boot into Heads
     Execute Manual Step    [2/4] Navigate to the Boot from USB option in the Heads menu
     Execute Manual Step    [3/4] Insert a bootable USB drive and select it
@@ -154,6 +158,7 @@ HDS004.104 Continue to the main menu option is available and works correctly (He
 HDS005.104 Exit to recovery shell option is available and works correctly (Heads)
     [Documentation]    Check whether the Exit to recovery shell option is available and works correctly in Heads.
     [Tags]    semiauto
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    HDS005.104 not supported
     IF    '${MANUFACTURER}' == 'QEMU'
         Power On Into Heads Main Menu
         Enter Heads Recovery Shell
@@ -169,7 +174,9 @@ HDS005.104 Exit to recovery shell option is available and works correctly (Heads
 HDS006.104 Default boot option is available and works correctly (Heads)
     [Documentation]    Check whether the Default boot option is available and works correctly in Heads.
     [Tags]    semiauto
-    Skip If    '${MANUFACTURER}' == 'QEMU'    HDS006.104 needs an installed OS with a separate /boot, not automated on QEMU yet
+    Skip If
+    ...    '${MANUFACTURER}' == 'QEMU'
+    ...    HDS006.104 needs an installed OS with a separate /boot, not automated on QEMU yet
     Execute Manual Step    [1/3] Power on the DUT and boot into Heads
     Execute Manual Step    [2/3] Select the Default boot option in the Heads menu
     Execute Manual Step    [3/3] Confirm the DUT boots into the default OS correctly
@@ -234,13 +241,14 @@ HDS009.104 Power off option is available and works correctly (Heads)
 HDS010.104 OEM Factory Reset option is available and works correctly (Heads)
     [Documentation]    Check whether the OEM Factory Reset option is available and works correctly in Heads.
     [Tags]    semiauto
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    HDS010.104 not supported
     IF    '${MANUFACTURER}' == 'QEMU'
         Power On Into Heads Main Menu
         Open Heads Options Menu
         Choose Heads Option    F
         ${dialog}=    Answer Heads Yes No    OEM Factory Reset / Re-Ownership    No
         Should Contain    ${dialog}    ERASE any keys or PINs
-        Detect Heads Main Menu
+        Detect Heads Main Menu    answered=OEM Factory Reset / Re-Ownership
     ELSE
         Execute Manual Step    [1/3] Power on the DUT and boot into Heads
         Execute Manual Step    [2/3] Navigate to the OEM Factory Reset option in the Heads menu
@@ -253,13 +261,15 @@ HDS018.104 Reset TPM option is available and works correctly (Heads)
     IF    '${MANUFACTURER}' == 'QEMU'
         Skip If    '${HEADS_USB_TOKEN}' == 'none'    HDS018.104 needs a USB security dongle
         Power On Into Heads Main Menu
+        Heads Boot Partition Should Be Found
         Open Heads Options Menu
         Choose Heads Option    t
         Choose From Heads Menu    TPM/TOTP/HOTP Options    r    Reset the TPM
         ${output}=    Answer Heads Prompts Until    Heads Boot Menu|continue reboot or    timeout=1800s
         Should Contain    ${output}    TPM reset completed
         ${menu}=    Finish Heads Flow In Main Menu    ${output}
-        IF    'TOTP: ' not in $menu or 'TOTP:  ' in $menu
+        # No TOTP shown yet ("TOTP:    | HOTP:"): generate the secret
+        IF    not re.search(r'TOTP: \\d{6}', $menu)
             ${menu}=    Generate Heads TOTP And HOTP
         END
         Heads TOTP Should Match    ${menu}
@@ -276,6 +286,7 @@ HDS019.104 Generate new TOTP/HOTP secret (Heads)
     IF    '${MANUFACTURER}' == 'QEMU'
         Skip If    '${HEADS_USB_TOKEN}' == 'none'    HDS019.104 needs a USB security dongle
         Power On Into Heads Main Menu
+        Heads Boot Partition Should Be Found
         ${menu}=    Generate Heads TOTP And HOTP
         Heads TOTP Should Match    ${menu}
         Heads HOTP Should Not Fail    ${menu}
@@ -372,6 +383,7 @@ HDS028.104 Rebuild Heads with custom bootsplash (Heads)
 HDS029.104 Reboot in Heads (Heads)
     [Documentation]    Check whether the DUT can reboot correctly when running Heads.
     [Tags]    semiauto
+    Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    HDS029.104 not supported
     IF    '${MANUFACTURER}' == 'QEMU'
         Power On Into Heads Main Menu
         Enter Heads Recovery Shell
@@ -401,7 +413,7 @@ HDS011.104 Add GPG key to running BIOS and reflash (Heads)
         Detach Heads USB Image
         Power On Into Heads Main Menu
         ${keyring}=    Get Heads GPG Keyring
-        Should Contain    ${keyring}    ${HEADS_KEY1_FPR}
+        Should Contain    ${keyring}    ${HEADS_KEY1_FINGERPRINT}
     ELSE
         Execute Manual Step    [1/13] Plug the USB storage into DUT.
         Execute Manual Step    [2/13] Power on the DUT.
@@ -409,7 +421,8 @@ HDS011.104 Add GPG key to running BIOS and reflash (Heads)
         Execute Manual Step    [4/13] Select the Continue to the main menu option using the arrow keys and Enter.
         Execute Manual Step    [5/13] Select the Options --> option in the Heads boot menu.
         Execute Manual Step    [6/13] Select the GPG Options --> option in the HEADS Options submenu.
-        Execute Manual Step    [7/13] Select the Add GPG key to running BIOS and reflash option in the GPG Management Menu.
+        Execute Manual Step
+        ...    [7/13] Select the Add GPG key to running BIOS and reflash option in the GPG Management Menu.
         Execute Manual Step
         ...    [8/13] Choose Yes in the displayed GPG public key required window using the arrow keys and Enter.
         Execute Manual Step    [9/13] Choose GPG public key from the USB storage and press Enter.
@@ -417,7 +430,8 @@ HDS011.104 Add GPG key to running BIOS and reflash (Heads)
         Execute Manual Step    [11/13] Select the GPG Options --> option in the HEADS Options submenu.
         Execute Manual Step    [12/13] Select the List GPG keys in your keyring option in the GPG Management Menu.
         Execute Manual Step    [13/13] Note the results.
-        Execute Manual Step    [Expected result] The GPG Keyring window should contain information about the given GPG key.
+        Execute Manual Step
+        ...    [Expected result] The GPG Keyring window should contain information about the given GPG key.
     END
 
 HDS012.104 Add GPG key to standalone BIOS image and flash (Heads)
@@ -444,7 +458,7 @@ HDS012.104 Add GPG key to standalone BIOS image and flash (Heads)
         Power On Into Heads Main Menu
         ${keyring}=    Get Heads GPG Keyring
         # The key is added to the running keyring, written to the image
-        Should Contain    ${keyring}    ${HEADS_KEY2_FPR}
+        Should Contain    ${keyring}    ${HEADS_KEY2_FINGERPRINT}
     ELSE
         Execute Manual Step    [1/15] Plug the USB storage into DUT.
         Execute Manual Step    [2/15] Power on the DUT.
@@ -463,7 +477,8 @@ HDS012.104 Add GPG key to standalone BIOS image and flash (Heads)
         Execute Manual Step    [13/15] Select the GPG Options --> option in the HEADS Options submenu.
         Execute Manual Step    [14/15] Select the List GPG keys in your keyring option in the GPG Management Menu.
         Execute Manual Step    [15/15] Note the results.
-        Execute Manual Step    [Expected result] The GPG Keyring window should contain information about the given GPG key.
+        Execute Manual Step
+        ...    [Expected result] The GPG Keyring window should contain information about the given GPG key.
     END
 
 HDS013.104 Replace GPG key(s) in the current ROM and reflash (Heads)
@@ -483,8 +498,8 @@ HDS013.104 Replace GPG key(s) in the current ROM and reflash (Heads)
         Detach Heads USB Image
         Power On Into Heads Main Menu
         ${keyring}=    Get Heads GPG Keyring
-        Should Contain    ${keyring}    ${HEADS_KEY1_FPR}
-        Should Not Contain    ${keyring}    ${HEADS_KEY2_FPR}
+        Should Contain    ${keyring}    ${HEADS_KEY1_FINGERPRINT}
+        Should Not Contain    ${keyring}    ${HEADS_KEY2_FINGERPRINT}
     ELSE
         Execute Manual Step    [1/13] Plug the USB storage into DUT.
         Execute Manual Step    [2/13] Power on the DUT.
@@ -501,7 +516,8 @@ HDS013.104 Replace GPG key(s) in the current ROM and reflash (Heads)
         Execute Manual Step    [11/13] Select the GPG Options --> option in the HEADS Options submenu.
         Execute Manual Step    [12/13] Select the List GPG keys in your keyring option in the GPG Management Menu.
         Execute Manual Step    [13/13] Note the results.
-        Execute Manual Step    [Expected result] The GPG Keyring window should contain information about the given GPG key.
+        Execute Manual Step
+        ...    [Expected result] The GPG Keyring window should contain information about the given GPG key.
     END
 
 HDS014.104 List GPG keys in your keyring (Heads)
@@ -513,7 +529,7 @@ HDS014.104 List GPG keys in your keyring (Heads)
         ${keyring}=    Get Heads GPG Keyring
         Should Contain    ${keyring}    pubring
         # HDS013.104 left key 1 in the keyring
-        Should Contain    ${keyring}    ${HEADS_KEY1_FPR}
+        Should Contain    ${keyring}    ${HEADS_KEY1_FINGERPRINT}
     ELSE
         Execute Manual Step    [1/7] Power on the DUT.
         Execute Manual Step    [2/7] Wait for the Default boot menu appears.
@@ -523,7 +539,7 @@ HDS014.104 List GPG keys in your keyring (Heads)
         Execute Manual Step    [6/7] Select the List GPG keys in your keyring option in the GPG Management Menu.
         Execute Manual Step    [7/7] Note the results.
         Execute Manual Step
-        ...    [Expected result] The GPG Keyring window should contain information about the GPG key if any was added. The GPG Keyring window should be empty if no key has been added.
+        ...    [Expected result] The GPG Keyring window should contain information about the GPG key if any was added, or be empty if no key has been added.
     END
 
 HDS015.104 Export public GPG key to USB drive (Heads)
@@ -545,8 +561,8 @@ HDS015.104 Export public GPG key to USB drive (Heads)
         Should Contain    ${files}    public-key.asc
         Get File From Heads USB Image    ${HEADS_QEMU_WORKDIR}/usb-export.img
         ...    public-key.asc    ${HEADS_QEMU_WORKDIR}/exported.asc
-        ${fprs}=    Get GPG Key Fingerprints From File    ${HEADS_QEMU_WORKDIR}/exported.asc
-        Should Contain    ${fprs}    ${HEADS_KEY1_FPR}
+        ${fingerprints}=    Get GPG Key Fingerprints From File    ${HEADS_QEMU_WORKDIR}/exported.asc
+        Should Contain    ${fingerprints}    ${HEADS_KEY1_FINGERPRINT}
     ELSE
         Execute Manual Step    [1/8] Power on the DUT.
         Execute Manual Step    [2/8] Wait for the Default boot menu appears.
@@ -564,7 +580,9 @@ HDS015.104 Export public GPG key to USB drive (Heads)
 HDS016.104 Generate GPG keys manually on a USB security token (Heads)
     [Documentation]    Check whether GPG keys can be generated manually on a USB security token from Heads.
     [Tags]    semiauto
-    Skip If    '${MANUFACTURER}' == 'QEMU'    HDS016.104 gpg --card-edit runs only on the display, not on the serial console
+    Skip If
+    ...    '${MANUFACTURER}' == 'QEMU'
+    ...    HDS016.104 gpg --card-edit runs only on the display, not on the serial console
     Execute Manual Step    [1/13] Plug the USB Security Dongle into DUT.
     Execute Manual Step    [2/13] Power on the DUT.
     Execute Manual Step    [3/13] Wait for the Default boot menu appears.
@@ -600,8 +618,8 @@ HDS017.104 Clear GPG key(s) and reset all user settings (Heads)
         Wait For Heads Power Off
         Power On Into Heads Main Menu
         ${keyring}=    Get Heads GPG Keyring
-        Should Not Contain    ${keyring}    ${HEADS_KEY1_FPR}
-        Should Not Contain    ${keyring}    ${HEADS_KEY2_FPR}
+        Should Not Contain    ${keyring}    ${HEADS_KEY1_FINGERPRINT}
+        Should Not Contain    ${keyring}    ${HEADS_KEY2_FINGERPRINT}
     ELSE
         Execute Manual Step    [1/14] Power on the DUT.
         Execute Manual Step    [2/14] Wait for the Default boot menu appears.
