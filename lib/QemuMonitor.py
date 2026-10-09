@@ -95,23 +95,29 @@ class QemuMonitor:
     def query_status(self):
         """Return the VM run state, e.g. 'running', or 'shutdown' after the
         guest powered off when QEMU runs with -no-shutdown."""
-        # Read replies until our own: QMP may interleave asynchronous events
-        # (e.g. RESET, SHUTDOWN) with command replies.
+        # Read replies until our own, matched by id: QMP may interleave
+        # asynchronous events (e.g. RESET, SHUTDOWN) with command replies.
         sock = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
         sock.connect(self.socket_path)
         try:
             buf = b""
             for cmd in ("qmp_capabilities", "query-status"):
-                sock.sendall(json.dumps({"execute": cmd}).encode())
+                sock.sendall(json.dumps({"execute": cmd, "id": cmd}).encode())
                 while True:
                     while b"\n" not in buf:
-                        buf += sock.recv(8192)
+                        data = sock.recv(8192)
+                        if not data:
+                            raise RuntimeError("QEMU monitor closed the connection")
+                        buf += data
                     line, buf = buf.split(b"\n", 1)
                     msg = json.loads(line) if line.strip() else {}
-                    if "return" in msg or "error" in msg:
+                    logger.trace(f"QemuMonitor response: {msg}")
+                    if msg.get("id") == cmd and ("return" in msg or "error" in msg):
                         break
-            if "error" in msg:
-                raise RuntimeError(f"QEMU monitor error response: {msg['error']['desc']}")
+                if "error" in msg:
+                    raise RuntimeError(
+                        f"QEMU monitor error response: {msg['error']['desc']}"
+                    )
             return msg["return"]["status"]
         finally:
             sock.close()
