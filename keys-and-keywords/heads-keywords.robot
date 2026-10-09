@@ -326,8 +326,29 @@ Answer Heads Prompts Until
         IF    ${secret}    VAR    ${HEADS_TOTP_SECRET}=    ${secret}[-1]    scope=SUITE
         ${stopped}=    Run Keyword And Return Status    Should Match Regexp    ${out}    ${stop}
         IF    ${stopped}    RETURN    ${all}
+        # A prompt-like line inside a dialog (e.g. "│ TPM Owner Passphrase:"
+        # in the summary of the secrets) is not a prompt: read the dialog
+        ${last}=    Evaluate    $out.rsplit('\\n', 1)[-1].lstrip()
+        IF    $last.startswith('│')
+            ${rest}=    Read From Terminal Until    ┘
+            ${out}=    Catenate    SEPARATOR=    ${out}    ${rest}
+            ${all}=    Catenate    SEPARATOR=    ${all}    ${rest}
+        END
         ${tail}=    Get Substring    ${out}    -400
-        IF    'TPM Owner Passphrase' in $tail
+        IF    $out.rstrip().endswith('┘')
+            ${titles}=    Get Regexp Matches    ${out}    ┤\\s*([^├]*?)\\s*├    1
+            ${title}=    Set Variable If    ${titles}    ${titles}[-1]    ${EMPTY}
+            IF    'Heads Boot Menu' in $title
+                # The flow ended early, e.g. after an error message
+                ${before}=    Get Substring    ${all}    -6000
+                Fail    Back in the Heads main menu before "${stop}". Output before:\n${before}
+            END
+            IF    '${title}' != '${answered}'
+                Answer Heads Dialog    ${out}
+                VAR    ${answered}=    ${title}
+            END
+            CONTINUE
+        ELSE IF    'TPM Owner Passphrase' in $tail
             Sleep    0.5s
             Write Into Terminal    ${HEADS_TPM_PASS}
         ELSE IF    'User PIN' in $tail
@@ -346,12 +367,6 @@ Answer Heads Prompts Until
             Sleep    0.5s
             Write Bare Into Terminal    ${ENTER}
         ELSE
-            ${titles}=    Get Regexp Matches    ${out}    ┤\\s*([^├]*?)\\s*├    1
-            ${title}=    Set Variable If    ${titles}    ${titles}[-1]    ${EMPTY}
-            IF    '${title}' != '${answered}'
-                Answer Heads Dialog    ${out}
-                VAR    ${answered}=    ${title}
-            END
             CONTINUE
         END
         VAR    ${answered}=    ${EMPTY}
@@ -368,6 +383,9 @@ Answer Heads Dialog
         Choose Heads Option    m
     ELSE IF    '<Ok>' in $dialog and '<Cancel>' not in $dialog and '<Yes>' not in $dialog
         # Message box, e.g. "touch the dongle when requested"
+        ${box}=    Get Regexp Matches    ${dialog}    ┌[^┌]*$
+        ${box}=    Set Variable If    ${box}    ${box}[-1]    ${dialog}
+        Log    Dismissing Heads message:\n${box}    WARN
         Sleep    0.5s
         Focus Heads Dialog Buttons    ${dialog}
         Write Bare Into Terminal    ${ENTER}
