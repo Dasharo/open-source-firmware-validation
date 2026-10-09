@@ -246,6 +246,26 @@ if [[ "${FW_TYPE}" == "heads" ]]; then
       QEMU_PARAMS_BASE+=" -device canokey,bus=usb.0,file=${CANOKEY_FILE}"
       ;;
     nk3)
+      # QEMU only warns when it cannot open the device and boots without
+      # it, so check that it is attached and accessible first.
+      nk3_dev=""
+      for dev in /sys/bus/usb/devices/*; do
+        [[ "$(cat "$dev/idVendor" 2>/dev/null)" == "20a0" ]] || continue
+        [[ "$(cat "$dev/idProduct" 2>/dev/null)" == "42b2" ]] || continue
+        nk3_dev=$(printf "/dev/bus/usb/%03d/%03d" \
+          "$(cat "$dev/busnum")" "$(cat "$dev/devnum")")
+        break
+      done
+      if [[ -z "$nk3_dev" ]]; then
+        echo "No Nitrokey 3 (20a0:42b2) attached; start one with Heads'"
+        echo "bin/qemu-nk3-usbip.sh, or use HEADS_USB_TOKEN=none"
+        exit 1
+      fi
+      if [[ ! -r "$nk3_dev" || ! -w "$nk3_dev" ]]; then
+        echo "No access to the Nitrokey 3 at $nk3_dev, e.g.:"
+        echo "  sudo chown $(id -un) $nk3_dev"
+        exit 1
+      fi
       QEMU_PARAMS_BASE+=" -device usb-host,bus=usb.0,vendorid=0x20a0,productid=0x42b2"
       ;;
     none)

@@ -100,7 +100,9 @@ that need DTS/DES, Qubes OS or a build machine are skipped.
   Heads reflashes it (GPG keys, settings), so give QEMU a copy.
 * A USB security dongle for OEM Factory Reset, TOTP/HOTP and TPM reset
   (HDS001, HDS002, HDS018, HDS019): the emulated Nitrokey 3 from Heads'
-  `bin/qemu-nk3-usbip.sh`, attached to the host before QEMU starts. Without
+  `bin/qemu-nk3-usbip.sh`, attached to the host before QEMU starts, with its
+  `/dev/bus/usb` node writable by the user running QEMU (`qemu-run.sh` checks
+  both, as QEMU itself just boots without the device). Without
   one, use `HEADS_USB_TOKEN=none` and `-v heads_usb_token:none`; those tests
   are skipped.
 * `swtpm`, `sfdisk`, `mkfs.vfat`, `mtools` and `gpg` on the host: the GPG
