@@ -168,7 +168,16 @@ if [ $# -ne 2 ]; then
   exit 1
 fi
 
-QEMU_PARAMS_BASE="-machine q35,smm=on -cpu Skylake-Client-noTSX-IBRS \
+QEMU_CPU="Skylake-Client-noTSX-IBRS"
+QEMU_ACCEL=""
+if [[ -c /dev/kvm ]]; then
+  # KVM maps guest physical addresses only within the host CPU's address width.
+  # Report that width to the guest, so firmware places 64-bit PCI BARs within it.
+  QEMU_CPU+=",host-phys-bits=on"
+  QEMU_ACCEL="-enable-kvm"
+fi
+
+QEMU_PARAMS_BASE="-machine q35,smm=on -cpu ${QEMU_CPU} ${QEMU_ACCEL} \
   -global driver=cfi.pflash01,property=secure,value=off \
   -drive if=pflash,format=raw,unit=0,file=${QEMU_FW_FILE} \
   -global ICH9-LPC.disable_s3=1 \
@@ -182,10 +191,6 @@ QEMU_PARAMS_BASE="-machine q35,smm=on -cpu Skylake-Client-noTSX-IBRS \
   -device tpm-tis,tpmdev=tpm0 \
   -smp 2 \
   -mem-prealloc"
-
-if [[ -c /dev/kvm ]]; then
-  QEMU_PARAMS_BASE+=" -enable-kvm"
-fi
 
 QEMU_PARAMS_OS="-object rng-random,id=rng0,filename=/dev/urandom \
   -device virtio-rng-pci,max-bytes=1024,period=1000 \
