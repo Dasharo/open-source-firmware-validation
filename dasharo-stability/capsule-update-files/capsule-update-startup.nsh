@@ -46,12 +46,11 @@ endif
 # Step 0 - launch capsule update
 if "%STEP%" == "0" then
     if "%EC_UPDATE%" == "1" then
-        %CAPSULE_FS%:CapsuleApp.efi "%CAPSULE_WORKSPACE%\%CAPSULE_FILE_EC%" "%CAPSULE_WORKSPACE%\%CAPSULE_FILE%" -NR
-#        if "%ONDISK%" == "1" then
-#            %CAPSULE_FS%:CapsuleApp.efi "%CAPSULE_WORKSPACE%\%CAPSULE_FILE_EC%" "%CAPSULE_WORKSPACE%\%CAPSULE_FILE%" -NR -OD
-#        else
-#            %CAPSULE_FS%:CapsuleApp.efi "%CAPSULE_WORKSPACE%\%CAPSULE_FILE_EC%" "%CAPSULE_WORKSPACE%\%CAPSULE_FILE%" -NR
-#        endif
+        if "%ONDISK%" == "1" then
+            %CAPSULE_FS%:CapsuleApp.efi "%CAPSULE_WORKSPACE%\%CAPSULE_FILE_EC%" "%CAPSULE_WORKSPACE%\%CAPSULE_FILE%" -NR -OD
+        else
+            %CAPSULE_FS%:CapsuleApp.efi "%CAPSULE_WORKSPACE%\%CAPSULE_FILE_EC%" "%CAPSULE_WORKSPACE%\%CAPSULE_FILE%" -NR
+        endif
     else
         if "%ONDISK%" == "1" then
             %CAPSULE_FS%:CapsuleApp.efi "%CAPSULE_WORKSPACE%\%CAPSULE_FILE%" -NR -OD
