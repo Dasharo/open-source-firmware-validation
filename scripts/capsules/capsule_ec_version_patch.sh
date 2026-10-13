@@ -24,7 +24,6 @@ fi
 
 capsule=$(realpath "$1")
 ec_version=$2
-capsule_name=$(basename "$capsule")
 output=$(realpath -m "ec_ver.cap")
 
 if ! [[ "$ec_version" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}_ ]]; then
@@ -79,7 +78,7 @@ EOF
 }
 
 # Take the JSON produced by --decode, add signing certificates and encode it.
-reencode() {
+re_encode() {
     local decoded_json="$1"
     local out_cap="$2"
     local json="${decoded_json%.json}_new.json"
@@ -103,16 +102,16 @@ if is_capsule "$outer_payload"; then
     echo "Capsule V2 mode (nested capsules)"
     $GEN_CAPSULE --decode "$outer_payload" --output "$work/inner"
     patch_ec_version "$(jq -r '.Payloads[0].Payload' "$work/inner.json")"
-    reencode "$work/inner.json" "$work/inner_new.cap"
+    re_encode "$work/inner.json" "$work/inner_new.cap"
 
     # Point the outer capsule at the rebuilt inner one
     jq --arg p "$work/inner_new.cap" '.Payloads[0].Payload = $p' \
         "$work/outer.json" > "$work/outer_patched.json"
-    reencode "$work/outer_patched.json" "$output"
+    re_encode "$work/outer_patched.json" "$output"
 else
     echo "Legacy capsule mode"
     patch_ec_version "$outer_payload"
-    reencode "$work/outer.json" "$output"
+    re_encode "$work/outer.json" "$output"
 fi
 
 echo "Output file: $output"
