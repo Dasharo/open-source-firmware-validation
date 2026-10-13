@@ -37,7 +37,7 @@ sensors_prepare_commands:
 
 cpu_temperature_measurement:
   gather: sensors 2>/dev/null
-  filter: awk -F '[+°]' '/Package id 0:/ {print $2}'
+  filter: awk -F '[+°]' '/^(Package id 0|Tctl):/ {print $2; exit}'
   process: cut -d. -f1
 
 # absent = unsupported. Uncomment and fill in to enable.
