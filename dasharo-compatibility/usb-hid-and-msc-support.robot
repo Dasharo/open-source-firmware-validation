@@ -154,9 +154,10 @@ USB003.205 Upload 1GB file on USB storage (XCP-NG)
     Execute Linux Command    mount ${path_to_usb} /mnt
     Execute Linux Command    yes | cp -f test_file.txt /mnt    120
     Execute Linux Command    sync    120
-    Check If Files Are Identical In Linux    test_file.txt    /mnt/test_file.txt
+    ${result}=    Check If Files Are Identical In Linux    test_file.txt    /mnt/test_file.txt
     Execute Linux Command    yes | rm test_file.txt /mnt/test_file.txt
     Execute Linux Command    sync && umount ${path_to_usb}    120
+    Should Be True    ${result}
 
 USB001.301 USB devices detected by OS (Windows)
     [Documentation]    Check whether the external USB devices are detected
@@ -284,7 +285,8 @@ Upload 1GB File On USB Storage
     Execute Linux Command    mount ${path_to_usb} /mnt
     Execute Linux Command    yes | cp -f test_file.txt /mnt    120
     Execute Linux Command    sync    120
-    Check If Files Are Identical In Linux    test_file.txt    /mnt/test_file.txt
+    ${result}=    Check If Files Are Identical In Linux    test_file.txt    /mnt/test_file.txt
     Execute Linux Command    yes | rm test_file.txt /mnt/test_file.txt
     Execute Linux Command    sync && umount ${path_to_usb}    120
     Exit From Root User
+    Should Be True    ${result}
