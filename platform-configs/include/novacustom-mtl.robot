@@ -47,3 +47,4 @@ ${CAPSULE_UPDATE_SUPPORT}=                  ${TRUE}
 ${USB_MODEL}=                               SanDisk
 
 ${INTEL_CBNT_BOOTGUARD_FUSING_SUPPORT}=     ${TRUE}
+${RENDER_STANDBY_SUPPORT}=                  ${TRUE}

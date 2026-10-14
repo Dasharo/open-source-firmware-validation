@@ -272,6 +272,7 @@ ${INTEL_CBNT_BOOTGUARD_FUSING_SUPPORT}=             ${FALSE}
 ${INTEL_CBNT_BOOTGUARD_FUSED}=                      ${FALSE}
 ${FIRMWARE_UPDATE_MODE_SUPPORT}=                    ${FALSE}
 ${STM_SUPPORT}=                                     ${FALSE}
+${RENDER_STANDBY_SUPPORT}=                          ${FALSE}
 # TXT tests
 ${TXT_TESTS_SUPPORT}=                               ${FALSE}
 ${TXT_SINIT_ACM_VERSION}=                           ${TBD}
