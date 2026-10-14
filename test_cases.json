@@ -5363,6 +5363,27 @@
   },
   {
     "doc": {
+      "_id": "RSB001.201",
+      "name": "Render Standby option is applied by firmware (Ubuntu)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "RSB002.201",
+      "name": "Render Standby can be disabled (Ubuntu)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "RSB003.201",
+      "name": "Render Standby can be enabled (Ubuntu)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
       "_id": "RTD001.101",
       "name": "F9 resets Enable USB stack option to default (EDK2 UEFI)",
       "module": "Dasharo Compatibility"
