@@ -24,6 +24,11 @@ ARG TASK_VERSION=3.45.4
 RUN curl -fsSL "https://github.com/go-task/task/releases/download/v${TASK_VERSION}/task_linux_amd64.tar.gz" \
       | tar -xz -C /usr/local/bin task
 
+# Docker CLI only (no daemon): release-image pipeline talks to the host socket
+ARG DOCKER_VERSION=28.3.3
+RUN curl -fsSL "https://download.docker.com/linux/static/stable/x86_64/docker-${DOCKER_VERSION}.tgz" \
+      | tar -xz -C /usr/local/bin --strip-components=1 docker/docker
+
 ENV PRE_COMMIT_HOME=/opt/pre-commit-cache
 
 RUN git config --system --add safe.directory '*'

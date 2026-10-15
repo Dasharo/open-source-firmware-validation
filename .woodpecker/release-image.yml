@@ -25,27 +25,23 @@ clone:
 steps:
   # osfv-qemu-ci is built FROM osfv-ci:latest, so the base goes first
   - name: release-osfv-ci
-    image: docker:cli
+    image: git.3mdeb.com/dasharo/osfv-ci:latest
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     environment:
       REGISTRY_TOKEN:
         from_secret: OSFV_PACKAGER_TOKEN
     commands:
-      - apk add --no-cache curl git
-      - curl -fsSL "https://github.com/go-task/task/releases/download/v3.45.4/task_linux_amd64.tar.gz" | tar -xz -C /usr/local/bin task
       - echo "$${REGISTRY_TOKEN}" | docker login git.3mdeb.com -u builder --password-stdin
       - task --taskfile .ci/Taskfile.yml ci:image:precommit:release
 
   - name: release-osfv-qemu-ci
-    image: docker:cli
+    image: git.3mdeb.com/dasharo/osfv-ci:latest
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     environment:
       REGISTRY_TOKEN:
         from_secret: OSFV_PACKAGER_TOKEN
     commands:
-      - apk add --no-cache curl git
-      - curl -fsSL "https://github.com/go-task/task/releases/download/v3.45.4/task_linux_amd64.tar.gz" | tar -xz -C /usr/local/bin task
       - echo "$${REGISTRY_TOKEN}" | docker login git.3mdeb.com -u builder --password-stdin
       - task --taskfile .ci/Taskfile.yml ci:image:qemu:release
