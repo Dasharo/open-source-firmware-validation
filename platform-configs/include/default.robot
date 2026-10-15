@@ -217,6 +217,7 @@ ${WATCHDOG_SUPPORT}=                                ${FALSE}
 # Bifurcation
 ${PCIE_BIFURCATION_SUPPORT}=                        ${FALSE}
 @{PCIE_SLOTS}=                                      ${TBD}
+${PCIE_BIFURCATION_SUPPORT_X4}=                     ${FALSE}
 # Wake-on-LAN test suspends the system (S3) and wakes it with a magic packet;
 # only enable on platforms that actually support suspend + WoL.
 ${WAKE_ON_LAN_SUPPORT}=                             ${FALSE}

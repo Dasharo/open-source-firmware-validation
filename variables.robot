@@ -298,6 +298,12 @@ ${OS_UBUNTU}=               ubuntu
 ...                         platform_vendor=ASRock
 ...                         sonoff_ip=192.168.10.250
 
+# 3mdeb Protectli V2210 ------------------------------------------------------
+&{RTE78}=                   ip=192.168.10.102
+...                         platform=protectli-v2210
+...                         platform_vendor=protectli
+...                         sonoff_ip=192.168.10.242
+
 @{RTE_LIST}=                &{RTE05}    &{RTE06}    &{RTE07}    &{RTE08}    &{RTE09}
 ...                         &{RTE10}    &{RTE11}    &{RTE12}    &{RTE13}    &{RTE14}
 ...                         &{RTE15}    &{RTE16}    &{RTE17}    &{RTE18}    &{RTE19}
@@ -312,7 +318,7 @@ ${OS_UBUNTU}=               ubuntu
 ...                         &{RTE60}    &{RTE61}    &{RTE62}    &{RTE63}    &{RTE64}
 ...                         &{RTE65}    &{RTE66}    &{RTE67}    &{RTE68}    &{RTE69}
 ...                         &{RTE70}    &{RTE71}    &{RTE72}    &{RTE73}    &{RTE74}
-...                         &{RTE76}    &{RTE77}
+...                         &{RTE76}    &{RTE77}    &{RTE78}
 
 # hardware database:
 # -----------------------------------------------------------------------------

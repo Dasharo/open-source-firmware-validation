@@ -4999,6 +4999,48 @@
   },
   {
     "doc": {
+      "_id": "PEX012.201",
+      "name": "PCI Express Bifurcation x4 (Ubuntu)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "PEX013.201",
+      "name": "PCI Express Bifurcation Card Detection x4 (Ubuntu)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "PEX014.201",
+      "name": "PCI Express Bifurcation x2x2 (Ubuntu)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "PEX015.201",
+      "name": "PCI Express Bifurcation Card Detection x2x2 (Ubuntu)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "PEX016.201",
+      "name": "PCI Express Bifurcation x1x1x1x1 (Ubuntu)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "PEX017.201",
+      "name": "PCI Express Bifurcation Card Detection x1x1x1x1 (Ubuntu)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
       "_id": "PFS001.502",
       "name": "Install operating system on disk (pfSense)",
       "module": "Dasharo Compatibility"
