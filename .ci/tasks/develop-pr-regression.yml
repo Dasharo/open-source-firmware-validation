@@ -36,6 +36,9 @@ tasks:
   run:container:
     desc: Run the PR regression on $DEVICE inside {{.REGRESSION_IMAGE}}
     dir: '{{.REPO_ROOT}}'
+    vars:
+      DEVICE_ABS:
+        sh: readlink -f "{{.DEVICE}}"
     cmds:
       - task: test-data:init
       # passing ssh agent because develop-pr-regression pulls the remote
@@ -43,7 +46,7 @@ tasks:
         vars:
           IMAGE: '{{.REGRESSION_IMAGE}}'
           DOCKER_ARGS: --network host
-          ENV: 'DEVICE={{.DEVICE}},BASE_BRANCH,SSH_AUTH_SOCK=/ssh-agent'
-          VOLUMES: '$SSH_AUTH_SOCK:/ssh-agent,$HOME/.ssh/known_hosts:/root/.ssh/known_hosts:ro,{{.REPO_ROOT}}:/workspace,$HOME/.osfv:/root/.osfv:ro'
+          ENV: 'DEVICE={{.DEVICE_ABS}},BASE_BRANCH,SSH_AUTH_SOCK=/ssh-agent'
+          VOLUMES: '$SSH_AUTH_SOCK:/ssh-agent,$HOME/.ssh/known_hosts:/root/.ssh/known_hosts:ro,{{.REPO_ROOT}}:/workspace,$HOME/.osfv:/root/.osfv:ro,{{.DEVICE_ABS}}:{{.DEVICE_ABS}}:ro'
           WORKDIR: /workspace
           COMMAND: bash .ci/develop-pr-regression.sh

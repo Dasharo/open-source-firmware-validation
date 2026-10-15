@@ -2,20 +2,20 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-msi-pro-z690-a-wifi-ddr4_00039
+scripts/ci/regression-scope/configs/devices/msi-pro-z690-a-wifi-ddr4_00039.json
 
-novacustom-nuc_box-125H_00265
-
-# desk setup
-# novacustom-nuc_box-155H_00254
-
-##novacustom-v540tu_00191
+scripts/ci/regression-scope/configs/devices/novacustom-nuc_box-125H_00265.json
 
 # desk setup
-# novacustom-v540tnd_00266
+# scripts/ci/regression-scope/configs/devices/novacustom-nuc_box-155H_00254.json
 
-pcengines-apu3_00252
+## scripts/ci/regression-scope/configs/devices/novacustom-v540tu_00191.json
 
-protectli-vp6650_00002
+# desk setup
+# scripts/ci/regression-scope/configs/devices/novacustom-v540tnd_00266.json
 
-msi-pro-b850-p-wifi_00283
+scripts/ci/regression-scope/configs/devices/pcengines-apu3_00252.json
+
+scripts/ci/regression-scope/configs/devices/protectli-vp6650_00002.json
+
+scripts/ci/regression-scope/configs/devices/msi-pro-b850-p-wifi_00283.json

@@ -6,10 +6,10 @@
 set -euo pipefail
 
 # One run tests one device, so that every device is scheduled, reported and
-# retried on its own. DEVICE is one of the
-# scripts/ci/regression-scope/configs/devices/*.json entries.
+# retried on its own. DEVICE is the path of a device config file, e.g. one of
+# scripts/ci/regression-scope/configs/devices/*.json.
 
-export DEVICE="${DEVICE:?DEVICE is not set, it has to name the device to test}"
+export DEVICE="${DEVICE:?DEVICE is not set, it has to be the path of a device config file}"
 BASE_BRANCH="${BASE_BRANCH:-develop}"
 
 export ALLOW_DIRTY=1

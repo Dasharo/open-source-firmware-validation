@@ -22,14 +22,8 @@ labels:
 # device failing does not hide the results of the others
 matrix:
   DEVICE:
-    - msi-pro-z690-a-wifi-ddr4_00039
-    # - novacustom-nuc_box-125H_00245
-    # - novacustom-nuc_box-155H_00254
-    # - novacustom-v540tnd_00266
-    # - novacustom-v540tu_00191
-    - pcengines-apu3_00252
-    # - protectli-vp2410_00052
-    # - protectli-vp6650_00002
+    - scripts/ci/regression-scope/configs/devices/msi-pro-z690-a-wifi-ddr4_00039.json
+    - scripts/ci/regression-scope/configs/devices/pcengines-apu3_00252.json
 
 concurrency:
   limit: 1
@@ -60,7 +54,7 @@ steps:
       - mkdir -p /srv/nfs/roms
       - mount -t nfs -o nolock,ro "$${NFS_IP}":/srv/nfs/roms /srv/nfs/roms
       - mountpoint -q /srv/nfs/roms
-      - TASK_X_REMOTE_TASKFILES=1 task --yes --taskfile .ci/Taskfile.yml ci:develop-pr-regression DEVICE="$DEVICE"
+      - TASK_X_REMOTE_TASKFILES=1 task --yes --taskfile .ci/Taskfile.yml ci:develop-pr-regression DEVICE="$${DEVICE}"
 
   - name: check-in # make sure its checked in even if the task fails
     image: git.3mdeb.com/dasharo/osfv-qemu-ci:latest

@@ -4,7 +4,6 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-import glob
 import json
 import os
 import subprocess
@@ -48,28 +47,14 @@ def _snipeit_env_vars(asset_id):
     }
 
 
-def _load_device_env_vars(name, devices_dir):
-    candidates = []
-    if os.path.isfile(name):
-        candidates = [name]
-    else:
-        exact = os.path.join(devices_dir, f"{name}.json")
-        if os.path.isfile(exact):
-            candidates = [exact]
-        else:
-            candidates = glob.glob(os.path.join(devices_dir, f"{name}_*.json"))
+def _load_device_env_vars(device_file):
+    if not os.path.isfile(device_file):
+        raise ValueError(f"Device config file '{device_file}' does not exist")
 
-    if len(candidates) != 1:
-        raise ValueError(
-            f"Device '{name}' matched {len(candidates)} files: {candidates}"
-        )
-
-    with open(candidates[0]) as f:
+    with open(device_file) as f:
         device_cfg = json.load(f)
     if "env_vars" not in device_cfg or not isinstance(device_cfg["env_vars"], dict):
-        raise ValueError(
-            f"Device file '{candidates[0]}' must contain an 'env_vars' dict"
-        )
+        raise ValueError(f"Device file '{device_file}' must contain an 'env_vars' dict")
     env_vars = dict(device_cfg["env_vars"])
     asset_id = env_vars.get("ASSET_ID")
     if asset_id and env_vars.get("SNIPEIT_NO") != "true":
@@ -83,7 +68,7 @@ def _load_device_env_vars(name, devices_dir):
 
     # on stderr, stdout carries the commands the caller parses
     print(
-        f"Device '{name}' resolved from {candidates[0]}:",
+        f"Device config {device_file}:",
         json.dumps(env_vars, indent=4, sort_keys=True),
         sep="\n",
         file=sys.stderr,
@@ -126,23 +111,19 @@ class CLI:
     def __init__(
         self,
         rules_file="scripts/ci/regression-scope/configs/pr-regression-rules.json",
-        devices_dir="scripts/ci/regression-scope/configs/devices",
         override_tests_list=None,
         compare_to="HEAD",
     ):
         self.compare_to = compare_to
         self.override_tests_list = override_tests_list
         self.rules_file = rules_file
-        self.devices_dir = devices_dir
         if override_tests_list is None:
             self.get_changed_files = lambda: get_changed_files(compare_to)
         else:
             self.get_changed_files = lambda: get_files_from_list(override_tests_list)
 
-    def _prepare_parser(self, device_name):
-        device_env = (
-            _load_device_env_vars(device_name, self.devices_dir) if device_name else {}
-        )
+    def _prepare_parser(self, device_file):
+        device_env = _load_device_env_vars(device_file) if device_file else {}
         with open(self.rules_file) as rules_file:
             rules = json.load(rules_file)["rules"]
         changed_files = self.get_changed_files()
@@ -150,18 +131,18 @@ class CLI:
         parser.parse()
         return parser
 
-    def filenames(self, device_name=None):
+    def filenames(self, device_file=None):
         """
         Print the filenames of test suites that are affected by the changes
         """
-        parser = self._prepare_parser(device_name)
+        parser = self._prepare_parser(device_file)
         print(" ".join(parser.files()))
 
-    def commands(self, device_name=None):
+    def commands(self, device_file=None):
         """
         Print the commands that should be executed to test the changes
         """
-        parser = self._prepare_parser(device_name)
+        parser = self._prepare_parser(device_file)
         commands = parser.commands()
         if not commands:
             return
@@ -171,11 +152,11 @@ class CLI:
         for command in [prepare] + commands:
             print(" ".join(command))
 
-    def robot_args(self, device_name=None):
+    def robot_args(self, device_file=None):
         """
         Print the arguments that should be passed to the run.sh robot wrapper.
         """
-        parser = self._prepare_parser(device_name)
+        parser = self._prepare_parser(device_file)
         print(" ".join(parser.wrapper_args()))
 
 

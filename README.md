@@ -509,8 +509,13 @@ them:
 
 ```bash
 task --taskfile .ci/Taskfile.yml stability:device \
-  DEVICE=pcengines-apu3_00252 RUN_LOGS_DIR=/tmp/logs
+  DEVICE=scripts/ci/regression-scope/configs/devices/pcengines-apu3_00252.json \
+  RUN_LOGS_DIR=/tmp/logs
 ```
+
+`DEVICE` is the path of a device config file. A few examples are available
+at `scripts/ci/regression-scope/configs/devices/`. Paths under of `fw_files` are
+resolved against `OSFV_ROMS_DIR` unless they are absolute.
 
 ### osfv_stability_reports.py
 

@@ -152,10 +152,7 @@ def main():
 
     device = os.environ.get("DEVICE")
     if not device:
-        print(
-            "DEVICE is not set, it has to name a device from "
-            "scripts/ci/regression-scope/configs/devices"
-        )
+        print("DEVICE is not set, it has to be the path of a device config file")
         return 1
     dprint("Device:", device)
 
