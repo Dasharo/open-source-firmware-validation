@@ -9,14 +9,14 @@
 # D2/bonus stage checks (bootblock/romstage/ramstage entered) live
 # elsewhere:
 # - D1: not an OSFV test at all - a plain build check outside robot
-#   (examples/rdv3-coreboot-linuxboot/Taskfile.yml's `gate:d1`), since it
-#   needs no hardware or DUT connection, only a coreboot checkout to build.
+#    (examples/rdv3-coreboot-linuxboot/Taskfile.yml's `gate:d1`), since it
+#    needs no hardware or DUT connection, only a coreboot checkout to build.
 # - D2 and stage checkpoints: coreboot-base-port.robot (CBP00N.107)
 #
 # Run against platform-configs/arm-rdv3-fvp.robot, e.g.:
-#   robot -v snipeit:no -v config:arm-rdv3-fvp \
-#       -v rte_ip:127.0.0.1 -v benchctl_fvp_model:/path/to/FVP_RD_V3 \
-#       -t "LBB002*" dasharo-compatibility/rdv3-linuxboot-bringup.robot
+#    robot -v snipeit:no -v config:arm-rdv3-fvp \
+#    -v rte_ip:127.0.0.1 -v benchctl_fvp_model:/path/to/FVP_RD_V3 \
+#    -t "LBB002*" dasharo-compatibility/rdv3-linuxboot-bringup.robot
 #
 # LBBR: test cases below tagged `lbbr` check against LBBR (LinuxBoot Base
 # Boot Requirements, part of the Arm Base Boot Requirements family -
@@ -57,24 +57,24 @@ Default Tags        automated
 *** Variables ***
 # u-root's default shell prompt varies by build (elvish, or a custom uinit
 # prompt); override with -v uroot_prompt:... once known for this build.
-${UROOT_PROMPT}=                    uroot
+${UROOT_PROMPT}=                uroot
 # TODO: needs the fvp driver (benchctl/platform/fvp.go) to support attaching
 # a disk image (virtio-blk or AHCI) - it does not yet as of writing. Override
 # with -v target_os_disk_image:<path> once it does.
-${TARGET_OS_DISK_IMAGE}=            ${EMPTY}
+${TARGET_OS_DISK_IMAGE}=        ${EMPTY}
 # The login/shell prompt string the kexec'd target OS presents.
-${TARGET_OS_LOGIN_PROMPT}=          login:
+${TARGET_OS_LOGIN_PROMPT}=      login:
 # Debian (env id 208, see ../os-config/environment-test-ids.py and
 # ../os-config/208-credentials.py) - the same Debian 12 cloud image
 # examples/rdv3-coreboot-linuxboot/kb/rdv3.md's D6 section documents, and
 # the same env id examples/rdv3-coreboot-linuxboot/Taskfile.yml's E4
 # (TARGET_OS_ROOT_PASSWORD) prepares a login for. Both need the same
 # `virt-customize --root-password` prep step run once against the image.
-${TARGET_OS_ENV_ID}=                208
+${TARGET_OS_ENV_ID}=            208
 
 
 *** Test Cases ***
-LBB002.107 Ramstage hands off to the LinuxBoot payload
+LBB002.107 Ramstage hands off to the LinuxBoot payload (LinuxBoot)
     [Documentation]    D3: checks that ramstage completes device/table setup
     ...    and jumps to the payload, by looking for the first Linux kernel
     ...    boot lines on the console - proof that coreboot's payload-loading
@@ -86,7 +86,7 @@ LBB002.107 Ramstage hands off to the LinuxBoot payload
     Set DUT Response Timeout    300s
     Read From Terminal Until Regexp    Linux version|Booting Linux on physical CPU
 
-LBB003.107 LinuxBoot reaches a u-root shell
+LBB003.107 LinuxBoot reaches a u-root shell (LinuxBoot)
     [Documentation]    D4: checks that the kernel finishes boot, mounts the
     ...    initramfs, and u-root's shell prompt appears - mirrors the root
     ...    README's own example milestone ("a U-Boot prompt appears") and
@@ -98,7 +98,7 @@ LBB003.107 LinuxBoot reaches a u-root shell
     Set DUT Response Timeout    300s
     Read From Terminal Until Regexp    ${UROOT_PROMPT}
 
-LBB005.107 kexec into a lightweight target OS
+LBB005.107 kexec into a lightweight target OS (LinuxBoot)
     [Documentation]    D6: the "full image" milestone, and this ladder's
     ...    central LBBR conformance signal. u-root's kexec/localboot finds
     ...    and boots a real, stock, unmodified OS (a Debian 12 cloud image
@@ -133,9 +133,13 @@ LBB005.107 kexec into a lightweight target OS
     Login To Linux
     ${acpi}=    Execute Command In Terminal
     ...    test -s /sys/firmware/acpi/tables/DSDT && echo present || echo missing
-    Should Contain    ${acpi}    present
+    Should Contain
+    ...    ${acpi}
+    ...    present
     ...    msg=DEN0044 §9.1.1 requires full ACPI (BBR section 7) conformance - the final kexec'd kernel found no DSDT table
     ${smbios}=    Execute Command In Terminal
     ...    test -s /sys/firmware/dmi/tables/DMI && echo present || echo missing
-    Should Contain    ${smbios}    present
+    Should Contain
+    ...    ${smbios}
+    ...    present
     ...    msg=DEN0044 §9.1.2 requires full SMBIOS (BBR section 8) conformance - the final kexec'd kernel found no DMI table

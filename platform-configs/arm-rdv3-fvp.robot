@@ -31,9 +31,9 @@
 # takes once, not something every test case repeats.
 #
 # Invoke with:
-#   robot -v snipeit:no -v config:arm-rdv3-fvp -v rte_ip:127.0.0.1 \
-#       -v benchctl_fvp_model:/path/to/FVP_RD_V3 \
-#       -v benchctl_fvp_workdir:/path/to/a/workdir <suite>.robot
+#    robot -v snipeit:no -v config:arm-rdv3-fvp -v rte_ip:127.0.0.1 \
+#    -v benchctl_fvp_model:/path/to/FVP_RD_V3 \
+#    -v benchctl_fvp_workdir:/path/to/a/workdir <suite>.robot
 # 127.0.0.1 is already registered as RTE48 in variables.robot, shared with
 # qemu.robot - no new hardware-inventory entry is needed for a virtual
 # platform. Neither ${BENCHCTL_FVP_MODEL} nor ${BENCHCTL_FVP_WORKDIR} has a
@@ -47,16 +47,15 @@ Resource    ../lib/benchctl.robot
 
 
 *** Variables ***
-${INITIAL_DUT_CONNECTION_METHOD}=      Telnet
-${DUT_CONNECTION_METHOD}=              ${INITIAL_DUT_CONNECTION_METHOD}
-${RTE_S2_N_PORT}=                      6000
-${MANUFACTURER}=                       ARM
-${POWER_CTRL}=                         benchctl
-${FLASHING_METHOD}=                    benchctl
+${INITIAL_DUT_CONNECTION_METHOD}=       Telnet
+${DUT_CONNECTION_METHOD}=               ${INITIAL_DUT_CONNECTION_METHOD}
+${RTE_S2_N_PORT}=                       6000
+${MANUFACTURER}=                        ARM
+${POWER_CTRL}=                          benchctl
+${FLASHING_METHOD}=                     benchctl
 
-
-${BENCHCTL_PLATFORM}=                  fvp
-${BENCHCTL_HOST}=                      localhost
+${BENCHCTL_PLATFORM}=                   fvp
+${BENCHCTL_HOST}=                       localhost
 # Neither the model binary path nor the workdir (pidfile, logs, recorded
 # flash image) is set here: both are deployment-specific, so both come from
 # the command line, e.g. `-v benchctl_fvp_model:/path/to/FVP_RD_V3
@@ -65,26 +64,25 @@ ${BENCHCTL_HOST}=                      localhost
 # LinuxBoot payload: drive the firmware-specific boot flow via the LinuxBoot
 # payload library instead of the default EDK2/Tianocore one, same as
 # asrock-turind8ud-linuxboot.robot.
-${PAYLOAD}=                            linuxboot
-${PAYLOAD_LIB}=                        payload-lib_linuxboot
-${TESTS_IN_LINUXBOOT_SUPPORT}=         ${TRUE}
-${TESTS_IN_FIRMWARE_SUPPORT}=          ${TRUE}
-${TESTS_IN_UBUNTU_SUPPORT}=            ${FALSE}
-${DUT_HAS_CMOS_RESET}=                 ${FALSE}
-${DUT_HAS_POWER_BUTTON}=               ${FALSE}
+${PAYLOAD}=                             linuxboot
+${PAYLOAD_LIB}=                         payload-lib_linuxboot
+${TESTS_IN_LINUXBOOT_SUPPORT}=          ${TRUE}
+${TESTS_IN_FIRMWARE_SUPPORT}=           ${TRUE}
+${TESTS_IN_UBUNTU_SUPPORT}=             ${FALSE}
+${DUT_HAS_CMOS_RESET}=                  ${FALSE}
+${DUT_HAS_POWER_BUTTON}=                ${FALSE}
 
-
-${BASE_PORT_BOOTBLOCK_SUPPORT}=        ${TRUE}
-${BASE_PORT_ROMSTAGE_SUPPORT}=         ${TRUE}    # TODO: confirm this arm64 target has a distinct romstage
-${BASE_PORT_POSTCAR_SUPPORT}=          ${FALSE}    # x86-only cache-as-RAM teardown; presumed not applicable
-${BASE_PORT_RAMSTAGE_SUPPORT}=         ${TRUE}
+${BASE_PORT_BOOTBLOCK_SUPPORT}=         ${TRUE}
+${BASE_PORT_ROMSTAGE_SUPPORT}=          ${TRUE}    # TODO: confirm this arm64 target has a distinct romstage
+${BASE_PORT_POSTCAR_SUPPORT}=           ${FALSE}    # x86-only cache-as-RAM teardown; presumed not applicable
+${BASE_PORT_RAMSTAGE_SUPPORT}=          ${TRUE}
 
 # dmidecode.robot / cosmetic identification - a real port replaces these
-${MANUFACTURER_VERIFICATION}=          ${FALSE}    # TODO: enable once real DMI values are known
-${DMIDECODE_VENDOR}=                   3mdeb
-${DMIDECODE_FIRMWARE_VERSION}=         Dasharo (coreboot+LinuxBoot) RDV3 v0.0.0
-${DMIDECODE_PRODUCT_NAME}=             Arm RD-V3 (FVP_RD_V3)
-${DMIDECODE_MANUFACTURER}=             Arm
+${MANUFACTURER_VERIFICATION}=           ${FALSE}    # TODO: enable once real DMI values are known
+${DMIDECODE_VENDOR}=                    3mdeb
+${DMIDECODE_FIRMWARE_VERSION}=          Dasharo (coreboot+LinuxBoot) RDV3 v0.0.0
+${DMIDECODE_PRODUCT_NAME}=              Arm RD-V3 (FVP_RD_V3)
+${DMIDECODE_MANUFACTURER}=              Arm
 
 
 *** Keywords ***

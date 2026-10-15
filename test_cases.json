@@ -4118,21 +4118,21 @@
   {
     "doc": {
       "_id": "LBB002.107",
-      "name": "Ramstage hands off to the LinuxBoot payload",
+      "name": "Ramstage hands off to the LinuxBoot payload (LinuxBoot)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
       "_id": "LBB003.107",
-      "name": "LinuxBoot reaches a u-root shell",
+      "name": "LinuxBoot reaches a u-root shell (LinuxBoot)",
       "module": "Dasharo Compatibility"
     }
   },
   {
     "doc": {
       "_id": "LBB005.107",
-      "name": "kexec into a lightweight target OS",
+      "name": "kexec into a lightweight target OS (LinuxBoot)",
       "module": "Dasharo Compatibility"
     }
   },

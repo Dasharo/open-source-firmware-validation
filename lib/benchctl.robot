@@ -25,16 +25,16 @@
 
 
 *** Settings ***
-Library    Collections
-Library    Process
+Library     Collections
+Library     Process
 
 
 *** Variables ***
-${BENCHCTL_BIN}=                benchctl
-${BENCHCTL_PLATFORM}=           ${EMPTY}
-${BENCHCTL_HOST}=               ${EMPTY}
-${BENCHCTL_FVP_MODEL}=          ${EMPTY}
-${BENCHCTL_FVP_WORKDIR}=        ${EMPTY}
+${BENCHCTL_BIN}=            benchctl
+${BENCHCTL_PLATFORM}=       ${EMPTY}
+${BENCHCTL_HOST}=           ${EMPTY}
+${BENCHCTL_FVP_MODEL}=      ${EMPTY}
+${BENCHCTL_FVP_WORKDIR}=    ${EMPTY}
 
 
 *** Keywords ***
@@ -52,14 +52,14 @@ Benchctl Run
     ...    BENCHCTL_FVP_MODEL is not set - the board config must set it
     Should Not Be Empty    ${BENCHCTL_FVP_WORKDIR}
     ...    BENCHCTL_FVP_WORKDIR is not set - the board config must set it
-    &{env}=    Create Dictionary
+    VAR    &{env}=
     ...    env:BENCHCTL_PLATFORM=${BENCHCTL_PLATFORM}
     ...    env:BENCHCTL_HOST=${BENCHCTL_HOST}
     ...    env:BENCHCTL_FVP_MODEL=${BENCHCTL_FVP_MODEL}
     ...    env:BENCHCTL_FVP_WORKDIR=${BENCHCTL_FVP_WORKDIR}
     ${result}=    Run Process    ${BENCHCTL_BIN}    @{args}    &{env}
     ...    stderr=STDOUT
-    ${argv}=    Catenate    SEPARATOR=${SPACE}    @{args}
+    VAR    ${argv}=    @{args}    separator=${SPACE}
     Should Be Equal As Integers    ${result.rc}    0
     ...    benchctl ${argv} failed:\n${result.stdout}
     RETURN    ${result.stdout}
