@@ -59,7 +59,7 @@ wait_for_qemu() {
 init() {
   local _mode=firmware
   if [ -n "${QEMU_HDD_BASE:-}" ]; then
-    QEMU_HDD_COPY=$(mktemp /tmp/osfv-hdd.XXXXXX.qcow2)
+    QEMU_HDD_COPY=$(mktemp osfv-hdd.XXXXXX.qcow2)
     qemu-img create -q -f qcow2 -b "$QEMU_HDD_BASE" -F qcow2 "$QEMU_HDD_COPY"
     export HDD_PATH="$QEMU_HDD_COPY"
     _mode=os
@@ -71,7 +71,7 @@ init() {
     return 1;
   fi
 
-  QEMU_FW_COPY=$(mktemp /tmp/qemu-fw.XXXXXX)
+  QEMU_FW_COPY=$(mktemp qemu-fw.XXXXXX)
   cp "$QEMU_FW_FILE" "$QEMU_FW_COPY"
   QEMU_FW_FILE="$QEMU_FW_COPY" ./scripts/ci/qemu-run.sh nographic $_mode &
   wait_for_qemu
