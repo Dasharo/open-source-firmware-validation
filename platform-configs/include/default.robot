@@ -72,6 +72,7 @@ ${DEVICE_OS_USERNAME}=                              ${TBD}
 ${DEVICE_OS_PASSWORD}=                              ${TBD}
 ${DEVICE_OS_USER_PROMPT}=                           ${TBD}
 ${DEVICE_OS_ROOT_PROMPT}=                           ${TBD}
+${DEVICE_SSH_PORT}=                                 22
 
 ${3_MDEB_WIFI_NETWORK}=                             3mdeb_Laboratorium
 

@@ -166,6 +166,10 @@ BPS008.001 RTE CMOS clear
     [Documentation]    This test verifies if CMOS clear works with the platform setup.
     Skip If    '${POWER_CTRL}' == 'none'
     Skip If    not ${DUT_HAS_CMOS_RESET}
+
+    ${exists}=    Run Keyword And Return Status    Keyword Should Exist    Rte Psu Off
+    Skip If    not ${exists}    Rte Psu Off not supported on ${CONFIG}
+
     # CMOS should be cleared when platform is cut off from power
     Rte Psu Off
     Rte Clear Cmos
@@ -302,7 +306,7 @@ Run Ansible Playbooks
         # Create temporary inventory file for given platform and OS
         VAR    ${inventory_file}=
         ...    [host] \n
-        ...    ${DEVICE_IP} ansible_user=${DEVICE_OS_USERNAME}
+        ...    ${DEVICE_IP}":${DEVICE_SSH_PORT}" ansible_user=${DEVICE_OS_USERNAME}
         ...    ansible_ssh_pass=${DEVICE_OS_PASSWORD} ansible_become_password=${DEVICE_OS_PASSWORD} ansible_become_method=sudo
         ...    ansible_ssh_common_args='-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null'
         ...    separator=${SPACE}

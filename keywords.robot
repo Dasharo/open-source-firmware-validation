@@ -188,7 +188,7 @@ Login To Linux Over Serial Console
 Inner Login To Linux Via SSH
     [Tags]    robot:private
     [Arguments]    ${prompt}    ${username}    ${password}    ${timeout}
-    SSHLibrary.Open Connection    ${DEVICE_IP}    prompt=${prompt}
+    SSHLibrary.Open Connection    ${DEVICE_IP}    port=${DEVICE_SSH_PORT}    prompt=${prompt}
     SSHLibrary.Set Client Configuration
     ...    timeout=${timeout}
     ...    term_type=vt100
@@ -223,7 +223,7 @@ Login To Linux Via SSH
 Inner Login To Windows Via SSH
     [Tags]    robot:private
     [Arguments]    ${username}    ${password}    ${timeout}
-    SSHLibrary.Open Connection    ${DEVICE_IP}    prompt=${DEVICE_OS_USER_PROMPT}
+    SSHLibrary.Open Connection    ${DEVICE_IP}    port=${DEVICE_SSH_PORT}    prompt=${DEVICE_OS_USER_PROMPT}
     SSHLibrary.Set Client Configuration
     ...    timeout=${timeout}
     ...    term_type=vt100
@@ -309,7 +309,7 @@ Open Connection And Log In
     # by reworking variables.robot
     IF    '${MANUFACTURER}' != 'QEMU' and '${CONFIG}' != 'no-rte' and '${POWER_CTRL}' != 'benchctl'
         SSHLibrary.Set Default Configuration    timeout=60 seconds
-        SSHLibrary.Open Connection    ${RTE_IP}    prompt=~#
+        SSHLibrary.Open Connection    ${RTE_IP}    port=${DEVICE_SSH_PORT}    prompt=~#
         SSHLibrary.Login    ${USERNAME}    ${PASSWORD}
     END
     IF    'sonoff' == '${POWER_CTRL}'
@@ -364,7 +364,7 @@ Check Provided Ip
 
 Open Connection And Log In OpenBMC
     [Documentation]    Keyword logs in OpenBMC via SSH.
-    SSHLibrary.Open Connection    ${DEVICE_IP}    prompt=${OPEN_BMC_ROOT_PROMPT}
+    SSHLibrary.Open Connection    ${DEVICE_IP}    port=${DEVICE_SSH_PORT}    prompt=${OPEN_BMC_ROOT_PROMPT}
     SSHLibrary.Login    ${OPEN_BMC_USERNAME}    ${OPEN_BMC_PASSWORD}
     Set DUT Response Timeout    300s
 

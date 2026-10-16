@@ -18,6 +18,7 @@ ${MANUFACTURER}=                            QEMU
 ${POWER_CTRL}=                              RteCtrl
 ${FLASHING_METHOD}=                         none
 ${FLASH_VERIFY_METHOD}=                     none
+${DEVICE_SSH_PORT}=                         5222
 
 ${DMIDECODE_SERIAL_NUMBER}=                 N/A
 ${DMIDECODE_FIRMWARE_VERSION}=              Dasharo (coreboot+UEFI) v0.2.0
