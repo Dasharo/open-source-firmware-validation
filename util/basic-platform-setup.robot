@@ -62,6 +62,9 @@ BPS002.001 Power control - PSU OFF
     [Documentation]    Verifies if PSU can be turned OFF
     Skip If    '${INITIAL_DUT_CONNECTION_METHOD}' == 'SSH'
     Skip If    '${POWER_CTRL}' == 'none'
+    ${exists}=    Run Keyword And Return Status    Keyword Should Exist    Rte Psu Off
+    Skip If    not ${exists}    'Rte Psu Off' not supported on ${CONFIG}
+
     Power On
     ${result}=    Wait For Serial Output
     Should Be True    ${result}    msg=Power On keyword failed
@@ -78,6 +81,10 @@ BPS003.001 RTE Power On
     Skip If    '${INITIAL_DUT_CONNECTION_METHOD}' == 'SSH'
     Skip If    '${POWER_CTRL}' == 'none'
     Skip If    not ${DUT_HAS_POWER_BUTTON}
+
+    ${exists}=    Run Keyword And Return Status    Keyword Should Exist    Rte Psu Off
+    Skip If    not ${exists}    On/Off cycles not supported on ${CONFIG}
+
     Power On
     ${result}=    Wait For Serial Output
     Should Be True    ${result}    msg=Power On keyword failed
@@ -97,6 +104,10 @@ BPS004.001 RTE Reset
     Skip If    '${INITIAL_DUT_CONNECTION_METHOD}' == 'SSH'
     Skip If    '${POWER_CTRL}' == 'none'
     Skip If    not ${DUT_HAS_RESET_BUTTON}
+
+    ${exists}=    Run Keyword And Return Status    Keyword Should Exist    Rte Reset
+    Skip If    not ${exists}    Rte Reset not supported on ${CONFIG}
+
     Power On
     ${result}=    Wait For Serial Output
     Should Be True    ${result}    msg=Power On keyword failed
