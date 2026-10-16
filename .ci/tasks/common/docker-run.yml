@@ -67,6 +67,6 @@ tasks:
           $ENV_ARGS \
           {{if .DOCKER_USER}}--user {{.DOCKER_USER}}{{end}} \
           {{.DOCKER_ARGS}} \
-          --entrypoint sh \
+          --entrypoint bash \
           {{.IMAGE}} \
           -c '{{.COMMAND}}'
