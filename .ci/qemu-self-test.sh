@@ -32,6 +32,7 @@ cleanup() {
   done
 
   rm -f "${QEMU_FW_COPY:-}"
+  rm -f "${QEMU_HDD_COPY:-}"
 
   return $_rc
 }
@@ -56,14 +57,23 @@ wait_for_qemu() {
 }
 
 init() {
+  local _mode=firmware
+  if [ -n "${QEMU_HDD_BASE:-}" ]; then
+    QEMU_HDD_COPY=$(mktemp /tmp/osfv-hdd.XXXXXX.qcow2)
+    qemu-img create -q -f qcow2 -b "$QEMU_HDD_BASE" -F qcow2 "$QEMU_HDD_COPY"
+    export HDD_PATH="$QEMU_HDD_COPY"
+    _mode=os
+  fi
+
   QEMU_FW_FILE="${QEMU_FW_FILE:-${OSFV_ROMS_DIR:?}/coreboot.rom}"
   if [ ! -f "$QEMU_FW_FILE" ]; then
     echo "$QEMU_FW_FILE does not exist" >&2;
     return 1;
   fi
+
   QEMU_FW_COPY=$(mktemp /tmp/qemu-fw.XXXXXX)
   cp "$QEMU_FW_FILE" "$QEMU_FW_COPY"
-  QEMU_FW_FILE="$QEMU_FW_COPY" ./scripts/ci/qemu-run.sh nographic firmware &
+  QEMU_FW_FILE="$QEMU_FW_COPY" ./scripts/ci/qemu-run.sh nographic $_mode &
   wait_for_qemu
 }
 
