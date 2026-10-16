@@ -21,10 +21,14 @@ TrenchBoot Telnet Root Login
     Execute Command In Terminal    dmesg -n1
 
 Validate DRTM PCRs Against Event Log
-    [Documentation]    Validates DRTM PCRs Against Event Log
+    [Documentation]    Replays the DRTM event log at \${eventlog} for each PCR
+    ...    in \@{pcrs} and each bank in \${algos}, and compares the result with
+    ...    the PCR value in sysfs. Banks missing from sysfs are skipped.
     [Arguments]    @{pcrs}
+    ...    ${eventlog}=/sys/kernel/security/slaunch/eventlog
+    ...    ${algos}=${{["sha1", "sha256"]}}
     Execute Command In Terminal
-    ...    tpm2_eventlog /sys/kernel/security/slaunch/eventlog > /tmp/event-log
+    ...    tpm2_eventlog '${eventlog}' > /tmp/event-log
     # This extracts hashes for a combination of a PCR (first parameter) and an
     # algorithm (second parameter). The printed line have the form
     #    {event data length}-{digest}
@@ -48,7 +52,7 @@ Validate DRTM PCRs Against Event Log
 
     Execute Command In Terminal
     ...    function extend() { pcr=$(echo -n "$pcr$2" | xxd -r -p | $1sum | cut -f1 -d' '); }
-    FOR    ${algo}    IN    sha1    sha256
+    FOR    ${algo}    IN    @{algos}
         ${algo_present}=    Execute Command In Terminal
         ...    test -d /sys/class/tpm/tpm0/pcr-${algo} && echo y
         IF    '''${algo_present}''' != 'y'    CONTINUE
