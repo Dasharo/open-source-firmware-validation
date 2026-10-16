@@ -74,7 +74,9 @@ tasks:
       ALLOW_DIRTY: '1'
     cmds:
       - task: test-data:init
-      - scripts/ci/develop_pr_auto_regression.py |& tee '{{.RUN_LOGS_DIR}}/{{.DEVICE_NAME}}.log'
+      - |
+        {{if .QEMU}}bash .ci/qemu-self-test.sh{{end}} \
+        scripts/ci/develop_pr_auto_regression.py |& tee '{{.RUN_LOGS_DIR}}/{{.DEVICE_NAME}}.log'
 
   device:container:
     desc: Run the release test scope on DEVICE inside {{.REGRESSION_IMAGE}}
@@ -90,8 +92,8 @@ tasks:
       - task: docker:run
         vars:
           IMAGE: '{{.REGRESSION_IMAGE}}'
-          DOCKER_ARGS: --network host
-          ENV: 'DEVICE={{.DEVICE_ABS}},LOGS_DIR={{.RUN_LOGS_DIR}},MANUAL_TESTS_LIST={{.MANUAL_TESTS_LIST}},RULES_FILE={{.RULES_FILE}},ALLOW_DIRTY=1'
-          VOLUMES: '{{.REPO_ROOT}}:/workspace,/srv/nfs/logs:/srv/nfs/logs,$HOME/.osfv:/root/.osfv:ro,{{.DEVICE_ABS}}:{{.DEVICE_ABS}}:ro'
+          DOCKER_ARGS: '--network host {{if .QEMU}}--device /dev/kvm{{end}}'
+          ENV: 'DEVICE={{.DEVICE_ABS}},LOGS_DIR={{.RUN_LOGS_DIR}},MANUAL_TESTS_LIST={{.MANUAL_TESTS_LIST}},RULES_FILE={{.RULES_FILE}},ALLOW_DIRTY=1,OSFV_ROMS_DIR={{.OSFV_ROMS_DIR}}'
+          VOLUMES: '{{.REPO_ROOT}}:/workspace,/srv/nfs/logs:/srv/nfs/logs,$HOME/.osfv:/root/.osfv:ro,{{.DEVICE_ABS}}:{{.DEVICE_ABS}}:ro,{{.OSFV_ROMS_DIR}}:{{.OSFV_ROMS_DIR}}:ro'
           WORKDIR: /workspace
-          COMMAND: 'scripts/ci/develop_pr_auto_regression.py 2>&1 | tee "{{.RUN_LOGS_DIR}}/{{.DEVICE_NAME}}.log"'
+          COMMAND: '{{if .QEMU}}bash .ci/qemu-self-test.sh{{end}} scripts/ci/develop_pr_auto_regression.py 2>&1 | tee "{{.RUN_LOGS_DIR}}/{{.DEVICE_NAME}}.log"'
