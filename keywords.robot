@@ -568,7 +568,9 @@ Prepare Test Suite
     ...    platform configuration keywords and variables and
     ...    preparing connection with the DUT based on used
     ...    transmission protocol. Keyword used in all [Suite Setup]
-    ...    sections.
+    ...    sections. The platform config is <CONFIG>.robot in the
+    ...    PLATFORM_CONFIG_DIR directory, by default the OSFV
+    ...    platform-configs directory.
     # Add some metadata to track test version
     ${revision}=    Run    git describe --dirty --always --tags
     Set Suite Metadata    OSFV revision    ${revision}
@@ -593,7 +595,8 @@ Prepare Test Suite
     ELSE IF    '${CONFIG}' == 'rpi-3b'
         Import Resource    ${CURDIR}/platform-configs/rpi-3b.robot
     ELSE
-        Import Resource    ${CURDIR}/platform-configs/${CONFIG}.robot
+        ${platform_config_dir}=    Get Variable Value    ${PLATFORM_CONFIG_DIR}    ${CURDIR}/platform-configs
+        Import Resource    ${platform_config_dir}/${CONFIG}.robot
     END
     ${default_boot}=    Get Variable Value    ${BOOTED_OS_ID}    ${None}
     IF    $default_boot is ${None}
