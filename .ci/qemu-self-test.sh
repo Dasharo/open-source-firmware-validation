@@ -31,6 +31,8 @@ cleanup() {
     [ -n "$_pid" ] && kill "$_pid" 2> /dev/null || true
   done
 
+  rm -f "${QEMU_FW_COPY:-}"
+
   return $_rc
 }
 
@@ -54,7 +56,14 @@ wait_for_qemu() {
 }
 
 init() {
-  ./scripts/ci/qemu-run.sh nographic firmware &
+  QEMU_FW_FILE="${QEMU_FW_FILE:-${OSFV_ROMS_DIR:?}/coreboot.rom}"
+  if [ ! -f "$QEMU_FW_FILE" ]; then
+    echo "$QEMU_FW_FILE does not exist" >&2;
+    return 1;
+  fi
+  QEMU_FW_COPY=$(mktemp /tmp/qemu-fw.XXXXXX)
+  cp "$QEMU_FW_FILE" "$QEMU_FW_COPY"
+  QEMU_FW_FILE="$QEMU_FW_COPY" ./scripts/ci/qemu-run.sh nographic firmware &
   wait_for_qemu
 }
 
