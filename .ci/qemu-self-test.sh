@@ -58,11 +58,13 @@ wait_for_qemu() {
 
 init() {
   local _mode=firmware
+  local _noaudio=""
   if [ -n "${QEMU_HDD_BASE:-}" ]; then
     QEMU_HDD_COPY=$(mktemp osfv-hdd.XXXXXX.qcow2)
     qemu-img create -q -f qcow2 -b "$QEMU_HDD_BASE" -F qcow2 "$QEMU_HDD_COPY"
     export HDD_PATH="$QEMU_HDD_COPY"
     _mode=os
+    _noaudio="--no-audio-emulation"
   fi
 
   QEMU_FW_FILE="${QEMU_FW_FILE:-${OSFV_ROMS_DIR:?}/coreboot.rom}"
@@ -73,7 +75,7 @@ init() {
 
   QEMU_FW_COPY=$(mktemp qemu-fw.XXXXXX)
   cp "$QEMU_FW_FILE" "$QEMU_FW_COPY"
-  QEMU_FW_FILE="$QEMU_FW_COPY" ./scripts/ci/qemu-run.sh nographic $_mode &
+  QEMU_FW_FILE="$QEMU_FW_COPY" ./scripts/ci/qemu-run.sh "$_noaudio" nographic $_mode &
   wait_for_qemu
 }
 
