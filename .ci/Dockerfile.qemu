@@ -11,6 +11,7 @@ RUN apt-get update \
         iputils-ping \
         git-annex \
         qemu-system-x86 \
+        qemu-utils \
         swtpm \
         wget \
         nfs-common \
