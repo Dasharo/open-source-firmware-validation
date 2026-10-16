@@ -53,15 +53,41 @@ wait_for_qemu() {
   return 1
 }
 
-trap cleanup EXIT
+init() {
+  ./scripts/ci/qemu-run.sh nographic firmware &
+  wait_for_qemu
+}
 
-./scripts/ci/qemu-run.sh nographic firmware &
-wait_for_qemu
-
-if [ -n "$STRESS" ]; then
+run() {
+  if [ -n "$STRESS" ]; then
   echo "Running ./scripts/ci/qemu-stress-tests.sh"
-  ./scripts/ci/qemu-stress-tests.sh
-else
-  echo "Running ./scripts/ci/qemu-self-test.sh"
-  ./scripts/ci/qemu-self-test.sh
-fi
+    ./scripts/ci/qemu-stress-tests.sh
+  else
+    echo "Running ./scripts/ci/qemu-self-test.sh"
+    ./scripts/ci/qemu-self-test.sh
+  fi
+}
+
+ARG="${1:-}"
+
+case "$ARG" in
+  init)
+    init
+    ;;
+  cleanup)
+    cleanup
+    ;;
+  run)
+    run
+    ;;
+  "")
+    trap cleanup EXIT
+    init
+    run
+    ;;
+  *)
+    trap cleanup EXIT
+    init
+    "$@"
+    ;;
+esac
