@@ -16,13 +16,13 @@ vars:
     sh: git rev-parse --show-toplevel
   REGRESSION_IMAGE_NAME: git.3mdeb.com/dasharo/osfv-qemu-ci
   REGRESSION_IMAGE: '{{.REGRESSION_IMAGE_NAME}}:latest'
-  REPEATS: 2
+  REPEATS: '{{.REPEATS | default 2}}'
   DEVICES: scripts/ci/regression-scope/configs/release_tests_devices.txt
   DEVICE_NAMES:
     sh: "cd {{.REPO_ROOT}} && grep -v '^#' {{.DEVICES}}"
-  MANUAL_TESTS_LIST: scripts/ci/regression-scope/configs/release_tests_suite_list_minimal.txt
-  RULES_FILE: scripts/ci/regression-scope/configs/release_tests_rules.json
-  LOGS_DIR: /srv/nfs/logs/osfv_stability/ci_logs
+  MANUAL_TESTS_LIST: '{{.MANUAL_TESTS_LIST | default "scripts/ci/regression-scope/configs/release_tests_suite_list_minimal.txt"}}'
+  RULES_FILE: '{{.RULES_FILE | default "scripts/ci/regression-scope/configs/release_tests_rules.json"}}'
+  LOGS_DIR: '{{.LOGS_DIR | default "/srv/nfs/logs/osfv_stability/ci_logs"}}'
   # Identifies one stability run, shared by all its devices. CI overrides it so
   # that the matrix jobs, which each compute their own, land in one directory.
   RUN_ID:
