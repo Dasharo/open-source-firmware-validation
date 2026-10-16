@@ -15,6 +15,7 @@ RUN apt-get update \
         swtpm \
         wget \
         nfs-common \
+        sshpass \
     && rm -rf /var/lib/apt/lists/*
 
 ARG TASK_VERSION=3.45.4
@@ -24,9 +25,10 @@ RUN curl -fsSL "https://github.com/go-task/task/releases/download/v${TASK_VERSIO
 RUN git config --system --add safe.directory '*'
 
 ENV UV_SYSTEM_PYTHON=1
-COPY requirements.txt /tmp/requirements.txt
+COPY requirements.txt requirements.yml /tmp/
 RUN pip install --no-cache-dir --root-user-action ignore uv \
     && uv pip install --system --break-system-packages -r /tmp/requirements.txt \
-    && rm /tmp/requirements.txt
+    && ansible-galaxy install -r /tmp/requirements.yml \
+    && rm /tmp/requirements.txt /tmp/requirements.yml
 
 WORKDIR /workspace
