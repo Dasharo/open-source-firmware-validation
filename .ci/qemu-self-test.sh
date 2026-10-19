@@ -67,15 +67,21 @@ init() {
     _noaudio="--no-audio-emulation"
   fi
 
-  QEMU_FW_FILE="${QEMU_FW_FILE:-${OSFV_ROMS_DIR:?}/coreboot.rom}"
-  if [ ! -f "$QEMU_FW_FILE" ]; then
-    echo "$QEMU_FW_FILE does not exist" >&2;
-    return 1;
+  # use QEMU_FW_FILE or coreboot from OSFV_ROMS_DIR if provided
+  # qemu-run.sh downloads the newest release if no QEMU_FW_FILE is provided
+  if [ -n "${QEMU_FW_FILE:-}" ] || [ -n "${OSFV_ROMS_DIR:-}" ]; then
+    QEMU_FW_FILE="${QEMU_FW_FILE:-${OSFV_ROMS_DIR:?}/coreboot.rom}"
+    if [ ! -f "$QEMU_FW_FILE" ]; then
+      echo "$QEMU_FW_FILE does not exist" >&2;
+      return 1;
+    fi
+
+    QEMU_FW_COPY=$(mktemp qemu-fw.XXXXXX)
+    cp "$QEMU_FW_FILE" "$QEMU_FW_COPY"
+    export QEMU_FW_FILE="$QEMU_FW_COPY"
   fi
 
-  QEMU_FW_COPY=$(mktemp qemu-fw.XXXXXX)
-  cp "$QEMU_FW_FILE" "$QEMU_FW_COPY"
-  QEMU_FW_FILE="$QEMU_FW_COPY" ./scripts/ci/qemu-run.sh "$_noaudio" nographic $_mode &
+  ./scripts/ci/qemu-run.sh "$_noaudio" nographic $_mode &
   wait_for_qemu
 }
 
