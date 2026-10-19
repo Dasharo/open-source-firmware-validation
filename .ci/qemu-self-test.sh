@@ -81,7 +81,7 @@ init() {
     export QEMU_FW_FILE="$QEMU_FW_COPY"
   fi
 
-  ./scripts/ci/qemu-run.sh "$_noaudio" nographic $_mode &
+  ./scripts/ci/qemu-run.sh $_noaudio nographic $_mode &
   wait_for_qemu
 }
 
