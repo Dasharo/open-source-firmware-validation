@@ -3,30 +3,33 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 #
-# A power/flash backend for a platform whose "DUT" is a process the
-# `benchctl` command itself launches and drives, rather than real hardware
-# reachable through an RTE board. Keywords here shell out to `benchctl`.
+# A power/flash backend for a platform that the `benchctl` command drives
+# without an RTE board: a process benchctl launches, such as the FVP, or a host
+# benchctl reaches through its BMC. Keywords here shell out to `benchctl`.
 #
 # This deliberately does NOT import osfv.rf.rte_robot.RobotRTE or any other
 # osfv_cli hardware-control library: there is no RTE, GPIO, relay or PSU to
-# drive here, only a process `benchctl` launches. A platform config that has
+# drive here, only what `benchctl` drives. A platform config that has
 # no real RTE already skips importing that library (see keywords.robot's
 # `Import Osfv Libraries`, guarded on `${MANUFACTURER}`); this library is
 # what such a config uses instead, for the platform's own power/flash
 # actions.
 #
-# This file holds no board-specific knowledge of its own: ${BENCHCTL_BIN}/
-# ${BENCHCTL_PLATFORM}/${BENCHCTL_HOST}/${BENCHCTL_FVP_MODEL}/
-# ${BENCHCTL_FVP_WORKDIR} all default to empty, and Benchctl Run fails
-# clearly, naming the missing one, if ${BENCHCTL_PLATFORM}/
-# ${BENCHCTL_HOST}/${BENCHCTL_FVP_MODEL}/${BENCHCTL_FVP_WORKDIR} are still
-# empty when a keyword actually needs them - a board config that imports
-# this resource must set them.
+# This file holds no board-specific knowledge of its own. A board config that
+# imports it sets ${BENCHCTL_PLATFORM}, ${BENCHCTL_HOST} and the settings its
+# benchctl platform reads, as ${BENCHCTL_*} variables. Benchctl Run passes
+# every set ${BENCHCTL_*} variable other than ${BENCHCTL_BIN} to benchctl as
+# the environment variable of the same name, upper-cased, through benchctl.py,
+# which logs neither the variables nor the environment. Prepare Test Suite logs
+# every robot variable, so a credential stays out of the log and the debug file
+# when it reaches benchctl from the environment. It fails, naming the missing
+# setting, when ${BENCHCTL_PLATFORM} or ${BENCHCTL_HOST} is empty, ${None} or
+# ${TBD}, and on the fvp platform when ${BENCHCTL_FVP_MODEL} or
+# ${BENCHCTL_FVP_WORKDIR} is.
 
 
 *** Settings ***
-Library     Collections
-Library     Process
+Library     benchctl.py
 
 
 *** Variables ***
@@ -43,26 +46,40 @@ Benchctl Run
     ...    with its combined stdout+stderr on a non-zero exit - benchctl
     ...    reports its own errors in plain text there, so that text is the
     ...    whole diagnosis a caller needs.
+    ...
+    ...    benchctl gets every scalar ${BENCHCTL_*} variable except
+    ...    ${BENCHCTL_BIN} that is neither empty, ${None} nor ${TBD}, as
+    ...    the environment variable of the same name, upper-cased, from
+    ...    Run Benchctl Without Logging in benchctl.py. That keyword logs
+    ...    neither the variables nor the environment. A credential from
+    ...    the environment therefore stays out of the log.
     [Arguments]    @{args}
-    Should Not Be Empty    ${BENCHCTL_PLATFORM}
-    ...    BENCHCTL_PLATFORM is not set - the board config must set it
-    Should Not Be Empty    ${BENCHCTL_HOST}
-    ...    BENCHCTL_HOST is not set - the board config must set it
-    Should Not Be Empty    ${BENCHCTL_FVP_MODEL}
-    ...    BENCHCTL_FVP_MODEL is not set - the board config must set it
-    Should Not Be Empty    ${BENCHCTL_FVP_WORKDIR}
-    ...    BENCHCTL_FVP_WORKDIR is not set - the board config must set it
-    VAR    &{env}=
-    ...    env:BENCHCTL_PLATFORM=${BENCHCTL_PLATFORM}
-    ...    env:BENCHCTL_HOST=${BENCHCTL_HOST}
-    ...    env:BENCHCTL_FVP_MODEL=${BENCHCTL_FVP_MODEL}
-    ...    env:BENCHCTL_FVP_WORKDIR=${BENCHCTL_FVP_WORKDIR}
-    ${result}=    Run Process    ${BENCHCTL_BIN}    @{args}    &{env}
-    ...    stderr=STDOUT
+    Benchctl Check Setting    BENCHCTL_PLATFORM
+    Benchctl Check Setting    BENCHCTL_HOST
+    IF    $BENCHCTL_PLATFORM == 'fvp'    Benchctl Check FVP Settings
     VAR    ${argv}=    @{args}    separator=${SPACE}
-    Should Be Equal As Integers    ${result.rc}    0
-    ...    benchctl ${argv} failed:\n${result.stdout}
-    RETURN    ${result.stdout}
+    Log    benchctl ${argv}
+    ${rc}    ${output}=    Run Benchctl Without Logging    ${BENCHCTL_BIN}    @{args}
+    Should Be Equal As Integers    ${rc}    0
+    ...    benchctl ${argv} failed:\n${output}    values=False
+    RETURN    ${output}
+
+Benchctl Check FVP Settings
+    [Documentation]    Fails, naming the missing setting, unless the board
+    ...    config sets the model binary and the work directory the fvp
+    ...    platform runs the model with.
+    Benchctl Check Setting    BENCHCTL_FVP_MODEL
+    Benchctl Check Setting    BENCHCTL_FVP_WORKDIR
+
+Benchctl Check Setting
+    [Documentation]    Fails, naming the setting, when the variable is unset,
+    ...    empty, ${None} or ${TBD}.
+    [Arguments]    ${name}
+    ${value}=    Get Variable Value    \${${name}}    ${EMPTY}
+    ${tbd}=    Get Variable Value    \${TBD}    ${EMPTY}
+    IF    $value is None or $value in ('', $tbd)
+        Fail    ${name} is not set - the board config must set it
+    END
 
 Benchctl Power AC On
     [Documentation]    Turns on the platform's PSU via benchctl utility
