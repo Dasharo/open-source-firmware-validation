@@ -3739,6 +3739,13 @@
   },
   {
     "doc": {
+      "_id": "FWUPD001.301",
+      "name": "Fwupd Devices Detected (Windows)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
       "_id": "FWUPD002.201",
       "name": "Fwupd Local Firmware Update (Ubuntu)",
       "module": "Dasharo Compatibility"
@@ -3755,6 +3762,13 @@
     "doc": {
       "_id": "FWUPD002.203",
       "name": "Fwupd Local Firmware Update (Qubes OS)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "FWUPD002.301",
+      "name": "Fwupd Local Firmware Update (Windows)",
       "module": "Dasharo Compatibility"
     }
   },
@@ -3802,6 +3816,13 @@
   },
   {
     "doc": {
+      "_id": "FWUPD004.301",
+      "name": "Fwupd Installed (Windows)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
       "_id": "FWUPD005.201",
       "name": "Fwupd Check For Updates (Ubuntu)",
       "module": "Dasharo Compatibility"
@@ -3839,6 +3860,13 @@
     "doc": {
       "_id": "FWUPD006.203",
       "name": "Fwupd Check Update Results (Qubes OS)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
+      "_id": "FWUPD006.301",
+      "name": "Fwupd Check Update Results (Windows)",
       "module": "Dasharo Compatibility"
     }
   },
