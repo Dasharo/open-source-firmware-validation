@@ -4089,6 +4089,34 @@
   },
   {
     "doc": {
+      "_id": "HSI001.201",
+      "name": "HSI-1 security tier (Ubuntu)",
+      "module": "Dasharo Security"
+    }
+  },
+  {
+    "doc": {
+      "_id": "HSI002.201",
+      "name": "HSI-2 security tier (Ubuntu)",
+      "module": "Dasharo Security"
+    }
+  },
+  {
+    "doc": {
+      "_id": "HSI003.201",
+      "name": "HSI-3 security tier (Ubuntu)",
+      "module": "Dasharo Security"
+    }
+  },
+  {
+    "doc": {
+      "_id": "HSI004.201",
+      "name": "HSI-4 security tier (Ubuntu)",
+      "module": "Dasharo Security"
+    }
+  },
+  {
+    "doc": {
       "_id": "HWP001.001",
       "name": "Hardware flash write protection support",
       "module": "Dasharo Compatibility"
