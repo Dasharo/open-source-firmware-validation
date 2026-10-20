@@ -141,3 +141,4 @@ ${DTS_TEST_BOARD_MODEL}=                        V560TNx
 ...                                             ${{ ("UEFI Update", "DCR") }}
 
 ${DOCKING_STATION_USB_C_CHARGING_SUPPORT}=      ${TRUE}
+${EC_CAPSULE_UPDATE_SUPPORT}=                   ${TRUE}

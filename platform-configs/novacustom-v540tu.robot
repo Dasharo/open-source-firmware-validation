@@ -186,6 +186,8 @@ ${DTS_TEST_BOARD_MODEL}=                V540TU
 
 ${HDMI_AUDIO_SUPPORT}=                  ${TRUE}
 
+${EC_CAPSULE_UPDATE_SUPPORT}=           ${TRUE}
+
 
 *** Keywords ***
 Power On

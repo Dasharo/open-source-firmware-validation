@@ -133,3 +133,5 @@ ${DTS_TEST_BOARD_MODEL}=                V560TNx
 @{DTS_TEST_WORKFLOW_PROFILES}=
 ...                                     ${{ ("UEFI Update", "DCR") }}
 ...                                     ${{ ("Fuse Platform", "DCR") }}
+
+${EC_CAPSULE_UPDATE_SUPPORT}=           ${TRUE}
