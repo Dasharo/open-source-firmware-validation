@@ -178,3 +178,42 @@ Fwupd Verify Update Results Linux
         ...    WARNING: fwupdmgr reports Update State: Failed. The LVFS Testing remote may not have a beta firmware release available for this device/version.
     END
     Should Contain    ${state_line}    Success
+
+Fwupd Get FW DeviceID Windows
+    [Documentation]    Retrieve System Firmware Device ID, set
+    ...    FWUPDTOOL_DEVICE_ID suite variable.
+    ${out}=    Execute Command In Terminal    fwupdtool get-devices --plugins uefi_capsule
+    ${device_id}=    Get Regexp Matches    ${out}    (?s)System Firmware.*?Device ID:\\s*(\\w+)    1
+    Should Not Be Empty    ${device_id}    System Firmware not found by fwupdtool
+    VAR    ${FWUPDTOOL_DEVICE_ID}=    ${device_id[0]}    scope=SUITE
+
+Get System Firmware ESRT Entry Windows
+    [Documentation]    Return the System Firmware ESRT entry from the Windows
+    ...    registry as a dictionary of 8-digit hex strings: version,
+    ...    last_attempt_version and last_attempt_status.
+    VAR    ${command}=
+    ...    Get-ChildItem HKLM:\\HARDWARE\\UEFI\\ESRT | Get-ItemProperty |
+    ...    Where-Object Type -eq 1 | ForEach-Object {
+    ...    'ESRT:{0:x8}:{1:x8}:{2:x8}' -f $_.Version, $_.LastAttemptVersion, $_.LastAttemptStatus }
+    ...    separator=${SPACE}
+    ${out}=    Execute Command In Terminal    ${command}
+    ${match}    ${version}    ${last_version}    ${last_status}=    Should Match Regexp
+    ...    ${out}    ESRT:([0-9a-f]{8}):([0-9a-f]{8}):([0-9a-f]{8})
+    ...    msg=System Firmware ESRT entry not found in the registry
+    VAR    &{esrt}=
+    ...    version=${version}
+    ...    last_attempt_version=${last_version}
+    ...    last_attempt_status=${last_status}
+    RETURN    ${esrt}
+
+Fwupd Clear History Windows
+    [Documentation]    Erase fwupd history.
+    Execute Command In Terminal    fwupdtool clear-history --assume-yes
+
+Run Fwupd Local Install Windows
+    [Documentation]    Windows counterpart of Run Fwupd Local Install.
+    [Arguments]    ${cabinet}
+    ${out}=    Execute Command In Terminal
+    ...    fwupdtool install ${cabinet} --plugins uefi_capsule --allow-reinstall --allow-older --force --no-reboot-check --assume-yes
+    ...    timeout=300s
+    RETURN    ${out}
