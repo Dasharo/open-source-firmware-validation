@@ -249,7 +249,6 @@ CUP150.101 Capsule Update (EDK2 UEFI)
     ...    valid_capsule.cap
     ...    ec_capsule.cap
     ...    manual_v2_results_screen=${verify_results_screen}
-    Log To Console    ${status}
     Should Be True    ${version_changed}
     IF    ${CAPSULE_DOES_NOT_PERSIST_ACROSS_RESET} and ${CAPSULE_ON_DISK_SUPPORT}
         Should Contain    ${status}    Firmware Update Succeeded
@@ -589,7 +588,7 @@ Perform Capsule Update And Return Status
     Login To Linux With Root Privileges
     ${original_bios_version}=    Get BIOS Version Linux    Before update
     IF    '${EC_CAPSULE_UPDATE}' == '${TRUE}'
-        ${original_ec_version}=    Get EC Version Linux    Before update
+        ${original_ec_version}=    Get EC Version Linux    Before update (EC)
     END
     Deploy Uefi Shell    os_logged_in=${TRUE}
     Perform Capsule Update
@@ -634,7 +633,7 @@ Perform Capsule Update And Return Status
     ...    ${updated_bios_version}
 
     IF    '${EC_CAPSULE_UPDATE}' == '${TRUE}'
-        ${updated_ec_version}=    Get EC Version Linux    After update
+        ${updated_ec_version}=    Get EC Version Linux    After update (EC)
         ${version_changed}=    Run Keyword And Return Status
         ...    Should Not Be Equal
         ...    ${original_ec_version}
@@ -747,9 +746,9 @@ Copy Capsule Files To Shell Workspace
     IF    '${EC_CAPSULE_UPDATE_SUPPORT}' == '${TRUE}'
         Send File To DUT    dasharo-stability/capsule-update-files/variable_capsule_file_ec.nsh
         ...    ${CAPSULE_UPDATE_SHELL_DIR}/variable_capsule_file_ec.nsh
-        # TBD Read path to EC capsule from env variable
+        # Send EC capsule with patched version
         Send File To DUT    ${VER_PATCH_EC_CAP}    ${CAPSULE_UPDATE_SHELL_DIR}/ec_capsule.cap
-        # Send original capsule to be applied on teardown
+        # Send original EC capsule to be applied on teardown
         Send File To DUT    ${CAPSULE_UPDATE_EC_FW_FILE}    ${CAPSULE_UPDATE_SHELL_DIR}/ec_capsule_unpatched.cap
     END
 
@@ -1004,6 +1003,10 @@ Display Preparation Instructions
     ...    ${T}either a lower RC version, or to the RC0 rom in case of first RC that
     ...    ${T}supports capsule updates
     ...    ${EMPTY}
+    ...    If the DUT supports EC capsule updates you additionally need to set:
+    ...    4. CAPSULE_UPDATE_EC_FW_FILE which contains path to the `.cap` file
+    ...    ${T}with EC firmware.
+    ...    ${EMPTY}
     ...    To test V2 Capsules, there are two paths depending whether the production
     ...    firmware is available:
     ...    - opt. A) - only testing firmware
@@ -1213,7 +1216,8 @@ Resign Vboot Firmware With Temporary Keys
     Run    mv ${tmp_fw_image} ${in_fw_image}
 
 Update To Original EC By Capsule
-    [Documentation]    asdasdasda
+    [Documentation]    Performs a capsule update to the original EC firmware.
+    ...    Needs the original (unpatched) EC capsule file.
     [Arguments]    ${capsule_file_ec}
     Power On
     Boot System Or From Connected Disk    ${DEFAULT_BOOT_OS_ID}

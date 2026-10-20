@@ -17,8 +17,9 @@
 set -euo pipefail
 
 if [ $# -lt 2 ] || [ $# -gt 3 ]; then
-    echo "Usage: $0 <ec_capsule> <new_76ec_version> [output]"
-    echo "  e.g. $0 ec.cap 2099-12-31_deadbee"
+    echo "Usage: $0 <ec_capsule> <new_76ec_version>"
+    echo "  e.g. $0 ec.cap 2077-12-31_dasharo"
+    echo "Output: ec_ver.cap"
     exit 1
 fi
 

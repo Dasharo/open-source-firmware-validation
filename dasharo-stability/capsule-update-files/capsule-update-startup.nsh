@@ -47,9 +47,9 @@ endif
 if "%STEP%" == "0" then
     if "%EC_UPDATE%" == "1" then
         if "%ONDISK%" == "1" then
-            %CAPSULE_FS%:CapsuleApp.efi "%CAPSULE_WORKSPACE%\%CAPSULE_FILE_EC%" "%CAPSULE_WORKSPACE%\%CAPSULE_FILE%" -NR -OD
+            %CAPSULE_FS%:CapsuleApp.efi "%CAPSULE_WORKSPACE%\%CAPSULE_FILE%" "%CAPSULE_WORKSPACE%\%CAPSULE_FILE_EC%" -NR -OD
         else
-            %CAPSULE_FS%:CapsuleApp.efi "%CAPSULE_WORKSPACE%\%CAPSULE_FILE_EC%" "%CAPSULE_WORKSPACE%\%CAPSULE_FILE%" -NR
+            %CAPSULE_FS%:CapsuleApp.efi "%CAPSULE_WORKSPACE%\%CAPSULE_FILE%" "%CAPSULE_WORKSPACE%\%CAPSULE_FILE_EC%" -NR
         endif
     else
         if "%ONDISK%" == "1" then
