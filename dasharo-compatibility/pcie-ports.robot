@@ -16,7 +16,7 @@ Suite Teardown      Run Keywords
 ...                     Set Bifurcation Layout In Firmware    ${BIFURCATION_X16_1}
 ...                     AND
 ...                     Run Keyword If    ${PCIE_BIFURCATION_SUPPORT_X4}
-...                     Set Bifurcation Layout In Firmware    ${BIFURCATION_X4_1}
+...                     Set Bifurcation Layout In Firmware    ${BIFURCATION_X2_2}
 ...                     AND
 ...                     Log Out And Close Connection
 
@@ -132,7 +132,7 @@ PEX011.201 PCI Express Bifurcation Card Detection x8x4x4 (Ubuntu)
 
 PEX012.201 PCI Express Bifurcation x4 (Ubuntu)
     [Documentation]    Check whether all PCIe slots are working properly
-    ...    in x4x4x4x4 bifurcation layout.
+    ...    in x4 bifurcation layout.
     Skip If    not ${PCIE_BIFURCATION_SUPPORT_X4}    PEX012.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    PEX012.201 not supported
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    PEX012.201 not supported
@@ -140,14 +140,14 @@ PEX012.201 PCI Express Bifurcation x4 (Ubuntu)
 
 PEX013.201 PCI Express Bifurcation Card Detection x4 (Ubuntu)
     [Documentation]    Check whether all devices in a PCIe bifurcation are
-    ...    recognized properly in x4x4x4x4 bifurcation layout.
+    ...    recognized properly in x4 bifurcation layout.
     Skip If    not ${PCIE_BIFURCATION_SUPPORT_X4}    PEX013.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    PEX013.201 not supported
     Test Bifurcation Card Disk Detection    ${BIFURCATION_X4_1}
 
 PEX014.201 PCI Express Bifurcation x2x2 (Ubuntu)
     [Documentation]    Check whether all PCIe slots are working properly
-    ...    in x4x4x4x4 bifurcation layout.
+    ...    in x2x2 bifurcation layout.
     Skip If    not ${PCIE_BIFURCATION_SUPPORT_X4}    PEX014.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    PEX014.201 not supported
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    PEX014.201 not supported
@@ -155,14 +155,14 @@ PEX014.201 PCI Express Bifurcation x2x2 (Ubuntu)
 
 PEX015.201 PCI Express Bifurcation Card Detection x2x2 (Ubuntu)
     [Documentation]    Check whether all devices in a PCIe bifurcation are
-    ...    recognized properly in x4x4x4x4 bifurcation layout.
+    ...    recognized properly in x2x2 bifurcation layout.
     Skip If    not ${PCIE_BIFURCATION_SUPPORT_X4}    PEX015.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    PEX015.201 not supported
     Test Bifurcation Card Disk Detection    ${BIFURCATION_X2_2}
 
 PEX016.201 PCI Express Bifurcation x1x1x1x1 (Ubuntu)
     [Documentation]    Check whether all PCIe slots are working properly
-    ...    in x4x4x4x4 bifurcation layout.
+    ...    in x1x1x1x1 bifurcation layout.
     Skip If    not ${PCIE_BIFURCATION_SUPPORT_X4}    PEX016.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    PEX016.201 not supported
     Skip If    not ${TESTS_IN_FIRMWARE_SUPPORT}    PEX016.201 not supported
@@ -170,7 +170,7 @@ PEX016.201 PCI Express Bifurcation x1x1x1x1 (Ubuntu)
 
 PEX017.201 PCI Express Bifurcation Card Detection x1x1x1x1 (Ubuntu)
     [Documentation]    Check whether all devices in a PCIe bifurcation are
-    ...    recognized properly in x4x4x4x4 bifurcation layout.
+    ...    recognized properly in x1x1x1x1 bifurcation layout.
     Skip If    not ${PCIE_BIFURCATION_SUPPORT_X4}    PEX017.201 not supported
     Skip If    not ${TESTS_IN_UBUNTU_SUPPORT}    PEX017.201 not supported
     Test Bifurcation Card Disk Detection    ${BIFURCATION_X1_4}
@@ -211,9 +211,16 @@ Test Bifurcation Topology
     ...    whether resulting PCIe link topology matches the setting.
     [Arguments]    ${bifurcation_layout}
     Set Bifurcation Layout In Firmware    ${bifurcation_layout}
-    Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
-    Login To Linux
-    Switch To Root User
+    IF    '${PCIE_BIFURCATION_SUPPORT_X4}'=='${TRUE}' and '${bifurcation_layout}'=='${BIFURCATION_X4_1}'
+        # Fallback for boot drive in bifurcation card not being detected
+        Boot Dasharo Tools Suite Via IPXE Shell    http://boot.dasharo.com/dts/dts.ipxe
+        Wait For DTS To Boot
+        Enter Shell In DTS
+    ELSE
+        Boot System Or From Connected Disk    ${ENV_ID_UBUNTU}
+        Login To Linux
+        Switch To Root User
+    END
     Wait Until Keyword Succeeds    2x
     ...    2s
     ...    Verify Bifurcation In Ubuntu    ${bifurcation_layout}
