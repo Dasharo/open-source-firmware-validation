@@ -57,45 +57,14 @@ WTD004.001 DRTM event log exists
     ...    test -f /sys/kernel/security/slaunch/eventlog && echo y
     Should Be Equal As Strings    ${present}    y    msg=DRTM log is missing
 
-WTD005.001 DRTM event log has DRTM entries (AMD)
-    [Documentation]    Verifies that event log includes DRTM entries
-
-    ${cpuinfo}=    Execute Command In Terminal    cat /proc/cpuinfo
-    Skip If    "AuthenticAMD" not in """${cpuinfo}"""    Not an AMD CPU
-
+WTD005.001 DRTM event log has DRTM entries
+    [Documentation]    Verifies that the DRTM event log has the events the
+    ...    launch (Intel SINIT ACM or AMD Secure Kernel Loader) and the kernel
+    ...    log, with their types, PCRs and order
     ${present}=    Execute Command In Terminal
     ...    test -f /sys/kernel/security/slaunch/eventlog && echo y
     Skip If    "${present}" != "y"    DRTM log is missing
-
-    Execute Command In Terminal
-    ...    tpm2_eventlog /sys/kernel/security/slaunch/eventlog > /tmp/event-log
-    Execute Command In Terminal
-    ...    function to_hex() { echo -n "$1" | hexdump -ve '1/1 "%02x"'; }
-    Execute Command In Terminal
-    ...    function find_event() { sed -n "/\\s*PCRIndex: $1/,/Event: \\"/s/\\s*Event: \\"$(to_hex "$2")\\"/MATCH/p" /tmp/event-log; }
-
-    ${match}=    Execute Command In Terminal
-    ...    find_event 17 "SKINIT"
-    Should Be Equal As Strings    ${match}    MATCH    No "SKINIT" entry
-
-    ${match}=    Execute Command In Terminal
-    ...    find_event 17 "DLME entry offset"
-    Should Be Equal As Strings    ${match}    MATCH    No "DLME entry offset" entry
-
-    ${match}=    Execute Command In Terminal
-    ...    find_event 17 "DLME"
-    Should Be Equal As Strings    ${match}    MATCH    No "DLME" entry
-
-    # XXX: No part of SLRT is measured on AMD platforms.
-    # Early TPM code doesn't identify SLRT measurement event in any way.
-    # ${match}=    Execute Command In Terminal
-    # ...    find_event 18 ""
-    # Should Be Equal As Strings    ${match}    MATCH    No SLRT entry
-
-    # XXX: This is only for Multiboot2 protocol.
-    # ${match}=    Execute Command In Terminal
-    # ...    find_event 17 "Measured MB2 module"
-    # Should Be Equal As Strings    ${match}    MATCH\nMATCH    No "Measured MB2 module" entries
+    DRTM Event Log Should Follow Secure Launch Order
 
 WTD006.001 DRTM log aligns with PCR values
     [Documentation]    Verify that all DRTM measurements are correctly reflected
@@ -112,6 +81,11 @@ WTD008.001 DRTM log covers every active PCR bank
     ...    logged in every active PCR bank, so that each bank can be replayed
     Skip If    '${TPM_SUPPORTED_VERSION}' == '1'    TPM 1.2 has only the SHA-1 bank
     DRTM Event Log Should Cover Banks    17    18
+
+WTD009.001 DRTM log digests match the measured data
+    [Documentation]    Verify that the DRTM log digests whose measured value
+    ...    the OS knows (SINIT ACM data, kernel command line) are its hash
+    DRTM Event Log Should Match Measured Values
 
 
 *** Keywords ***

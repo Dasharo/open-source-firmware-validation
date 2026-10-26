@@ -1,6 +1,8 @@
 *** Settings ***
+Library     Collections
 Library     TelnetLibrary    timeout=20 seconds    connection_timeout=120 seconds
 Library     event_log_banks.py
+Library     slaunch_event_log.py
 Resource    terminal.robot
 Resource    tpm.robot
 
@@ -119,3 +121,56 @@ DRTM Event Log Should Cover Banks
     ...    tpm2_eventlog '${eventlog}'
     Should Not Contain    ${tpm2_eventlog}    ERROR:
     Event Log Should Cover Banks    ${tpm2_eventlog}    ${pcrs}    ${banks}
+
+DRTM Event Log Should Follow Secure Launch Order
+    [Documentation]    Fails when the PCR 17 and 18 events of the DRTM event
+    ...    log at \${eventlog} do not have the types and order the launch and
+    ...    TrenchBoot Linux log: the SINIT ACM events of Table 37 of the Intel
+    ...    MLE Developer's Guide, or the events of the AMD Secure Kernel Loader,
+    ...    then the kernel's measurements between its start and end markers.
+    [Arguments]    ${eventlog}=/sys/kernel/security/slaunch/eventlog
+    ${vendor}=    Get Secure Launch Vendor
+    ${dump}=    Execute Command In Terminal
+    ...    xxd -p '${eventlog}'
+    Secure Launch Event Log Should Follow Order    ${dump}    ${vendor}
+
+DRTM Event Log Should Match Measured Values
+    [Documentation]    Fails when a digest of the DRTM event log at
+    ...    \${eventlog} is not the hash of the value it measures, where the OS
+    ...    knows that value: the Intel SINIT ACM events whose data is the
+    ...    measured value, the kernel command line, and the initrd at
+    ...    \${initrd} when it is set.
+    [Arguments]    ${eventlog}=/sys/kernel/security/slaunch/eventlog
+    ...    ${initrd}=${EMPTY}
+    ${vendor}=    Get Secure Launch Vendor
+    ${dump}=    Execute Command In Terminal
+    ...    xxd -p '${eventlog}'
+    ${cmdline}=    Execute Command In Terminal
+    ...    xxd -p /proc/cmdline
+    # hdr.cmdline_size of the Linux boot protocol, at offset 0x238 of the
+    # boot parameters.
+    ${cmdline_size}=    Execute Command In Terminal
+    ...    xxd -p -s 0x238 -l 4 /sys/kernel/boot_params/data
+    Should Match Regexp    ${cmdline_size}    ^[0-9a-f]{8}$
+    ...    Cannot read hdr.cmdline_size: ${cmdline_size}
+    VAR    &{initrd_digests}=    &{EMPTY}
+    IF    $initrd
+        FOR    ${algo}    IN    sha1    sha256
+            ${digest}=    Execute Command In Terminal
+            ...    ${algo}sum '${initrd}' | cut -f1 -d' '
+            Should Match Regexp    ${digest}    ^[0-9a-f]+$
+            ...    Cannot hash ${initrd}: ${digest}
+            Set To Dictionary    ${initrd_digests}    ${algo}=${digest}
+        END
+    END
+    Secure Launch Measurements Should Match
+    ...    ${dump}    ${vendor}    ${cmdline}    ${cmdline_size}    ${initrd_digests}
+
+Get Secure Launch Vendor
+    [Documentation]    Returns intel or amd, from the vendor_id in
+    ...    /proc/cpuinfo.
+    ${vendor_id}=    Execute Command In Terminal
+    ...    grep -m1 '^vendor_id' /proc/cpuinfo
+    IF    'GenuineIntel' in $vendor_id    RETURN    intel
+    IF    'AuthenticAMD' in $vendor_id    RETURN    amd
+    Fail    No Secure Launch vendor for the CPU: ${vendor_id}
