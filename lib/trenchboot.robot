@@ -1,6 +1,8 @@
 *** Settings ***
 Library     TelnetLibrary    timeout=20 seconds    connection_timeout=120 seconds
+Library     event_log_banks.py
 Resource    terminal.robot
+Resource    tpm.robot
 
 
 *** Keywords ***
@@ -23,12 +25,20 @@ TrenchBoot Telnet Root Login
 Validate DRTM PCRs Against Event Log
     [Documentation]    Replays the DRTM event log at \${eventlog} for each PCR
     ...    in \@{pcrs} and each bank in \${algos}, and compares the result with
-    ...    the PCR value in sysfs. Banks missing from sysfs are skipped.
+    ...    the PCR value in sysfs. By default the banks are the active ones,
+    ...    and a bank the log has no events in for a PCR is logged as a
+    ...    warning. A bank passed in \${algos} must be active and have events
+    ...    for every PCR in the log. Fails when no PCR was compared at all.
     [Arguments]    @{pcrs}
     ...    ${eventlog}=/sys/kernel/security/slaunch/eventlog
-    ...    ${algos}=${{["sha1", "sha256"]}}
-    Execute Command In Terminal
+    ...    ${algos}=${NONE}
+    Execute Command In Terminal Should Succeed
     ...    tpm2_eventlog '${eventlog}' > /tmp/event-log
+    VAR    ${required}=    ${{$algos is not None}}
+    @{active}=    Get Active PCR Banks
+    IF    not ${required}
+        VAR    ${algos}=    ${active}
+    END
     # This extracts hashes for a combination of a PCR (first parameter) and an
     # algorithm (second parameter). The printed line have the form
     #    {event data length}-{digest}
@@ -52,12 +62,21 @@ Validate DRTM PCRs Against Event Log
 
     Execute Command In Terminal
     ...    function extend() { pcr=$(echo -n "$pcr$2" | xxd -r -p | $1sum | cut -f1 -d' '); }
+    VAR    ${compared}=    ${0}
     FOR    ${algo}    IN    @{algos}
-        ${algo_present}=    Execute Command In Terminal
-        ...    test -d /sys/class/tpm/tpm0/pcr-${algo} && echo y
-        IF    '''${algo_present}''' != 'y'    CONTINUE
+        IF    $algo not in $active
+            Fail    The ${algo} bank is not active, the active banks are ${active}
+        END
 
         FOR    ${pcr}    IN    @{pcrs}
+            ${events}=    Execute Command In Terminal
+            ...    hashes ${pcr} ${algo} | wc -l
+            IF    ${events} == 0 and ${required}
+                Fail    ${eventlog} has no PCR-${pcr} events in the ${algo} bank
+            ELSE IF    ${events} == 0
+                Log    ${eventlog} has no PCR-${pcr} events in the active ${algo} bank    WARN
+                CONTINUE
+            END
             # Replaying the log skips digests of no data. These correspond to
             # informational markers which don't extend PCRs.
             VAR    ${replay_pcr}=
@@ -76,5 +95,27 @@ Validate DRTM PCRs Against Event Log
             Should Be Equal As Strings    ${actual}    ${expected}
             ...    PCR-${pcr} ${algo} doesn't match
             ...    ignore_case=${TRUE}
+            ${compared}=    Evaluate    ${compared} + 1
         END
     END
+    IF    ${compared} == 0
+        Fail    ${eventlog} replays none of PCRs ${pcrs} in the banks ${algos}
+    END
+
+DRTM Event Log Should Cover Banks
+    [Documentation]    Fails when the DRTM event log at \${eventlog} does not
+    ...    cover every bank in \${banks}, the active ones by default: its
+    ...    Spec ID event must list the bank, and every event for a PCR in
+    ...    \@{pcrs} that extends a PCR must have a digest in it. A log that
+    ...    misses an active bank cannot be replayed in it, so the replay checks
+    ...    have nothing to compare that bank with.
+    [Arguments]    @{pcrs}
+    ...    ${eventlog}=/sys/kernel/security/slaunch/eventlog
+    ...    ${banks}=${NONE}
+    IF    $banks is None
+        ${banks}=    Get Active PCR Banks
+    END
+    ${tpm2_eventlog}=    Execute Command In Terminal
+    ...    tpm2_eventlog '${eventlog}'
+    Should Not Contain    ${tpm2_eventlog}    ERROR:
+    Event Log Should Cover Banks    ${tpm2_eventlog}    ${pcrs}    ${banks}

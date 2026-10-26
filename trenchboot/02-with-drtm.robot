@@ -16,7 +16,7 @@ Suite Teardown      Run Keyword
 #
 # These tests verify sanity of the platform when DRTM is enabled.
 #
-# Supported TPM: 1.2 or 2.0 (SHA1 and/or SHA256 PCR banks)
+# Supported TPM: 1.2 or 2.0 (any active PCR banks)
 
 
 *** Test Cases ***
@@ -106,6 +106,12 @@ WTD007.001 SRTM log aligns with PCR values
     [Documentation]    Verify that all SRTM measurements are correctly reflected
     ...    in SRTM event log
     Validate PCRs Against Event Log    /sys/kernel/security/tpm0/binary_bios_measurements
+
+WTD008.001 DRTM log covers every active PCR bank
+    [Documentation]    Verify that every DRTM measurement for PCR 17 and 18 is
+    ...    logged in every active PCR bank, so that each bank can be replayed
+    Skip If    '${TPM_SUPPORTED_VERSION}' == '1'    TPM 1.2 has only the SHA-1 bank
+    DRTM Event Log Should Cover Banks    17    18
 
 
 *** Keywords ***

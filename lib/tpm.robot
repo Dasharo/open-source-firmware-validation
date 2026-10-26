@@ -41,9 +41,21 @@ Save Event Log
     Create File    ${path}    ${eventlog}
     Log    Event log saved to ${path}
 
+Get Active PCR Banks
+    [Documentation]    Returns the PCR banks the TPM driver exposes in sysfs,
+    ...    for example ["sha256", "sha384"]. Should be called when logged in
+    ...    Linux.
+    ${out}=    Execute Command In Terminal
+    ...    for d in /sys/class/tpm/tpm0/pcr-*/; do d=\${d%/}; echo "\${d##*/pcr-}"; done
+    ${lines}=    Get Lines Matching Regexp    ${out}    [a-z0-9_]+
+    @{banks}=    Split To Lines    ${lines}
+    Should Not Be Empty    ${banks}    No PCR banks in /sys/class/tpm/tpm0
+    RETURN    ${banks}
+
 Get PCRs From Eventlog
     [Documentation]    Returns PCRs from Eventlog as a list of strings:
-    ...    ["<pcr>:<hash>"] with spaces removed
+    ...    ["<pcr>:<hash>"] with spaces removed. Only the "<pcr> : 0x<hash>"
+    ...    lines count, because the last bank runs to the end of the output.
     [Arguments]    ${eventlog}    ${sha}
     @{eventlog}=    Split To Lines    ${eventlog}
     ${sha_index_start}=    Get Index From List Regexp
@@ -55,11 +67,14 @@ Get PCRs From Eventlog
     IF    ${sha_index_end} == -1
         VAR    ${sha_index_end}=    ${NONE}
     END
-    ${pcrs}=    Get Slice From List
+    ${lines}=    Get Slice From List
     ...    ${eventlog}    ${sha_index_start}    ${sha_index_end}
-    FOR    ${index}    ${element}    IN ENUMERATE    @{pcrs}
-        ${stripped_element}=    Remove String    ${element}    ${SPACE}
-        Set List Value    ${pcrs}    ${index}    ${stripped_element}
+    VAR    @{pcrs}=    @{EMPTY}
+    FOR    ${line}    IN    @{lines}
+        ${stripped_line}=    Remove String    ${line}    ${SPACE}
+        ${is_pcr}=    Run Keyword And Return Status
+        ...    Should Match Regexp    ${stripped_line}    ^[0-9]+:0x[0-9a-fA-F]+$
+        IF    ${is_pcr}    Append To List    ${pcrs}    ${stripped_line}
     END
     RETURN    ${pcrs}
 
@@ -76,21 +91,35 @@ Get Index From List Regexp
 
 Validate PCRs Against Event Log
     [Documentation]    Check that current PCRs values match result of replaying
-    ...    some binary event log
-    [Arguments]    ${binary_log_file}
+    ...    some binary event log, in each bank of \${banks}. By default the
+    ...    banks are the active ones, and a bank the log has no PCRs in is
+    ...    logged as a warning. A bank passed in \${banks} must have PCRs in
+    ...    the log. Fails when no PCR was compared at all.
+    [Arguments]    ${binary_log_file}    ${banks}=${NONE}
     ${tpm2_eventlog}=    Execute Command In Terminal
     ...    tpm2_eventlog ${binary_log_file}
     Should Not Contain    ${tpm2_eventlog}    ERROR: Unable to run tpm2_eventlog
+    VAR    ${required}=    ${{$banks is not None}}
+    IF    not ${required}
+        ${banks}=    Get Active PCR Banks
+    END
     VAR    @{acceptable_invalid_prcs}=    @{EMPTY}
     VAR    @{critical_invalid_pcrs}=    @{EMPTY}
-    FOR    ${algo}    IN    sha1    sha256
+    VAR    ${compared}=    ${0}
+    FOR    ${algo}    IN    @{banks}
         ${eventlog_pcrs}=    Get PCRs From Eventlog    ${tpm2_eventlog}    ${algo}
+        IF    not $eventlog_pcrs and ${required}
+            Fail    ${binary_log_file} has no PCRs in the ${algo} bank
+        ELSE IF    not $eventlog_pcrs
+            Log    ${binary_log_file} has no PCRs in the active ${algo} bank    WARN
+        END
         FOR    ${pcr_element}    IN    @{eventlog_pcrs}
             ${pcr}    ${hash}=    Split String    ${pcr_element}    separator=:
             ${sha_hash}=    Execute Command In Terminal
             ...    cat /sys/class/tpm/tpm0/pcr-${algo}/${pcr}
             ${status}=    Run Keyword And Return Status
-            ...    Should Contain    ${hash}    ${sha_hash}    ignore_case=${TRUE}
+            ...    Should Be Equal As Strings    ${hash}    0x${sha_hash}    ignore_case=${TRUE}
+            ${compared}=    Evaluate    ${compared} + 1
             IF    not ${status}
                 VAR    &{pcr_fail}=    pcr=pcr${pcr}-${algo}    log_hash=${hash}    real_hash=${sha_hash}
                 IF    '${pcr}' in $ACCEPTABLE_PCR_FAILS
@@ -100,6 +129,9 @@ Validate PCRs Against Event Log
                 END
             END
         END
+    END
+    IF    ${compared} == 0
+        Fail    ${binary_log_file} replays no PCRs in the banks ${banks}
     END
     IF    @{acceptable_invalid_prcs}
         Log    Invalid PCRs found, but they don't necessarily mean a firmware issue    WARN
