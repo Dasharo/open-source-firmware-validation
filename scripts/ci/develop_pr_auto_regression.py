@@ -53,7 +53,9 @@ def snipeit_checkout(asset_id):
         dprint(
             f"Attempt {attempt} ({total_time}/{MAX_SNIPEIT_WAIT_SECONDS} s): trying to check out the device {asset_id}..."
         )
-        r = run(["osfv_cli", "snipeit", "check_out", "--asset_id", asset_id])
+        r = run(
+            ["osfv_cli", "snipeit", "check_out", "--asset_id", asset_id, "--strict"]
+        )
         if r.returncode == 0:
             dprint(f"Check out {asset_id} succeeded!")
             CHECKED_OUT_ASSET = asset_id
