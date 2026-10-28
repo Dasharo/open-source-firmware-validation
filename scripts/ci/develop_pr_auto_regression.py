@@ -135,6 +135,8 @@ def execute_commands(commands):
         dprint(f"Run {idx} setting environment variables")
         if "ASSET_ID" not in env:
             dprint("ASSET_ID is undefined, skipping snipeit checkout")
+        elif CHECKED_OUT_ASSET == env["ASSET_ID"]:
+            dprint(f"{CHECKED_OUT_ASSET} already checked out form a previous command.")
         elif snipeit_checkout(env["ASSET_ID"]) != 0:
             return 1
 
