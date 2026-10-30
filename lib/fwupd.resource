@@ -63,6 +63,18 @@ Run Fwupd Local Install
     ...    timeout=300s
     RETURN    ${out}
 
+Run Fwupd Dbx Install
+    [Documentation]    Update the UEFI dbx device ${device_id} to the newest
+    ...    release offered by the enabled remotes. ``update`` is used instead
+    ...    of ``install`` because the latter prompts for a release when several
+    ...    are available. Does not reboot on its own, the caller reboots
+    ...    explicitly so fwupd re-reads dbx.
+    [Arguments]    ${device_id}
+    ${out}=    Execute Command In Terminal
+    ...    yes Y | fwupdmgr update ${device_id} --assume-yes --no-reboot-check
+    ...    timeout=300s
+    RETURN    ${out}
+
 Fwupd Get Version Linux
     [Documentation]    Retrieve version of fwupdmgr, set FWUPDMGR_VERSION
     ...    test variable. FAIL if empty.

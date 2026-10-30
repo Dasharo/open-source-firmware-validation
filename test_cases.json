@@ -3845,7 +3845,7 @@
   {
     "doc": {
       "_id": "FWUPD007.201",
-      "name": "Fwupd firmware update updates dbx (Ubuntu)",
+      "name": "Fwupd DBX Update (Ubuntu)",
       "module": "Dasharo Compatibility"
     }
   },

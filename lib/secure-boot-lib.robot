@@ -192,6 +192,31 @@ Enter Enroll Signature Using File In Options
     ...    opt_only=${FALSE}
     Enter Submenu From Snapshot    ${enroll_sig_menu}    Enroll Signature Using File
 
+Delete All DBX Signatures
+    [Documentation]    Deletes every signature list from dbx. Expects the
+    ...    Advanced Secure Boot Keys Management menu construction. Returns
+    ...    to the Secure Boot Configuration menu, so the cursor position is
+    ...    known again, and returns its construction.
+    [Arguments]    ${advanced_menu}
+    ${dbx_opts_menu}=    Enter Submenu From Snapshot And Return Construction
+    ...    ${advanced_menu}
+    ...    DBX Options
+    ${delete_sig_menu}=    Enter Submenu From Snapshot And Return Construction
+    ...    ${dbx_opts_menu}
+    ...    Delete Signature
+    Enter Submenu From Snapshot    ${delete_sig_menu}    Delete All Signature List
+    Read From Terminal Until    Press 'Y' to delete signature list
+    Write Into Terminal    Y
+    Sleep    1s
+    # The emptied list form is reloaded in place, three levels below the
+    # Secure Boot Configuration menu.
+    FOR    ${i}    IN RANGE    3
+        Exit From Current Menu
+        Sleep    1s
+    END
+    ${sb_menu}=    Get Secure Boot Menu Construction
+    RETURN    ${sb_menu}
+
 Enter Volume In File Explorer
     [Documentation]    Enter the given volume
     [Arguments]    ${target_volume}

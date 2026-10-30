@@ -68,6 +68,15 @@ Login To Linux
     ELSE
         Login To Linux Over Serial Console    ${DEVICE_OS_USERNAME}    ${DEVICE_OS_PASSWORD}
     END
+    Disable Shell Prompt Hooks
+
+Disable Shell Prompt Hooks
+    [Documentation]    Drop the PS0 and PROMPT_COMMAND hooks that systemd 258+
+    ...    installs from /etc/profile.d to wrap every command in OSC 3008
+    ...    context sequences. The SSHLibrary escape filter does not understand
+    ...    OSC strings: the marker payload stays in the output and the first
+    ...    character after each marker is lost.
+    Execute Command In Terminal    unset PS0 PROMPT_COMMAND
 
 Login To Linux Via OBMC
     [Documentation]    Login to Linux via OBMC
@@ -293,6 +302,7 @@ Switch To Root User
         Write Into Terminal    ${DEVICE_OS_PASSWORD}
         Read From Terminal Until Prompt
     END
+    Disable Shell Prompt Hooks
 
 Exit From Root User
     [Documentation]    Exit from the root environment
