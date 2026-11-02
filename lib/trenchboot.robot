@@ -31,11 +31,15 @@ Validate DRTM PCRs Against Event Log
     ...    and a bank the log has no events in for a PCR is logged as a
     ...    warning. A bank passed in \${algos} must be active and have events
     ...    for every PCR in the log. Fails when no PCR was compared at all.
+    ...    \${timeout} is the DUT Response Timeout of each command, which a
+    ...    slow platform needs longer to replay a PCR of many events.
     [Arguments]    @{pcrs}
     ...    ${eventlog}=/sys/kernel/security/slaunch/eventlog
     ...    ${algos}=${NONE}
+    ...    ${timeout}=30s
     Execute Command In Terminal Should Succeed
     ...    tpm2_eventlog '${eventlog}' > /tmp/event-log
+    ...    timeout=${timeout}
     VAR    ${required}=    ${{$algos is not None}}
     @{active}=    Get Active PCR Banks
     IF    not ${required}
@@ -60,10 +64,11 @@ Validate DRTM PCRs Against Event Log
     ...    /tmp/event-log;
     ...    }
     ...    separator=${SPACE}
-    Execute Command In Terminal    ${hashes_func}
+    Execute Command In Terminal    ${hashes_func}    ${timeout}
 
     Execute Command In Terminal
     ...    function extend() { pcr=$(echo -n "$pcr$2" | xxd -r -p | $1sum | cut -f1 -d' '); }
+    ...    ${timeout}
     VAR    ${compared}=    ${0}
     FOR    ${algo}    IN    @{algos}
         IF    $algo not in $active
@@ -72,7 +77,7 @@ Validate DRTM PCRs Against Event Log
 
         FOR    ${pcr}    IN    @{pcrs}
             ${events}=    Execute Command In Terminal
-            ...    hashes ${pcr} ${algo} | wc -l
+            ...    hashes ${pcr} ${algo} | wc -l    ${timeout}
             IF    ${events} == 0 and ${required}
                 Fail    ${eventlog} has no PCR-${pcr} events in the ${algo} bank
             ELSE IF    ${events} == 0
@@ -91,9 +96,9 @@ Validate DRTM PCRs Against Event Log
             ...    done;
             ...    echo "$pcr"
             ...    separator=${SPACE}
-            ${expected}=    Execute Command In Terminal    ${replay_pcr}
+            ${expected}=    Execute Command In Terminal    ${replay_pcr}    ${timeout}
             ${actual}=    Execute Command In Terminal
-            ...    cat /sys/class/tpm/tpm0/pcr-${algo}/${pcr}
+            ...    cat /sys/class/tpm/tpm0/pcr-${algo}/${pcr}    ${timeout}
             Should Be Equal As Strings    ${actual}    ${expected}
             ...    PCR-${pcr} ${algo} doesn't match
             ...    ignore_case=${TRUE}
