@@ -15,18 +15,24 @@ Suite Setup         Run Keywords
 ...                     Prepare Test Suite
 ...                     AND    Skip If    not ${TESTS_IN_WINDOWS_SUPPORT}    Tests in Windows not supported
 ...                     AND    Skip If    not ${CAPSULE_UPDATE_V2_SUPPORT}    Capsule Update V2 not supported
+...                     AND    Ensure RC0 Firmware Is Present
+...                     AND    Flash Firmware    ${CAPSULE_UPDATE_RC0_FW_FILE}
 ...                     AND    Run Keyword If    ${DASHARO_INTEL_ME_MENU_SUPPORT}
 ...                     Set UEFI Option    MeMode    Disabled (HAP)
 ...                     AND    Install Fwupd Windows If Provided
-Suite Teardown      Run Keyword
-...                     Log Out And Close Connection
+Suite Teardown      Run Keywords
+...                     Run Keyword If    '${SUITE_STATUS}' != 'SKIP'    Flash Firmware    ${FW_FILE}
+...                     AND    Log Out And Close Connection
 
 Default Tags        automated
 
 
 *** Variables ***
-${CABINET_ENVVAR}=      FWUPD_CABINET_FILE
-${MSI_ENVVAR}=          FWUPD_MSI_FILE
+${CABINET_ENVVAR}=                  FWUPD_CABINET_FILE
+${MSI_ENVVAR}=                      FWUPD_MSI_FILE
+
+# To be read from environment variables
+${CAPSULE_UPDATE_RC0_FW_FILE}=      ${NONE}
 
 
 *** Test Cases ***
@@ -90,6 +96,8 @@ Fwupd Local Firmware Update Windows
     ${cabinet}=    Get Windows Home Path    fwupd_cabinet.cab
     SSHLibrary.Put File    ${fwupd_cabinet}    ${cabinet}    scp=ALL
     Fwupd Clear History Windows
+    ${esrt}=    Get System Firmware ESRT Entry Windows
+    VAR    ${ESRT_VERSION_BEFORE_UPDATE}=    ${esrt}[version]    scope=SUITE
 
     ${out}=    Run Fwupd Local Install Windows    ${cabinet}
     Should Contain    ${out}    Successfully installed firmware
@@ -122,10 +130,16 @@ Recover From Capsule Failure Screen
     END
 
 Fwupd Check Update Results Windows
-    Fwupd Get FW DeviceID Windows
-    ${out}=    Execute Command In Terminal    fwupdtool get-results ${FWUPDTOOL_DEVICE_ID}
-    ${state_line}=    Get Lines Containing String    ${out}    Update State:
-    Should Contain    ${state_line}    Success
+    ${esrt}=    Get System Firmware ESRT Entry Windows
+    Should Not Be Equal    ${esrt}[version]    ${ESRT_VERSION_BEFORE_UPDATE}
+    ...    msg=ESRT version is still the RC0 version 0x${ESRT_VERSION_BEFORE_UPDATE}, the capsule was not applied
+
+Ensure RC0 Firmware Is Present
+    ${rc0}=    Get Environment Variable    name=CAPSULE_UPDATE_RC0_FW_FILE
+    VAR    ${CAPSULE_UPDATE_RC0_FW_FILE}=    ${rc0}    scope=SUITE
+    OperatingSystem.File Should Exist
+    ...    ${CAPSULE_UPDATE_RC0_FW_FILE}
+    ...    CAPSULE_UPDATE_RC0_FW_FILE env variable does not point to a file! CAPSULE_UPDATE_RC0_FW_FILE="${CAPSULE_UPDATE_RC0_FW_FILE}"
 
 Install Fwupd Windows If Provided
     ${msi_given}=    Run Keyword And Return Status
@@ -141,8 +155,13 @@ Install Fwupd Windows If Provided
     ${exit_code}=    Execute Command In Terminal
     ...    (Start-Process msiexec -ArgumentList '/i','${msi}','/qn','/norestart','/l*v','${msi}.log' -Wait -PassThru).ExitCode
     ...    timeout=300s
-    Should Match Regexp    ${exit_code}    (?m)^\\s*(0|3010)\\s*$
-    ...    msg=fwupd MSI install failed with exit code ${exit_code}, see ${msi}.log on the DUT
+    ${installed}=    Run Keyword And Return Status
+    ...    Should Match Regexp    ${exit_code}    (?m)^\\s*(0|3010)\\s*$
+    IF    not ${installed}
+        ${msi_log}=    Execute Command In Terminal
+        ...    Select-String -Path '${msi}.log' -Pattern 'Return value 3' -Context 20,0 | Out-String -Width 400
+        Fail    fwupd MSI install failed with exit code ${exit_code}:\n${msi_log}
+    END
     Boot And Login To OS    ${DEFAULT_BOOT_OS_ID}
 
 Get Windows Home Path
