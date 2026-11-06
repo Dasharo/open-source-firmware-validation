@@ -25,13 +25,21 @@ concurrency:
   limit: 1
   group: device-${DEVICE}
 
-clone:
-  git:
-    image: woodpeckerci/plugin-git
-    settings:
-      recursive: false
+skip_clone: true
 
 steps:
+  - name: clone
+    image: git.3mdeb.com/dasharo/osfv-ci:latest
+    pull: true
+    environment:
+      GITEA_TOKEN:
+        from_secret: GITEA_BUILDER_TOKEN_REPO_READ
+    commands:
+      - git init -q .
+      - git remote add origin "$(printf '%s' "$${CI_REPO_CLONE_URL}" | sed "s#^https://#https://ci:$${GITEA_TOKEN}@#")"
+      - git fetch -q --no-tags origin "+$${CI_COMMIT_SHA}:"
+      - git checkout -q FETCH_HEAD
+
   - name: stability
     image: git.3mdeb.com/dasharo/osfv-qemu-ci:latest
     pull: true
