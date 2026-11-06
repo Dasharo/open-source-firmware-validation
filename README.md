@@ -509,7 +509,7 @@ them:
 
 ```bash
 task --taskfile .ci/Taskfile.yml stability:device \
-  DEVICE=scripts/ci/regression-scope/configs/devices/pcengines-apu3_00252.json \
+  DEVICE=scripts/ci/regression-scope/configs/devices/pcengines-apu3_00331.json \
   RUN_LOGS_DIR=/tmp/logs
 ```
 

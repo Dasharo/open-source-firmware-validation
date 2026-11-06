@@ -14,7 +14,7 @@ scripts/ci/regression-scope/configs/devices/novacustom-nuc_box-125H_00265.json
 # desk setup
 # scripts/ci/regression-scope/configs/devices/novacustom-v540tnd_00266.json
 
-scripts/ci/regression-scope/configs/devices/pcengines-apu3_00252.json
+scripts/ci/regression-scope/configs/devices/pcengines-apu3_00331.json
 
 scripts/ci/regression-scope/configs/devices/protectli-vp6650_00002.json
 

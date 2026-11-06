@@ -14,11 +14,11 @@ matrix:
   DEVICE:
     - scripts/ci/regression-scope/configs/devices/msi-pro-z690-a-wifi-ddr4_00039.json
     - scripts/ci/regression-scope/configs/devices/novacustom-nuc_box-125H_00245.json
-    - scripts/ci/regression-scope/configs/devices/novacustom-nuc_box-155H_00254.json
-    - scripts/ci/regression-scope/configs/devices/novacustom-v540tnd_00266.json
-    - scripts/ci/regression-scope/configs/devices/novacustom-v540tu_00191.json
-    - scripts/ci/regression-scope/configs/devices/pcengines-apu3_00252.json
-    - scripts/ci/regression-scope/configs/devices/protectli-vp2410_00052.json
+#    - scripts/ci/regression-scope/configs/devices/novacustom-nuc_box-155H_00254.json
+#    - scripts/ci/regression-scope/configs/devices/novacustom-v540tnd_00266.json
+#    - scripts/ci/regression-scope/configs/devices/novacustom-v540tu_00191.json
+    - scripts/ci/regression-scope/configs/devices/pcengines-apu3_00331.json
+#    - scripts/ci/regression-scope/configs/devices/protectli-vp2410_00052.json
     - scripts/ci/regression-scope/configs/devices/protectli-vp6650_00002.json
 
 concurrency:

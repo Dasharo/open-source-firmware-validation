@@ -1,6 +1,6 @@
 {
     "env_vars": {
-        "ASSET_ID": "00252",
+        "ASSET_ID": "00331",
         "CONFIG": "pcengines-apu3"
     },
     "fw_files": {

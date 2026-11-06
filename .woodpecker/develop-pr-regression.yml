@@ -23,7 +23,7 @@ labels:
 matrix:
   DEVICE:
     - scripts/ci/regression-scope/configs/devices/msi-pro-z690-a-wifi-ddr4_00039.json
-    - scripts/ci/regression-scope/configs/devices/pcengines-apu3_00252.json
+    - scripts/ci/regression-scope/configs/devices/pcengines-apu3_00331.json
 
 concurrency:
   limit: 1
