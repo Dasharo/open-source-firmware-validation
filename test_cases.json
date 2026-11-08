@@ -5118,6 +5118,13 @@
   },
   {
     "doc": {
+      "_id": "PXE009.101",
+      "name": "DTS Nightly option is available and works correctly (EDK2 UEFI)",
+      "module": "Dasharo Compatibility"
+    }
+  },
+  {
+    "doc": {
       "_id": "QBS001.203",
       "name": "Qubes OS installation (Qubes OS)",
       "module": "Dasharo Compatibility"
