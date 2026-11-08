@@ -710,15 +710,18 @@ Get Index Of Matching Option In Menu
     ...    None
     [Arguments]    ${menu_construction}    ${option}    ${ignore_not_found_error}=${FALSE}
 
-    FOR    ${element}    IN    @{menu_construction}
-        ${matches}=    Run Keyword And Return Status
-        ...    Should Match    ${element}    *${option}*
-        IF    ${matches}
-            VAR    ${option}=    ${element}
-            BREAK
-        END
-    END
     ${index}=    Get Index From List    ${menu_construction}    ${option}
+    IF    ${index} == -1
+        FOR    ${element}    IN    @{menu_construction}
+            ${matches}=    Run Keyword And Return Status
+            ...    Should Match    ${element}    *${option}*
+            IF    ${matches}
+                VAR    ${option}=    ${element}
+                BREAK
+            END
+        END
+        ${index}=    Get Index From List    ${menu_construction}    ${option}
+    END
     IF    ${ignore_not_found_error} == ${FALSE}
         Should Be True    ${index} >= 0    Option ${option} not found in the list
     END
