@@ -30,58 +30,58 @@ ${DMIDECODE_TYPE}=                          Desktop
 # Supported test environments
 ${TESTS_IN_FIRMWARE_SUPPORT}=               ${TRUE}
 ${TESTS_IN_UBUNTU_SUPPORT}=                 ${TRUE}
-${TESTS_IN_METATB_SUPPORT}=                 ${TRUE}
+${TESTS_IN_METATB_SUPPORT}=                 ${FALSE}
 
 # Regression test flags
 ${DASHARO_SECURITY_MENU_SUPPORT}=           ${TRUE}
-${DASHARO_USB_MENU_SUPPORT}=                ${TRUE}
+${DASHARO_USB_MENU_SUPPORT}=                ${FALSE}
 ${DASHARO_NETWORKING_MENU_SUPPORT}=         ${TRUE}
-${DASHARO_CHIPSET_MENU_SUPPORT}=            ${TRUE}
+${DASHARO_CHIPSET_MENU_SUPPORT}=            ${FALSE}
 
 # Test module: dasharo-compatibility
 ${CUSTOM_BOOT_MENU_KEY_SUPPORT}=            ${TRUE}
 ${CUSTOM_SETUP_MENU_KEY_SUPPORT}=           ${TRUE}
-${CUSTOM_NETWORK_BOOT_ENTRIES_SUPPORT}=     ${TRUE}
-${CUSTOM_LOGO_SUPPORT}=                     ${TRUE}
-${USB_DISKS_DETECTION_SUPPORT}=             ${TRUE}
-${USB_KEYBOARD_DETECTION_SUPPORT}=          ${TRUE}
+${CUSTOM_NETWORK_BOOT_ENTRIES_SUPPORT}=     ${FALSE}
+${CUSTOM_LOGO_SUPPORT}=                     ${FALSE}
+${USB_DISKS_DETECTION_SUPPORT}=             ${FALSE}
+${USB_KEYBOARD_DETECTION_SUPPORT}=          ${FALSE}
 ${IPXE_BOOT_SUPPORT}=                       ${TRUE}
-${AUDIO_SUBSYSTEM_SUPPORT}=                 ${TRUE}
+${AUDIO_SUBSYSTEM_SUPPORT}=                 ${FALSE}
 ${FIRMWARE_NUMBER_VERIFICATION}=            ${TRUE}
 ${PRODUCT_NAME_VERIFICATION}=               ${TRUE}
 ${RELEASE_DATE_VERIFICATION}=               ${TRUE}
 ${MANUFACTURER_VERIFICATION}=               ${TRUE}
 ${VENDOR_VERIFICATION}=                     ${TRUE}
 ${TYPE_VERIFICATION}=                       ${TRUE}
-${EMMC_SUPPORT}=                            ${TRUE}
-${DTS_SUPPORT}=                             ${TRUE}
-${UPLOAD_ON_USB_SUPPORT}=                   ${TRUE}
-${RESET_TO_DEFAULTS_SUPPORT}=               ${TRUE}
-${ESP_SCANNING_SUPPORT}=                    ${TRUE}
+${EMMC_SUPPORT}=                            ${FALSE}
+${DTS_SUPPORT}=                             ${FALSE}
+${UPLOAD_ON_USB_SUPPORT}=                   ${FALSE}
+${RESET_TO_DEFAULTS_SUPPORT}=               ${FALSE}
+${ESP_SCANNING_SUPPORT}=                    ${FALSE}
 
 # Test module: dasharo-security
 ${TPM_SUPPORTED_VERSION}=                   2
-${VERIFIED_BOOT_SUPPORT}=                   ${TRUE}
-${VERIFIED_BOOT_POPUP_SUPPORT}=             ${TRUE}
+${VERIFIED_BOOT_SUPPORT}=                   ${FALSE}
+${VERIFIED_BOOT_POPUP_SUPPORT}=             ${FALSE}
 ${MEASURED_BOOT_SUPPORT}=                   ${TRUE}
 ${SECURE_BOOT_SUPPORT}=                     ${TRUE}
-${USB_STACK_SUPPORT}=                       ${TRUE}
-${USB_MASS_STORAGE_SUPPORT}=                ${TRUE}
+${USB_STACK_SUPPORT}=                       ${FALSE}
+${USB_MASS_STORAGE_SUPPORT}=                ${FALSE}
 ${UEFI_PASSWORD_SUPPORT}=                   ${TRUE}
 
 # Test module: dasharo-performance
-${SERIAL_BOOT_MEASURE}=                     ${TRUE}
-${CPU_FREQUENCY_MEASURE}=                   ${TRUE}
-${CPU_TEMPERATURE_MEASURE}=                 ${TRUE}
-${PLATFORM_STABILITY_CHECKING}=             ${TRUE}
+${SERIAL_BOOT_MEASURE}=                     ${FALSE}
+${CPU_FREQUENCY_MEASURE}=                   ${FALSE}
+${CPU_TEMPERATURE_MEASURE}=                 ${FALSE}
+${PLATFORM_STABILITY_CHECKING}=             ${FALSE}
 
 # Test module: trenchboot
-${TRENCHBOOT_SUPPORT}=                      ${TRUE}
+${TRENCHBOOT_SUPPORT}=                      ${FALSE}
 
 ${AUTO_BOOT_TIME_OUT_DEFAULT_VALUE}=        0
 
 # Test module: dasharo-stability
-${CAPSULE_UPDATE_SUPPORT}=                  ${TRUE}
+${CAPSULE_UPDATE_SUPPORT}=                  ${FALSE}
 
 
 *** Keywords ***

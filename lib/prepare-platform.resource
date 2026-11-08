@@ -43,6 +43,9 @@ Prepare Platform
         Log Out And Close Connection
         Should Be Equal    ${fw_ver_file}    ${fw_ver_bootblock}
         Should Be Equal    ${fw_ver_bootblock}    ${fw_ver_romstage}
+    ELSE IF    '${CONFIG}'=='qemu'
+        Prepare Test Suite
+        Log Out And Close Connection
     ELSE
         Variable Should Exist    ${FW_FILE}
         Prepare Test Suite
