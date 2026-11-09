@@ -109,6 +109,16 @@ Flash RW Sections Via Internal Programmer
         Flash Via Internal Programmer With Args    ${fw_file_path}    -N --fmap -i RW_SECTION_A
     END
 
+Flash Via External Programmer
+    [Documentation]    Flash the whole chip using the RTE external programmer.
+    ...    Fails if flashrom returns an error, e.g. when the chip is not
+    ...    detected, so that tests don't continue with the old firmware and
+    ...    configuration.
+    [Arguments]    ${fw_file}
+    ${rc}=    Rte Flash Write    ${fw_file}
+    Should Be Equal As Integers    ${rc}    0
+    ...    External flashing failed with flashrom return code ${rc}
+
 # TODO: below keywords are simply copied from keywords.robot. They might require some
 # more cleanup/reduction.
 
@@ -131,7 +141,10 @@ Flash Firmware
     END
 
     IF    '${FLASHING_METHOD}' == 'external'
-        Rte Flash Write    ${fw_file}
+        # flashrom over RTE sometimes fails to detect the chip
+        # ("No EEPROM/flash device found"), so retry before giving up
+        Wait Until Keyword Succeeds    3x    10s
+        ...    Flash Via External Programmer    ${fw_file}
     ELSE IF    '${FLASHING_METHOD}' == 'internal'
         Make Sure That Flash Locks Are Disabled
         Power On
