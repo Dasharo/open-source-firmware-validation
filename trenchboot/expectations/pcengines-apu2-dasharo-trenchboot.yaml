@@ -1,0 +1,25 @@
+# SPDX-FileCopyrightText: 2026 3mdeb <contact@3mdeb.com>
+#
+# SPDX-License-Identifier: Apache-2.0
+
+# Expected results of trenchboot/ on pcengines-apu2, launched with AMD SKINIT,
+# with TrenchBoot's Secure Kernel Loader,
+# see docs/drtm-report.md. No suite run yet: every test is expected to pass,
+# as predicted from the suites and TrenchBoot at the meta-trenchboot revision.
+# The first run replaces the basis, and an entry is added for every result
+# that is not a pass. WTD012.001 is expected to fail.
+---
+platform: pcengines-apu2
+firmware: dasharo
+description: Dasharo coreboot for the PC Engines apu2, with the meta-trenchboot image
+kernel: trenchboot
+evidence: tpm
+basis: predicted from the suites and TrenchBoot Linux dbbb5ef0, no suite run yet
+expectations:
+  WTD012.001:
+    result: fail
+    refs: [trenchboot-locality-2-open]
+    basis: >-
+      predicted from TrenchBoot Linux dbbb5ef0: slaunch_pcr_extend() sets the
+      kernel's TPM locality to 2 with tpm_chip_set_locality() and nothing
+      closes it, so tpm2_pcrextend from the OS goes out at locality 2

@@ -1,0 +1,15 @@
+# SPDX-FileCopyrightText: 2026 3mdeb <contact@3mdeb.com>
+#
+# SPDX-License-Identifier: Apache-2.0
+
+# The known deviations the expectation files of this directory refer to, by
+# ID, see docs/drtm-report.md. Each has a title, the requirement it deviates
+# from, and a link to the code or document that shows it.
+---
+trenchboot-locality-2-open:
+  title: TrenchBoot Linux keeps the TPM at locality 2 for every command after the launch
+  requirement: >-
+    C07, the launch-time write access closes once the DLME has measured itself;
+    PCR 17 and 18 accept an extend at locality 2 (TCG PC Client Platform TPM
+    Profile, PCR attributes), so the OS can extend them
+  link: https://github.com/TrenchBoot/linux/blob/dbbb5ef0d915435b20290766f99461e31c273b6c/arch/x86/kernel/slmodule.c#L556
