@@ -87,6 +87,31 @@ WTD009.001 DRTM log digests match the measured data
     ...    the OS knows (SINIT ACM data, kernel command line) are its hash
     DRTM Event Log Should Match Measured Values
 
+WTD010.001 PCR 19 to 22 are zero in every active bank
+    [Documentation]    Verify that the launch resets PCR 19 to 22 to zero and
+    ...    extends none of them, in every active PCR bank
+    [Tags]    criterion:C01
+    Skip If    '${TPM_SUPPORTED_VERSION}' == '1'    TPM 1.2 has no per-bank PCRs in sysfs
+    PCRs Should Be Zero In Every Active Bank    19    20    21    22
+
+WTD011.001 TPM quote of PCR 17 and 18 verifies
+    [Documentation]    Verify that a quote of PCR 17 and 18 in the SHA-256
+    ...    bank, made with an AK under the EK and a nonce from the runner,
+    ...    carries the nonce, verifies with the AK and covers the PCR values
+    ...    the OS reads
+    [Tags]    criterion:C08
+    Skip If    '${TPM_SUPPORTED_VERSION}' == '1'    TPM 1.2 has no TPM2_Quote
+    DRTM TPM Quote Should Verify
+
+WTD012.001 PCR 17 and 18 extends from the OS are refused
+    [Documentation]    Verify that once the kernel has extended its
+    ...    measurements, the OS can extend neither PCR 17 nor PCR 18: the
+    ...    launch's write access to them is closed. An accepted extend
+    ...    changes the PCR, so this is the last test of the suite.
+    [Tags]    criterion:C07
+    Skip If    '${TPM_SUPPORTED_VERSION}' == '1'    TPM 1.2 has no per-bank PCRs in sysfs
+    PCR Extend From OS Should Be Refused    17    18
+
 
 *** Keywords ***
 TrenchBoot Suite Setup

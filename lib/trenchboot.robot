@@ -3,6 +3,7 @@ Library     Collections
 Library     TelnetLibrary    timeout=20 seconds    connection_timeout=120 seconds
 Library     event_log_banks.py
 Library     slaunch_event_log.py
+Library     tpm_quote.py
 Resource    terminal.robot
 Resource    tpm.robot
 
@@ -179,3 +180,97 @@ Get Secure Launch Vendor
     IF    'GenuineIntel' in $vendor_id    RETURN    intel
     IF    'AuthenticAMD' in $vendor_id    RETURN    amd
     Fail    No Secure Launch vendor for the CPU: ${vendor_id}
+
+PCRs Should Be Zero In Every Active Bank
+    [Documentation]    Fails when one of \@{pcrs} is not all zeros in an
+    ...    active PCR bank.
+    [Arguments]    @{pcrs}
+    @{banks}=    Get Active PCR Banks
+    FOR    ${bank}    IN    @{banks}
+        FOR    ${pcr}    IN    @{pcrs}
+            ${value}=    Execute Command In Terminal
+            ...    cat /sys/class/tpm/tpm0/pcr-${bank}/${pcr}
+            Should Match Regexp    ${value}    ^0+$
+            ...    PCR ${pcr} ${bank} is ${value}, expected all zeros    values=False
+        END
+    END
+
+DRTM TPM Quote Should Verify
+    [Documentation]    The runner picks a 32-byte nonce, and the OS creates
+    ...    an ECC EK, an ECDSA-SHA256 AK under it, and a quote of \@{pcrs}
+    ...    in \${bank} with the nonce. The runner checks the quote's
+    ...    signature with the AK and its PCR digest against the values the
+    ...    OS reads from sysfs, and returns the TPMS_ATTEST as hex. The keys
+    ...    are transient and the files are removed. \${timeout} is the DUT
+    ...    Response Timeout of the key and quote commands, which a slow TPM
+    ...    needs longer for.
+    [Arguments]    ${bank}=sha256    ${pcrs}=${{["17", "18"]}}    ${timeout}=60s
+    ${missing}=    Execute Command In Terminal
+    ...    for c in tpm2_createek tpm2_createak tpm2_quote xxd; do command -v $c >/dev/null || echo $c; done
+    Should Be Empty    ${missing}    The OS lacks the quote tools: ${missing}
+    ${nonce}=    Evaluate    secrets.token_hex(32)    modules=secrets
+    VAR    ${selection}=    @{pcrs}    separator=,
+    VAR    ${dir}=    /tmp/drtm-quote
+    VAR    ${quote}=
+    ...    rm -rf ${dir} && mkdir ${dir} && ( cd ${dir}
+    ...    && tpm2_createek -c ek.ctx -G ecc -u ek.pub
+    ...    && tpm2_createak -C ek.ctx -c ak.ctx -G ecc -g sha256 -s ecdsa -u ak.pem -f pem -n ak.name
+    ...    && tpm2_quote -c ak.ctx -l ${bank}:${selection} -q ${nonce} -g sha256 -m quote.msg -s quote.sig
+    ...    > /dev/null )
+    ...    separator=${SPACE}
+    TRY
+        Execute Command In Terminal Should Succeed    ${quote}    timeout=${timeout}
+        ${attest}=    Execute Command In Terminal    xxd -p ${dir}/quote.msg | tr -d '\\n'
+        ${signature}=    Execute Command In Terminal    xxd -p ${dir}/quote.sig | tr -d '\\n'
+        ${ak}=    Execute Command In Terminal    xxd -p ${dir}/ak.pem | tr -d '\\n'
+    FINALLY
+        Execute Command In Terminal    rm -rf ${dir}
+    END
+    VAR    &{values}=    &{EMPTY}
+    FOR    ${pcr}    IN    @{pcrs}
+        ${value}=    Execute Command In Terminal
+        ...    cat /sys/class/tpm/tpm0/pcr-${bank}/${pcr}
+        Should Match Regexp    ${value}    ^[0-9A-Fa-f]+$
+        ...    Cannot read PCR ${pcr} ${bank}: ${value}
+        Set To Dictionary    ${values}    ${pcr}=${value}
+    END
+    ${summary}=    Quote Should Verify With AK    ${attest}    ${signature}    ${ak}    ${nonce}
+    ...    ${bank}    ${values}
+    Log    ${summary}
+    RETURN    ${attest}
+
+PCR Extend From OS Should Be Refused
+    [Documentation]    Tries to extend each of \@{pcrs} in \${bank} from the
+    ...    OS with tpm2_pcrextend, and fails when the TPM accepts one: the
+    ...    command succeeds or the PCR changes. A refused extend leaves the
+    ...    PCR as it was; an accepted one changes it, so the PCRs no longer
+    ...    replay from the DRTM event log after this keyword.
+    [Arguments]    @{pcrs}    ${bank}=sha256
+    ${missing}=    Execute Command In Terminal
+    ...    command -v tpm2_pcrextend >/dev/null || echo tpm2_pcrextend
+    Should Be Empty    ${missing}    The OS lacks tpm2_pcrextend
+    @{banks}=    Get Active PCR Banks
+    IF    $bank not in $banks
+        Fail    The ${bank} bank is not active, the active banks are ${banks}
+    END
+    ${digest}=    Evaluate    hashlib.new($bank, b"WTD012.001").hexdigest()    modules=hashlib
+    VAR    @{accepted}=    @{EMPTY}
+    FOR    ${pcr}    IN    @{pcrs}
+        ${before}=    Execute Command In Terminal
+        ...    cat /sys/class/tpm/tpm0/pcr-${bank}/${pcr}
+        Should Match Regexp    ${before}    ^[0-9A-Fa-f]+$
+        ...    Cannot read PCR ${pcr} ${bank}: ${before}
+        ${out}=    Execute Command In Terminal
+        ...    tpm2_pcrextend ${pcr}:${bank}=${digest} 2>&1; echo "rc=$?"
+        ${after}=    Execute Command In Terminal
+        ...    cat /sys/class/tpm/tpm0/pcr-${bank}/${pcr}
+        ${succeeded}=    Evaluate    $out.strip().endswith("rc=0")
+        IF    ${succeeded} or $before != $after
+            Append To List    ${accepted}    PCR ${pcr} ${bank}: ${before} -> ${after}
+        ELSE
+            Log    PCR ${pcr} ${bank} extend refused: ${out}
+        END
+    END
+    IF    $accepted
+        Fail    The OS extended ${accepted} after the launch, the launch's write access stays open
+    END
