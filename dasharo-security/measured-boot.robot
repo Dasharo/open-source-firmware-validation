@@ -196,11 +196,13 @@ MBO007.101 Flashing firmware and reset to defaults results in same measurement (
     Power Cycle On
     Boot Linux And Login To Root
     ${default_pcr_state}=    Get PCRs State From Linux    ${PCRS_TO_CHECK}
+    Save Event Log    MBO007.101_eventlog_after_flash
 
     Restore SB And Tianocore Defaults And Reset
 
     Boot Linux And Login To Root
     ${reset_pcr_state}=    Get PCRs State From Linux    ${PCRS_TO_CHECK}
+    Save Event Log    MBO007.101_eventlog_after_reset
     Lists Should Be Equal    ${default_pcr_state}    ${reset_pcr_state}
 
 MBO008.101 Multiple reset to defaults results in identical measurements (EDK2 UEFI)

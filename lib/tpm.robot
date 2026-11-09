@@ -29,6 +29,18 @@ Get PCRs State From Linux
     ${pcr_state}=    Split To Lines    ${hashes}
     RETURN    ${pcr_state}
 
+Save Event Log
+    [Documentation]    Saves the TPM event log parsed by tpm2_eventlog to
+    ...    ${OUTPUT DIR}/<name>.yaml, so that event logs from different boots
+    ...    can be compared. Should be called when logged in Linux as root.
+    [Arguments]    ${name}
+    ${eventlog}=    Execute Command In Terminal
+    ...    tpm2_eventlog /sys/kernel/security/tpm0/binary_bios_measurements
+    Should Not Contain    ${eventlog}    ERROR: Unable to run tpm2_eventlog
+    VAR    ${path}=    ${OUTPUT_DIR}${/}${name}.yaml
+    Create File    ${path}    ${eventlog}
+    Log    Event log saved to ${path}
+
 Get PCRs From Eventlog
     [Documentation]    Returns PCRs from Eventlog as a list of strings:
     ...    ["<pcr>:<hash>"] with spaces removed
