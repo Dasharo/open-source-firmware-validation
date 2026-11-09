@@ -29,6 +29,7 @@ WTD001.001 All cores are up
 
 WTD002.001 DRTM PCRs are updated with TB
     [Documentation]    Checks that DRTM changes 17-22 PCRs as it should.
+    [Tags]    criterion:C01
 
     ${pcr_hashes}=    Get PCRs State From Linux    1[7-8]
     FOR    ${pcr_hash}    IN    @{pcr_hashes}
@@ -53,6 +54,7 @@ WTD003.001 SRTM event log exists
 
 WTD004.001 DRTM event log exists
     [Documentation]    Verifies that DRTM event log is present with DRTM.
+    [Tags]    criterion:C02
     ${present}=    Execute Command In Terminal
     ...    test -f /sys/kernel/security/slaunch/eventlog && echo y
     Should Be Equal As Strings    ${present}    y    msg=DRTM log is missing
@@ -61,6 +63,7 @@ WTD005.001 DRTM event log has DRTM entries
     [Documentation]    Verifies that the DRTM event log has the events the
     ...    launch (Intel SINIT ACM or AMD Secure Kernel Loader) and the kernel
     ...    log, with their types, PCRs and order
+    [Tags]    criterion:C04
     ${present}=    Execute Command In Terminal
     ...    test -f /sys/kernel/security/slaunch/eventlog && echo y
     Skip If    "${present}" != "y"    DRTM log is missing
@@ -69,6 +72,7 @@ WTD005.001 DRTM event log has DRTM entries
 WTD006.001 DRTM log aligns with PCR values
     [Documentation]    Verify that all DRTM measurements are correctly reflected
     ...    in DRTM event log
+    [Tags]    criterion:C02
     Validate DRTM PCRs Against Event Log    17    18
 
 WTD007.001 SRTM log aligns with PCR values
@@ -79,12 +83,14 @@ WTD007.001 SRTM log aligns with PCR values
 WTD008.001 DRTM log covers every active PCR bank
     [Documentation]    Verify that every DRTM measurement for PCR 17 and 18 is
     ...    logged in every active PCR bank, so that each bank can be replayed
+    [Tags]    criterion:C13
     Skip If    '${TPM_SUPPORTED_VERSION}' == '1'    TPM 1.2 has only the SHA-1 bank
     DRTM Event Log Should Cover Banks    17    18
 
 WTD009.001 DRTM log digests match the measured data
     [Documentation]    Verify that the DRTM log digests whose measured value
     ...    the OS knows (SINIT ACM data, kernel command line) are its hash
+    [Tags]    criterion:C03
     DRTM Event Log Should Match Measured Values
 
 WTD010.001 PCR 19 to 22 are zero in every active bank

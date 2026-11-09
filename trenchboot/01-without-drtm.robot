@@ -38,6 +38,7 @@ WOD002.001 SRTM event log exists
 WOD003.001 DRTM PCRs are not updated without TB
     [Documentation]    Checks that PCRs 17-22 have values of FF* when DRTM
     ...    isn't active.
+    [Tags]    criterion:C09
 
     ${pcr_hashes}=    Get PCRs State From Linux    1[7-9]|2[0-2]
     FOR    ${pcr_hash}    IN    @{pcr_hashes}
@@ -48,6 +49,7 @@ WOD003.001 DRTM PCRs are not updated without TB
 
 WOD004.001 DRTM event log doesn't exist
     [Documentation]    Verifies that DRTM event log is missing without DRTM.
+    [Tags]    criterion:C09
     ${present}=    Execute Command In Terminal
     ...    test -f /sys/kernel/security/slaunch/eventlog && echo y
     Should Be Equal As Strings    ${present}    ${EMPTY}    msg=DRTM log is missing
