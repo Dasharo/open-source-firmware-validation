@@ -43,7 +43,7 @@ same IDs and levels.
 | C09 | No launch gives no launch evidence (fail-closed)                                                  | L1    | [PTP] DRTM PCRs                                  |
 | C10 | A failed launch is reported, persists across the reset, and does not pass for a launch            | L3    | [MLE] TXT.ERRORCODE; [DRTM]                      |
 | C11 | A second launch or a kexec relaunch does not reuse the evidence of the first                      | L3    | [DRTM]                                           |
-| C12 | The platform state at entry is protected: DMA fenced until the DLME's IOMMU is up                 | L3    | [MLE] PMRs; AMD DEV                              |
+| C12 | DMA cannot reach the DLME from the launch until the DLME's own IOMMU setup takes over             | L3    | [MLE] PMRs; AMD DEV                              |
 | C13 | Every active bank either carries the launch or is visibly unusable for it                         | L2    | [PFP] crypto-agile log                           |
 | C14 | A local secret can be bound to the launch state, and a changed launch cannot release it           | L3    | TCG sealing with PCR and locality policy         |
 | C15 | The launch's security configuration is in the evidence: debug state, Non-secure state, TCB hashes | L2    | [MLE] Table 37 (STM, LCP, CPU S-CRTM status)     |
@@ -79,7 +79,7 @@ the SRTM log, check the boot, not the launch, so they have no criterion.
 
 ## Locality 2 after the launch
 
-TrenchBoot Linux at the revision meta-trenchboot builds (dbbb5ef0) sets the
+TrenchBoot Linux at the revision meta-trenchboot builds (6e037afa) sets the
 kernel's TPM locality to 2 once, in `slaunch_pcr_extend()` of
 `arch/x86/kernel/slmodule.c`, and keeps it: every later TPM command, also one
 from userspace through `/dev/tpm0`, goes out at locality 2, and the kernel logs
