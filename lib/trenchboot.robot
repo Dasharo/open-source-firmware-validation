@@ -46,30 +46,7 @@ Validate DRTM PCRs Against Event Log
     IF    not ${required}
         VAR    ${algos}=    ${active}
     END
-    # This extracts hashes for a combination of a PCR (first parameter) and an
-    # algorithm (second parameter). The printed line have the form
-    #    {event data length}-{digest}
-    # to make it possible to ignore some events based on a combination of these
-    # fields.
-    #
-    # Backslash in front of some dollar signs is escaping AWK fields while
-    # unescaped ones are parameters of this function that get embedded into
-    # AWK script. The escaping is doubled because Robot Framework also
-    # interprets escapes.
-    VAR    ${hashes_func}=
-    ...    function hashes() {
-    ...    awk "/PCRIndex:/{ pcr = \\$2; alg = \\"\\"; digest = \\"\\" }
-    ...    /- AlgorithmId:/{ alg = \\$3 }
-    ...    /Digest:/{ if (alg == \\"$2\\") digest = substr(\\$2, 2, length(\\$2) - 2) }
-    ...    /EventSize:/{ if (pcr == $1 && length(digest) != 0) print \\$2 \\"-\\" digest }"
-    ...    /tmp/event-log;
-    ...    }
-    ...    separator=${SPACE}
-    Execute Command In Terminal    ${hashes_func}    ${timeout}
-
-    Execute Command In Terminal
-    ...    function extend() { pcr=$(echo -n "$pcr$2" | xxd -r -p | $1sum | cut -f1 -d' '); }
-    ...    ${timeout}
+    Define DRTM Event Log Replay Functions    ${timeout}
     VAR    ${compared}=    ${0}
     FOR    ${algo}    IN    @{algos}
         IF    $algo not in $active
@@ -109,6 +86,36 @@ Validate DRTM PCRs Against Event Log
     IF    ${compared} == 0
         Fail    ${eventlog} replays none of PCRs ${pcrs} in the banks ${algos}
     END
+
+Define DRTM Event Log Replay Functions
+    [Documentation]    Defines the shell functions hashes and extend that
+    ...    Validate DRTM PCRs Against Event Log replays /tmp/event-log with.
+    ...    \${timeout} is the DUT Response Timeout of each command.
+    [Arguments]    ${timeout}=30s
+    # This extracts hashes for a combination of a PCR (first parameter) and an
+    # algorithm (second parameter). The printed line have the form
+    #    {event data length}-{digest}
+    # to make it possible to ignore some events based on a combination of these
+    # fields.
+    #
+    # Backslash in front of some dollar signs is escaping AWK fields while
+    # unescaped ones are parameters of this function that get embedded into
+    # AWK script. The escaping is doubled because Robot Framework also
+    # interprets escapes.
+    VAR    ${hashes_func}=
+    ...    function hashes() {
+    ...    awk "/PCRIndex:/{ pcr = \\$2; alg = \\"\\"; digest = \\"\\" }
+    ...    /- AlgorithmId:/{ alg = \\$3 }
+    ...    /Digest:/{ if (alg == \\"$2\\") digest = substr(\\$2, 2, length(\\$2) - 2) }
+    ...    /EventSize:/{ if (pcr == $1 && length(digest) != 0) print \\$2 \\"-\\" digest }"
+    ...    /tmp/event-log;
+    ...    }
+    ...    separator=${SPACE}
+    Execute Command In Terminal    ${hashes_func}    ${timeout}
+
+    Execute Command In Terminal
+    ...    function extend() { pcr=$(echo -n "$pcr$2" | xxd -r -p | $1sum | cut -f1 -d' '); }
+    ...    ${timeout}
 
 DRTM Event Log Should Cover Banks
     [Documentation]    Fails when the DRTM event log at \${eventlog} does not

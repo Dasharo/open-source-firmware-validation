@@ -70,7 +70,9 @@ class heads_usb:
     @keyword("Get File From Heads USB Image")
     def get_usb_image_file(self, path, name, dest):
         """Copy ``name`` from the root of the image's partition to ``dest``."""
-        self._with_partition(path, lambda part, _: _run("mcopy", "-n", "-i", part, "::" + name, dest))
+        self._with_partition(
+            path, lambda part, _: _run("mcopy", "-n", "-i", part, "::" + name, dest)
+        )
         return dest
 
     @keyword("Get GPG Key Fingerprints From File")
@@ -95,7 +97,16 @@ class heads_usb:
         home = os.path.join(workdir, "gnupg")
         shutil.rmtree(home, ignore_errors=True)
         os.makedirs(home, mode=0o700)
-        gpg = ("gpg", "--homedir", home, "--batch", "--pinentry-mode", "loopback", "--passphrase", "")
+        gpg = (
+            "gpg",
+            "--homedir",
+            home,
+            "--batch",
+            "--pinentry-mode",
+            "loopback",
+            "--passphrase",
+            "",
+        )
         _run(*gpg, "--quick-gen-key", uid, "ed25519", "sign", "never")
         out = _run(*gpg, "--with-colons", "--fingerprint", uid).stdout
         fpr = re.search(r"^fpr:+([0-9A-F]{40}):", out, re.M).group(1)

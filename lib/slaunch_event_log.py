@@ -19,7 +19,7 @@ The log has three parts:
 
 Sources: Intel TXT Measured Launch Environment Developer's Guide (315168),
 revision 017.7, section 1.10.2 and Table 37; TrenchBoot secure-kernel-loader
-de189900 (main.c, event_log.c) and TrenchBoot Linux dbbb5ef0, the revisions
+de189900 (main.c, event_log.c) and TrenchBoot Linux 6e037afa, the revisions
 meta-trenchboot builds.
 """
 

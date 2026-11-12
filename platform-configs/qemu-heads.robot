@@ -2,7 +2,7 @@
 Heads for the QEMU qemu-coreboot-* boards, started with:
 FW_TYPE=heads ./scripts/ci/qemu-run.sh <mode> firmware
 Tests drive Heads over the serial console (Heads mirrors its dialogs and
-prompts there) and use QMP for power and USB storage.  See docs/qemu.md.
+prompts there) and use QMP for power and USB storage. See docs/qemu.md.
 
 
 *** Settings ***
@@ -32,9 +32,10 @@ ${RTC_BOOT_SUPPORT}=                    ${FALSE}
 # HEADS_QEMU_WORKDIR are set in keys-and-keywords/heads-keywords.robot, so
 # they can be overridden on the command line (-v heads_rom_file:<path>)
 
+
 *** Keywords ***
 Power On
-    [Documentation]    Start the VM from reset.  With -no-shutdown QEMU keeps
+    [Documentation]    Start the VM from reset. With -no-shutdown QEMU keeps
     ...    running after Heads powers off (it powers off instead of rebooting
     ...    on QEMU), so a reset and, if stopped, a resume start it again.
     Read From Terminal

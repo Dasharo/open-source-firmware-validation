@@ -14,12 +14,12 @@ firmware: dasharo
 description: Dasharo coreboot+UEFI for the Protectli VP2430, TXT enabled, with the meta-trenchboot image
 kernel: trenchboot
 evidence: tpm
-basis: predicted from the suites and TrenchBoot Linux dbbb5ef0, no suite run yet
+basis: predicted from the suites and TrenchBoot Linux 6e037afa, no suite run yet
 expectations:
   WTD012.001:
     result: fail
     refs: [trenchboot-locality-2-open]
     basis: >-
-      predicted from TrenchBoot Linux dbbb5ef0: slaunch_pcr_extend() sets the
+      predicted from TrenchBoot Linux 6e037afa: slaunch_pcr_extend() sets the
       kernel's TPM locality to 2 with tpm_chip_set_locality() and nothing
       closes it, so tpm2_pcrextend from the OS goes out at locality 2

@@ -12,4 +12,4 @@ trenchboot-locality-2-open:
     C07, the launch-time write access closes once the DLME has measured itself;
     PCR 17 and 18 accept an extend at locality 2 (TCG PC Client Platform TPM
     Profile, PCR attributes), so the OS can extend them
-  link: https://github.com/TrenchBoot/linux/blob/dbbb5ef0d915435b20290766f99461e31c273b6c/arch/x86/kernel/slmodule.c#L556
+  link: https://github.com/TrenchBoot/linux/blob/6e037afaf47657fd22ed501b2ba1b49480500917/arch/x86/kernel/slmodule.c#L556

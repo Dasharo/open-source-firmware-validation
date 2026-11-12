@@ -60,7 +60,7 @@ checked". The `tpm` column is the evidence path of the runs of
 | --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | C01 | PCR 17 and 18 extended, 19 to 22 zero: WTD002.001, WTD010.001; against WOD003.001                                                                             |
 | C02 | the DRTM event log is exposed and replays to PCR 17 and 18: WTD004.001, WTD006.001                                                                            |
-| C03 | the digests whose data the OS has (SINIT ACM data, kernel command line, initrd): WTD009.001; PCR 17 from the SINIT ACM or SKL binary: (new)                    |
+| C03 | the digests whose data the OS has (SINIT ACM data, kernel command line): WTD009.001; PCR 17 from the SINIT ACM or SKL binary: (new)                           |
 | C04 | the launch's and the kernel's events, their types, PCRs and order: WTD005.001                                                                                 |
 | C05 | PCR 17 and 18 equal over two launches, PCR 18 moves with the command line: (new)                                                                              |
 | C06 | `tpm2_pcrreset` and `tpm2_pcrextend` of PCR 17 and 18 fail from the OS, in the boot without the launch: (new)                                                 |

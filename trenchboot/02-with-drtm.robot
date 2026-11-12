@@ -64,6 +64,7 @@ WTD005.001 DRTM event log has DRTM entries
     ...    launch (Intel SINIT ACM or AMD Secure Kernel Loader) and the kernel
     ...    log, with their types, PCRs and order
     [Tags]    criterion:C04
+    Skip If    '${TPM_SUPPORTED_VERSION}' == '1'    TPM 1.2 logs SHA-1 events, not the crypto-agile format
     ${present}=    Execute Command In Terminal
     ...    test -f /sys/kernel/security/slaunch/eventlog && echo y
     Skip If    "${present}" != "y"    DRTM log is missing
@@ -91,6 +92,7 @@ WTD009.001 DRTM log digests match the measured data
     [Documentation]    Verify that the DRTM log digests whose measured value
     ...    the OS knows (SINIT ACM data, kernel command line) are its hash
     [Tags]    criterion:C03
+    Skip If    '${TPM_SUPPORTED_VERSION}' == '1'    TPM 1.2 logs SHA-1 events, not the crypto-agile format
     DRTM Event Log Should Match Measured Values
 
 WTD010.001 PCR 19 to 22 are zero in every active bank
